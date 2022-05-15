@@ -238,14 +238,7 @@ export default function Footer({}: Props) {
                 <div className="row align-items-center">
                   <div className="col-sm-6">
                     <div className="text-sm-start">
-                      <p className="mb-0">
-                        ©<script>document.write(new Date().getFullYear());</script>
-                        Landrick. Design with <i className="mdi mdi-heart text-danger"></i> by
-                        <a href="https://shreethemes.in/" target="_blank" className="text-reset">
-                          Shreethemes
-                        </a>
-                        .
-                      </p>
+                      <p className="mb-0">©2022-12-12 day la cho viet slogan</p>
                     </div>
                   </div>
 
