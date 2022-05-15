@@ -102,7 +102,7 @@ export default function Header({}: Props) {
                   </div>
 
                   <div className="mt-3 text-center">
-                    <a href="javascript:void(0)" className="btn btn-primary me-2">
+                    <a href="cart" className="btn btn-primary me-2">
                       View Cart
                     </a>
                     <a href="javascript:void(0)" className="btn btn-primary">
@@ -114,7 +114,7 @@ export default function Header({}: Props) {
               </div>
             </li>
             <li className="list-inline-item mb-0">
-              <a href="#" className="btn btn-icon btn-pills btn-primary" data-bs-toggle="modal" data-bs-target="#wishlist">
+              <a href="cart" className="btn btn-icon btn-pills btn-primary" data-bs-toggle="modal" data-bs-target="#wishlist">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -213,7 +213,7 @@ export default function Header({}: Props) {
                     </a>
                   </li>
                   <li>
-                    <a href="shop-cart.html" className="sub-menu-item">
+                    <a href="cart" className="sub-menu-item">
                       Shop Cart
                     </a>
                   </li>
