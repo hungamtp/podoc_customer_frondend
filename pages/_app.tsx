@@ -5,7 +5,13 @@ import { EmptyLayout } from '@/components/layouts';
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? EmptyLayout;
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
+  );
 }
 
 export default MyApp;

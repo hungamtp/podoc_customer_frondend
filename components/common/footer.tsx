@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
-import CartIcon from '../icons/cart-icon';
-import EyeIcon from '../icons/eye-icon';
-import HeaerIcon from '../icons/heart-icon';
+import CartIcon from '../../icons/cart-icon';
+import EyeIcon from '../../icons/eye-icon';
+import HeaerIcon from '../../icons/heart-icon';
 
 type Props = {};
 
