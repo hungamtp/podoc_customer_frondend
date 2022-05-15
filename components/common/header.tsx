@@ -69,7 +69,7 @@ export default function Header({}: Props) {
                 >
                   <div className="pb-4">
                     <a href="javascript:void(0)" className="d-flex align-items-center">
-                      <img src="images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
+                      <img src="asset/images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">T-shirt (M)</h6>
                         <p className="text-muted mb-0">$320 X 2</p>
@@ -78,7 +78,7 @@ export default function Header({}: Props) {
                     </a>
 
                     <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
-                      <img src="images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
+                      <img src="asset/images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Bag</h6>
                         <p className="text-muted mb-0">$50 X 5</p>
@@ -87,7 +87,7 @@ export default function Header({}: Props) {
                     </a>
 
                     <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
-                      <img src="images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
+                      <img src="asset/images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Watch (Men)</h6>
                         <p className="text-muted mb-0">$800 X 1</p>
@@ -113,7 +113,7 @@ export default function Header({}: Props) {
                 </div>
               </div>
             </li>
-
+            <li className="list-inline-item mb-0"> &#10240;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button

@@ -11,11 +11,9 @@ export default class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
 
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
           <meta name="website" content="https://shreethemes.in" />
           <meta name="Version" content="v3.8.0" />
-
+          <meta name="google-signin-client_id" content="curious-subject-317901.apps.googleusercontent.com" />
           <link rel="shortcut icon" href="asset/images/favicon.ico" />
 
           <link href="asset/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -47,6 +45,7 @@ export default class MyDocument extends Document {
           <script src="asset/js/plugins.init.js"></script>
 
           <script src="asset/js/app.js"></script>
+          <script src="https://apis.google.com/js/platform.js" async defer></script>
         </body>
       </Html>
     );
