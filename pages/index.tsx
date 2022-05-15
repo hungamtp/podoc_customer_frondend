@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import Header from './header';
 import Slide from './slide';
+import TopCategory from './top-category';
 
 const Home: NextPage = () => {
   return (
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
       <main>
         <Header />
         <Slide />
+        <TopCategory />
       </main>
     </div>
   );
