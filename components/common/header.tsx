@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useRouter } from 'next/router';
 import React from 'react';
 
 type Props = {};
@@ -14,6 +15,7 @@ export default function Header({}: Props) {
       }
     }
   }
+  const router = useRouter();
   return (
     <div>
       <div id="topnav" className="defaultscroll sticky">
@@ -175,9 +177,8 @@ export default function Header({}: Props) {
                 </a>
               </li>
 
-              <li>
-                <a href="shop-aboutus.html" className="sub-menu-item">
-                  {' '}
+              <li onClick={() => router.push('/about')}>
+                <a href="about" className="sub-menu-item">
                   About Us
                 </a>
               </li>
