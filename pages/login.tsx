@@ -3,23 +3,34 @@ import { EmptyLayout } from '@/components/layouts';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 type FormLogin = {
   username: string;
   password: string;
 };
 
 type Props = {};
-
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().min(8).max(26).required(),
+});
 export default function Login({}: Props) {
   const router = useRouter();
+  const [rememberMe, setRememberMe] = useState(false);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormLogin>();
-  const onSubmit: SubmitHandler<FormLogin> = data => console.log(data);
+  } = useForm<FormLogin>({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit: SubmitHandler<FormLogin> = data => {
+    console.log(data);
+    if (rememberMe) {
+    }
+  };
   // const onSignIn(googleUser : any) : void {
   //   var profile = googleUser.getBasicProfile();
   //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -61,16 +72,16 @@ export default function Login({}: Props) {
                       <div className="col-lg-12">
                         <div className="mb-3">
                           <label className="form-label">
-                            Username <span className="text-danger">*</span>
+                            Email <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
                             <i data-feather="user" className="fea icon-sm icons"></i>
                             <input
-                              type="text"
+                              type="email"
                               className="form-control ps-5"
                               placeholder="Email"
                               defaultValue="test"
-                              {...(register('username'), { required: true })}
+                              {...register('username')}
                             />
                           </div>
                         </div>
@@ -83,14 +94,9 @@ export default function Login({}: Props) {
                           </label>
                           <div className="form-icon position-relative">
                             <i className="fea icon-sm icons"></i>
-                            <input
-                              type="password"
-                              className="form-control ps-5"
-                              placeholder="Password"
-                              {...register('password', { required: true })}
-                            />
+                            <input type="password" className="form-control ps-5" placeholder="Password" {...register('password')} />
                           </div>
-                          {errors.password && <span>This field is required</span>}
+                          {errors.password && <span id="error-pwd-message">This field is required</span>}
                         </div>
                       </div>
 
@@ -98,7 +104,13 @@ export default function Login({}: Props) {
                         <div className="d-flex justify-content-between">
                           <div className="mb-3">
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                checked={rememberMe}
+                                onClick={() => setRememberMe(!rememberMe)}
+                                id="flexCheckDefault"
+                              />
                               <label className="form-check-label">Remember me</label>
                             </div>
                           </div>
@@ -130,7 +142,8 @@ export default function Login({}: Props) {
                           <div className="col-6 mt-3">
                             <div className="d-grid">
                               <a href="javascript:void(0)" className="btn btn-light">
-                                <i className="mdi mdi-google text-danger"></i> <div className="g-signin2" data-onsuccess={onSignIn}></div>
+                                {/* <i className="mdi mdi-google text-danger"></i> <div className="g-signin2" data-onsuccess={onSignIn}></div> */}
+                                <i className="mdi mdi-google text-danger"></i> <div className="g-signin2"></div>
                               </a>
                             </div>
                           </div>
@@ -139,7 +152,7 @@ export default function Login({}: Props) {
 
                       <div className="col-12 text-center">
                         <p className="mb-0 mt-3">
-                          <small className="text-dark me-2">Don&apost have an account ?</small>{' '}
+                          <small className="text-dark me-2">Don&apos;t have an account ?</small>{' '}
                           <a href="signup" className="text-dark fw-bold">
                             Sign Up
                           </a>

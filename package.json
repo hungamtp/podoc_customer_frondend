@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.9",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/fabric": "^4.5.7",
     "@types/jquery": "^3.5.14",
@@ -21,7 +22,8 @@
     "react-hook-form": "^7.31.1",
     "react-images-uploading": "^3.1.6",
     "react-redux": "^8.0.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "17.0.25",

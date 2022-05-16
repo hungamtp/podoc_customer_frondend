@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -159,7 +160,7 @@ export default function Header({}: Props) {
           <div id="navigation">
             <ul className="navigation-menu">
               <li>
-                <a href="index-shop.html" className="sub-menu-item">
+                <a href="/" className="sub-menu-item">
                   Home
                 </a>
               </li>
