@@ -5,17 +5,33 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { logIn } from './api/axios';
 type FormLogin = {
   username: string;
   password: string;
 };
 
-type Props = {};
+type Props = {
+  data: any;
+};
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch('http:localhost:3001/login', {
+    method: 'POST',
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    },
+  };
+};
 const schema = yup.object().shape({
-  username: yup.string().required(),
+  username: yup.string().min(8).max(254).required(),
   password: yup.string().min(8).max(26).required(),
 });
-export default function Login({}: Props) {
+export default function Login({ data }: Props) {
+  console.log(data);
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
   const {
@@ -27,7 +43,8 @@ export default function Login({}: Props) {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<FormLogin> = data => {
-    console.log(data);
+    const res = logIn(data.username, data.password);
+    console.log(res);
     if (rememberMe) {
     }
   };
