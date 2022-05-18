@@ -15,23 +15,22 @@ type FormLogin = {
 type Props = {
   data: any;
 };
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch('http:localhost:3001/login', {
-    method: 'POST',
-  });
-  const data = await res.json();
-  return {
-    props: {
-      data,
-    },
-  };
-};
+// export const getStaticProps: GetStaticProps = async () => {
+//   const res = await fetch('http:localhost:3001/login', {
+//     method: 'POST',
+//   });
+//   const data = await res.json();
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
 const schema = yup.object().shape({
   username: yup.string().min(8).max(254).required(),
   password: yup.string().min(8).max(26).required(),
 });
 export default function Login({ data }: Props) {
-  console.log(data);
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
   const {
@@ -94,11 +93,14 @@ export default function Login({ data }: Props) {
                           <div className="form-icon position-relative">
                             <i data-feather="user" className="fea icon-sm icons"></i>
                             <input
-                              type="email"
+                              type="text"
                               className="form-control ps-5"
                               placeholder="Email"
-                              defaultValue="test"
-                              {...register('username')}
+                              defaultValue="hungatmp@gmail.com"
+                              {...(register('username'),
+                              {
+                                required: true,
+                              })}
                             />
                           </div>
                         </div>
@@ -141,7 +143,8 @@ export default function Login({ data }: Props) {
 
                       <div className="col-lg-12 mb-0">
                         <div className="d-grid">
-                          <button className="btn btn-primary">Sign in</button>
+                          <button className={`btn btn-primary`}>Sign in</button>
+                          {/* <button className={`btn btn-primary ${errors.password || errors.username ? 'disabled' : ''}`}>Sign in</button> */}
                         </div>
                       </div>
 
