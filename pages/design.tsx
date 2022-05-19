@@ -17,109 +17,63 @@ export interface info {
   angle: number;
 }
 
-const getCenterData = (
-  imgWidth: number,
-  imgHeight: number,
-  maxWidth: number,
-  maxHeight: number
-) => {
-  let widthAspectRatio = maxWidth / imgWidth;
-  let heightAspectRatio = maxHeight / imgHeight;
-
-  let finalAspectRatio = Math.min(widthAspectRatio, heightAspectRatio);
-
-  let finalHeight = imgHeight * finalAspectRatio;
-  let finalWidth = imgWidth * finalAspectRatio;
-
-  let imgTop = 0;
-  if (maxHeight > finalHeight) {
-    imgTop = (Math.round(maxHeight) - Math.round(finalHeight)) / 2;
-  }
-
-  let imgLeft = 0;
-  if (maxWidth > finalWidth) {
-    imgLeft = (Math.round(maxWidth) - Math.round(finalWidth)) / 2;
-  }
-  return {
-    imgTop: imgTop,
-    imgLeft: imgLeft,
-    finalWidth: finalWidth,
-    finalHeight: finalHeight,
-  };
-};
-
-const initCanvas = (): fabric.Canvas => {
-  const outerCanvasContainer = $(".outer")[0];
-
-  // const ratio = canvas.getWidth() / canvas.getHeight();
-  const containerWidth = outerCanvasContainer.clientWidth;
-  const containerHeight = outerCanvasContainer.clientHeight;
-  const tmpCanvas = new fabric.Canvas("canvas", {
-    height: containerHeight,
-    width: containerWidth,
+const initplaceHolder = (width: number, height: number): fabric.Canvas => {
+  // const ratio = placeHolder.getWidth() / placeHolder.getHeight();
+  const tmpplaceHolder = new fabric.Canvas("placeHolder", {
+    height: height / 1.5,
+    width: width / 1.5,
     backgroundColor: "white",
   });
-  return tmpCanvas;
+
+  return tmpplaceHolder;
 };
 export default function AboutPage(props: AboutPageProps) {
+  const body = document.body,
+    html = document.documentElement;
+  const pageHeight = Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight
+  );
+  const defaultWidth =
+    screen.width >= 922 ? (screen.width / 12) * 7 : screen.width;
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [canvas, setCanvas] = React.useState<fabric.Canvas>();
-  const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
-  const w_scale = 2.8;
-  const h_scale = 2.4;
-  const ratio = 1.2;
+  const [placeHolder, setplaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
-    setCanvas(initCanvas());
+    setplaceHolder(initplaceHolder(450, 510));
   }, []);
-  const setBackgroundFromDataUrl = (
-    dataUrl: string,
-    outerSize: { outerWidth: number; outerHeight: number }
-  ) => {
-    if (!dataUrl && !outerSize) {
-      return true;
-    }
+  const resizeplaceHolder = () => {
+    if (placeHolder) {
+      const outerplaceHolderContainer = $(".outer")[0];
+      // const outerHeight = outerplaceHolderContainer.clientHeight;
+      // const outerWidth = outerplaceHolderContainer.clientWidth;
 
-    if (canvas) {
-      fabric.Image.fromURL(dataUrl, (image: fabric.Image) => {
-        const { imgLeft, imgTop, finalHeight, finalWidth } = getCenterData(
-          image.width || 100,
-          image.height || 150,
-          outerSize.outerWidth,
-          outerSize.outerHeight
-        );
-        image.set("left", imgLeft);
-        image.set("top", imgTop);
-        image.set("angle", 0);
-        image.set("opacity", 100);
-        image.transparentCorners = false;
-        image.centeredScaling = true;
-        image.scaleToHeight(finalHeight);
-        image.scaleToWidth(finalWidth);
-        canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
-        console.log(canvas, "canvasss");
+      const ratio = placeHolder.getWidth() / placeHolder.getHeight();
+      const containerWidth = outerplaceHolderContainer.clientWidth;
+      const containerHeight = outerplaceHolderContainer.clientHeight;
+      const scale = containerWidth / 3.6 / placeHolder.getWidth();
+      const zoom = placeHolder.getZoom() * scale;
+
+      placeHolder.setDimensions({
+        width: containerWidth / 3.6,
+        height: containerWidth / 3.6 / ratio,
       });
+      placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+      const node = placeHolder.getElement();
+      node.style.left = (containerWidth - placeHolder.getWidth()) / 2 + "px";
+      node.style.top = (containerHeight - placeHolder.getHeight()) / 2.2 + "px";
     }
   };
-  const resizeCanvas = () => {
-    const outerCanvasContainer = $(".outer")[0];
-    const outerWidth = outerCanvasContainer.clientWidth;
-    const outerHeight = outerCanvasContainer.clientHeight;
-    const outerSize = {
-      outerWidth,
-      outerHeight,
-    };
-    const blueprintImageUrl =
-      "https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg";
-    setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
-  };
-  $(window).resize(resizeCanvas);
+  $(window).resize(resizeplaceHolder);
 
   const [selectedShapeKey, setSelectedShapeKey] = React.useState("");
 
   React.useEffect(() => {
-    if (canvas) {
-      canvas.on("object:moving", function (options) {
+    if (placeHolder) {
+      placeHolder.on("object:moving", function (options) {
         const obj = options.target;
         if (obj) {
           const designInfo = {
@@ -134,33 +88,16 @@ export default function AboutPage(props: AboutPageProps) {
           dispatch(setValue({ ...designInfo }));
         }
       });
-      const outerCanvasContainer = $(".outer")[0];
-      const containerWidth = outerCanvasContainer.clientWidth;
-      const containerHeight = outerCanvasContainer.clientHeight;
-      const outerSize = {
-        outerWidth: 1020,
-        outerHeight: 760,
-      };
-      const blueprintImageUrl =
-        "https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg";
-      setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
-      new fabric.Rect({
-        left: 100,
-        top: 50,
-        fill: "yellow",
-        width: 200,
-        height: 100,
-        objectCaching: false,
-        stroke: "lightgreen",
-        strokeWidth: 4,
-      });
+      const node = placeHolder.getElement();
+      node.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
+      node.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
     }
 
     console.log("cccccccc");
-  }, [canvas]);
+  }, [placeHolder]);
 
   const addRect = (imgUrl: string) => {
-    if (canvas) {
+    if (placeHolder) {
       const newName = nanoid();
       fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
         image.set("name", newName);
@@ -172,7 +109,7 @@ export default function AboutPage(props: AboutPageProps) {
         image.centeredScaling = true;
         image.scaleToWidth(170);
         image.scaleToHeight(200);
-        canvas.add(image);
+        placeHolder.add(image);
         const designInfo = {
           key: newName,
           rotate: 0,
@@ -183,8 +120,7 @@ export default function AboutPage(props: AboutPageProps) {
           top: 200,
         };
         dispatch(addDesignInfo({ ...designInfo }));
-        canvas.renderAll();
-        console.log(canvas, "canvasss");
+        placeHolder.renderAll();
       });
       //   {
       // 	name: newName,
@@ -206,7 +142,7 @@ export default function AboutPage(props: AboutPageProps) {
 
       // imgInstance.scaleToWidth(170);
       // imgInstance.scaleToHeight(200);
-      // canvas.add(imgInstance);
+      // placeHolder.add(imgInstance);
 
       // const designInfo = {
       // 	key: newName,
@@ -218,24 +154,26 @@ export default function AboutPage(props: AboutPageProps) {
       // 	top: 200,
       // };
       // dispatch(addDesignInfo({ ...designInfo }));
-      // canvas.renderAll();
-      // console.log(canvas, 'canvasss');
+      // placeHolder.renderAll();
+      // console.log(placeHolder, 'placeHolderss');
     }
   };
 
   const alignLeft = () => {};
 
   return (
-    <div className="flex h-screen flex-wrap bg-red-400 min-height-[300px]">
-      <div className="w-full h-screen  flex flex-row justify-center items-center outer max-w-5xl">
-        <canvas id="canvas" className="relative top-96"></canvas>
-      </div>
-      <div className=" border-b-2 border-gray-400 my-8 mx-4 w-[800px] order-last ">
-        <div className="flex flex-row flex-wrap flex-grow mt-2">
-          <div className="w-full p-3">
-            {/*Table Card*/}
-            <Table addRect={addRect} />
-          </div>
+    <div className="container-fluid">
+      <div className="row align-items-center">
+        <div
+          className="col-lg-7 col-12 mt-4 mt-sm-0 p-0 outer h-screen"
+          style={{
+            backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
+          }}
+        >
+          <canvas id="placeHolder" className="center-block" />
+        </div>
+        <div className="col-lg-5 d-md-none d-lg-block">
+          <Table addRect={addRect} />
         </div>
       </div>
     </div>

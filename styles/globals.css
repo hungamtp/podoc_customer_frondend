@@ -14,3 +14,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.outer{
+  height: 100vh;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+#placeHolder{
+  border-style: dashed;
+  margin: 0 auto
+}
