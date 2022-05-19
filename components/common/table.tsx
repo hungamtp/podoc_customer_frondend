@@ -29,72 +29,46 @@ export default function Table(props: ITableProps) {
                   {designInfo.key === infoManageData.choosenKey &&
                     designInfo.key !== "" && (
                       <div key={designInfo.key}>
-                        <div className="table-responsive bg-white shadow rounded">
-                          <table className="table mb-0 table-center">
-                            <tbody>
-                              <tr className="shop-list">
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <img
-                                      src="images/shop/product/s1.jpg"
-                                      className="img-fluid avatar avatar-small rounded shadow"
-                                      style={{ height: "auto" }}
-                                      alt=""
-                                    />
-                                    <h6 className="mb-0 ms-3">Size</h6>
-                                  </div>
-                                </td>
-                                <td className="text-center"> 255.00</td>
-                                <td className="text-center"> 255.00</td>
-                              </tr>
-                              <tr className="shop-list">
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <img
-                                      src="images/shop/product/s3.jpg"
-                                      className="img-fluid avatar avatar-small rounded shadow"
-                                      style={{ height: "auto" }}
-                                      alt=""
-                                    />
-                                    <h6 className="mb-0 ms-3">Transform</h6>
-                                  </div>
-                                </td>
-                                <td className="text-center"> 520.00</td>
-                                <td className="text-center"> 255.00</td>
-                              </tr>
-                              <tr className="shop-list">
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <img
-                                      src="images/shop/product/s6.jpg"
-                                      className="img-fluid avatar avatar-small rounded shadow"
-                                      style={{ height: "auto" }}
-                                      alt=""
-                                    />
-                                    <h6 className="mb-0 ms-3">Positioning</h6>
-                                  </div>
-                                </td>
-                                <td className="text-center"> 160.00</td>
-                                <td className="text-center"> 255.00</td>
-                              </tr>
-                              <tr className="shop-list">
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <img
-                                      src="images/shop/product/s10.jpg"
-                                      className="img-fluid avatar avatar-small rounded shadow"
-                                      style={{ height: "auto" }}
-                                      alt=""
-                                    />
-                                    <h6 className="mb-0 ms-3">Align</h6>
-                                  </div>
-                                </td>
-                                <td className="text-center"> 260.00</td>
-                                <td className="text-center"> 255.00</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                        <div className="border border-dark border-3 border-bottom-0">
+                          Info
                         </div>
+                        <table className=" table table-borderless table-center border border-dark border-3 ">
+                          <tr className="shop-list">
+                            <td className="text-start"></td>
+                            <td className="text-start">Width</td>
+                            <td className="text-start">Height</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start p-3">Size</td>
+                            <td className="text-start ">300</td>
+                            <td className="text-start">300</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start"></td>
+                            <td className="text-start">Rotate</td>
+                            <td className="text-start">Scale</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start p-3">Transform</td>
+                            <td className="text-start">300</td>
+                            <td className="text-start">300</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start"></td>
+                            <td className="text-start">Left</td>
+                            <td className="text-start">Top</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start p-3">Positioning</td>
+                            <td className="text-start">300</td>
+                            <td className="text-start">300</td>
+                          </tr>
+                          <tr className="shop-list">
+                            <td className="text-start p-3">Align</td>
+                            <td className="text-start">300</td>
+                            <td className="text-start">300</td>
+                          </tr>
+                        </table>
                       </div>
                     )}
                   {designInfo.key !== infoManageData.choosenKey && (

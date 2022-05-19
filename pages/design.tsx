@@ -63,8 +63,10 @@ export default function AboutPage(props: AboutPageProps) {
       });
       placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
       const node = placeHolder.getElement();
-      node.style.left = (containerWidth - placeHolder.getWidth()) / 2 + "px";
-      node.style.top = (containerHeight - placeHolder.getHeight()) / 2.2 + "px";
+      node.style.position = "relative";
+      node.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
+      node.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+      placeHolder.renderAll();
     }
   };
   $(window).resize(resizeplaceHolder);
@@ -86,11 +88,14 @@ export default function AboutPage(props: AboutPageProps) {
             top: obj.top,
           };
           dispatch(setValue({ ...designInfo }));
+          console.log("cccc");
         }
       });
       const node = placeHolder.getElement();
+      node.style.position = "relative";
       node.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
       node.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+      placeHolder.renderAll();
     }
 
     console.log("cccccccc");
