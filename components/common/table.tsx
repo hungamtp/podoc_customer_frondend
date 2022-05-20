@@ -86,11 +86,6 @@ export default function Table(props: ITableProps) {
             {/*end col*/}
           </div>
           <div className="row">
-            <div className="col-lg-8 col-md-6 mt-4 pt-2">
-              <button className="btn btn-primary">Add</button>
-            </div>
-          </div>
-          <div className="row">
             <div className="col-lg-8 col-md-6 mt-4 pt-2">Add design</div>
             <UploadImage addRect={props.addRect} />
           </div>

@@ -61,12 +61,20 @@ export default function AboutPage(props: AboutPageProps) {
         width: containerWidth / 3.6,
         height: containerWidth / 3.6 / ratio,
       });
+
       placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
-      const node = placeHolder.getElement();
-      node.style.position = "relative";
-      node.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
-      node.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+      placeHolder.setWidth(containerWidth / 3.6);
+      placeHolder.setHeight(containerWidth / 3.6 / ratio);
+      const wrapper = document.getElementById("placeHolder");
+      if (wrapper) {
+        wrapper.style.left =
+          (containerWidth - placeHolder.getWidth()) / 2 + "px";
+        wrapper.style.top =
+          (containerHeight - placeHolder.getHeight()) / 2.2 + "px";
+        wrapper.style.width = placeHolder.getWidth() + "px";
+      }
       placeHolder.renderAll();
+      placeHolder.calcOffset();
     }
   };
   $(window).resize(resizeplaceHolder);
@@ -91,14 +99,15 @@ export default function AboutPage(props: AboutPageProps) {
           console.log("cccc");
         }
       });
-      const node = placeHolder.getElement();
-      node.style.position = "relative";
-      node.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
-      node.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
-      placeHolder.renderAll();
+      // const wrapper = document.getElementById("placeHolder");
+      // //this is the canvas that I want to put the image on
+      // if (wrapper) {
+      //   wrapper.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
+      //   wrapper.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+      //   wrapper.style.width = placeHolder.getWidth() + "px";
+      //   console.log((defaultWidth - placeHolder.getWidth()) / 2 + "px");
+      // }
     }
-
-    console.log("cccccccc");
   }, [placeHolder]);
 
   const addRect = (imgUrl: string) => {
@@ -115,6 +124,7 @@ export default function AboutPage(props: AboutPageProps) {
         image.scaleToWidth(170);
         image.scaleToHeight(200);
         placeHolder.add(image);
+        placeHolder.renderAll();
         const designInfo = {
           key: newName,
           rotate: 0,
@@ -125,42 +135,7 @@ export default function AboutPage(props: AboutPageProps) {
           top: 200,
         };
         dispatch(addDesignInfo({ ...designInfo }));
-        placeHolder.renderAll();
       });
-      //   {
-      // 	name: newName,
-      // 	left: 100,
-      // 	top: 100,
-      // 	angle: 30,
-      // 	opacity: 0.85,
-      // 	transparentCorners: false,
-      // 	centeredScaling: true,
-      // }
-      // const imgInstance = new fabric.Rect({
-      // 	left: 100,
-      // 	top: 100,
-      // 	fill: 'red',
-      // 	width: 20,
-      // 	height: 20,
-      // 	angle: 45,
-      // });
-
-      // imgInstance.scaleToWidth(170);
-      // imgInstance.scaleToHeight(200);
-      // placeHolder.add(imgInstance);
-
-      // const designInfo = {
-      // 	key: newName,
-      // 	rotate: 0,
-      // 	width: 150,
-      // 	height: 120,
-      // 	scale: 0.3,
-      // 	left: 150,
-      // 	top: 200,
-      // };
-      // dispatch(addDesignInfo({ ...designInfo }));
-      // placeHolder.renderAll();
-      // console.log(placeHolder, 'placeHolderss');
     }
   };
 
@@ -170,12 +145,14 @@ export default function AboutPage(props: AboutPageProps) {
     <div className="container-fluid">
       <div className="row align-items-center">
         <div
-          className="col-lg-7 col-12 mt-4 mt-sm-0 p-0 outer h-screen"
+          className="col-lg-7 col-12  outer h-screen "
           style={{
             backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
           }}
         >
-          <canvas id="placeHolder" className="center-block" />
+          <div id="wrapper">
+            <canvas id="placeHolder" className="center-block" />
+          </div>
         </div>
         <div className="col-lg-5 d-md-none d-lg-block">
           <Table addRect={addRect} />
