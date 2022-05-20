@@ -1,7 +1,6 @@
 import React from "react";
 import ImageUploading from "react-images-uploading";
 import { fabric } from "fabric";
-import Image from "next/image";
 
 export interface ITableProps {
   addRect: (imgElement: string) => void;
@@ -14,7 +13,9 @@ export function UploadImage(props: ITableProps) {
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
     setImages(imageList);
-
+    const imgElement = document.getElementById(
+      "upload-image"
+    ) as HTMLImageElement;
     props.addRect(imageList[0].data_url);
   };
 
@@ -48,12 +49,11 @@ export function UploadImage(props: ITableProps) {
             <button onClick={onImageRemoveAll}>Remove all images</button>
             {imageList.map((image, index) => (
               <div key={index} className="image-item">
-                <Image
+                <img
                   id="upload-image"
                   src={image["data_url"]}
                   alt=""
                   width="100"
-                  height="100"
                 />
                 <div className="image-item__btn-wrapper">
                   <button onClick={() => onImageUpdate(index)}>Update</button>

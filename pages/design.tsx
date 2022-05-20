@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { fabric } from "fabric";
 import Table from "@/components/common/table";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { setValue, addDesignInfo } from "@/redux/slices/design";
 import { nanoid } from "nanoid";
 import Script from "next/script";
 import $ from "jquery";
@@ -28,22 +26,12 @@ const initplaceHolder = (width: number, height: number): fabric.Canvas => {
   return tmpplaceHolder;
 };
 export default function AboutPage(props: AboutPageProps) {
-  const body = document.body,
-    html = document.documentElement;
-  const pageHeight = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
-  );
-  const defaultWidth =
-    screen.width >= 922 ? (screen.width / 12) * 7 : screen.width;
+  const pageHeight = 1020;
+  const defaultWidth = 929;
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [placeHolder, setplaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
-    setplaceHolder(initplaceHolder(450, 510));
+    setplaceHolder(initplaceHolder(800, 800));
   }, []);
   const resizeplaceHolder = () => {
     if (placeHolder) {
@@ -77,7 +65,7 @@ export default function AboutPage(props: AboutPageProps) {
       placeHolder.calcOffset();
     }
   };
-  $(window).resize(resizeplaceHolder);
+  // $(window).resize(resizeplaceHolder);
 
   const [selectedShapeKey, setSelectedShapeKey] = React.useState("");
 
@@ -95,8 +83,6 @@ export default function AboutPage(props: AboutPageProps) {
             left: obj.left,
             top: obj.top,
           };
-          dispatch(setValue({ ...designInfo }));
-          console.log("cccc");
         }
       });
       // const wrapper = document.getElementById("placeHolder");
@@ -113,29 +99,45 @@ export default function AboutPage(props: AboutPageProps) {
   const addRect = (imgUrl: string) => {
     if (placeHolder) {
       const newName = nanoid();
-      fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
-        image.set("name", newName);
-        image.set("left", 100);
-        image.set("top", 100);
-        image.set("angle", 0);
-        image.set("opacity", 100);
-        image.transparentCorners = false;
-        image.centeredScaling = true;
-        image.scaleToWidth(170);
-        image.scaleToHeight(200);
-        placeHolder.add(image);
-        placeHolder.renderAll();
-        const designInfo = {
-          key: newName,
-          rotate: 0,
-          width: 150,
-          height: 120,
-          scale: 0.3,
-          left: 150,
-          top: 200,
-        };
-        dispatch(addDesignInfo({ ...designInfo }));
-      });
+      // fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
+      //   // image.set("name", newName);
+      //   // image.set("left", 100);
+      //   // image.set("top", 100);
+      //   // image.set("angle", 0);
+      //   // image.set("opacity", 100);
+      //   // image.transparentCorners = false;
+      //   // image.centeredScaling = true;
+      //   // image.scaleToWidth(170);
+      //   // image.scaleToHeight(200);
+      //   // placeHolder.add(image);
+
+      //   const designInfo = {
+      //     key: newName,
+      //     rotate: 0,
+      //     width: 150,
+      //     height: 120,
+      //     scale: 0.3,
+      //     left: 150,
+      //     top: 200,
+      //   };
+      //   dispatch(addDesignInfo({ ...designInfo }));
+
+      //   placeHolder.renderAll();
+      // }
+
+      // );
+
+      placeHolder.add(
+        new fabric.Rect({
+          left: 100,
+          top: 100,
+          fill: "red",
+          width: 20,
+          height: 20,
+          angle: 45,
+        })
+      );
+      placeHolder.renderAll();
     }
   };
 
@@ -150,9 +152,9 @@ export default function AboutPage(props: AboutPageProps) {
             backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
           }}
         >
-          <div id="wrapper">
-            <canvas id="placeHolder" className="center-block" />
-          </div>
+          {/* <div id="wrapper"> */}
+          <canvas id="placeHolder" className="center-block"></canvas>
+          {/* </div> */}
         </div>
         <div className="col-lg-5 d-md-none d-lg-block">
           <Table addRect={addRect} />
