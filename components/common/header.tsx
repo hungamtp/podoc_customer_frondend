@@ -65,7 +65,7 @@ export default function Header({}: Props) {
               <div className="dropdown">
                 <button
                   type="button"
-                  className="btn btn-icon btn-pills btn-primary dropdown-toggle"
+                  className="btn btn-icon btn-pills btn-primary  dropdown-toggle"
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
@@ -83,6 +83,7 @@ export default function Header({}: Props) {
                     </svg>
                   </Badge>
                 </button>
+
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4"
                   style={{ width: "300px" }}
@@ -158,6 +159,36 @@ export default function Header({}: Props) {
               </div>
             </li>
             <li className="list-inline-item mb-0"> &#10240;</li>
+
+            <li className="list-inline-item mb-0">
+              <button
+                type="button"
+                className="btn btn-icon btn-pills btn-primary"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <Badge
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  color="secondary"
+                  badgeContent={itemCount}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-heart"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                  </svg>
+                </Badge>
+              </button>
+            </li>
+            <li className="list-inline-item mb-0"> &#10240;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button
@@ -207,44 +238,38 @@ export default function Header({}: Props) {
             <ul className="navigation-menu">
               <li>
                 <a href="/" className="sub-menu-item">
-                  Home
+                  Trang chủ
                 </a>
               </li>
 
               <li onClick={() => router.push("/about")}>
                 <a href="about" className="sub-menu-item">
-                  About Us
+                  Giới thiệu
                 </a>
               </li>
-
-              <li className="has-submenu parent-menu-item">
+              <li onClick={() => router.push("/about")}>
+                <a href="product" className="sub-menu-item">
+                  Tự thiết kế
+                </a>
+              </li>
+              <li onClick={() => router.push("/about")}>
+                <a href="product" className="sub-menu-item">
+                  Shop
+                </a>
+              </li>
+              {/* <li className="has-submenu parent-menu-item">
                 <a href="javascript:void(0)">Shop</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
-                  <li>
-                    <a
-                      href="shop-fullwidth-grids.html"
-                      className="sub-menu-item"
-                    >
-                      Fullwidth Grid
-                    </a>
-                  </li>
                   <li onClick={() => router.push("/product")}>
                     <a href="product" className="sub-menu-item">
-                      Product Grids
+                      Product List Blueprint
                     </a>
                   </li>
-                  <li>
-                    <a
-                      href="shop-fullwidth-lists.html"
-                      className="sub-menu-item"
-                    >
-                      Fullwidth List
-                    </a>
-                  </li>
+
                   <li>
                     <a href="shop-lists.html" className="sub-menu-item">
-                      Product List
+                      Product List Designed
                     </a>
                   </li>
                   <li>
@@ -271,9 +296,9 @@ export default function Header({}: Props) {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
-              <li className="has-submenu parent-menu-item">
+              {/* <li className="has-submenu parent-menu-item">
                 <a href="javascript:void(0)">Pages</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
@@ -313,7 +338,7 @@ export default function Header({}: Props) {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
               <li className="has-submenu parent-menu-item">
                 <a href="javascript:void(0)">Blog</a>
