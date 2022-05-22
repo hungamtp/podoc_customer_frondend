@@ -85,7 +85,7 @@ export default function AboutPage(props: AboutPageProps) {
     html.offsetHeight
   );
   const defaultWidth =
-    screen.width >= 922 ? (screen.width / 12) * 7 : screen.width;
+    screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
@@ -97,21 +97,22 @@ export default function AboutPage(props: AboutPageProps) {
       const outerplaceHolderContainer = $(".outer")[0];
       const containerWidth = outerplaceHolderContainer.clientWidth;
       const containerHeight = outerplaceHolderContainer.clientHeight;
-      const newHeight = containerHeight / 2.5;
-
-      const paddingTop = containerHeight / 2.5;
-      console.log(paddingTop, "padding top");
-
       const ratio = placeHolder.getWidth() / placeHolder.getHeight();
+      const newHeight = containerHeight / 2.5;
+      const newWidth = newHeight / ratio;
+      const paddingTop = (containerHeight - newHeight) / 2.2;
 
-      const scale = pageHeight / newHeight;
+      console.log(paddingTop, "padding top");
+      console.log(placeHolder.getZoom(), "zoom");
+
+      const scale = 2.5;
       const zoom = placeHolder.getZoom() * scale;
-
+      placeHolder.setDimensions({ width: newWidth, height: newHeight });
       placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
 
-      const newWidth = newHeight / ratio;
       outerplaceHolderContainer.style.paddingLeft =
         (containerWidth - newWidth) / 2 + "px";
+      outerplaceHolderContainer.style.paddingTop = paddingTop + "px";
 
       placeHolder.renderAll();
     }
@@ -182,14 +183,16 @@ export default function AboutPage(props: AboutPageProps) {
     <div className="container-fluid">
       <div className="row align-items-center">
         <div
-          className="col-lg-7 col-12  outer h-screen position-relative"
+          className="col-lg-9 col-12  outer h-screen position-relative"
           style={{
             backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
           }}
         >
           <canvas id="placeHolder" className="center-block"></canvas>
         </div>
-        <div className="col-lg-5 d-md-none d-lg-block">
+        <div className="col-lg-3 d-md-none d-lg-block">
+          {/* https://printify.com/assets/gen_images/add-layer.svg */}
+
           <Table addRect={addRect} />
         </div>
       </div>

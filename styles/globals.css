@@ -20,18 +20,11 @@ a {
   background-size:contain;
   background-repeat:no-repeat;
   background-position: center;
-  padding-top: 1/3;
 }
 
 #placeHolder{
   border-style: dashed;
   margin: 0 auto;
-  left:400px
 }
 
-#wrapper{
-  left: 36.5%;
-  top:30%;
-  width: 300px;
-}
 
