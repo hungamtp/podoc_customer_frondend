@@ -7,6 +7,8 @@ import { setValue, addDesignInfo } from "@/redux/slices/design";
 import { nanoid } from "nanoid";
 import Script from "next/script";
 import $ from "jquery";
+import EmptyTable from "@/components/design/emptyTable";
+import DesignHeaderLeft from "@/components/design/design-header-left";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -182,16 +184,19 @@ export default function AboutPage(props: AboutPageProps) {
   return (
     <div className="container-fluid">
       <div className="row align-items-center">
-        <div
-          className="col-lg-9 col-12  outer h-screen position-relative"
-          style={{
-            backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
-          }}
-        >
-          <canvas id="placeHolder" className="center-block"></canvas>
+        <div className="col-lg-9 col-12 px-0">
+          <DesignHeaderLeft />
+          <div
+            className=" outer h-screen position-relative"
+            style={{
+              backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
+            }}
+          >
+            <canvas id="placeHolder" className="center-block"></canvas>
+          </div>
         </div>
-        <div className="col-lg-3 d-md-none d-lg-block">
-          {/* https://printify.com/assets/gen_images/add-layer.svg */}
+        <div className="col-lg-3 d-md-none d-lg-block border border-dark h-full">
+          <EmptyTable addRect={addRect} />
 
           <Table addRect={addRect} />
         </div>
