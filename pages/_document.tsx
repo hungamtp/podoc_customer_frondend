@@ -1,15 +1,8 @@
 /* eslint-disable @next/next/no-sync-scripts */
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-title-in-document-head */
-import React, { ReactElement } from "react";
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentInitialProps,
-  DocumentContext,
-} from "next/document";
+import React, { ReactElement } from 'react';
+import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from 'next/document';
 
 export default class MyDocument extends Document {
   render(): ReactElement {
@@ -20,11 +13,8 @@ export default class MyDocument extends Document {
 
           <meta name="website" content="https://shreethemes.in" />
           <meta name="Version" content="v3.8.0" />
-          <meta
-            name="google-signin-client_id"
-            content="curious-subject-317901.apps.googleusercontent.com"
-          />
-          {/* <link rel="shortcut icon" href="asset/images/favicon.ico" />
+          <meta name="google-signin-client_id" content="curious-subject-317901.apps.googleusercontent.com" />
+          <link rel="shortcut icon" href="asset/images/favicon.ico" />
 
           <link href="asset/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
@@ -36,13 +26,13 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="asset/css/tiny-slider.css" />
 
           <link href="asset/css/style.css" rel="stylesheet" type="text/css" id="theme-opt" />
-          <link href="asset/css/colors/default.css" rel="stylesheet" id="color-opt" /> */}
+          <link href="asset/css/colors/default.css" rel="stylesheet" id="color-opt" />
         </Head>
         <body>
           <Main />
           <NextScript />
 
-          {/* <script src="asset/js/bootstrap.bundle.min.js"></script>
+          <script src="asset/js/bootstrap.bundle.min.js"></script>
 
           <script src="asset/js/tiny-slider.js "></script>
 
@@ -55,11 +45,7 @@ export default class MyDocument extends Document {
           <script src="asset/js/plugins.init.js"></script>
 
           <script src="asset/js/app.js"></script>
-          <script
-            src="https://apis.google.com/js/platform.js"
-            async
-            defer
-          ></script> */}
+          <script src="https://apis.google.com/js/platform.js" async defer></script>
         </body>
       </Html>
     );
