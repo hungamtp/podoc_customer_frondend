@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { fabric } from "fabric";
 import Table from "@/components/common/table";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { setValue, addDesignInfo } from "@/redux/slices/design";
 import { nanoid } from "nanoid";
 import Script from "next/script";
 import $ from "jquery";
@@ -44,6 +42,12 @@ export default function AboutPage(props: AboutPageProps) {
   const [placeHolder, setplaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
     setplaceHolder(initplaceHolder(450, 510));
+  const pageHeight = 1020;
+  const defaultWidth = 929;
+  const router = useRouter();
+  const [placeHolder, setplaceHolder] = React.useState<fabric.Canvas>();
+  React.useEffect(() => {
+    setplaceHolder(initplaceHolder(800, 800));
   }, []);
   const resizeplaceHolder = () => {
     if (placeHolder) {
@@ -69,6 +73,23 @@ export default function AboutPage(props: AboutPageProps) {
   };
   $(window).resize(resizeplaceHolder);
 
+      placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+      placeHolder.setWidth(containerWidth / 3.6);
+      placeHolder.setHeight(containerWidth / 3.6 / ratio);
+      const wrapper = document.getElementById("placeHolder");
+      if (wrapper) {
+        wrapper.style.left =
+          (containerWidth - placeHolder.getWidth()) / 2 + "px";
+        wrapper.style.top =
+          (containerHeight - placeHolder.getHeight()) / 2.2 + "px";
+        wrapper.style.width = placeHolder.getWidth() + "px";
+      }
+      placeHolder.renderAll();
+      placeHolder.calcOffset();
+    }
+  };
+  // $(window).resize(resizeplaceHolder);
+
   const [selectedShapeKey, setSelectedShapeKey] = React.useState("");
 
   React.useEffect(() => {
@@ -85,7 +106,6 @@ export default function AboutPage(props: AboutPageProps) {
             left: obj.left,
             top: obj.top,
           };
-          dispatch(setValue({ ...designInfo }));
         }
       });
       const node = placeHolder.getElement();
@@ -94,6 +114,15 @@ export default function AboutPage(props: AboutPageProps) {
     }
 
     console.log("cccccccc");
+      // const wrapper = document.getElementById("placeHolder");
+      // //this is the canvas that I want to put the image on
+      // if (wrapper) {
+      //   wrapper.style.left = (defaultWidth - placeHolder.getWidth()) / 2 + "px";
+      //   wrapper.style.top = (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+      //   wrapper.style.width = placeHolder.getWidth() + "px";
+      //   console.log((defaultWidth - placeHolder.getWidth()) / 2 + "px");
+      // }
+    }
   }, [placeHolder]);
 
   const addRect = (imgUrl: string) => {
@@ -156,6 +185,45 @@ export default function AboutPage(props: AboutPageProps) {
       // dispatch(addDesignInfo({ ...designInfo }));
       // placeHolder.renderAll();
       // console.log(placeHolder, 'placeHolderss');
+      // fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
+      //   // image.set("name", newName);
+      //   // image.set("left", 100);
+      //   // image.set("top", 100);
+      //   // image.set("angle", 0);
+      //   // image.set("opacity", 100);
+      //   // image.transparentCorners = false;
+      //   // image.centeredScaling = true;
+      //   // image.scaleToWidth(170);
+      //   // image.scaleToHeight(200);
+      //   // placeHolder.add(image);
+
+      //   const designInfo = {
+      //     key: newName,
+      //     rotate: 0,
+      //     width: 150,
+      //     height: 120,
+      //     scale: 0.3,
+      //     left: 150,
+      //     top: 200,
+      //   };
+      //   dispatch(addDesignInfo({ ...designInfo }));
+
+      //   placeHolder.renderAll();
+      // }
+
+      // );
+
+      placeHolder.add(
+        new fabric.Rect({
+          left: 100,
+          top: 100,
+          fill: "red",
+          width: 20,
+          height: 20,
+          angle: 45,
+        })
+      );
+      placeHolder.renderAll();
     }
   };
 
@@ -170,7 +238,9 @@ export default function AboutPage(props: AboutPageProps) {
             backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
           }}
         >
-          <canvas id="placeHolder" className="center-block" />
+          {/* <div id="wrapper"> */}
+          <canvas id="placeHolder" className="center-block"></canvas>
+          {/* </div> */}
         </div>
         <div className="col-lg-5 d-md-none d-lg-block">
           <Table addRect={addRect} />

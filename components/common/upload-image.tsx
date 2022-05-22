@@ -16,8 +16,7 @@ export function UploadImage(props: ITableProps) {
     const imgElement = document.getElementById(
       "upload-image"
     ) as HTMLImageElement;
-    console.log(imgElement.src, "imgggg");
-    props.addRect(imgElement.src);
+    props.addRect(imageList[0].data_url);
   };
 
   return (

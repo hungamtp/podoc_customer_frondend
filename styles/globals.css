@@ -24,5 +24,13 @@ a {
 
 #placeHolder{
   border-style: dashed;
-  margin: 0 auto
+  margin: 0 auto;
+  left:400px
 }
+
+#wrapper{
+  left: 36.5%;
+  top:30%;
+  width: 300px;
+}
+
