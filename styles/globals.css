@@ -27,4 +27,20 @@ a {
   margin: 0 auto;
 }
 
+.bg-gray{
+  background-color:#f7f7f7
+}
+
+.w-half{
+  width: 50%;
+}
+
+.w-quater{
+  width: 25%;
+}
+
+.h-full{
+  height: 100%;
+}
+
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import * as React from "react";
 import { useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
@@ -6,11 +7,11 @@ export interface info {
   angle: number;
 }
 
-export interface ITableProps {
+export interface IEmptyTableProps {
   addRect: (imgElement: string) => void;
 }
 
-export default function Table(props: ITableProps) {
+export default function EmptyTable(props: IEmptyTableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
   console.log(infoManageData, "ìnoooo");
   const initVal = {
@@ -20,71 +21,30 @@ export default function Table(props: ITableProps) {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
   return (
-    <div>
-      <div className="">
-        {infoManageData.designInfos.map((designInfo) => (
-          <>
-            {designInfo.key === infoManageData.choosenKey &&
-              designInfo.key !== "" && (
-                <div
-                  key={designInfo.key}
-                  className="mb-6 bg-white border rounded shadow"
-                >
-                  <div className="border-b p-3">
-                    <h5 className="font-bold uppercase text-gray-600">Table</h5>
-                  </div>
-                  <div className="p-5">
-                    <table
-                      className="w-full p-5 text-gray-700"
-                      onClick={() => {
-                        console.log("ahihi");
-                      }}
-                    >
-                      <tbody>
-                        <tr>
-                          <td>Size</td>
-                          <td>Width:{designInfo.width}</td>
-                          <td>Height:{designInfo.height}</td>
-                        </tr>
-                        <tr>
-                          <td>Transform</td>
-                          <td>Rotate:{designInfo.rotate}</td>
-                          <td>Scale:{designInfo.scale}</td>
-                        </tr>
-                        <tr>
-                          <td>Positioning</td>
-                          <td>Left:{designInfo.left}</td>
-                          <td>Top:{designInfo.top}</td>
-                        </tr>
-                        <tr>
-                          <td>Align</td>
-                          <td>Left:{}</td>
-                          <td>Top:{}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-            {designInfo.key !== infoManageData.choosenKey && (
-              <div>
-                <div className="border-b h-screen p-3 mb-6 bg-white border rounded shadow">
-                  <h5 className="font-bold uppercase text-gray-600">Table</h5>
-                </div>
-              </div>
-            )}
-          </>
-        ))}
-        <div>
-          <p className="py-2">
-            Add design
-            <UploadImage addRect={props.addRect} />
-          </p>
-          {/* <button onClick={} className="py-2">
-						Save
-					</button> */}
+    <>
+      <div className="d-flex justify-content-center">
+        <div className="w-half d-flex flex-column justify-content-center">
+          <img
+            src="https://printify.com/assets/gen_images/add-layer.svg"
+            alt="Picture of the author"
+          />
+          <p className="h4 text-center">No artwork is added</p>
+          <p className="text-center">Only JPG / PNG files supported</p>
+          <button type="button" className="btn btn-success">
+            Add your design
+          </button>
         </div>
       </div>
-    </div>
+      <div className="mt-5 bg-gray p-3">
+        <span className="h6">Thông tin yêu cầu</span>
+        <ul>
+          <li>Hỗ trợ JPG và PNG</li>
+          <li>JPG and PNG file types supported</li>
+          <li>Kích cỡ file tối đa 50MB</li>
+          <li>Vùng in 2362 × 2894 px (300 DPI)</li>
+          <li>Độ phân giải tối đa 23000 x 23000 px</li>
+        </ul>
+      </div>
+    </>
   );
 }
