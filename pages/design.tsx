@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import * as React from "react";
 import { fabric } from "fabric";
-import Table from "@/components/common/table";
+import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { setValue, addDesignInfo } from "@/redux/slices/design";
 import { nanoid } from "nanoid";
