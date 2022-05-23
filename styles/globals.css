@@ -16,10 +16,14 @@ a {
 }
 
 .outer{
-  height: 100vh;
+  height: 100%;
   background-size:contain;
   background-repeat:no-repeat;
   background-position: center;
+}
+
+.designTable{
+  height: 100%;
 }
 
 #placeHolder{
@@ -39,8 +43,21 @@ a {
   width: 25%;
 }
 
+.h-screen{
+  height: 100vh;
+}
+
 .h-full{
   height: 100%;
+}
+
+.w-full{
+  width: 100%;
+}
+
+.py-3point5 {
+  padding-top: 1.4rem !important;
+  padding-bottom: 1.28rem !important;
 }
 
 
