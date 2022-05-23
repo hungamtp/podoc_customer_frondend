@@ -9,6 +9,9 @@ import Script from "next/script";
 import $ from "jquery";
 import EmptyTable from "@/components/design/emptyTable";
 import DesignHeaderLeft from "@/components/design/design-header-left";
+import DesignFooterLeft from "@/components/design/design-footer-left";
+import DesignHeaderRight from "@/components/design/design-header-right";
+import DesignFooterRight from "@/components/design/design-footer-right";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -18,6 +21,9 @@ export interface AboutPageProps {}
 export interface info {
   angle: number;
 }
+
+const paddingRate = 2.1;
+const outerAndPageRatio = 1.237;
 
 const resizer = (
   canvasSize: { width: number; height: number },
@@ -92,7 +98,9 @@ export default function AboutPage(props: AboutPageProps) {
   const dispatch = useAppDispatch();
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
-    setPlaceHolder(initplaceHolder(236.2, 289.4, pageHeight));
+    setPlaceHolder(
+      initplaceHolder(236.2, 289.4, pageHeight / outerAndPageRatio)
+    );
   }, []);
   const resizeplaceHolder = () => {
     if (placeHolder) {
@@ -102,10 +110,13 @@ export default function AboutPage(props: AboutPageProps) {
       const ratio = placeHolder.getWidth() / placeHolder.getHeight();
       const newHeight = containerHeight / 2.5;
       const newWidth = newHeight / ratio;
-      const paddingTop = (containerHeight - newHeight) / 2.2;
+      const paddingTop = (containerHeight - newHeight) / paddingRate;
 
       console.log(paddingTop, "padding top");
       console.log(placeHolder.getZoom(), "zoom");
+
+      console.log(containerHeight, "height");
+      console.log(pageHeight, "phh");
 
       const scale = 2.5;
       const zoom = placeHolder.getZoom() * scale;
@@ -144,7 +155,9 @@ export default function AboutPage(props: AboutPageProps) {
       outerplaceHolderContainer.style.paddingLeft =
         (defaultWidth - placeHolder.getWidth()) / 2 + "px";
       outerplaceHolderContainer.style.paddingTop =
-        (pageHeight - placeHolder.getHeight()) / 2.2 + "px";
+        (outerplaceHolderContainer.clientHeight - placeHolder.getHeight()) /
+          paddingRate +
+        "px";
     }
   }, [placeHolder]);
 
@@ -182,23 +195,30 @@ export default function AboutPage(props: AboutPageProps) {
   const alignLeft = () => {};
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid ">
       <div className="row align-items-center">
-        <div className="col-lg-9 col-12 px-0">
+        <div className="col-lg-9 col-12 px-0 h-screen d-flex flex-column ">
           <DesignHeaderLeft />
           <div
-            className=" outer h-screen position-relative"
+            className=" outer position-relative"
             style={{
               backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
             }}
           >
             <canvas id="placeHolder" className="center-block"></canvas>
           </div>
+          <DesignFooterLeft />
         </div>
-        <div className="col-lg-3 d-md-none d-lg-block border border-dark h-full">
-          <EmptyTable addRect={addRect} />
+        <div className="col-lg-3 d-md-none d-lg-block border-start h-screen px-0">
+          <div className=" d-flex flex-column h-full">
+            <DesignHeaderRight />
+            <div className="designTable p-3">
+              <EmptyTable addRect={addRect} />
 
-          <Table addRect={addRect} />
+              <Table addRect={addRect} />
+            </div>
+            <DesignFooterRight />
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ export interface IDesignHeaderLeftProps {}
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   return (
     <div>
-      <div className="d-flex justify-content-between border border-dark py-0">
+      <div className="d-flex justify-content-between border-bottom border-dark py-0 px-0">
         <div className="d-flex">
           <p className="h6 px-4 m-auto">{`<--`} Back to My Products</p>
           <div className="d-flex flex-column justify-content-center">
