@@ -9,8 +9,9 @@ export default function DesignHeaderRight(props: IDesignHeaderRightProps) {
     loading: true,
     indicator: <Audio width="50" />,
   });
-  const infoManageData = useAppSelector((state) => state.designControl);
-  const controlData = infoManageData.controlData;
+  const infoManageData = useAppSelector((state) => state.infoManageData);
+  const designControl = useAppSelector((state) => state.designControl);
+  const controlData = designControl.controlData;
   console.log(controlData, "control data");
   const dispatch = useAppDispatch();
   return (
@@ -21,7 +22,11 @@ export default function DesignHeaderRight(props: IDesignHeaderRightProps) {
           <div
             className="btn h3 m-0 "
             onClick={() => {
-              dispatch(setControlData({ ...controlData, isSetImage: false }));
+              const tmpControlData =
+                infoManageData.choosenKey === ""
+                  ? { isSetImage: false, isChooseImage: false }
+                  : { ...controlData, isSetImage: false };
+              dispatch(setControlData(tmpControlData));
             }}
           >
             x
