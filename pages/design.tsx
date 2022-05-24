@@ -12,6 +12,7 @@ import DesignHeaderLeft from "@/components/design/design-header-left";
 import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderRight from "@/components/design/design-header-right";
 import DesignFooterRight from "@/components/design/design-footer-right";
+import { setControlData } from "@/redux/slices/designControl";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -96,6 +97,11 @@ export default function AboutPage(props: AboutPageProps) {
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const infoManageData = useAppSelector((state) => state.infoManageData);
+  const designControlData = useAppSelector((state) => state.designControl);
+  const controlData = designControlData.controlData;
+  console.log(controlData, "control data");
+
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
     setPlaceHolder(
@@ -186,7 +192,7 @@ export default function AboutPage(props: AboutPageProps) {
           top: 200,
         };
         dispatch(addDesignInfo({ ...designInfo }));
-
+        dispatch(setControlData({ isSetImage: false }));
         placeHolder.renderAll();
       });
     }
@@ -213,9 +219,11 @@ export default function AboutPage(props: AboutPageProps) {
           <div className=" d-flex flex-column h-full">
             <DesignHeaderRight />
             <div className="designTable p-3">
-              <EmptyTable addRect={addRect} />
-
-              <Table addRect={addRect} />
+              {controlData.isSetImage || infoManageData.choosenKey === "" ? (
+                <EmptyTable addRect={addRect} />
+              ) : (
+                <Table addRect={addRect} />
+              )}
             </div>
             <DesignFooterRight />
           </div>
