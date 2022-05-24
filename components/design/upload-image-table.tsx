@@ -4,16 +4,15 @@ import { fabric } from "fabric";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
 
-export interface ITableProps {
+export interface UploadImageTableProps {
   addRect: (imgElement: string) => void;
 }
 
-export function UploadImage(props: ITableProps) {
+export function UploadImageTable(props: UploadImageTableProps) {
   const { addRect } = props;
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
   const designControlData = useAppSelector((state) => state.designControl);
-  const infoManageData = useAppSelector((state) => state.infoManageData);
   const controlData = designControlData.controlData;
   const dispatch = useAppDispatch();
   const onChange = (imageList: any, addUpdateIndex: any) => {
@@ -45,13 +44,23 @@ export function UploadImage(props: ITableProps) {
         }) => (
           // write your building UI
           <div className="upload__image-wrapper">
-            <li
-              onClick={onImageUpload}
-              className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center"
-            >
-              <i className="bi bi-pc-display-horizontal me-4 h4 pt-1"></i>Máy
-              tính
-            </li>
+            <>
+              <div
+                className="add-design-button d-flex"
+                onClick={() =>
+                  dispatch(setControlData({ ...controlData, isSetImage: true }))
+                }
+              >
+                <i className="bi bi-plus h3 m-1"></i>
+                <div className="px-4">
+                  <p className="h6 mb-0 text-start">Thêm thiết kế</p>
+                  <p className="mb-0">
+                    Kích thước vùng in 4500x5100 px (300DPI)
+                  </p>
+                </div>
+              </div>
+            </>
+
             {/* {imageList.map((image, index) => (
               <div key={index} className="image-item">
                 <img

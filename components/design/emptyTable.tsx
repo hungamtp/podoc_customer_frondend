@@ -1,7 +1,9 @@
 import Image from "next/image";
 import * as React from "react";
-import { useAppSelector } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
+import { useLoading, Audio } from "@agney/react-loading";
+import { setControlData } from "@/redux/slices/designControl";
 
 export interface info {
   angle: number;
@@ -12,8 +14,16 @@ export interface IEmptyTableProps {
 }
 
 export default function EmptyTable(props: IEmptyTableProps) {
+  const { addRect } = props;
+  const designControlData = useAppSelector((state) => state.designControl);
   const infoManageData = useAppSelector((state) => state.infoManageData);
-  console.log(infoManageData, "ìnoooo");
+  const controlData = designControlData.controlData;
+  const dispatch = useAppDispatch();
+  const [isChooseImage, setIsChooseImage] = React.useState(
+    infoManageData.choosenKey !== ""
+  );
+
+  console.log(controlData, "ìnoooo");
   const initVal = {
     images: [],
   };
@@ -22,21 +32,51 @@ export default function EmptyTable(props: IEmptyTableProps) {
   // };
   return (
     <>
-      <div className="d-flex justify-content-center">
-        <div className="w-half d-flex flex-column justify-content-center">
-          <img
-            src="https://printify.com/assets/gen_images/add-layer.svg"
-            alt="Picture of the author"
-          />
-          <p className="h4 text-center">No artwork is added</p>
-          <p className="text-center">Only JPG / PNG files supported</p>
-          <button type="button" className="btn btn-success">
-            Add your design
-          </button>
-        </div>
-      </div>
+      {isChooseImage ? (
+        <>
+          <div className="d-flex justify-content-start border-bottom  btn-group ">
+            <button className="p-2 btn btn-outline-success borderless">
+              Thiết kế mới
+            </button>
+            <button className="p-2 btn btn-outline-success">Từ thư viện</button>
+          </div>
+          <p className="fw-bolder py-2">Thêm từ</p>
+          <ul className="list-group">
+            <UploadImage addRect={addRect} />
+            <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
+              <i className="bi bi-fonts me-4 h4 pt-1"></i>Văn bản
+            </li>
+            <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
+              <i className="bi bi-google me-4 h4 pt-1"></i>Google Drive
+            </li>
+          </ul>
+        </>
+      ) : (
+        <>
+          <div className="d-flex justify-content-center">
+            <div className="w-half d-flex flex-column justify-content-center">
+              <img
+                src="https://printify.com/assets/gen_images/add-layer.svg"
+                alt="Picture of the author"
+              />
+              <p className="h4 text-center">Chưa có thiết kế nào</p>
+              <p className="text-center">Chỉ hỗ trợ file PNG hoặc JPG</p>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={() => {
+                  setIsChooseImage(true);
+                  dispatch(setControlData({ isSetImage: true }));
+                }}
+              >
+                Thêm thiết kế
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       <div className="mt-5 bg-gray p-3">
-        <span className="h6">Thông tin yêu cầu</span>
+        <span className="h6">Thông tin in ấn</span>
         <ul>
           <li>Hỗ trợ JPG và PNG</li>
           <li>JPG and PNG file types supported</li>

@@ -1,8 +1,11 @@
 import * as React from "react";
+import { useAppSelector } from "../hooks/reduxHook";
 
 export interface IDesignHeaderLeftProps {}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
+  const infoManageData = useAppSelector((state) => state.infoManageData);
+
   return (
     <div>
       <div className="d-flex justify-content-between border-bottom border-dark py-0 px-0">
@@ -13,7 +16,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             <p className="text-secondary">Cung cấp bởi nhà in H2PD</p>
           </div>
         </div>
-        <div className="d-flex justify-content-center w-quater align-items-center px-4">
+        <div className="d-flex justify-content-center w-quater align-items-center px-4 btn-group">
           <button className="btn btn-secondary w-half">Edit</button>
           <button className="btn btn-light w-half">Preview</button>
         </div>
