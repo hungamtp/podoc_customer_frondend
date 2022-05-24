@@ -100,7 +100,6 @@ export default function AboutPage(props: AboutPageProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const designControlData = useAppSelector((state) => state.designControl);
   const controlData = designControlData.controlData;
-  console.log(controlData, "control data");
 
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
   React.useEffect(() => {
@@ -192,7 +191,7 @@ export default function AboutPage(props: AboutPageProps) {
           top: 200,
         };
         dispatch(addDesignInfo({ ...designInfo }));
-        dispatch(setControlData({ isSetImage: false }));
+        dispatch(setControlData({ isSetImage: false, isChooseImage: true }));
         placeHolder.renderAll();
       });
     }

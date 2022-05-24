@@ -23,7 +23,6 @@ export function UploadImageTable(props: UploadImageTableProps) {
     ) as HTMLImageElement;
     addRect(imageList[0].data_url);
   };
-  console.log(controlData, "controlllll");
 
   return (
     <div className="App">

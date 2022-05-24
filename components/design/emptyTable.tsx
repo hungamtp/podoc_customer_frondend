@@ -19,9 +19,6 @@ export default function EmptyTable(props: IEmptyTableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const controlData = designControlData.controlData;
   const dispatch = useAppDispatch();
-  const [isChooseImage, setIsChooseImage] = React.useState(
-    infoManageData.choosenKey !== ""
-  );
 
   console.log(controlData, "ìnoooo");
   const initVal = {
@@ -32,7 +29,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
   // };
   return (
     <>
-      {isChooseImage ? (
+      {controlData.isChooseImage ? (
         <>
           <div className="d-flex justify-content-start border-bottom  btn-group ">
             <button className="p-2 btn btn-outline-success borderless">
@@ -65,8 +62,9 @@ export default function EmptyTable(props: IEmptyTableProps) {
                 type="button"
                 className="btn btn-success"
                 onClick={() => {
-                  setIsChooseImage(true);
-                  dispatch(setControlData({ isSetImage: true }));
+                  dispatch(
+                    setControlData({ isSetImage: true, isChooseImage: true })
+                  );
                 }}
               >
                 Thêm thiết kế

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface DesignControlData {
-  controlData: { isSetImage: boolean };
+  controlData: { isChooseImage: boolean; isSetImage: boolean };
 }
 
 const initialState: DesignControlData = {
   controlData: {
+    isChooseImage: false,
     isSetImage: false,
   },
 };
