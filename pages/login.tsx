@@ -49,7 +49,7 @@ export default function Login({ data }: Props) {
   });
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     console.log(data, "loginn");
-    const res = login({ username: data.email, password: data.password });
+    const res = login({ email: data.email, password: data.password });
     console.log(res);
     if (rememberMe) {
     }

@@ -9,7 +9,7 @@ import { store } from "@/redux/store";
 
 export const config = {
   api: {
-    bodyParser: false, //không cần parse body nữa, để nguyên cho server handle
+    bodyParser: true, //không cần parse body nữa, để nguyên cho server handle
   },
 };
 
@@ -22,6 +22,7 @@ export default function handler(
   return new Promise((resolve) => {
     const handlerLoginResponse: ProxyResCallback = (proxyRes, req, res) => {
       const accessToken = store.getState().auth.token;
+      console.log(req.headers, "headerss");
       if (accessToken) {
         req.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -35,7 +36,7 @@ export default function handler(
           //set access token vao cookie của client
           (res as NextApiResponse)
             .status(200)
-            .json({ message: "login successfully" });
+            .json({ message: "login successfully", body: body });
         } catch (error) {
           (res as NextApiResponse)
             .status(500)
