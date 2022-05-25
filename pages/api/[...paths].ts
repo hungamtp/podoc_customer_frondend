@@ -1,6 +1,7 @@
 import * as React from "react";
 import httpProxy, { ProxyResCallback } from "http-proxy";
 import { NextApiRequest, NextApiResponse } from "next";
+import { store } from "@/redux/store";
 
 // type Data = {
 // 	message: string;
@@ -19,24 +20,35 @@ export default function handler(
   res: NextApiResponse<any>
 ) {
   return new Promise((resolve) => {
-    req.headers.cookie = "foo";
-
-    //convert token to cookies
-    const accessToken = "token";
-    if (accessToken) {
-      req.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    //dont send cookies to origin server
-    req.headers.cookie = "";
-
-    (res as NextApiResponse)
-      .status(200)
-      .json({ message: "login successfully" });
-    resolve(true);
+    const handlerLoginResponse: ProxyResCallback = (proxyRes, req, res) => {
+      const accessToken = store.getState().auth.token;
+      if (accessToken) {
+        req.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      let body = "";
+      proxyRes.on("data", function (chunk) {
+        body += chunk;
+      });
+      proxyRes.on("end", function () {
+        try {
+          console.log(body, "bodyyy");
+          //set access token vao cookie của client
+          (res as NextApiResponse)
+            .status(200)
+            .json({ message: "login successfully" });
+        } catch (error) {
+          (res as NextApiResponse)
+            .status(500)
+            .json({ message: "something went wrong" });
+        }
+        resolve(true);
+      });
+    };
+    proxy.once("proxyRes", handlerLoginResponse);
     proxy.web(req, res, {
       target: "http://localhost:8080",
       changeOrigin: true, //req sẽ được forward qua target domain
-      selfHandleResponse: false, //proxy sẽ handler res
+      selfHandleResponse: true, //proxy sẽ handler res
     });
   });
 }

@@ -26,6 +26,7 @@
       "@/shared/*": ["./shared/*"],
       "@/pages/*": ["./pages/*"],
       "@/public/*": ["./public/*"],
+      "@/hooks/*": ["./hooks/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
