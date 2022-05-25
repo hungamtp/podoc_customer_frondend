@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { EmptyLayout } from '@/components/layouts';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { logIn } from './api/axios';
+import { EmptyLayout } from "@/components/layouts";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { GetStaticPaths, GetStaticProps } from "next";
+import useLogin from "@/hooks/auth/use-login";
 type FormLogin = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -27,26 +27,34 @@ type Props = {
 //   };
 // };
 const schema = yup.object().shape({
-  username: yup.string().min(8).max(254).required(),
+  email: yup.string().email().min(8).max(50).required(),
   password: yup.string().min(8).max(26).required(),
 });
 export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
+  const { mutate: login, isLoading, error } = useLogin();
+  const defaultValues: FormLogin = {
+    email: "hieuthomnghiep@gmail.com",
+    password: "123456789",
+  };
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<FormLogin>({
+    defaultValues,
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<FormLogin> = data => {
-    const res = logIn(data.username, data.password);
+  const onSubmit: SubmitHandler<FormLogin> = (data) => {
+    console.log(data, "loginn");
+    const res = login({ username: data.email, password: data.password });
     console.log(res);
     if (rememberMe) {
     }
   };
+  console.log(errors);
   // const onSignIn(googleUser : any) : void {
   //   var profile = googleUser.getBasicProfile();
   //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -76,14 +84,21 @@ export default function Login({ data }: Props) {
           <div className="row align-items-center">
             <div className="col-lg-7 col-md-6">
               <div className="me-lg-5">
-                <img src="asset/images/user/login.svg" className="img-fluid d-block mx-auto" alt="" />
+                <img
+                  src="asset/images/user/login.svg"
+                  className="img-fluid d-block mx-auto"
+                  alt=""
+                />
               </div>
             </div>
             <div className="col-lg-5 col-md-6">
               <div className="card login-page bg-white shadow rounded border-0">
                 <div className="card-body">
                   <h4 className="card-title text-center">Login</h4>
-                  <form className="login-form mt-4" onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    className="login-form mt-4"
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="mb-3">
@@ -91,16 +106,15 @@ export default function Login({ data }: Props) {
                             Email <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="user" className="fea icon-sm icons"></i>
+                            <i
+                              data-feather="user"
+                              className="fea icon-sm icons"
+                            ></i>
                             <input
                               type="text"
                               className="form-control ps-5"
                               placeholder="Email"
-                              defaultValue="hungatmp@gmail.com"
-                              {...(register('username'),
-                              {
-                                required: true,
-                              })}
+                              {...register("email")}
                             />
                           </div>
                         </div>
@@ -113,9 +127,18 @@ export default function Login({ data }: Props) {
                           </label>
                           <div className="form-icon position-relative">
                             <i className="fea icon-sm icons"></i>
-                            <input type="password" className="form-control ps-5" placeholder="Password" {...register('password')} />
+                            <input
+                              type="password"
+                              className="form-control ps-5"
+                              placeholder="Password"
+                              {...register("password")}
+                            />
                           </div>
-                          {errors.password && <span id="error-pwd-message">This field is required</span>}
+                          {errors.password && (
+                            <span id="error-pwd-message">
+                              This field is required
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -130,11 +153,16 @@ export default function Login({ data }: Props) {
                                 onClick={() => setRememberMe(!rememberMe)}
                                 id="flexCheckDefault"
                               />
-                              <label className="form-check-label">Remember me</label>
+                              <label className="form-check-label">
+                                Remember me
+                              </label>
                             </div>
                           </div>
                           <p className="forgot-pass mb-0">
-                            <a href="forgotpassword" className="text-dark fw-bold">
+                            <a
+                              href="forgotpassword"
+                              className="text-dark fw-bold"
+                            >
                               Forgot password ?
                             </a>
                           </p>
@@ -153,17 +181,25 @@ export default function Login({ data }: Props) {
                         <div className="row">
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
-                                <i className="mdi mdi-facebook text-primary"></i> Facebook
+                              <a
+                                href="javascript:void(0)"
+                                className="btn btn-light"
+                              >
+                                <i className="mdi mdi-facebook text-primary"></i>{" "}
+                                Facebook
                               </a>
                             </div>
                           </div>
 
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
+                              <a
+                                href="javascript:void(0)"
+                                className="btn btn-light"
+                              >
                                 {/* <i className="mdi mdi-google text-danger"></i> <div className="g-signin2" data-onsuccess={onSignIn}></div> */}
-                                <i className="mdi mdi-google text-danger"></i> <div className="g-signin2"></div>
+                                <i className="mdi mdi-google text-danger"></i>{" "}
+                                <div className="g-signin2"></div>
                               </a>
                             </div>
                           </div>
@@ -172,7 +208,9 @@ export default function Login({ data }: Props) {
 
                       <div className="col-12 text-center">
                         <p className="mb-0 mt-3">
-                          <small className="text-dark me-2">Don&apos;t have an account ?</small>{' '}
+                          <small className="text-dark me-2">
+                            Don&apos;t have an account ?
+                          </small>{" "}
                           <a href="signup" className="text-dark fw-bold">
                             Sign Up
                           </a>
