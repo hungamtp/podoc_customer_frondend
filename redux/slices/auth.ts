@@ -4,14 +4,14 @@ export interface CounterState {
   isAuth: boolean;
   token: string;
   userId: string;
-  role: string;
+  roleName: string;
 }
 
 const initialState: CounterState = {
   isAuth: false,
   token: "",
   userId: "",
-  role: "",
+  roleName: "",
 };
 
 export const counterSlice = createSlice({
@@ -24,15 +24,15 @@ export const counterSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.isAuth = true;
-      state.token = action.payload.jwt;
+      state.token = action.payload.token;
       state.userId = action.payload.userId;
-      state.role = action.payload.role;
+      state.roleName = action.payload.roleName;
     },
     logout: (state) => {
       state.isAuth = false;
       // state.token = "";
       state.userId = "";
-      state.role = "";
+      state.roleName = "";
     },
     signup: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -42,7 +42,7 @@ export const counterSlice = createSlice({
       state.isAuth = true;
       state.token = action.payload.jwt;
       state.userId = action.payload.userId;
-      state.role = action.payload.role;
+      state.roleName = action.payload.role;
     },
   },
 });
