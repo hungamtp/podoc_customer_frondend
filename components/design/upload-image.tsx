@@ -22,6 +22,7 @@ export function UploadImage(props: ITableProps) {
     const imgElement = document.getElementById(
       "upload-image"
     ) as HTMLImageElement;
+    console.log(imageList[0].data_url, "urlll");
     addRect(imageList[0].data_url);
   };
 
@@ -51,17 +52,6 @@ export function UploadImage(props: ITableProps) {
               <i className="bi bi-pc-display-horizontal me-4 h4 pt-1"></i>Máy
               tính
             </li>
-            {/* {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <img
-                  id="upload-image"
-                  src={image["data_url"]}
-                  alt=""
-                  width="100"
-                />
-                <div className="image-item__btn-wrapper"></div>
-              </div>
-            ))} */}
           </div>
         )}
       </ImageUploading>

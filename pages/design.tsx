@@ -3,7 +3,11 @@ import * as React from "react";
 import { fabric } from "fabric";
 import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { setValue, addDesignInfo } from "@/redux/slices/design";
+import {
+  setValue,
+  addDesignInfo,
+  deleteDesignInfo,
+} from "@/redux/slices/design";
 import { nanoid } from "nanoid";
 import Script from "next/script";
 import $ from "jquery";
@@ -13,6 +17,7 @@ import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderRight from "@/components/design/design-header-right";
 import DesignFooterRight from "@/components/design/design-footer-right";
 import { setControlData } from "@/redux/slices/designControl";
+import _ from "lodash";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -108,6 +113,15 @@ export default function AboutPage(props: AboutPageProps) {
     );
   }, []);
 
+  const deleteImage = (key: string) => {
+    if (placeHolder) {
+      const image = _.find(placeHolder._objects, function (o) {
+        return o.name === key;
+      });
+      dispatch(deleteDesignInfo({ key: key }));
+      if (image) placeHolder.remove(image);
+    }
+  };
   const resizeplaceHolder = () => {
     if (placeHolder) {
       const outerplaceHolderContainer = $(".outer")[0];
@@ -190,6 +204,7 @@ export default function AboutPage(props: AboutPageProps) {
           scale: 0.3,
           left: 150,
           top: 200,
+          src: imgUrl,
         };
         dispatch(addDesignInfo({ ...designInfo }));
         dispatch(setControlData({ isSetImage: false, isChooseImage: true }));
@@ -222,7 +237,7 @@ export default function AboutPage(props: AboutPageProps) {
               {controlData.isSetImage || infoManageData.choosenKey === "" ? (
                 <EmptyTable addRect={addRect} />
               ) : (
-                <Table addRect={addRect} />
+                <Table addRect={addRect} deleteImage={deleteImage} />
               )}
             </div>
             <DesignFooterRight />
