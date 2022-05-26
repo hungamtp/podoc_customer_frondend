@@ -27,16 +27,27 @@ type Props = {
 //   };
 // };
 const schema = yup.object().shape({
-  email: yup.string().email().min(8).max(50).required(),
-  password: yup.string().min(8).max(26).required(),
+  email: yup
+    .string()
+    .email()
+    .min(8, "Email cần ít nhất 8 kí tự")
+    .max(50, "Email tối đa 50 kí tự")
+    .required("Email không được để trống"),
+  password: yup
+    .string()
+    .min(8, "Mật khẩu cần ít nhất 8 kí tự")
+    .max(26, "Mật khẩu tối đa 50 kí tự")
+    .required("Mật khẩu không được để trống"),
 });
 export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
+  // const [error, setError] = React.useState(false);
   const { mutate: login, isLoading, error } = useLogin();
+  console.log(error, "erorrere");
   const defaultValues: FormLogin = {
-    email: "hieuthomnghiep@gmail.com",
-    password: "123456789",
+    email: "vuvietsang10a9@gmail.com",
+    password: "12345678",
   };
   const {
     register,
@@ -54,6 +65,7 @@ export default function Login({ data }: Props) {
     if (rememberMe) {
     }
   };
+
   console.log(errors);
   // const onSignIn(googleUser : any) : void {
   //   var profile = googleUser.getBasicProfile();
@@ -94,7 +106,7 @@ export default function Login({ data }: Props) {
             <div className="col-lg-5 col-md-6">
               <div className="card login-page bg-white shadow rounded border-0">
                 <div className="card-body">
-                  <h4 className="card-title text-center">Login</h4>
+                  <h4 className="card-title text-center">Đăng nhập</h4>
                   <form
                     className="login-form mt-4"
                     onSubmit={handleSubmit(onSubmit)}
@@ -117,26 +129,42 @@ export default function Login({ data }: Props) {
                               {...register("email")}
                             />
                           </div>
+                          {errors.email && (
+                            <span id="error-pwd-message">
+                              {errors.email.message}
+                            </span>
+                          )}
                         </div>
                       </div>
 
                       <div className="col-lg-12">
                         <div className="mb-3">
                           <label className="form-label">
-                            Password <span className="text-danger">*</span>
+                            Mật khẩu <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
                             <i className="fea icon-sm icons"></i>
                             <input
                               type="password"
                               className="form-control ps-5"
-                              placeholder="Password"
+                              placeholder="Mật khẩu"
                               {...register("password")}
                             />
                           </div>
                           {errors.password && (
-                            <span id="error-pwd-message">
-                              This field is required
+                            <span
+                              id="error-pwd-message"
+                              className="text-danger"
+                            >
+                              {errors.password.message}
+                            </span>
+                          )}
+                          {error && (
+                            <span
+                              id="error-pwd-message"
+                              className="text-danger"
+                            >
+                              {error.response?.data.errorMessage}
                             </span>
                           )}
                         </div>
@@ -154,7 +182,7 @@ export default function Login({ data }: Props) {
                                 id="flexCheckDefault"
                               />
                               <label className="form-check-label">
-                                Remember me
+                                Lưu đăng nhập
                               </label>
                             </div>
                           </div>
@@ -163,7 +191,7 @@ export default function Login({ data }: Props) {
                               href="forgotpassword"
                               className="text-dark fw-bold"
                             >
-                              Forgot password ?
+                              Bạn quên mật khẩu ?
                             </a>
                           </p>
                         </div>
@@ -171,13 +199,15 @@ export default function Login({ data }: Props) {
 
                       <div className="col-lg-12 mb-0">
                         <div className="d-grid">
-                          <button className={`btn btn-primary`}>Sign in</button>
+                          <button className={`btn btn-primary`}>
+                            Đăng nhập
+                          </button>
                           {/* <button className={`btn btn-primary ${errors.password || errors.username ? 'disabled' : ''}`}>Sign in</button> */}
                         </div>
                       </div>
 
                       <div className="col-lg-12 mt-4 text-center">
-                        <h6>Or Login With</h6>
+                        <h6>Hoặc đăng nhập bằng</h6>
                         <div className="row">
                           <div className="col-6 mt-3">
                             <div className="d-grid">
@@ -209,10 +239,10 @@ export default function Login({ data }: Props) {
                       <div className="col-12 text-center">
                         <p className="mb-0 mt-3">
                           <small className="text-dark me-2">
-                            Don&apos;t have an account ?
+                            Bạn chưa có tài khoản?
                           </small>{" "}
                           <a href="signup" className="text-dark fw-bold">
-                            Sign Up
+                            Tạo tài khoản
                           </a>
                         </p>
                       </div>

@@ -107,6 +107,7 @@ export default function AboutPage(props: AboutPageProps) {
       initplaceHolder(236.2, 289.4, pageHeight / outerAndPageRatio)
     );
   }, []);
+
   const resizeplaceHolder = () => {
     if (placeHolder) {
       const outerplaceHolderContainer = $(".outer")[0];
@@ -217,7 +218,7 @@ export default function AboutPage(props: AboutPageProps) {
         <div className="col-lg-3 d-md-none d-lg-block border-start h-screen px-0">
           <div className=" d-flex flex-column h-full">
             <DesignHeaderRight />
-            <div className="designTable p-3">
+            <div className="designTable p-3 overflow-scroll">
               {controlData.isSetImage || infoManageData.choosenKey === "" ? (
                 <EmptyTable addRect={addRect} />
               ) : (

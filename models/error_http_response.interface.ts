@@ -1,5 +1,4 @@
 export interface ErrorHttpResponse {
-  message: string;
-  code: number;
+  errorMessage: string;
   data: Object;
 }
