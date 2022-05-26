@@ -3,12 +3,9 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
 import { UploadImageTable } from "./upload-image-table";
 
-export interface info {
-  angle: number;
-}
-
 export interface ITableProps {
   addRect: (imgElement: string) => void;
+  deleteImage: (key: string) => void;
 }
 
 const get2Decimal = (num: number): number => {
@@ -25,7 +22,7 @@ export default function Table(props: ITableProps) {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
   if (infoManageData.choosenKey === "") return <></>;
-
+  const { addRect, deleteImage } = props;
   return (
     <div>
       <div className="">
@@ -37,10 +34,27 @@ export default function Table(props: ITableProps) {
                 className="mb-6 bg-white border border-dark "
               >
                 <div className="border-bottom p-3 d-flex justify-content-between">
-                  <h5 className="font-bold  uppercase text-gray-600">Table</h5>
-                  <button className="btn btn-link text-dark">
-                    <i className="bi bi-file-earmark-x h4 "></i>
-                  </button>
+                  <div className="d-flex">
+                    <img src={designInfo.src} width="50px" height="50px"></img>
+
+                    <div className="ms-4">
+                      <p className="h6 m-0">Tên hình</p>
+                      <p className="text-warning m-0">Độ phân giải</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button className="btn btn-link text-dark px-2">
+                      <i className="bi bi-file-earmark h4 "></i>
+                    </button>
+                    <button
+                      className="btn btn-link text-dark px-2 "
+                      onClick={() => {
+                        deleteImage(designInfo.key);
+                      }}
+                    >
+                      <i className="bi bi-file-earmark-x h4 "></i>
+                    </button>
+                  </div>
                 </div>
                 <div className="p-3">
                   <table
@@ -212,16 +226,21 @@ export default function Table(props: ITableProps) {
             )}
             {designInfo.key !== infoManageData.choosenKey && (
               <div>
-                <div className="border p-3 my-4">
-                  <h5 className="font-bold uppercase text-gray-600">Table</h5>
+                <div className="d-flex border p-3 my-4">
+                  <img src={designInfo.src} width="50px" height="50px"></img>
+
+                  <div className="ms-4">
+                    <p className="h6 m-0">Tên hình</p>
+                    <p className="text-warning m-0">Độ phân giải</p>
+                  </div>
                 </div>
               </div>
             )}
           </>
         ))}
         <div>
-          <p className="py-2">
-            <UploadImageTable addRect={props.addRect} />
+          <p className="">
+            <UploadImageTable addRect={addRect} />
           </p>
           {/* <button onClick={} className="py-2">
 						Save

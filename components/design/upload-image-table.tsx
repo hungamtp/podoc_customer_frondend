@@ -22,6 +22,7 @@ export function UploadImageTable(props: UploadImageTableProps) {
       "upload-image"
     ) as HTMLImageElement;
     addRect(imageList[0].data_url);
+    console.log(imageList[0].data_url, "urlll");
   };
 
   return (
@@ -59,7 +60,6 @@ export function UploadImageTable(props: UploadImageTableProps) {
                 </div>
               </div>
             </>
-
             {/* {imageList.map((image, index) => (
               <div key={index} className="image-item">
                 <img
