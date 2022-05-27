@@ -161,7 +161,7 @@ export default function RawProduct(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href="javascript:void(0)">
                             <img
-                              src="asset/images/shop/product/s3.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: 'auto' }}
                               alt=""
@@ -179,7 +179,7 @@ export default function RawProduct(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href="javascript:void(0)">
                             <img
-                              src="asset/images/shop/product/s6.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: 'auto' }}
                               alt=""
@@ -197,7 +197,7 @@ export default function RawProduct(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href="javascript:void(0)">
                             <img
-                              src="asset/images/shop/product/s8.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: 'auto' }}
                               alt=""
@@ -265,10 +265,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
+                        <a href="design">
                           <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-1.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -295,7 +295,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Branded T-Shirt
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -327,8 +327,8 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s2.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
                         <div className="overlay-work">
                           <div className="py-2 bg-soft-dark rounded-bottom out-stock">
@@ -337,7 +337,7 @@ export default function RawProduct(props: IProductProps) {
                         </div>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Shopping Bag
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -369,10 +369,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s3.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-3.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -399,7 +399,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Elegent Watch
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -431,10 +431,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s4.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-4.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -461,7 +461,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Casual Shoes
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -500,10 +500,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s5.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-5.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -530,7 +530,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Earphones
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -577,8 +577,8 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s6.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
                         <div className="overlay-work">
                           <div className="py-2 bg-soft-dark rounded-bottom out-stock">
@@ -587,7 +587,7 @@ export default function RawProduct(props: IProductProps) {
                         </div>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Elegent Mug
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -619,10 +619,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s7.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-7.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -649,7 +649,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Sony Headphones
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -698,10 +698,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s8.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-8.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -728,7 +728,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Wooden Stools
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -767,10 +767,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s9.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-9.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -797,7 +797,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Coffee Cup / Mug
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -836,8 +836,8 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s10.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
                         <div className="overlay-work">
                           <div className="py-2 bg-soft-dark rounded-bottom out-stock">
@@ -846,7 +846,7 @@ export default function RawProduct(props: IProductProps) {
                         </div>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Sunglasses
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -885,10 +885,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s11.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-11.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -915,7 +915,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Loafer Shoes
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -964,10 +964,10 @@ export default function RawProduct(props: IProductProps) {
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s12.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-12.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -994,7 +994,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           T-Shirts
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -1026,10 +1026,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s13.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -1056,7 +1056,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Wooden Chair
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -1088,10 +1088,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s14.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-14.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -1118,7 +1118,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           Women Block Heels
                         </a>
                         <div className="d-flex justify-content-between mt-1">
@@ -1150,10 +1150,10 @@ export default function RawProduct(props: IProductProps) {
                   <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                     <div className="card shop-list border-0 position-relative">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
-                        <a href="product-detail">
-                          <img src="asset/images/shop/product/s15.jpg" className="img-fluid" alt="" />
+                        <a href="design">
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a href="product-detail" className="overlay-work">
+                        <a href="design" className="overlay-work">
                           <img src="asset/images/shop/product/s-15.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
@@ -1180,7 +1180,7 @@ export default function RawProduct(props: IProductProps) {
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a href="product-detail" className="text-dark product-name h6">
+                        <a href="design" className="text-dark product-name h6">
                           T-Shirts
                         </a>
                         <div className="d-flex justify-content-between mt-1">

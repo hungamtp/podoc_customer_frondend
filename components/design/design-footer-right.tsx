@@ -7,7 +7,7 @@ export default function DesignFooterRight(props: IDesignFooterRightProps) {
     <div>
       <div className="d-flex justify-content-center border-top border-dark  py-4">
         <div className="d-flex  w-full align-items-center px-4">
-          <button className="btn btn-secondary w-full">Back</button>
+          <button className="btn btn-secondary w-full">Lưu lại</button>
         </div>
       </div>
     </div>
