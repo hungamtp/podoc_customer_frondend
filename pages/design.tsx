@@ -82,7 +82,6 @@ const initplaceHolder = (
   const newHeight = containerHeight / 2.5;
   const newWidth = newHeight / aspectRatio;
   const tmpplaceHolder = new fabric.Canvas("placeHolder", {
-    backgroundColor: "white",
     width: newWidth,
     height: newHeight,
   });
@@ -108,6 +107,7 @@ export default function AboutPage(props: AboutPageProps) {
   const controlData = designControlData.controlData;
 
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
+  const [isPreview, setIsPreview] = React.useState(false);
   React.useEffect(() => {
     setPlaceHolder(
       initplaceHolder(236.2, 289.4, pageHeight / outerAndPageRatio)
@@ -148,6 +148,22 @@ export default function AboutPage(props: AboutPageProps) {
     }
   };
 
+  const openPreview = () => {
+    if (placeHolder) {
+      const placeHolderNode = placeHolder.getElement();
+      placeHolderNode.style.border = "none";
+    }
+  };
+
+  const closePreview = () => {
+    if (placeHolder) {
+      const placeHolderNode = placeHolder.getElement();
+      placeHolderNode.style.borderStyle = "dashed";
+      placeHolderNode.style.borderColor = "white";
+      placeHolderNode.style.borderWidth = "1px";
+    }
+  };
+
   const cloneDesign = (key: string) => {
     if (placeHolder) {
       const obj = _.find(placeHolder._objects, function (o) {
@@ -170,14 +186,14 @@ export default function AboutPage(props: AboutPageProps) {
       const newName = nanoid();
       fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
         image.set("name", newName);
-        image.set("left", 100);
+        image.set("left", 30);
         image.set("top", 100);
         image.set("angle", 0);
         image.set("opacity", 100);
         image.transparentCorners = false;
         image.centeredScaling = true;
-        image.scaleToWidth(170);
-        image.scaleToHeight(200);
+        image.scaleToWidth(150);
+        image.scaleToHeight(100);
         placeHolder.add(image);
 
         const designInfo = {
@@ -245,6 +261,7 @@ export default function AboutPage(props: AboutPageProps) {
           dispatch(setValue({ ...designInfo }));
         }
       });
+
       const outerplaceHolderContainer = $(".outer")[0];
       outerplaceHolderContainer.style.paddingLeft =
         (defaultWidth - placeHolder.getWidth()) / 2 + "px";
@@ -261,11 +278,14 @@ export default function AboutPage(props: AboutPageProps) {
     <div className="container-fluid ">
       <div className="row align-items-center">
         <div className="col-lg-9 col-12 px-0 h-screen d-flex flex-column ">
-          <DesignHeaderLeft />
+          <DesignHeaderLeft
+            openPreview={openPreview}
+            closePreview={closePreview}
+          />
           <div
-            className=" outer position-relative"
+            className="outer position-relative"
             style={{
-              backgroundImage: `url("https://www.xfanzexpo.com/wp-content/uploads/2019/11/t-shirt-template-design-t-shirt-template-this-is-great-with-blank-t-shirt-outline-template.jpg")`,
+              backgroundImage: `url("https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117")`,
             }}
           >
             <canvas id="placeHolder" className="center-block"></canvas>
