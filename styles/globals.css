@@ -29,6 +29,9 @@ a {
 #placeHolder{
   border-style: dashed;
   margin: 0 auto;
+  border-width: 1px;
+  border-color: white;
+  
 }
 
 .bg-gray{

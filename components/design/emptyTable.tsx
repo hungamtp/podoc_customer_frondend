@@ -56,7 +56,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
                 src="https://printify.com/assets/gen_images/add-layer.svg"
                 alt="Picture of the author"
               />
-              <p className="h4 text-center">Chưa có thiết kế nào</p>
+              <p className="h5 text-center pt-4">Chưa có thiết kế nào</p>
               <p className="text-center">Chỉ hỗ trợ file PNG hoặc JPG</p>
               <button
                 type="button"
@@ -77,7 +77,6 @@ export default function EmptyTable(props: IEmptyTableProps) {
         <span className="h6">Thông tin in ấn</span>
         <ul>
           <li>Hỗ trợ JPG và PNG</li>
-          <li>JPG and PNG file types supported</li>
           <li>Kích cỡ file tối đa 50MB</li>
           <li>Vùng in 2362 × 2894 px (300 DPI)</li>
           <li>Độ phân giải tối đa 23000 x 23000 px</li>
