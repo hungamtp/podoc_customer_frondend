@@ -4,7 +4,7 @@ import * as React from 'react';
 
 export interface IProductProps {}
 
-export default function Product(props: IProductProps) {
+export default function RawProduct(props: IProductProps) {
   return (
     <>
       <div>
@@ -1255,4 +1255,4 @@ export default function Product(props: IProductProps) {
     </>
   );
 }
-Product.Layout = MainLayout;
+RawProduct.Layout = MainLayout;

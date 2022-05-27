@@ -175,9 +175,6 @@ export default function Header({}: Props) {
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-clipboard-notes align-middle me-1"></i> Order History
                   </a>
-                  <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-arrow-circle-down align-middle me-1"></i> Download
-                  </a>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-sign-out-alt align-middle me-1"></i> Logout
@@ -201,7 +198,7 @@ export default function Header({}: Props) {
                 </a>
               </li>
               <li onClick={() => router.push('/about')}>
-                <a href="product" className="sub-menu-item">
+                <a href="raw-product" className="sub-menu-item">
                   Tự thiết kế
                 </a>
               </li>
@@ -292,23 +289,6 @@ export default function Header({}: Props) {
                   </li>
                 </ul>
               </li> */}
-
-              <li className="has-submenu parent-menu-item">
-                <a href="javascript:void(0)">Blog</a>
-                <span className="menu-arrow"></span>
-                <ul className="submenu">
-                  <li>
-                    <a href="shop-blog.html" className="sub-menu-item">
-                      Blog Grid
-                    </a>
-                  </li>
-                  <li>
-                    <a href="shop-blog-detail.html" className="sub-menu-item">
-                      Blog Detail
-                    </a>
-                  </li>
-                </ul>
-              </li>
             </ul>
           </div>
         </div>
