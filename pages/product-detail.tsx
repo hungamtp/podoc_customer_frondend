@@ -1,5 +1,6 @@
-import { MainLayout } from "@/components/layouts";
-import * as React from "react";
+/* eslint-disable @next/next/no-img-element */
+import { MainLayout } from '@/components/layouts';
+import * as React from 'react';
 
 export interface IProductDetailProps {}
 
@@ -33,21 +34,14 @@ export default function ProductDetail(props: IProductDetailProps) {
                 </ul>
               </nav>
             </div>
-          </div>{" "}
+          </div>{' '}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg
-              viewBox="0 0 2880 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                fill="currentColor"
-              />
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
             </svg>
           </div>
         </div>
@@ -58,39 +52,7 @@ export default function ProductDetail(props: IProductDetailProps) {
               <div className="col-md-5">
                 <div className="tiny-single-item">
                   <div className="tiny-slide">
-                    <img
-                      src="asset/images/shop/product/single-2.jpg"
-                      className="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div className="tiny-slide">
-                    <img
-                      src="asset/images/shop/product/single-3.jpg"
-                      className="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div className="tiny-slide">
-                    <img
-                      src="asset/images/shop/product/single-4.jpg"
-                      className="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div className="tiny-slide">
-                    <img
-                      src="asset/images/shop/product/single-5.jpg"
-                      className="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div className="tiny-slide">
-                    <img
-                      src="asset/images/shop/product/single-6.jpg"
-                      className="img-fluid rounded"
-                      alt=""
-                    />
+                    <img src="asset/images/shop/product/single-2.jpg" className="img-fluid rounded" alt="productImage" />
                   </div>
                 </div>
               </div>
@@ -99,7 +61,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                 <div className="section-title ms-md-4">
                   <h4 className="title">Branded T-Shirts</h4>
                   <h5 className="text-muted">
-                    $21.00 <del className="text-danger ms-2">$25.00</del>{" "}
+                    $21.00 <del className="text-danger ms-2">$25.00</del>{' '}
                   </h5>
                   <ul className="list-unstyled text-warning h5 mb-0">
                     <li className="list-inline-item">
@@ -120,28 +82,26 @@ export default function ProductDetail(props: IProductDetailProps) {
                   </ul>
                   <h5 className="mt-4 py-2">Overview :</h5>
                   <p className="text-muted">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Vero exercitationem, unde molestiae sint quae inventore
-                    atque minima natus fugiat nihil quisquam voluptates ea
-                    omnis. Modi laborum soluta tempore unde accusantium.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero exercitationem, unde molestiae sint quae inventore atque
+                    minima natus fugiat nihil quisquam voluptates ea omnis. Modi laborum soluta tempore unde accusantium.
                   </p>
                   <ul className="list-unstyled text-muted">
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{" "}
+                      </span>{' '}
                       Digital Marketing Solutions for Tomorrow
                     </li>
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{" "}
+                      </span>{' '}
                       Our Talented &amp; Experienced Marketing Agency
                     </li>
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{" "}
+                      </span>{' '}
                       Create your own skin to match your brand
                     </li>
                   </ul>
@@ -151,34 +111,22 @@ export default function ProductDetail(props: IProductDetailProps) {
                         <h6 className="mb-0">Your Size:</h6>
                         <ul className="list-unstyled mb-0 ms-3">
                           <li className="list-inline-item">
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-soft-primary"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
                               S
                             </a>
                           </li>
                           <li className="list-inline-item ms-1">
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-soft-primary"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
                               M
                             </a>
                           </li>
                           <li className="list-inline-item ms-1">
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-soft-primary"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
                               L
                             </a>
                           </li>
                           <li className="list-inline-item ms-1">
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-soft-primary"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
                               XL
                             </a>
                           </li>
@@ -189,13 +137,8 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="col-lg-6 col-12 mt-4 mt-lg-0">
                       <div className="d-flex shop-list align-items-center">
                         <h6 className="mb-0">Quantity:</h6>
-                        {/* <div className="qty-icons ms-3">
-                          <button
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                            className="btn btn-icon btn-soft-primary minus"
-                          >
-                            -
-                          </button>
+                        <div className="qty-icons ms-3">
+                          <button className="btn btn-icon btn-soft-primary minus">-</button>
                           <input
                             min={0}
                             name="quantity"
@@ -203,13 +146,8 @@ export default function ProductDetail(props: IProductDetailProps) {
                             type="number"
                             className="btn btn-icon btn-soft-primary qty-btn quantity"
                           />
-                          <button
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                            className="btn btn-icon btn-soft-primary plus"
-                          >
-                            +
-                          </button>
-                        </div> */}
+                          <button className="btn btn-icon btn-soft-primary plus">+</button>
+                        </div>
                       </div>
                     </div>
                     {/*end col*/}
@@ -219,10 +157,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <a href="javascript:void(0)" className="btn btn-primary">
                       Shop Now
                     </a>
-                    <a
-                      href="shop-cart.html"
-                      className="btn btn-soft-primary ms-2"
-                    >
+                    <a href="shop-cart.html" className="btn btn-soft-primary ms-2">
                       Add to Cart
                     </a>
                   </div>
@@ -301,31 +236,19 @@ export default function ProductDetail(props: IProductDetailProps) {
                     aria-labelledby="description-data"
                   >
                     <p className="text-muted mb-0">
-                      Due to its widespread use as filler text for layouts,
-                      non-readability is of great importance: human perception
-                      is tuned to recognize certain patterns and repetitions in
-                      texts. If the distribution of letters and words is random,
-                      the reader will not be distracted from making a neutral
-                      judgement on the visual impact and readability of the
-                      typefaces (typography), or the distribution of text on the
-                      page (layout or type area). For this reason, dummy text
-                      usually consists of a more or less random series of words
-                      or syllables.
+                      Due to its widespread use as filler text for layouts, non-readability is of great importance: human perception is
+                      tuned to recognize certain patterns and repetitions in texts. If the distribution of letters and words is random, the
+                      reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces
+                      (typography), or the distribution of text on the page (layout or type area). For this reason, dummy text usually
+                      consists of a more or less random series of words or syllables.
                     </p>
                   </div>
-                  <div
-                    className="card border-0 tab-pane fade"
-                    id="additional"
-                    role="tabpanel"
-                    aria-labelledby="additional-info"
-                  >
+                  <div className="card border-0 tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-info">
                     <table className="table">
                       <tbody>
                         <tr>
-                          <td style={{ width: "100px" }}>Color</td>
-                          <td className="text-muted">
-                            Red, White, Black, Orange
-                          </td>
+                          <td style={{ width: '100px' }}>Color</td>
+                          <td className="text-muted">Red, White, Black, Orange</td>
                         </tr>
                         <tr>
                           <td>Material</td>
@@ -338,12 +261,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                       </tbody>
                     </table>
                   </div>
-                  <div
-                    className="card border-0 tab-pane fade"
-                    id="review"
-                    role="tabpanel"
-                    aria-labelledby="review-comments"
-                  >
+                  <div className="card border-0 tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-comments">
                     <div className="row">
                       <div className="col-lg-6">
                         <ul className="media-list list-unstyled mb-0">
@@ -359,16 +277,11 @@ export default function ProductDetail(props: IProductDetailProps) {
                                 </a>
                                 <div className="flex-1 commentor-detail">
                                   <h6 className="mb-0">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="text-dark media-heading"
-                                    >
+                                    <a href="javascript:void(0)" className="text-dark media-heading">
                                       Lorenzo Peterson
                                     </a>
                                   </h6>
-                                  <small className="text-muted">
-                                    15th August, 2021 at 01:25 pm
-                                  </small>
+                                  <small className="text-muted">15th August, 2021 at 01:25 pm</small>
                                 </div>
                               </div>
                               <ul className="list-unstyled mb-0">
@@ -390,9 +303,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                               </ul>
                             </div>
                             <div className="mt-3">
-                              <p className="text-muted fst-italic p-3 bg-light rounded">
-                                Awesome product
-                              </p>
+                              <p className="text-muted fst-italic p-3 bg-light rounded">Awesome product</p>
                             </div>
                           </li>
                           <li className="mt-4">
@@ -407,16 +318,11 @@ export default function ProductDetail(props: IProductDetailProps) {
                                 </a>
                                 <div className="flex-1 commentor-detail">
                                   <h6 className="mb-0">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="media-heading text-dark"
-                                    >
+                                    <a href="javascript:void(0)" className="media-heading text-dark">
                                       Tammy Camacho
                                     </a>
                                   </h6>
-                                  <small className="text-muted">
-                                    15th August, 2021 at 05:44 pm
-                                  </small>
+                                  <small className="text-muted">15th August, 2021 at 05:44 pm</small>
                                 </div>
                               </div>
                               <ul className="list-unstyled mb-0">
@@ -438,9 +344,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                               </ul>
                             </div>
                             <div className="mt-3">
-                              <p className="text-muted fst-italic p-3 bg-light rounded mb-0">
-                                Good
-                              </p>
+                              <p className="text-muted fst-italic p-3 bg-light rounded mb-0">Good</p>
                             </div>
                           </li>
                         </ul>
@@ -454,10 +358,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                             </div>
                             <div className="col-12 mt-4">
                               <h6 className="small fw-bold">Your Rating:</h6>
-                              <a
-                                href="javascript:void(0)"
-                                className="d-inline-block me-3"
-                              >
+                              <a href="javascript:void(0)" className="d-inline-block me-3">
                                 <ul className="list-unstyled mb-0 small">
                                   <li className="list-inline-item">
                                     <i className="mdi mdi-star text-warning" />
@@ -476,10 +377,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                                   </li>
                                 </ul>
                               </a>
-                              <a
-                                href="javascript:void(0)"
-                                className="d-inline-block me-3"
-                              >
+                              <a href="javascript:void(0)" className="d-inline-block me-3">
                                 <ul className="list-unstyled mb-0 small">
                                   <li className="list-inline-item">
                                     <i className="mdi mdi-star text-warning" />
@@ -498,10 +396,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                                   </li>
                                 </ul>
                               </a>
-                              <a
-                                href="javascript:void(0)"
-                                className="d-inline-block me-3"
-                              >
+                              <a href="javascript:void(0)" className="d-inline-block me-3">
                                 <ul className="list-unstyled mb-0 small">
                                   <li className="list-inline-item">
                                     <i className="mdi mdi-star text-warning" />
@@ -520,10 +415,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                                   </li>
                                 </ul>
                               </a>
-                              <a
-                                href="javascript:void(0)"
-                                className="d-inline-block me-3"
-                              >
+                              <a href="javascript:void(0)" className="d-inline-block me-3">
                                 <ul className="list-unstyled mb-0 small">
                                   <li className="list-inline-item">
                                     <i className="mdi mdi-star text-warning" />
@@ -542,10 +434,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                                   </li>
                                 </ul>
                               </a>
-                              <a
-                                href="javascript:void(0)"
-                                className="d-inline-block"
-                              >
+                              <a href="javascript:void(0)" className="d-inline-block">
                                 <ul className="list-unstyled mb-0 small">
                                   <li className="list-inline-item">
                                     <i className="mdi mdi-star text-warning" />
@@ -567,14 +456,9 @@ export default function ProductDetail(props: IProductDetailProps) {
                             </div>
                             <div className="col-md-12 mt-3">
                               <div className="mb-3">
-                                <label className="form-label">
-                                  Your Review:
-                                </label>
+                                <label className="form-label">Your Review:</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="message-circle"
-                                    className="fea icon-sm icons"
-                                  />
+                                  <i data-feather="message-circle" className="fea icon-sm icons" />
                                   <textarea
                                     id="message"
                                     placeholder="Your Comment"
@@ -582,7 +466,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                                     name="message"
                                     className="form-control ps-5"
                                     required
-                                    defaultValue={""}
+                                    defaultValue={''}
                                   />
                                 </div>
                               </div>
@@ -594,18 +478,8 @@ export default function ProductDetail(props: IProductDetailProps) {
                                   Name <span className="text-danger">*</span>
                                 </label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="user"
-                                    className="fea icon-sm icons"
-                                  />
-                                  <input
-                                    id="name"
-                                    name="name"
-                                    type="text"
-                                    placeholder="Name"
-                                    className="form-control ps-5"
-                                    required
-                                  />
+                                  <i data-feather="user" className="fea icon-sm icons" />
+                                  <input id="name" name="name" type="text" placeholder="Name" className="form-control ps-5" required />
                                 </div>
                               </div>
                             </div>
@@ -613,32 +487,18 @@ export default function ProductDetail(props: IProductDetailProps) {
                             <div className="col-lg-6">
                               <div className="mb-3">
                                 <label className="form-label">
-                                  Your Email{" "}
-                                  <span className="text-danger">*</span>
+                                  Your Email <span className="text-danger">*</span>
                                 </label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="mail"
-                                    className="fea icon-sm icons"
-                                  />
-                                  <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="Email"
-                                    name="email"
-                                    className="form-control ps-5"
-                                    required
-                                  />
+                                  <i data-feather="mail" className="fea icon-sm icons" />
+                                  <input id="email" type="email" placeholder="Email" name="email" className="form-control ps-5" required />
                                 </div>
                               </div>
                             </div>
                             {/*end col*/}
                             <div className="col-md-12">
                               <div className="send d-grid">
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary"
-                                >
+                                <button type="submit" className="btn btn-primary">
                                   Submit
                                 </button>
                               </div>
@@ -670,73 +530,43 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a
-                            href="javascript:void(0)"
-                            className="badge badge-link rounded-pill bg-danger"
-                          >
+                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-danger">
                             Hot
                           </a>
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s1.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-1.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-1.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Branded T-Shirt
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $16.00{" "}
-                            <del className="text-danger ms-2">$21.00</del>{" "}
+                            $16.00 <del className="text-danger ms-2">$21.00</del>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -763,63 +593,36 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s2.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s2.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-2.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-2.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Shopping Bag
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $21.00{" "}
-                            <del className="text-danger ms-2">$25.00</del>{" "}
+                            $21.00 <del className="text-danger ms-2">$25.00</del>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -846,73 +649,43 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a
-                            href="javascript:void(0)"
-                            className="badge badge-link rounded-pill bg-warning"
-                          >
+                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s3.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s3.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-3.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-3.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Elegent Watch
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $5.00{" "}
-                            <span className="text-success ms-1">30% off</span>{" "}
+                            $5.00 <span className="text-success ms-1">30% off</span>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -939,63 +712,36 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s4.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s4.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-4.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-4.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Casual Shoes
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $18.00{" "}
-                            <del className="text-danger ms-2">$22.00</del>{" "}
+                            $18.00 <del className="text-danger ms-2">$22.00</del>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -1022,73 +768,42 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a
-                            href="javascript:void(0)"
-                            className="badge badge-link rounded-pill bg-warning"
-                          >
+                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s5.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s5.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-5.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-5.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Earphones
                         </a>
                         <div className="d-flex justify-content-between mt-1">
-                          <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $3.00
-                          </h6>
+                          <h6 className="text-dark small fst-italic mb-0 mt-1">$3.00</h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
                               <i className="mdi mdi-star" />
@@ -1114,62 +829,36 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s6.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s6.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-6.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-6.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Elegent Mug
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $4.50 <del className="text-danger ms-2">$6.50</del>{" "}
+                            $4.50 <del className="text-danger ms-2">$6.50</del>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -1196,63 +885,36 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s7.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s7.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-7.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-7.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Sony Headphones
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $9.99{" "}
-                            <span className="text-success ms-2">20% off</span>{" "}
+                            $9.99 <span className="text-success ms-2">20% off</span>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -1279,73 +941,43 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <div className="card shop-list border-0 position-relative m-2">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a
-                            href="javascript:void(0)"
-                            className="badge badge-link rounded-pill bg-success"
-                          >
+                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
                       </ul>
                       <div className="shop-image position-relative overflow-hidden rounded shadow">
                         <a href="shop-product-detail.html">
-                          <img
-                            src="asset/images/shop/product/s8.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                          <img src="asset/images/shop/product/s8.jpg" className="img-fluid" alt="" />
                         </a>
-                        <a
-                          href="shop-product-detail.html"
-                          className="overlay-work"
-                        >
-                          <img
-                            src="asset/images/shop/product/s-8.jpg"
-                            className="img-fluid"
-                            alt=""
-                          />
+                        <a href="shop-product-detail.html" className="overlay-work">
+                          <img src="asset/images/shop/product/s-8.jpg" className="img-fluid" alt="" />
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a
-                              href="javascript:void(0)"
-                              className="btn btn-icon btn-pills btn-soft-danger"
-                            >
+                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-product-detail.html"
-                              className="btn btn-icon btn-pills btn-soft-primary"
-                            >
+                            <a href="shop-product-detail.html" className="btn btn-icon btn-pills btn-soft-primary">
                               <i data-feather="eye" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
-                            <a
-                              href="shop-cart.html"
-                              className="btn btn-icon btn-pills btn-soft-warning"
-                            >
-                              <i
-                                data-feather="shopping-cart"
-                                className="icons"
-                              />
+                            <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+                              <i data-feather="shopping-cart" className="icons" />
                             </a>
                           </li>
                         </ul>
                       </div>
                       <div className="card-body content pt-4 p-2">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark product-name h6"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark product-name h6">
                           Wooden Stools
                         </a>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            $22.00{" "}
-                            <del className="text-danger ms-2">$25.00</del>{" "}
+                            $22.00 <del className="text-danger ms-2">$25.00</del>{' '}
                           </h6>
                           <ul className="list-unstyled text-warning mb-0">
                             <li className="list-inline-item">
@@ -1381,10 +1013,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                 <div className="row align-items-center">
                   <div className="col-12">
                     <div className="d-flex align-items-center justify-content-between">
-                      <a
-                        href="shop-product-detail.html"
-                        className="text-dark align-items-center"
-                      >
+                      <a href="shop-product-detail.html" className="text-dark align-items-center">
                         <span className="pro-icons">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1402,20 +1031,15 @@ export default function ProductDetail(props: IProductDetailProps) {
                             <polyline points="12 19 5 12 12 5" />
                           </svg>
                         </span>
-                        <span className="text-muted d-none d-md-inline-block">
-                          Web Development
-                        </span>
+                        <span className="text-muted d-none d-md-inline-block">Web Development</span>
                         <img
                           src="images/work/6.jpg"
                           className="avatar avatar-small rounded shadow ms-2"
-                          style={{ height: "auto" }}
+                          style={{ height: 'auto' }}
                           alt=""
                         />
                       </a>
-                      <a
-                        href="index.html"
-                        className="btn btn-lg btn-pills btn-icon btn-soft-primary"
-                      >
+                      <a href="index.html" className="btn btn-lg btn-pills btn-icon btn-soft-primary">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width={24}
@@ -1432,19 +1056,14 @@ export default function ProductDetail(props: IProductDetailProps) {
                           <polyline points="9 22 9 12 15 12 15 22" />
                         </svg>
                       </a>
-                      <a
-                        href="shop-product-detail.html"
-                        className="text-dark align-items-center"
-                      >
+                      <a href="shop-product-detail.html" className="text-dark align-items-center">
                         <img
                           src="images/work/7.jpg"
                           className="avatar avatar-small rounded shadow me-2"
-                          style={{ height: "auto" }}
+                          style={{ height: 'auto' }}
                           alt=""
                         />
-                        <span className="text-muted d-none d-md-inline-block">
-                          Web Designer
-                        </span>
+                        <span className="text-muted d-none d-md-inline-block">Web Designer</span>
                         <span className="pro-icons">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
