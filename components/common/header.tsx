@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import { Badge } from "@material-ui/core";
-import { useRouter } from "next/router";
-import React from "react";
+import { Badge } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   function toggleMenu(): void {
-    var isOpen = document.getElementById("navigation");
+    var isOpen = document.getElementById('navigation');
     if (isOpen) {
-      if (isOpen.style.display === "block") {
-        isOpen.style.display = "none";
+      if (isOpen.style.display === 'block') {
+        isOpen.style.display = 'none';
       } else {
-        isOpen.style.display = "block";
+        isOpen.style.display = 'block';
       }
     }
   }
@@ -24,18 +24,8 @@ export default function Header({}: Props) {
       <div id="topnav" className="defaultscroll sticky">
         <div className="container">
           <a className="logo" href="index.html">
-            <img
-              src="images/logo-dark.png"
-              height="24"
-              className="logo-light-mode"
-              alt=""
-            />
-            <img
-              src="images/logo-light.png"
-              height="24"
-              className="logo-dark-mode"
-              alt=""
-            />
+            <img src="images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
+            <img src="images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
           </a>
 
           <div className="menu-extras">
@@ -52,12 +42,7 @@ export default function Header({}: Props) {
 
           <ul className="buy-button list-inline mb-0">
             <li className="list-inline-item mb-0 pe-1">
-              <a
-                href="javascript:void(0)"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasTop"
-                aria-controls="offcanvasTop"
-              >
+              <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
                 <i className="uil uil-search h5 text-dark align-middle"></i>
               </a>
             </li>
@@ -86,19 +71,11 @@ export default function Header({}: Props) {
 
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4"
-                  style={{ width: "300px" }}
+                  style={{ width: '300px' }}
                 >
                   <div className="pb-4">
-                    <a
-                      href="javascript:void(0)"
-                      className="d-flex align-items-center"
-                    >
-                      <img
-                        src="asset/images/shop/product/s-1.jpg"
-                        className="shadow rounded"
-                        style={{ maxHeight: "64px" }}
-                        alt=""
-                      />
+                    <a href="javascript:void(0)" className="d-flex align-items-center">
+                      <img src="asset/images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">T-shirt (M)</h6>
                         <p className="text-muted mb-0">$320 X 2</p>
@@ -106,16 +83,8 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$640</h6>
                     </a>
 
-                    <a
-                      href="javascript:void(0)"
-                      className="d-flex align-items-center mt-4"
-                    >
-                      <img
-                        src="asset/images/shop/product/s-2.jpg"
-                        className="shadow rounded"
-                        style={{ maxHeight: "64px" }}
-                        alt=""
-                      />
+                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                      <img src="asset/images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Bag</h6>
                         <p className="text-muted mb-0">$50 X 5</p>
@@ -123,16 +92,8 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$250</h6>
                     </a>
 
-                    <a
-                      href="javascript:void(0)"
-                      className="d-flex align-items-center mt-4"
-                    >
-                      <img
-                        src="asset/images/shop/product/s-3.jpg"
-                        className="shadow rounded"
-                        style={{ maxHeight: "64px" }}
-                        alt=""
-                      />
+                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                      <img src="asset/images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Watch (Men)</h6>
                         <p className="text-muted mb-0">$800 X 1</p>
@@ -147,10 +108,10 @@ export default function Header({}: Props) {
                   </div>
 
                   <div className="mt-3 text-center">
-                    <a href="cart" className="btn btn-primary me-2">
+                    <a href="/cart" className="btn btn-primary me-2">
                       View Cart
                     </a>
-                    <a href="javascript:void(0)" className="btn btn-primary">
+                    <a href="/checkout" className="btn btn-primary">
                       Checkout
                     </a>
                   </div>
@@ -161,16 +122,11 @@ export default function Header({}: Props) {
             <li className="list-inline-item mb-0"> &#10240;</li>
 
             <li className="list-inline-item mb-0">
-              <button
-                type="button"
-                className="btn btn-icon btn-pills btn-primary"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <button type="button" className="btn btn-icon btn-pills btn-primary" aria-haspopup="true" aria-expanded="false">
                 <Badge
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   color="secondary"
                   badgeContent={itemCount}
@@ -211,23 +167,20 @@ export default function Header({}: Props) {
                 </button>
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 py-3"
-                  style={{ width: "200px" }}
+                  style={{ width: '200px' }}
                 >
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-user align-middle me-1"></i> Account
                   </a>
                   <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
-                    Order History
+                    <i className="uil uil-clipboard-notes align-middle me-1"></i> Order History
                   </a>
                   <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-arrow-circle-down align-middle me-1"></i>{" "}
-                    Download
+                    <i className="uil uil-arrow-circle-down align-middle me-1"></i> Download
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                    Logout
+                    <i className="uil uil-sign-out-alt align-middle me-1"></i> Logout
                   </a>
                 </div>
               </div>
@@ -242,17 +195,17 @@ export default function Header({}: Props) {
                 </a>
               </li>
 
-              <li onClick={() => router.push("/about")}>
+              <li onClick={() => router.push('/about')}>
                 <a href="about" className="sub-menu-item">
                   Giới thiệu
                 </a>
               </li>
-              <li onClick={() => router.push("/about")}>
+              <li onClick={() => router.push('/about')}>
                 <a href="product" className="sub-menu-item">
                   Tự thiết kế
                 </a>
               </li>
-              <li onClick={() => router.push("/about")}>
+              <li onClick={() => router.push('/about')}>
                 <a href="product" className="sub-menu-item">
                   Shop
                 </a>
