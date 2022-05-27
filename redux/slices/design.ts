@@ -59,7 +59,7 @@ export const designSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      if (state.designInfos[0].key == "") {
+      if (state.choosenKey == "") {
         state.designInfos = [action.payload];
       } else state.designInfos = [...state.designInfos, action.payload];
       state.choosenKey = action.payload.key;
@@ -68,14 +68,33 @@ export const designSlice = createSlice({
       const newInfoList = state.designInfos.filter(
         (designInfo) => designInfo.key !== action.payload.key
       );
+      if (newInfoList.length == 0) {
+        return { choosenKey: "", designInfos: newInfoList };
+      }
       console.log(newInfoList.length, "newwww");
       return { ...state, designInfos: newInfoList };
+    },
+    cloneDesignInfo: (state, action) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      const needDesign = state.designInfos.filter(
+        (design) => design.key === action.payload.oldKey
+      );
+      if (needDesign.length === 1) {
+        state.designInfos = [
+          ...state.designInfos,
+          { ...needDesign[0], key: action.payload.newKey, left: 10, top: 10 },
+        ];
+        state.choosenKey = action.payload.newKey;
+      }
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setValue, addDesignInfo, deleteDesignInfo } =
+export const { setValue, addDesignInfo, deleteDesignInfo, cloneDesignInfo } =
   designSlice.actions;
 
 export default designSlice.reducer;

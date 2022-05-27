@@ -84,4 +84,8 @@ a {
   color:rgb(48, 167, 48)
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 

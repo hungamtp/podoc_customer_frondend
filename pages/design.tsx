@@ -7,6 +7,7 @@ import {
   setValue,
   addDesignInfo,
   deleteDesignInfo,
+  cloneDesignInfo,
 } from "@/redux/slices/design";
 import { nanoid } from "nanoid";
 import Script from "next/script";
@@ -119,7 +120,80 @@ export default function AboutPage(props: AboutPageProps) {
         return o.name === key;
       });
       dispatch(deleteDesignInfo({ key: key }));
+      dispatch(setControlData({ ...controlData, isChooseImage: false }));
       if (image) placeHolder.remove(image);
+    }
+  };
+
+  const chooseDesign = (key: string) => {
+    if (placeHolder) {
+      const obj = _.find(placeHolder._objects, function (o) {
+        return o.name === key;
+      });
+      if (obj) {
+        const designInfo = {
+          choosenKey: obj.name,
+          rotate: obj.angle,
+          width: obj.getScaledWidth(),
+          height: obj.getScaledHeight(),
+          scale: obj.scaleX,
+          left: obj.left,
+          top: obj.top,
+        };
+
+        dispatch(setValue({ ...designInfo }));
+        placeHolder.setActiveObject(obj);
+        placeHolder.renderAll();
+      }
+    }
+  };
+
+  const cloneDesign = (key: string) => {
+    if (placeHolder) {
+      const obj = _.find(placeHolder._objects, function (o) {
+        return o.name === key;
+      });
+      if (obj) {
+        obj.clone((cloned: fabric.Object) => {
+          const newName = nanoid();
+          cloned.set("name", newName);
+          cloned.set("left", 10);
+          cloned.set("top", 10);
+          placeHolder.add(cloned);
+          dispatch(cloneDesignInfo({ oldKey: key, newKey: newName }));
+        });
+      }
+    }
+  };
+  const addRect = (imgUrl: string) => {
+    if (placeHolder) {
+      const newName = nanoid();
+      fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
+        image.set("name", newName);
+        image.set("left", 100);
+        image.set("top", 100);
+        image.set("angle", 0);
+        image.set("opacity", 100);
+        image.transparentCorners = false;
+        image.centeredScaling = true;
+        image.scaleToWidth(170);
+        image.scaleToHeight(200);
+        placeHolder.add(image);
+
+        const designInfo = {
+          key: newName,
+          rotate: 0,
+          width: image.width,
+          height: image.height,
+          scale: 0.3,
+          left: 100,
+          top: 100,
+          src: imgUrl,
+        };
+        dispatch(addDesignInfo({ ...designInfo }));
+        dispatch(setControlData({ isSetImage: false, isChooseImage: true }));
+        placeHolder.renderAll();
+      });
     }
   };
   const resizeplaceHolder = () => {
@@ -181,38 +255,6 @@ export default function AboutPage(props: AboutPageProps) {
     }
   }, [placeHolder]);
 
-  const addRect = (imgUrl: string) => {
-    if (placeHolder) {
-      const newName = nanoid();
-      fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
-        image.set("name", newName);
-        image.set("left", 100);
-        image.set("top", 100);
-        image.set("angle", 0);
-        image.set("opacity", 100);
-        image.transparentCorners = false;
-        image.centeredScaling = true;
-        image.scaleToWidth(170);
-        image.scaleToHeight(200);
-        placeHolder.add(image);
-
-        const designInfo = {
-          key: newName,
-          rotate: 0,
-          width: 150,
-          height: 120,
-          scale: 0.3,
-          left: 150,
-          top: 200,
-          src: imgUrl,
-        };
-        dispatch(addDesignInfo({ ...designInfo }));
-        dispatch(setControlData({ isSetImage: false, isChooseImage: true }));
-        placeHolder.renderAll();
-      });
-    }
-  };
-
   const alignLeft = () => {};
 
   return (
@@ -237,7 +279,12 @@ export default function AboutPage(props: AboutPageProps) {
               {controlData.isSetImage || infoManageData.choosenKey === "" ? (
                 <EmptyTable addRect={addRect} />
               ) : (
-                <Table addRect={addRect} deleteImage={deleteImage} />
+                <Table
+                  addRect={addRect}
+                  deleteImage={deleteImage}
+                  chooseDesign={chooseDesign}
+                  cloneDesign={cloneDesign}
+                />
               )}
             </div>
             <DesignFooterRight />

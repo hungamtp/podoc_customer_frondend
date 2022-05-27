@@ -29,7 +29,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
   // };
   return (
     <>
-      {controlData.isChooseImage ? (
+      {controlData.isChooseImage || infoManageData.choosenKey !== "" ? (
         <>
           <div className="d-flex justify-content-start border-bottom  btn-group ">
             <button className="p-2 btn btn-outline-success borderless">

@@ -48,7 +48,9 @@ export function UploadImageTable(props: UploadImageTableProps) {
               <div
                 className="add-design-button d-flex"
                 onClick={() =>
-                  dispatch(setControlData({ ...controlData, isSetImage: true }))
+                  dispatch(
+                    setControlData({ isChooseImage: true, isSetImage: true })
+                  )
                 }
               >
                 <i className="bi bi-plus h3 m-1"></i>
