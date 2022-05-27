@@ -2,10 +2,16 @@ import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
 import { UploadImageTable } from "./upload-image-table";
-
+import {
+  setValue,
+  addDesignInfo,
+  deleteDesignInfo,
+} from "@/redux/slices/design";
 export interface ITableProps {
   addRect: (imgElement: string) => void;
   deleteImage: (key: string) => void;
+  chooseDesign: (key: string) => void;
+  cloneDesign: (key: string) => void;
 }
 
 const get2Decimal = (num: number): number => {
@@ -14,6 +20,7 @@ const get2Decimal = (num: number): number => {
 
 export default function Table(props: ITableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
+  const dispatch = useAppDispatch();
 
   const initVal = {
     images: [],
@@ -22,7 +29,7 @@ export default function Table(props: ITableProps) {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
   if (infoManageData.choosenKey === "") return <></>;
-  const { addRect, deleteImage } = props;
+  const { addRect, deleteImage, chooseDesign, cloneDesign } = props;
   return (
     <div>
       <div className="">
@@ -31,7 +38,10 @@ export default function Table(props: ITableProps) {
             {designInfo.key === infoManageData.choosenKey && (
               <div
                 key={designInfo.key}
-                className="mb-6 bg-white border border-dark "
+                className="mb-6 bg-white border border-dark cursor-pointer"
+                onClick={() => {
+                  if (chooseDesign) chooseDesign(designInfo.key);
+                }}
               >
                 <div className="border-bottom p-3 d-flex justify-content-between">
                   <div className="d-flex">
@@ -43,7 +53,12 @@ export default function Table(props: ITableProps) {
                     </div>
                   </div>
                   <div>
-                    <button className="btn btn-link text-dark px-2">
+                    <button
+                      className="btn btn-link text-dark px-2"
+                      onClick={() => {
+                        cloneDesign(designInfo.key);
+                      }}
+                    >
                       <i className="bi bi-file-earmark h4 "></i>
                     </button>
                     <button
@@ -226,12 +241,37 @@ export default function Table(props: ITableProps) {
             )}
             {designInfo.key !== infoManageData.choosenKey && (
               <div>
-                <div className="d-flex border p-3 my-4">
-                  <img src={designInfo.src} width="50px" height="50px"></img>
+                <div
+                  className="d-flex border p-3 my-4 justify-content-between cursor-pointer"
+                  onClick={() => {
+                    if (chooseDesign) chooseDesign(designInfo.key);
+                  }}
+                >
+                  <div className="d-flex">
+                    <img src={designInfo.src} width="50px" height="50px"></img>
 
-                  <div className="ms-4">
-                    <p className="h6 m-0">Tên hình</p>
-                    <p className="text-warning m-0">Độ phân giải</p>
+                    <div className="ms-4">
+                      <p className="h6 m-0">Tên hình</p>
+                      <p className="text-warning m-0">Độ phân giải</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-link text-dark px-2"
+                      onClick={() => {
+                        cloneDesign(designInfo.key);
+                      }}
+                    >
+                      <i className="bi bi-file-earmark h4 "></i>
+                    </button>
+                    <button
+                      className="btn btn-link text-dark px-2 "
+                      onClick={() => {
+                        deleteImage(designInfo.key);
+                      }}
+                    >
+                      <i className="bi bi-file-earmark-x h4 "></i>
+                    </button>
                   </div>
                 </div>
               </div>
