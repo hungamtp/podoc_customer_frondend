@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { EmptyLayout } from '@/components/layouts';
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = {};
 
 export default function SignUp({}: Props) {
+  const [accepted, setAccepted] = useState(false);
   return (
     <section className="bg-auth-home d-table w-100">
       <div className="container">
@@ -71,7 +72,7 @@ export default function SignUp({}: Props) {
                     <div className="col-md-12">
                       <div className="mb-3">
                         <div className="form-check">
-                          <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                          <input className="form-check-input" type="checkbox" checked={accepted} id="flexCheckDefault" />
                           <label className="form-check-label">
                             I Accept{' '}
                             <a href="#" className="text-primary">
