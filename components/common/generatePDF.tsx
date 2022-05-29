@@ -27,7 +27,7 @@ const GeneratePdf: React.FC<props> = ({ html }) => {
   return (
     <div className="button-container">
       <button onClick={generateImage}>Get PDF using image</button>
-      <button onClick={generatePdf}>Get PDF as text</button>
+      {/* <button onClick={generatePdf}>Get PDF as text</button> */}
     </div>
   );
 };
