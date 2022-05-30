@@ -39,10 +39,10 @@ export default function Login({ data }: Props) {
   const [rememberMe, setRememberMe] = useState(false);
   // const [error, setError] = React.useState(false);
   const { mutate: login, isLoading, error } = useLogin();
-  console.log(error, 'erorrere');
+
   const defaultValues: FormLogin = {
-    email: 'vuvietsang10a9@gmail.com',
-    password: '12345678',
+    email: '',
+    password: '',
   };
   const {
     register,

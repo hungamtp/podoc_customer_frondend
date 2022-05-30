@@ -24,7 +24,7 @@ export default function SignUp({}: Props) {
     lastName: yup.string().required(),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
-  const [accepted, setAccepted] = useState(true);
+  const [accepted, setAccepted] = useState(false);
   const defaultValues: SignUpDTO = {
     firstName: '',
     lastName: '',
@@ -54,11 +54,6 @@ export default function SignUp({}: Props) {
   };
   return (
     <section className="bg-auth-home d-table w-100">
-      {error && (
-        <span id="error-pwd-message" className="text-danger">
-          {error.response?.data.errorMessage}
-        </span>
-      )}
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-7 col-md-6">
@@ -149,6 +144,11 @@ export default function SignUp({}: Props) {
                           </label>
                         </div>
                       </div>
+                      {error && (
+                        <span id="error-pwd-message" className="text-danger">
+                          {error.response?.data.errorMessage}
+                        </span>
+                      )}
                     </div>
 
                     <div className="col-md-12">
