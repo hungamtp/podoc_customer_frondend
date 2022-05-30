@@ -8,6 +8,10 @@ type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
+  const logout = () => {
+    localStorage.removeItem('jwt');
+    router.push('/login');
+  };
   function toggleMenu(): void {
     var isOpen = document.getElementById('navigation');
     if (isOpen) {
@@ -23,9 +27,9 @@ export default function Header({}: Props) {
     <div>
       <div id="topnav" className="defaultscroll sticky">
         <div className="container">
-          <a className="logo" href="index.html">
-            <img src="images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
-            <img src="images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
+          <a className="logo" href="/">
+            <img src="asset/images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
+            <img src="asset/images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
           </a>
 
           <div className="menu-extras">
@@ -115,7 +119,6 @@ export default function Header({}: Props) {
                       Checkout
                     </a>
                   </div>
-                  <p className="text-muted text-start mt-1 mb-0">*T&C Apply</p>
                 </div>
               </div>
             </li>
@@ -176,7 +179,7 @@ export default function Header({}: Props) {
                     <i className="uil uil-clipboard-notes align-middle me-1"></i> Order History
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
-                  <a className="dropdown-item text-dark" href="#">
+                  <a className="dropdown-item text-dark" onClick={logout}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i> Logout
                   </a>
                 </div>

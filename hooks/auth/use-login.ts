@@ -12,13 +12,15 @@ const useLogin = () => {
   const dispatch = useAppDispatch();
   return useMutation(
     async (data: LoginDto) => {
+      console.log(data)
       return await login(data);
     },
     {
       onSuccess: (data) => {
+        localStorage.setItem("jwt" ,data.token );
         dispatch(loginAction(data)); 
         //because data:any
-        // router.push('/dashboard');
+        router.push('/home');
         // router.back();
       },
       onError: (error: AxiosError<ErrorHttpResponse>) => {

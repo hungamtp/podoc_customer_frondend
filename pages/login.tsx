@@ -70,14 +70,18 @@ export default function Login({ data }: Props) {
   // };
   return (
     <>
-      <div id="preloader">
-        <div id="status">
-          <div className="spinner">
-            <div className="double-bounce1"></div>
-            <div className="double-bounce2"></div>
+      {isLoading ? (
+        <div id="preloader">
+          <div id="status">
+            <div className="spinner">
+              <div className="double-bounce1"></div>
+              <div className="double-bounce2"></div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
 
       <div className="back-to-home rounded d-none d-sm-block">
         <a href="index.html" className="btn btn-icon btn-soft-primary">
