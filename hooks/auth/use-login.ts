@@ -18,13 +18,10 @@ const useLogin = () => {
       onSuccess: (data) => {
         dispatch(loginAction(data));
         console.log(data, "success");
-        //because data:any
-        // router.push('/dashboard');
-        // router.back();
       },
       onError: (error: AxiosError<ErrorHttpResponse>) => {
-        return error.response?.data.errorMessage;
-        console.log(error.response?.data.errorMessage, "errorrrrrrrrrrr");
+        // return error.response?.data.errorMessage;
+        // console.log(error.response?.data.errorMessage, "errorrrrrrrrrrr");
       },
     }
   );

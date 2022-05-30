@@ -12,6 +12,7 @@ export interface ITableProps {
   deleteImage: (key: string) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
+  align: (position: string) => void;
 }
 
 const get2Decimal = (num: number): number => {
@@ -29,7 +30,7 @@ export default function Table(props: ITableProps) {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
   if (infoManageData.choosenKey === "") return <></>;
-  const { addRect, deleteImage, chooseDesign, cloneDesign } = props;
+  const { addRect, deleteImage, chooseDesign, cloneDesign, align } = props;
   return (
     <div>
       <div className="">
@@ -190,18 +191,27 @@ export default function Table(props: ITableProps) {
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("left");
+                              }}
                             >
                               <i className="bi bi-align-start"></i>
                             </button>
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("center");
+                              }}
                             >
                               <i className="bi bi-align-center"></i>
                             </button>
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("right");
+                              }}
                             >
                               <i className="bi bi-align-end"></i>
                             </button>
@@ -216,18 +226,27 @@ export default function Table(props: ITableProps) {
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("top");
+                              }}
                             >
                               <i className="bi bi-align-top"></i>
                             </button>
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("middle");
+                              }}
                             >
                               <i className="bi bi-align-middle"></i>
                             </button>
                             <button
                               type="button"
                               className="btn btn-outline-secondary"
+                              onClick={() => {
+                                align("bottom");
+                              }}
                             >
                               <i className="bi bi-align-bottom"></i>
                             </button>

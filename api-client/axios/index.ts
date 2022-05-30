@@ -10,4 +10,10 @@ const API = axios.create({
   },
 });
 
+const token = store.getState().auth.token;
+
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `${token}`;
+}
+
 export { API };

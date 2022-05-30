@@ -19,297 +19,84 @@ import DesignHeaderRight from "@/components/design/design-header-right";
 import DesignFooterRight from "@/components/design/design-footer-right";
 import { setControlData } from "@/redux/slices/designControl";
 import _ from "lodash";
+import DesignCanvas from "@/components/design/design-canvas";
+import { Blueprint } from "../models";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
 
 export interface AboutPageProps {}
 
-export interface info {
-  angle: number;
-}
+const blueprintInit = [
+  {
+    frame_image:
+      "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/6-0_55.jpg",
+    position: "front",
+    placeHolder: {
+      width: 4500,
+      height: 5100,
+    },
+  },
+  {
+    frame_image:
+      "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
+    position: "front",
+    placeHolder: {
+      width: 4200,
+      height: 4800,
+    },
+  },
+  {
+    frame_image:
+      "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
+    position: "front",
+    placeHolder: {
+      width: 3600,
+      height: 4110,
+    },
+  },
+] as Blueprint[];
 
-const paddingRate = 2.1;
-const outerAndPageRatio = 1.237;
-
-const resizer = (
-  canvasSize: { width: number; height: number },
-  imageSize: { width: number; height: number }
-) => {
-  const imageAspectRatio = imageSize.width / imageSize.height;
-  let canvasAspectRatio = canvasSize.width / canvasSize.height;
-  let renderableHeight, renderableWidth, xStart, yStart;
-
-  // If image's aspect ratio is less than canvasSize's we fit on height
-  // and place the image centrally along width
-  if (imageAspectRatio < canvasAspectRatio) {
-    renderableHeight = canvasSize.height;
-    renderableWidth = imageSize.width * (renderableHeight / imageSize.height);
-    xStart = (canvasSize.width - renderableWidth) / 2;
-    yStart = 0;
-  }
-
-  // If image's aspect ratio is greater than canvas's we fit on width
-  // and place the image centrally along height
-  else if (imageAspectRatio > canvasAspectRatio) {
-    renderableWidth = canvasSize.width;
-    renderableHeight = imageSize.height * (renderableWidth / imageSize.width);
-    xStart = 0;
-    yStart = (canvasSize.height - renderableHeight) / 2;
-  }
-
-  // Happy path - keep aspect ratio
-  else {
-    renderableHeight = canvasSize.height;
-    renderableWidth = canvasSize.width;
-    xStart = 0;
-    yStart = 0;
-  }
-  return {
-    x: xStart,
-    y: yStart,
-    width: renderableWidth,
-    height: renderableHeight,
-  };
-};
-
-const initplaceHolder = (
-  placeHolderWidth: number,
-  placeHolderWidthHeight: number,
-  containerHeight: number
-): fabric.Canvas => {
-  const aspectRatio = placeHolderWidthHeight / placeHolderWidth;
-  const newHeight = containerHeight / 2.5;
-  const newWidth = newHeight / aspectRatio;
-  const tmpplaceHolder = new fabric.Canvas("placeHolder", {
-    width: newWidth,
-    height: newHeight,
-  });
-
-  return tmpplaceHolder;
-};
 export default function AboutPage(props: AboutPageProps) {
-  const body = document.body,
-    html = document.documentElement;
-  const pageHeight = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
-  );
-  const defaultWidth =
-    screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const infoManageData = useAppSelector((state) => state.infoManageData);
-  const designControlData = useAppSelector((state) => state.designControl);
-  const controlData = designControlData.controlData;
-
-  const [placeHolder, setPlaceHolder] = React.useState<fabric.Canvas>();
-  const [isPreview, setIsPreview] = React.useState(false);
-  React.useEffect(() => {
-    setPlaceHolder(
-      initplaceHolder(236.2, 289.4, pageHeight / outerAndPageRatio)
-    );
-  }, []);
-
-  const deleteImage = (key: string) => {
-    if (placeHolder) {
-      const image = _.find(placeHolder._objects, function (o) {
-        return o.name === key;
-      });
-      dispatch(deleteDesignInfo({ key: key }));
-      dispatch(setControlData({ ...controlData, isChooseImage: false }));
-      if (image) placeHolder.remove(image);
-    }
-  };
-
-  const chooseDesign = (key: string) => {
-    if (placeHolder) {
-      const obj = _.find(placeHolder._objects, function (o) {
-        return o.name === key;
-      });
-      if (obj) {
-        const designInfo = {
-          choosenKey: obj.name,
-          rotate: obj.angle,
-          width: obj.getScaledWidth(),
-          height: obj.getScaledHeight(),
-          scale: obj.scaleX,
-          left: obj.left,
-          top: obj.top,
-        };
-
-        dispatch(setValue({ ...designInfo }));
-        placeHolder.setActiveObject(obj);
-        placeHolder.renderAll();
-      }
-    }
-  };
+  const [blueprintList, setBlueprintList] =
+    React.useState<Blueprint[]>(blueprintInit);
 
   const openPreview = () => {
-    if (placeHolder) {
-      const placeHolderNode = placeHolder.getElement();
-      placeHolderNode.style.border = "none";
-    }
+    // if (placeHolder) {
+    //   const placeHolderNode = placeHolder.getElement();
+    //   placeHolderNode.style.borderWidth = "1px";
+    //   placeHolderNode.style.borderColor = "rgba(1,1,1,0.3)".replace(
+    //     /[^,]+(?=\))/,
+    //     "0.5"
+    //   );
+    //   placeHolder._objects.forEach((obj) => {
+    //     obj.set("selectable", false);
+    //   });
+    //   placeHolder.discardActiveObject().renderAll();
+    // }
   };
 
   const closePreview = () => {
-    if (placeHolder) {
-      const placeHolderNode = placeHolder.getElement();
-      placeHolderNode.style.borderStyle = "dashed";
-      placeHolderNode.style.borderColor = "white";
-      placeHolderNode.style.borderWidth = "1px";
-    }
+    // if (placeHolder) {
+    //   const placeHolderNode = placeHolder.getElement();
+    //   placeHolder._objects.forEach((obj) => {
+    //     obj.set("selectable", true);
+    //   });
+    //   placeHolderNode.style.borderStyle = "dashed";
+    //   placeHolderNode.style.borderColor = "white";
+    //   placeHolderNode.style.borderWidth = "1px";
+    // }
   };
-
-  const cloneDesign = (key: string) => {
-    if (placeHolder) {
-      const obj = _.find(placeHolder._objects, function (o) {
-        return o.name === key;
-      });
-      if (obj) {
-        obj.clone((cloned: fabric.Object) => {
-          const newName = nanoid();
-          cloned.set("name", newName);
-          cloned.set("left", 10);
-          cloned.set("top", 10);
-          placeHolder.add(cloned);
-          dispatch(cloneDesignInfo({ oldKey: key, newKey: newName }));
-        });
-      }
-    }
-  };
-  const addRect = (imgUrl: string) => {
-    if (placeHolder) {
-      const newName = nanoid();
-      fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
-        image.set("name", newName);
-        image.set("left", 30);
-        image.set("top", 100);
-        image.set("angle", 0);
-        image.set("opacity", 100);
-        image.transparentCorners = false;
-        image.centeredScaling = true;
-        image.scaleToWidth(150);
-        image.scaleToHeight(100);
-        placeHolder.add(image);
-
-        const designInfo = {
-          key: newName,
-          rotate: 0,
-          width: image.width,
-          height: image.height,
-          scale: 0.3,
-          left: 100,
-          top: 100,
-          src: imgUrl,
-        };
-        dispatch(addDesignInfo({ ...designInfo }));
-        dispatch(setControlData({ isSetImage: false, isChooseImage: true }));
-        placeHolder.renderAll();
-      });
-    }
-  };
-  const resizeplaceHolder = () => {
-    if (placeHolder) {
-      const outerplaceHolderContainer = $(".outer")[0];
-      const containerWidth = outerplaceHolderContainer.clientWidth;
-      const containerHeight = outerplaceHolderContainer.clientHeight;
-      const ratio = placeHolder.getWidth() / placeHolder.getHeight();
-      const newHeight = containerHeight / 2.5;
-      const newWidth = newHeight / ratio;
-      const paddingTop = (containerHeight - newHeight) / paddingRate;
-
-      console.log(paddingTop, "padding top");
-      console.log(placeHolder.getZoom(), "zoom");
-
-      console.log(containerHeight, "height");
-      console.log(pageHeight, "phh");
-
-      const scale = 2.5;
-      const zoom = placeHolder.getZoom() * scale;
-      placeHolder.setDimensions({ width: newWidth, height: newHeight });
-      placeHolder.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
-
-      outerplaceHolderContainer.style.paddingLeft =
-        (containerWidth - newWidth) / 2 + "px";
-      outerplaceHolderContainer.style.paddingTop = paddingTop + "px";
-
-      placeHolder.renderAll();
-    }
-  };
-  $(window).resize(resizeplaceHolder);
-
-  const [selectedShapeKey, setSelectedShapeKey] = React.useState("");
-
-  React.useEffect(() => {
-    if (placeHolder) {
-      placeHolder.on("object:moving", function (options) {
-        const obj = options.target;
-        if (obj) {
-          const designInfo = {
-            choosenKey: obj.name,
-            rotate: obj.angle,
-            width: obj.getScaledWidth(),
-            height: obj.getScaledHeight(),
-            scale: obj.scaleX,
-            left: obj.left,
-            top: obj.top,
-          };
-          dispatch(setValue({ ...designInfo }));
-        }
-      });
-
-      const outerplaceHolderContainer = $(".outer")[0];
-      outerplaceHolderContainer.style.paddingLeft =
-        (defaultWidth - placeHolder.getWidth()) / 2 + "px";
-      outerplaceHolderContainer.style.paddingTop =
-        (outerplaceHolderContainer.clientHeight - placeHolder.getHeight()) /
-          paddingRate +
-        "px";
-    }
-  }, [placeHolder]);
-
-  const alignLeft = () => {};
 
   return (
     <div className="container-fluid ">
-      <div className="row align-items-center">
-        <div className="col-lg-9 col-12 px-0 h-screen d-flex flex-column ">
-          <DesignHeaderLeft
-            openPreview={openPreview}
-            closePreview={closePreview}
-          />
-          <div
-            className="outer position-relative"
-            style={{
-              backgroundImage: `url("https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117")`,
-            }}
-          >
-            <canvas id="placeHolder" className="center-block"></canvas>
-          </div>
-          <DesignFooterLeft />
-        </div>
-        <div className="col-lg-3 d-md-none d-lg-block border-start h-screen px-0">
-          <div className=" d-flex flex-column h-full">
-            <DesignHeaderRight />
-            <div className="designTable p-3 overflow-scroll">
-              {controlData.isSetImage || infoManageData.choosenKey === "" ? (
-                <EmptyTable addRect={addRect} />
-              ) : (
-                <Table
-                  addRect={addRect}
-                  deleteImage={deleteImage}
-                  chooseDesign={chooseDesign}
-                  cloneDesign={cloneDesign}
-                />
-              )}
-            </div>
-            <DesignFooterRight />
-          </div>
-        </div>
+      <div className="align-items-center">
+        <DesignHeaderLeft
+          openPreview={openPreview}
+          closePreview={closePreview}
+        />
+        <DesignCanvas />
+        <DesignFooterLeft />
       </div>
     </div>
   );
