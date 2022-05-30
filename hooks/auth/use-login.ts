@@ -18,9 +18,6 @@ const useLogin = () => {
       onSuccess: (data) => {
         dispatch(loginAction(data));
         console.log(data, "success");
-        //because data:any
-        // router.push('/dashboard');
-        // router.back();
       },
       onError: (error: AxiosError<ErrorHttpResponse>) => {
          

@@ -34,8 +34,21 @@ a {
   
 }
 
+.h-10{
+  height: 10vh;
+}
+
+
+.h-80{
+  height:80vh;
+}
+
 .bg-gray{
   background-color:#f7f7f7
+}
+
+.overflow-y-scroll{
+  overflow-y: scroll;
 }
 
 .w-half{

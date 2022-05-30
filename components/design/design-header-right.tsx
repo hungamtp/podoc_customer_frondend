@@ -15,7 +15,7 @@ export default function DesignHeaderRight(props: IDesignHeaderRightProps) {
   console.log(controlData, "control data");
   const dispatch = useAppDispatch();
   return (
-    <div>
+    <div className="col-lg-3 d-md-none d-lg-block border-start h-screen px-0">
       {controlData.isSetImage ? (
         <div className="d-flex justify-content-around border-bottom border-dark px-0 py-2point5">
           <p className="h5 pt-3 me-5">Thông tin chi tiết</p>
