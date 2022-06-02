@@ -7,12 +7,21 @@ import {
   addDesignInfo,
   deleteDesignInfo,
 } from "@/redux/slices/design";
+import { useForm } from "react-hook-form";
 export interface ITableProps {
   addRect: (imgElement: string) => void;
   deleteImage: (key: string) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
   align: (position: string) => void;
+  placeHolder?: fabric.Rect;
+  setDesignLocation: (
+    designKey: string,
+    pos: {
+      key: "top" | "left" | "width" | "height" | "scale" | "rotate";
+      value: number;
+    }
+  ) => void;
 }
 
 const get2Decimal = (num: number): number => {
@@ -21,6 +30,30 @@ const get2Decimal = (num: number): number => {
 
 export default function Table(props: ITableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
+  let designPosInitVal: {
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+    scale: number;
+    rotate: number;
+  } = { width: 0, height: 0, top: 0, left: 0, scale: 0, rotate: 0 };
+  infoManageData.designInfos.forEach((design) => {
+    if (design.key === infoManageData.choosenKey)
+      designPosInitVal = { ...design };
+  });
+  const { handleSubmit, register } = useForm({
+    defaultValues: {
+      ...designPosInitVal,
+    },
+  });
+  const [designPos, setDesignPos] = React.useState<{
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+    scale: number;
+  }>(designPosInitVal);
   const dispatch = useAppDispatch();
 
   const initVal = {
@@ -30,7 +63,15 @@ export default function Table(props: ITableProps) {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
   if (infoManageData.choosenKey === "") return <></>;
-  const { addRect, deleteImage, chooseDesign, cloneDesign, align } = props;
+  const {
+    addRect,
+    deleteImage,
+    chooseDesign,
+    cloneDesign,
+    align,
+    placeHolder,
+    setDesignLocation,
+  } = props;
   return (
     <div>
       <div className="">
@@ -73,12 +114,7 @@ export default function Table(props: ITableProps) {
                   </div>
                 </div>
                 <div className="p-3">
-                  <table
-                    className="w-full p-5 text-gray-700"
-                    onClick={() => {
-                      console.log("ahihi");
-                    }}
-                  >
+                  <table className="w-full p-5 text-gray-700">
                     <tbody>
                       <tr className="">
                         <td></td>
@@ -90,10 +126,22 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.width)}
+                              {...register("width")}
+                              onChange={(e) => {
+                                setTimeout(() => {
+                                  setDesignLocation(designInfo.key, {
+                                    key: "width",
+                                    value: designPos.width,
+                                  });
+                                }, 200);
+                                setDesignPos({
+                                  ...designPos,
+                                  width: Number(e.target.value),
+                                });
+                              }}
                             />
                             <span className="input-group-text">in</span>
                           </div>
@@ -101,10 +149,18 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group ">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.height)}
+                              {...register("height")}
+                              onChange={(e) => {
+                                setTimeout(() => {
+                                  setDesignLocation(designInfo.key, {
+                                    key: "height",
+                                    value: Number(e.target.value),
+                                  });
+                                }, 200);
+                              }}
                             />
                             <span className="input-group-text">in</span>
                           </div>
@@ -124,10 +180,18 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.rotate)}
+                              {...register("rotate")}
+                              onChange={(e) => {
+                                setTimeout(() => {
+                                  setDesignLocation(designInfo.key, {
+                                    key: "rotate",
+                                    value: Number(e.target.value),
+                                  });
+                                }, 200);
+                              }}
                             />
                             <span className="input-group-text">deg</span>
                           </div>
@@ -139,6 +203,7 @@ export default function Table(props: ITableProps) {
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.scale)}
+                              {...register("scale")}
                             />
                             <span className="input-group-text">%</span>
                           </div>
@@ -162,7 +227,15 @@ export default function Table(props: ITableProps) {
                               type="text"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.left)}
+                              {...register("left")}
+                              onChange={(e) => {
+                                setTimeout(() => {
+                                  setDesignLocation(designInfo.key, {
+                                    key: "left",
+                                    value: Number(e.target.value),
+                                  });
+                                }, 200);
+                              }}
                             />
                             <span className="input-group-text">%</span>
                           </div>
@@ -173,7 +246,15 @@ export default function Table(props: ITableProps) {
                               type="text"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.top)}
+                              {...register("top")}
+                              onChange={(e) => {
+                                setTimeout(() => {
+                                  setDesignLocation(designInfo.key, {
+                                    key: "top",
+                                    value: Number(e.target.value),
+                                  });
+                                }, 200);
+                              }}
                             />
                             <span className="input-group-text">%</span>
                           </div>

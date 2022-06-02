@@ -12,10 +12,6 @@ export function UploadImage(props: ITableProps) {
   const { addRect } = props;
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
-  const designControlData = useAppSelector((state) => state.designControl);
-  const infoManageData = useAppSelector((state) => state.infoManageData);
-  const controlData = designControlData.controlData;
-  const dispatch = useAppDispatch();
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
     setImages(imageList);

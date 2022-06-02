@@ -1,25 +1,8 @@
-import { useRouter } from "next/router";
-import * as React from "react";
-import { fabric } from "fabric";
-import Table from "@/components/design/table";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import {
-  setValue,
-  addDesignInfo,
-  deleteDesignInfo,
-  cloneDesignInfo,
-} from "@/redux/slices/design";
-import { nanoid } from "nanoid";
-import Script from "next/script";
-import $ from "jquery";
-import EmptyTable from "@/components/design/emptyTable";
-import DesignHeaderLeft from "@/components/design/design-header-left";
-import DesignFooterLeft from "@/components/design/design-footer-left";
-import DesignHeaderRight from "@/components/design/design-header-right";
-import DesignFooterRight from "@/components/design/design-footer-right";
-import { setControlData } from "@/redux/slices/designControl";
-import _ from "lodash";
 import DesignCanvas from "@/components/design/design-canvas";
+import DesignFooterLeft from "@/components/design/design-footer-left";
+import DesignHeaderLeft from "@/components/design/design-header-left";
+import { useAppSelector } from "@/components/hooks/reduxHook";
+import * as React from "react";
 import { Blueprint } from "../models";
 // import dynamic from 'next/dynamic';
 
@@ -40,7 +23,7 @@ const blueprintInit = [
   {
     frame_image:
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
-    position: "front",
+    position: "arm",
     placeHolder: {
       width: 4200,
       height: 4800,
@@ -49,7 +32,7 @@ const blueprintInit = [
   {
     frame_image:
       "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
-    position: "front",
+    position: "back",
     placeHolder: {
       width: 3600,
       height: 4110,
@@ -60,6 +43,7 @@ const blueprintInit = [
 export default function AboutPage(props: AboutPageProps) {
   const [blueprintList, setBlueprintList] =
     React.useState<Blueprint[]>(blueprintInit);
+  const designControlData = useAppSelector((state) => state.designControl);
 
   const openPreview = () => {
     // if (placeHolder) {
@@ -96,7 +80,7 @@ export default function AboutPage(props: AboutPageProps) {
           closePreview={closePreview}
         />
         <DesignCanvas />
-        <DesignFooterLeft />
+        <DesignFooterLeft blueprintList={blueprintList} />
       </div>
     </div>
   );

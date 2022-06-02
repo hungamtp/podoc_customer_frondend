@@ -1,15 +1,41 @@
+import { Blueprint } from "@/models/blueprint";
 import * as React from "react";
-
-export interface IDesignHeaderLeftProps {}
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import { setBlueprint } from "@/redux/slices/designControl";
+export interface IDesignHeaderLeftProps {
+  blueprintList: Blueprint[];
+}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
+  const { blueprintList } = props;
+
+  const designControlData = useAppSelector((state) => state.designControl);
+  const controlData = designControlData.controlData;
+  const positionArr = blueprintList.map((blueprint) => (
+    <button
+      className="btn btn-light w-half"
+      key={blueprint.position}
+      onClick={() => {
+        dispatch(
+          setBlueprint({
+            renderedBlueprint: {
+              ...controlData.renderedBlueprint,
+              position: blueprint.position,
+            },
+          })
+        );
+      }}
+    >
+      {blueprint.position}
+    </button>
+  ));
+  const dispatch = useAppDispatch();
   return (
     <div className="row h-10">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-between border-top border-dark  py-4">
           <div className="d-flex justify-content-start w-quater align-items-center px-4">
-            <button className="btn btn-secondary w-half">Trước</button>
-            <button className="btn btn-light w-half">Sau</button>
+            {positionArr}
           </div>
         </div>
       </div>
