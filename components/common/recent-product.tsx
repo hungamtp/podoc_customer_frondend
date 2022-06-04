@@ -1,16 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import { data } from 'jquery';
+import { GetStaticProps } from 'next/types';
+import React, { useEffect } from 'react';
+import { Best4DesignedProduct, ProductHomePage } from '@/services/type.dto';
+import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
 
-type Props = {};
-
-export default function RecentProduct({}: Props) {
+export default function RecentProduct() {
+  const { data: response, isLoading: isLoadingAccount } = useGetHighestRateDesign();
+  console.log(response);
   return (
     <div className="container mt-100 mt-60">
       <div className="row"></div>
       <div className="col-12">
         <h5 className="mb-0">Recent Products</h5>
       </div>
-
+      {response &&
+        response.map((item: ProductHomePage) => {
+          return <div key={item.id}>hung</div>;
+        })}
       <div className="row">
         <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
           <div className="card shop-list border-0 position-relative">

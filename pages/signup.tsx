@@ -17,7 +17,7 @@ export default function SignUp({}: Props) {
     password: yup
       .string()
       .min(8, 'Mật khẩu cần ít nhất 8 ký tự')
-      .max(26, 'Mật khẩu tối đa 50 ký tự')
+      .max(50, 'Mật khẩu tối đa 50 ký tự')
       .required('Mật khẩu không được để trống'),
     phone: yup.string().min(9).max(11).required(),
     firstName: yup.string().required(),
