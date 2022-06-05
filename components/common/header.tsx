@@ -200,8 +200,8 @@ export default function Header({}: Props) {
                   Giới thiệu
                 </a>
               </li>
-              <li onClick={() => router.push('/about')}>
-                <a href="raw-product" className="sub-menu-item">
+              <li onClick={() => router.push('/raw-products')}>
+                <a href="raw-products" className="sub-menu-item">
                   Tự thiết kế
                 </a>
               </li>
