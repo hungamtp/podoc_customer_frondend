@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import React, { useState } from 'react';
 
-import useSignup from '@/hooks/auth/use-signup';
+import useSignup from '@/hooks/api/use-signup';
 
 type Props = {};
 

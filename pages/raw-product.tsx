@@ -1,10 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
-
+import useRawProduct from '@/hooks/api/use-get-all-product-raw';
+import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
+import { useState } from 'react';
 export interface IProductProps {}
 
 export default function RawProduct(props: IProductProps) {
+  const [filter, setFilter] = useState<RawProductFilter>({
+    pageNumber: 0,
+    pageSize: 10,
+    category: '',
+    name: '',
+  });
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setFilter({ ...filter, pageNumber: value - 1 });
+  };
+  const { data: response, isLoading: isLoading } = useRawProduct(filter);
+
   return (
     <>
       <div>

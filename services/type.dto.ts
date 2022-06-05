@@ -45,3 +45,21 @@ export interface LoginDto {
 export interface LoginResponse extends ISuccessHttpResponse {
   data: User;
 }
+
+export interface PageDTO {
+  page : number;
+  elements : number;
+  data : Array<ProductHomePageDTO>
+}
+
+export interface ProductHomePageDTO{
+  id : number;
+  name: string;
+  productImages : {image : string}[],
+  categoryName : string;
+  tags : {tag : string}[],
+  numberOfSize : number;
+  numberOfColor : number;
+  numberOfFactory : number;
+
+}

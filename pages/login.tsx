@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import useLogin from '@/hooks/auth/use-login';
+import useLogin from '@/hooks/api/use-login';
 type FormLogin = {
   email: string;
   password: string;
