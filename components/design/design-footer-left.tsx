@@ -1,30 +1,30 @@
-import { Blueprint } from "@/models/blueprint";
+import { Blueprint } from "@/models/design/blueprint";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { setBlueprint } from "@/redux/slices/designControl";
-export interface IDesignHeaderLeftProps {
-  blueprintList: Blueprint[];
-}
+import { updateBlueprint, setPosition } from "@/redux/slices/blueprints";
+import { DesignState } from "@/models/design/designInfo";
+export interface IDesignHeaderLeftProps {}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
-  const { blueprintList } = props;
+  const blueprintData = useAppSelector((state) => state.blueprintsData);
+  const infoManageData = useAppSelector((state) => state.infoManageData);
 
-  const designControlData = useAppSelector((state) => state.designControl);
-  const controlData = designControlData.controlData;
-  const positionArr = blueprintList.map((blueprint) => (
+  const changePos = (position: string) => {
+    const newBlueprintData: DesignState[] = infoManageData.designInfos;
+    console.log(newBlueprintData, "newBlueprintData");
+    dispatch(
+      updateBlueprint({
+        position: blueprintData.position,
+        designInfos: newBlueprintData,
+      })
+    );
+    dispatch(setPosition(position));
+  };
+  const positionArr = blueprintData.blueprints.map((blueprint) => (
     <button
       className="btn btn-light w-half"
       key={blueprint.position}
-      onClick={() => {
-        dispatch(
-          setBlueprint({
-            renderedBlueprint: {
-              ...controlData.renderedBlueprint,
-              position: blueprint.position,
-            },
-          })
-        );
-      }}
+      onClick={() => changePos(blueprint.position)}
     >
       {blueprint.position}
     </button>

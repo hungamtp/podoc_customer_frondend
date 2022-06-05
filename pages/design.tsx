@@ -1,9 +1,10 @@
 import DesignCanvas from "@/components/design/design-canvas";
 import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderLeft from "@/components/design/design-header-left";
-import { useAppSelector } from "@/components/hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import * as React from "react";
 import { Blueprint } from "../models";
+import { updateBlueprint } from "@/redux/slices/blueprints";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -16,8 +17,8 @@ const blueprintInit = [
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/6-0_55.jpg",
     position: "front",
     placeHolder: {
-      width: 4500,
-      height: 5100,
+      width: 15,
+      height: 17,
     },
   },
   {
@@ -25,8 +26,8 @@ const blueprintInit = [
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
     position: "arm",
     placeHolder: {
-      width: 4200,
-      height: 4800,
+      width: 14,
+      height: 16,
     },
   },
   {
@@ -34,16 +35,23 @@ const blueprintInit = [
       "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
     position: "back",
     placeHolder: {
-      width: 3600,
-      height: 4110,
+      width: 12,
+      height: 13.7,
     },
   },
 ] as Blueprint[];
 
 export default function AboutPage(props: AboutPageProps) {
-  const [blueprintList, setBlueprintList] =
-    React.useState<Blueprint[]>(blueprintInit);
-  const designControlData = useAppSelector((state) => state.designControl);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(
+      updateBlueprint({
+        position: "front",
+        blueprints: blueprintInit,
+      })
+    );
+  }, []);
 
   const openPreview = () => {
     // if (placeHolder) {
@@ -80,7 +88,7 @@ export default function AboutPage(props: AboutPageProps) {
           closePreview={closePreview}
         />
         <DesignCanvas />
-        <DesignFooterLeft blueprintList={blueprintList} />
+        <DesignFooterLeft />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { DesignState } from "@/models/designInfo";
+import { DesignState } from "@/models/design";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface InfoManageData {
@@ -59,6 +59,7 @@ export const designSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
+      console.log(action.payload, "loadddd");
       if (state.choosenKey == "") {
         state.designInfos = [action.payload];
       } else state.designInfos = [...state.designInfos, action.payload];
@@ -90,11 +91,20 @@ export const designSlice = createSlice({
         state.choosenKey = action.payload.newKey;
       }
     },
+    updateDesignInfos: (state, action) => {
+      state.choosenKey = "";
+      state.designInfos = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setValue, addDesignInfo, deleteDesignInfo, cloneDesignInfo } =
-  designSlice.actions;
+export const {
+  setValue,
+  addDesignInfo,
+  deleteDesignInfo,
+  cloneDesignInfo,
+  updateDesignInfos,
+} = designSlice.actions;
 
 export default designSlice.reducer;

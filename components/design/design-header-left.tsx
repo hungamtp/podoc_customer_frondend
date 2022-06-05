@@ -17,7 +17,6 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   });
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
-  console.log(controlData, "control data");
   const dispatch = useAppDispatch();
 
   return (

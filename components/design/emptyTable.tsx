@@ -4,17 +4,18 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
 import { useLoading, Audio } from "@agney/react-loading";
 import { setControlData } from "@/redux/slices/designControl";
+import { DesignState } from "@/models/design";
 
 export interface info {
   angle: number;
 }
 
 export interface IEmptyTableProps {
-  addRect: (imgElement: string) => void;
+  addNewRect: (imageSrc: string) => void;
 }
 
 export default function EmptyTable(props: IEmptyTableProps) {
-  const { addRect } = props;
+  const { addNewRect } = props;
   const designControlData = useAppSelector((state) => state.designControl);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const controlData = designControlData.controlData;
@@ -39,7 +40,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
           </div>
           <p className="fw-bolder py-2">Thêm từ</p>
           <ul className="list-group">
-            <UploadImage addRect={addRect} />
+            <UploadImage addNewRect={addNewRect} />
             <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
               <i className="bi bi-fonts me-4 h4 pt-1"></i>Văn bản
             </li>

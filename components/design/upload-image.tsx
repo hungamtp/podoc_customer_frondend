@@ -3,13 +3,14 @@ import ImageUploading from "react-images-uploading";
 import { fabric } from "fabric";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
+import { DesignState } from "@/models/design";
 
 export interface ITableProps {
-  addRect: (imgElement: string) => void;
+  addNewRect: (imageSrc: string) => void;
 }
 
 export function UploadImage(props: ITableProps) {
-  const { addRect } = props;
+  const { addNewRect } = props;
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
   const onChange = (imageList: any, addUpdateIndex: any) => {
@@ -19,7 +20,7 @@ export function UploadImage(props: ITableProps) {
       "upload-image"
     ) as HTMLImageElement;
     console.log(imageList[0].data_url, "urlll");
-    addRect(imageList[0].data_url);
+    addNewRect(imageList[0].data_url);
   };
 
   return (

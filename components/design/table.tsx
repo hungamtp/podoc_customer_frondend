@@ -7,10 +7,11 @@ import {
   addDesignInfo,
   deleteDesignInfo,
 } from "@/redux/slices/design";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
+import { DesignState } from "@/models/design";
 export interface ITableProps {
-  addRect: (imgElement: string) => void;
-  deleteImage: (key: string) => void;
+  addNewRect: (imgSrc: string) => void;
+  deleteImage: (key: string, isLast: boolean) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
   align: (position: string) => void;
@@ -18,8 +19,12 @@ export interface ITableProps {
   setDesignLocation: (
     designKey: string,
     pos: {
-      key: "top" | "left" | "width" | "height" | "scale" | "rotate";
-      value: number;
+      width: number;
+      height: number;
+      top: number;
+      left: number;
+      scale: number;
+      rotate: number;
     }
   ) => void;
 }
@@ -38,22 +43,26 @@ export default function Table(props: ITableProps) {
     scale: number;
     rotate: number;
   } = { width: 0, height: 0, top: 0, left: 0, scale: 0, rotate: 0 };
+
   infoManageData.designInfos.forEach((design) => {
     if (design.key === infoManageData.choosenKey)
-      designPosInitVal = { ...design };
+      designPosInitVal = {
+        width: design.width,
+        height: design.height,
+        top: design.top,
+        left: design.left,
+        scale: design.scale,
+        rotate: design.rotate,
+      };
   });
-  const { handleSubmit, register } = useForm({
+  console.log(infoManageData.designInfos, "renderrr");
+
+  const { register } = useForm({
     defaultValues: {
       ...designPosInitVal,
     },
   });
-  const [designPos, setDesignPos] = React.useState<{
-    width: number;
-    height: number;
-    top: number;
-    left: number;
-    scale: number;
-  }>(designPosInitVal);
+
   const dispatch = useAppDispatch();
 
   const initVal = {
@@ -62,9 +71,8 @@ export default function Table(props: ITableProps) {
   // const exportToJson = () => {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
-  if (infoManageData.choosenKey === "") return <></>;
   const {
-    addRect,
+    addNewRect,
     deleteImage,
     chooseDesign,
     cloneDesign,
@@ -106,7 +114,8 @@ export default function Table(props: ITableProps) {
                     <button
                       className="btn btn-link text-dark px-2 "
                       onClick={() => {
-                        deleteImage(designInfo.key);
+                        const isLast = infoManageData.designInfos.length === 1;
+                        deleteImage(designInfo.key, isLast);
                       }}
                     >
                       <i className="bi bi-file-earmark-x h4 "></i>
@@ -129,19 +138,7 @@ export default function Table(props: ITableProps) {
                               type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              {...register("width")}
-                              onChange={(e) => {
-                                setTimeout(() => {
-                                  setDesignLocation(designInfo.key, {
-                                    key: "width",
-                                    value: designPos.width,
-                                  });
-                                }, 200);
-                                setDesignPos({
-                                  ...designPos,
-                                  width: Number(e.target.value),
-                                });
-                              }}
+                              value={get2Decimal(designInfo.width)}
                             />
                             <span className="input-group-text">in</span>
                           </div>
@@ -152,15 +149,7 @@ export default function Table(props: ITableProps) {
                               type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              {...register("height")}
-                              onChange={(e) => {
-                                setTimeout(() => {
-                                  setDesignLocation(designInfo.key, {
-                                    key: "height",
-                                    value: Number(e.target.value),
-                                  });
-                                }, 200);
-                              }}
+                              value={get2Decimal(designInfo.height)}
                             />
                             <span className="input-group-text">in</span>
                           </div>
@@ -183,15 +172,7 @@ export default function Table(props: ITableProps) {
                               type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              {...register("rotate")}
-                              onChange={(e) => {
-                                setTimeout(() => {
-                                  setDesignLocation(designInfo.key, {
-                                    key: "rotate",
-                                    value: Number(e.target.value),
-                                  });
-                                }, 200);
-                              }}
+                              value={get2Decimal(designInfo.rotate)}
                             />
                             <span className="input-group-text">deg</span>
                           </div>
@@ -199,11 +180,10 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.scale)}
-                              {...register("scale")}
                             />
                             <span className="input-group-text">%</span>
                           </div>
@@ -224,18 +204,10 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              {...register("left")}
-                              onChange={(e) => {
-                                setTimeout(() => {
-                                  setDesignLocation(designInfo.key, {
-                                    key: "left",
-                                    value: Number(e.target.value),
-                                  });
-                                }, 200);
-                              }}
+                              value={get2Decimal(designInfo.left)}
                             />
                             <span className="input-group-text">%</span>
                           </div>
@@ -243,18 +215,10 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
-                              {...register("top")}
-                              onChange={(e) => {
-                                setTimeout(() => {
-                                  setDesignLocation(designInfo.key, {
-                                    key: "top",
-                                    value: Number(e.target.value),
-                                  });
-                                }, 200);
-                              }}
+                              value={get2Decimal(designInfo.top)}
                             />
                             <span className="input-group-text">%</span>
                           </div>
@@ -367,7 +331,8 @@ export default function Table(props: ITableProps) {
                     <button
                       className="btn btn-link text-dark px-2 "
                       onClick={() => {
-                        deleteImage(designInfo.key);
+                        const isLast = infoManageData.designInfos.length === 1;
+                        deleteImage(designInfo.key, isLast);
                       }}
                     >
                       <i className="bi bi-file-earmark-x h4 "></i>
@@ -380,7 +345,7 @@ export default function Table(props: ITableProps) {
         ))}
         <div>
           <p className="">
-            <UploadImageTable addRect={addRect} />
+            <UploadImageTable addNewRect={addNewRect} />
           </p>
           {/* <button onClick={} className="py-2">
 						Save
