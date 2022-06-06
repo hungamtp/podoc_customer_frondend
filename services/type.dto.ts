@@ -63,3 +63,34 @@ export interface ProductHomePageDTO{
   numberOfFactory : number;
 
 }
+
+export interface ProductDetailDTO{
+  id : number;
+  name : string;
+  description : string;
+  productImages: Array<ProductImagesDto>;
+  categoryName : string;
+  productTags : Array<ProductTagDto>;
+  priceByFactories : Array<PriceByFactoryDto>
+
+
+}
+
+export interface ProductImagesDto {
+  image : string;
+}
+
+export interface ProductTagDto {
+  tag : string;
+}
+
+export interface PriceByFactoryDto{
+  price : number;
+}
+
+export enum TAG{
+  HOT = "Hot",
+  NEW = "New",
+  BEST_SELLER = "Best Seller",
+
+}

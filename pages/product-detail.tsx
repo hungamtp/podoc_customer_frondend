@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Factory from '@/components/common/factory';
 import RecentProduct from '@/components/common/recent-product';
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
@@ -35,7 +36,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                 </ul>
               </nav>
             </div>
-          </div>{' '}
+          </div>
           {/*end container*/}
         </section>
         {/*end section*/}
@@ -62,7 +63,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                 <div className="section-title ms-md-4">
                   <h4 className="title">Branded T-Shirts</h4>
                   <h5 className="text-muted">
-                    $21.00 <del className="text-danger ms-2">$25.00</del>{' '}
+                    $21.00 <del className="text-danger ms-2">$25.00</del>
                   </h5>
                   <ul className="list-unstyled text-warning h5 mb-0">
                     <li className="list-inline-item">
@@ -90,435 +91,34 @@ export default function ProductDetail(props: IProductDetailProps) {
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{' '}
+                      </span>
                       Digital Marketing Solutions for Tomorrow
                     </li>
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{' '}
+                      </span>
                       Our Talented &amp; Experienced Marketing Agency
                     </li>
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
                         <i className="uil uil-check-circle align-middle" />
-                      </span>{' '}
+                      </span>
                       Create your own skin to match your brand
                     </li>
                   </ul>
                   <div className="row mt-4 pt-2">
                     <div className="col-lg-6 col-12">
-                      <div className="d-flex align-items-center">
-                        <h6 className="mb-0">Your Size:</h6>
-                        <ul className="list-unstyled mb-0 ms-3">
-                          <li className="list-inline-item">
-                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
-                              S
-                            </a>
-                          </li>
-                          <li className="list-inline-item ms-1">
-                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
-                              M
-                            </a>
-                          </li>
-                          <li className="list-inline-item ms-1">
-                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
-                              L
-                            </a>
-                          </li>
-                          <li className="list-inline-item ms-1">
-                            <a href="javascript:void(0)" className="btn btn-icon btn-soft-primary">
-                              XL
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                      <div className="d-flex align-items-center"></div>
                     </div>
-                    {/*end col*/}
-                    <div className="col-lg-6 col-12 mt-4 mt-lg-0">
-                      <div className="d-flex shop-list align-items-center">
-                        <h6 className="mb-0">Quantity:</h6>
-                        <div className="qty-icons ms-3">
-                          <button className="btn btn-icon btn-soft-primary minus">-</button>
-                          <input
-                            min={0}
-                            name="quantity"
-                            defaultValue={0}
-                            type="number"
-                            className="btn btn-icon btn-soft-primary qty-btn quantity"
-                          />
-                          <button className="btn btn-icon btn-soft-primary plus">+</button>
-                        </div>
-                      </div>
-                    </div>
-                    {/*end col*/}
-                  </div>
-                  {/*end row*/}
-                  <div className="mt-4 pt-2">
-                    <a href="javascript:void(0)" className="btn btn-primary">
-                      Shop Now
-                    </a>
-                    <a href="shop-cart.html" className="btn btn-soft-primary ms-2">
-                      Add to Cart
-                    </a>
-                  </div>
-                </div>
-              </div>
-              {/*end col*/}
-            </div>
-            {/*end row*/}
-          </div>
-          {/*end container*/}
-          <div className="container mt-100 mt-60">
-            <div className="row">
-              <div className="col-12">
-                <ul
-                  className="nav nav-pills shadow flex-column flex-sm-row d-md-inline-flex mb-0 p-1 bg-white rounded position-relative overflow-hidden"
-                  id="pills-tab"
-                  role="tablist"
-                >
-                  <li className="nav-item m-1">
-                    <a
-                      className="nav-link py-2 px-5 active rounded"
-                      id="description-data"
-                      data-bs-toggle="pill"
-                      href="#description"
-                      role="tab"
-                      aria-controls="description"
-                      aria-selected="false"
-                    >
-                      <div className="text-center">
-                        <h6 className="mb-0">Description</h6>
-                      </div>
-                    </a>
-                    {/*end nav link*/}
-                  </li>
-                  {/*end nav item*/}
-                  <li className="nav-item m-1">
-                    <a
-                      className="nav-link py-2 px-5 rounded"
-                      id="additional-info"
-                      data-bs-toggle="pill"
-                      href="#additional"
-                      role="tab"
-                      aria-controls="additional"
-                      aria-selected="false"
-                    >
-                      <div className="text-center">
-                        <h6 className="mb-0">Additional Information</h6>
-                      </div>
-                    </a>
-                    {/*end nav link*/}
-                  </li>
-                  {/*end nav item*/}
-                  <li className="nav-item m-1">
-                    <a
-                      className="nav-link py-2 px-5 rounded"
-                      id="review-comments"
-                      data-bs-toggle="pill"
-                      href="#review"
-                      role="tab"
-                      aria-controls="review"
-                      aria-selected="false"
-                    >
-                      <div className="text-center">
-                        <h6 className="mb-0">Review</h6>
-                      </div>
-                    </a>
-                    {/*end nav link*/}
-                  </li>
-                  {/*end nav item*/}
-                </ul>
-                <div className="tab-content mt-5" id="pills-tabContent">
-                  <div
-                    className="card border-0 tab-pane fade show active"
-                    id="description"
-                    role="tabpanel"
-                    aria-labelledby="description-data"
-                  >
-                    <p className="text-muted mb-0">
-                      Due to its widespread use as filler text for layouts, non-readability is of great importance: human perception is
-                      tuned to recognize certain patterns and repetitions in texts. If the distribution of letters and words is random, the
-                      reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces
-                      (typography), or the distribution of text on the page (layout or type area). For this reason, dummy text usually
-                      consists of a more or less random series of words or syllables.
-                    </p>
-                  </div>
-                  <div className="card border-0 tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-info">
-                    <table className="table">
-                      <tbody>
-                        <tr>
-                          <td style={{ width: '100px' }}>Color</td>
-                          <td className="text-muted">Red, White, Black, Orange</td>
-                        </tr>
-                        <tr>
-                          <td>Material</td>
-                          <td className="text-muted">Cotton</td>
-                        </tr>
-                        <tr>
-                          <td>Size</td>
-                          <td className="text-muted">S, M, L, XL, XXL</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="card border-0 tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-comments">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <ul className="media-list list-unstyled mb-0">
-                          <li>
-                            <div className="d-flex justify-content-between">
-                              <div className="d-flex align-items-center">
-                                <a className="pe-3" href="#">
-                                  <img
-                                    src="asset/images/client/01.jpg"
-                                    className="img-fluid avatar avatar-md-sm rounded-circle shadow"
-                                    alt="img"
-                                  />
-                                </a>
-                                <div className="flex-1 commentor-detail">
-                                  <h6 className="mb-0">
-                                    <a href="javascript:void(0)" className="text-dark media-heading">
-                                      Lorenzo Peterson
-                                    </a>
-                                  </h6>
-                                  <small className="text-muted">15th August, 2021 at 01:25 pm</small>
-                                </div>
-                              </div>
-                              <ul className="list-unstyled mb-0">
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="mt-3">
-                              <p className="text-muted fst-italic p-3 bg-light rounded">Awesome product</p>
-                            </div>
-                          </li>
-                          <li className="mt-4">
-                            <div className="d-flex justify-content-between">
-                              <div className="d-flex align-items-center">
-                                <a className="pe-3" href="#">
-                                  <img
-                                    src="asset/images/client/02.jpg"
-                                    className="img-fluid avatar avatar-md-sm rounded-circle shadow"
-                                    alt="img"
-                                  />
-                                </a>
-                                <div className="flex-1 commentor-detail">
-                                  <h6 className="mb-0">
-                                    <a href="javascript:void(0)" className="media-heading text-dark">
-                                      Tammy Camacho
-                                    </a>
-                                  </h6>
-                                  <small className="text-muted">15th August, 2021 at 05:44 pm</small>
-                                </div>
-                              </div>
-                              <ul className="list-unstyled mb-0">
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star text-warning" />
-                                </li>
-                                <li className="list-inline-item">
-                                  <i className="mdi mdi-star-outline text-warning" />
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="mt-3">
-                              <p className="text-muted fst-italic p-3 bg-light rounded mb-0">Good</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      {/*end col*/}
-                      <div className="col-lg-6 mt-4 mt-lg-0 pt-2 pt-lg-0">
-                        <form className="ms-lg-4">
-                          <div className="row">
-                            <div className="col-12">
-                              <h5>Add your review:</h5>
-                            </div>
-                            <div className="col-12 mt-4">
-                              <h6 className="small fw-bold">Your Rating:</h6>
-                              <a href="javascript:void(0)" className="d-inline-block me-3">
-                                <ul className="list-unstyled mb-0 small">
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                </ul>
-                              </a>
-                              <a href="javascript:void(0)" className="d-inline-block me-3">
-                                <ul className="list-unstyled mb-0 small">
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                </ul>
-                              </a>
-                              <a href="javascript:void(0)" className="d-inline-block me-3">
-                                <ul className="list-unstyled mb-0 small">
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                </ul>
-                              </a>
-                              <a href="javascript:void(0)" className="d-inline-block me-3">
-                                <ul className="list-unstyled mb-0 small">
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star-outline text-warning" />
-                                  </li>
-                                </ul>
-                              </a>
-                              <a href="javascript:void(0)" className="d-inline-block">
-                                <ul className="list-unstyled mb-0 small">
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                  <li className="list-inline-item">
-                                    <i className="mdi mdi-star text-warning" />
-                                  </li>
-                                </ul>
-                              </a>
-                            </div>
-                            <div className="col-md-12 mt-3">
-                              <div className="mb-3">
-                                <label className="form-label">Your Review:</label>
-                                <div className="form-icon position-relative">
-                                  <i data-feather="message-circle" className="fea icon-sm icons" />
-                                  <textarea
-                                    id="message"
-                                    placeholder="Your Comment"
-                                    rows={5}
-                                    name="message"
-                                    className="form-control ps-5"
-                                    required
-                                    defaultValue={''}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            {/*end col*/}
-                            <div className="col-lg-6">
-                              <div className="mb-3">
-                                <label className="form-label">
-                                  Name <span className="text-danger">*</span>
-                                </label>
-                                <div className="form-icon position-relative">
-                                  <i data-feather="user" className="fea icon-sm icons" />
-                                  <input id="name" name="name" type="text" placeholder="Name" className="form-control ps-5" required />
-                                </div>
-                              </div>
-                            </div>
-                            {/*end col*/}
-                            <div className="col-lg-6">
-                              <div className="mb-3">
-                                <label className="form-label">
-                                  Your Email <span className="text-danger">*</span>
-                                </label>
-                                <div className="form-icon position-relative">
-                                  <i data-feather="mail" className="fea icon-sm icons" />
-                                  <input id="email" type="email" placeholder="Email" name="email" className="form-control ps-5" required />
-                                </div>
-                              </div>
-                            </div>
-                            {/*end col*/}
-                            <div className="col-md-12">
-                              <div className="send d-grid">
-                                <button type="submit" className="btn btn-primary">
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
-                            {/*end col*/}
-                          </div>
-                          {/*end row*/}
-                        </form>
-                        {/*end form*/}
-                      </div>
-                      {/*end col*/}
-                    </div>
-                    {/*end row*/}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {/*end container*/}
+
+          <Factory />
+          <Factory />
           <RecentProduct />
           {/*end container*/}
           <div className="container-fluid mt-100 mt-60 px-0">
