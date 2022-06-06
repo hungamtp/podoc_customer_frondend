@@ -1,9 +1,5 @@
 import React from "react";
 import ImageUploading from "react-images-uploading";
-import { fabric } from "fabric";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { setControlData } from "@/redux/slices/designControl";
-import { DesignState } from "@/models/design";
 
 export interface ITableProps {
   addNewRect: (imageSrc: string) => void;
@@ -19,7 +15,6 @@ export function UploadImage(props: ITableProps) {
     const imgElement = document.getElementById(
       "upload-image"
     ) as HTMLImageElement;
-    console.log(imageList[0].data_url, "urlll");
     addNewRect(imageList[0].data_url);
   };
 

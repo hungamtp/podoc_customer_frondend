@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import * as React from "react";
 import { Blueprint } from "../models";
 import { updateBlueprint } from "@/redux/slices/blueprints";
+import { nanoid } from "@reduxjs/toolkit";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
@@ -43,7 +44,7 @@ const blueprintInit = [
 
 export default function AboutPage(props: AboutPageProps) {
   const dispatch = useAppDispatch();
-
+  const blueprintsData = useAppSelector((state) => state.blueprintsData);
   React.useEffect(() => {
     dispatch(
       updateBlueprint({
@@ -82,14 +83,19 @@ export default function AboutPage(props: AboutPageProps) {
 
   return (
     <div className="container-fluid ">
-      <div className="align-items-center">
+      <>
         <DesignHeaderLeft
           openPreview={openPreview}
           closePreview={closePreview}
         />
-        <DesignCanvas />
+        {blueprintsData.blueprints.map(
+          (blueprint) =>
+            blueprint.position === blueprintsData.position && (
+              <DesignCanvas key={blueprint.position} blueprint={blueprint} />
+            )
+        )}
         <DesignFooterLeft />
-      </div>
+      </>
     </div>
   );
 }

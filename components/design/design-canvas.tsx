@@ -1,8 +1,7 @@
 import EmptyTable from "@/components/design/emptyTable";
 import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { DesignState } from "@/models/design";
-import { Blueprint } from "@/models/design/blueprint";
+import { Blueprint, DesignState } from "@/models/design";
 import {
   addDesignInfo,
   cloneDesignInfo,
@@ -16,7 +15,9 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-export interface IDesignCanvasProps {}
+export interface IDesignCanvasProps {
+  blueprint: Blueprint;
+}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
@@ -126,13 +127,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const dispatch = useAppDispatch();
   const designControlData = useAppSelector((state) => state.designControl);
   const controlData = designControlData.controlData;
-  const blueprintsData = useAppSelector((state) => state.blueprintsData);
 
-  const blueprint = blueprintsData.blueprints.filter(
-    (blueprint) => blueprint.position === blueprintsData.position
-  )[0];
+  const { blueprint } = props;
   const placeHolderData = blueprint.placeHolder;
-  console.log(placeHolderData, "placeHolder");
   const placeholderWidth = placeHolderData.width * 30;
   const placeholderHeight = placeHolderData.height * 30;
 
@@ -152,19 +149,8 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     );
     setAspectRatio(placeholderWidth / placeholderHeight);
     dispatch(updateDesignInfos(blueprint.designInfos));
-  }, [blueprintsData]);
-
-  const reverseDesigns = () => {
-    if (canvas && placeHolder && blueprintsData) {
-      const designInfos = blueprint.designInfos;
-      console.log(blueprintsData, "blueprint dataa");
-      if (designInfos) {
-        designInfos.forEach((design) => {
-          addRect(design);
-        });
-      }
-    }
-  };
+    console.log("demm");
+  }, []);
 
   const calculatePoint = (
     left: number,
@@ -359,7 +345,6 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   };
 
   const addNewRect = (imgUrl?: string) => {
-    console.log(imgUrl, "srccc");
     if (canvas && placeHolder) {
       const newName = nanoid();
       if (imgUrl) {
@@ -498,6 +483,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   };
 
   React.useEffect(() => {
+    console.log(canvas, "renderrr");
     if (canvas && placeHolder) {
       canvas.on("object:moving", function (options) {
         const obj = options.target;
@@ -601,11 +587,8 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       const blueprintImageUrl =
         "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
-
-      reverseDesigns();
-      console.log("renderrrr");
     }
-  }, [canvas, placeHolder]);
+  }, [placeHolder]);
 
   return (
     <div className="row h-80">

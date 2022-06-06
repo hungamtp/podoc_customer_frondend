@@ -11,7 +11,6 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
 
   const changePos = (position: string) => {
     const newBlueprintData: DesignState[] = infoManageData.designInfos;
-    console.log(newBlueprintData, "newBlueprintData");
     dispatch(
       updateBlueprint({
         position: blueprintData.position,

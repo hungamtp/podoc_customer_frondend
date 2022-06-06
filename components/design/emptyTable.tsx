@@ -1,10 +1,7 @@
-import Image from "next/image";
+import { setControlData } from "@/redux/slices/designControl";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
-import { useLoading, Audio } from "@agney/react-loading";
-import { setControlData } from "@/redux/slices/designControl";
-import { DesignState } from "@/models/design";
 
 export interface info {
   angle: number;
@@ -21,7 +18,6 @@ export default function EmptyTable(props: IEmptyTableProps) {
   const controlData = designControlData.controlData;
   const dispatch = useAppDispatch();
 
-  console.log(controlData, "ìnoooo");
   const initVal = {
     images: [],
   };

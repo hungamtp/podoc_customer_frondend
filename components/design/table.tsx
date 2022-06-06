@@ -1,14 +1,7 @@
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { UploadImage } from "./upload-image";
 import { UploadImageTable } from "./upload-image-table";
-import {
-  setValue,
-  addDesignInfo,
-  deleteDesignInfo,
-} from "@/redux/slices/design";
-import { useFieldArray, useForm } from "react-hook-form";
-import { DesignState } from "@/models/design";
 export interface ITableProps {
   addNewRect: (imgSrc: string) => void;
   deleteImage: (key: string, isLast: boolean) => void;
@@ -55,7 +48,6 @@ export default function Table(props: ITableProps) {
         rotate: design.rotate,
       };
   });
-  console.log(infoManageData.designInfos, "renderrr");
 
   const { register } = useForm({
     defaultValues: {

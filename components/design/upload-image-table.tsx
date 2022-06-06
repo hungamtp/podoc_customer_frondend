@@ -23,7 +23,6 @@ export function UploadImageTable(props: UploadImageTableProps) {
       "upload-image"
     ) as HTMLImageElement;
     addNewRect(imageList[0].data_url);
-    console.log(imageList[0].data_url, "urlll");
   };
 
   return (
