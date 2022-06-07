@@ -44,7 +44,7 @@ const blueprintInit = [
 
 export default function AboutPage(props: AboutPageProps) {
   const dispatch = useAppDispatch();
-  const blueprintsData = useAppSelector((state) => state.blueprintsData);
+
   React.useEffect(() => {
     dispatch(
       updateBlueprint({
@@ -88,12 +88,7 @@ export default function AboutPage(props: AboutPageProps) {
           openPreview={openPreview}
           closePreview={closePreview}
         />
-        {blueprintsData.blueprints.map(
-          (blueprint) =>
-            blueprint.position === blueprintsData.position && (
-              <DesignCanvas key={blueprint.position} blueprint={blueprint} />
-            )
-        )}
+        <DesignCanvas />
         <DesignFooterLeft />
       </>
     </div>

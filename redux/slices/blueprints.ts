@@ -97,26 +97,15 @@ export const blueprintsSlice = createSlice({
       return { ...state, position: action.payload };
     },
     updateBlueprint: (state, action) => {
-      let pos = -1;
-      state.blueprints.forEach((blueprint, index) => {
-        if (blueprint.position === action.payload.position) {
-          pos = index;
-        }
-      });
-      if (pos !== -1)
-        state.blueprints[pos] = {
-          ...state.blueprints[pos],
-          designInfos: action.payload.designInfos,
-        };
-    },
-    initBlueprint: (state, action) => {
-      return { ...state, blueprints: action.payload.blueprints };
+      return {
+        position: action.payload.position,
+        blueprints: action.payload.blueprints,
+      };
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateBlueprint, setPosition, initBlueprint } =
-  blueprintsSlice.actions;
+export const { updateBlueprint, setPosition } = blueprintsSlice.actions;
 
 export default blueprintsSlice.reducer;

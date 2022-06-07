@@ -7,7 +7,6 @@ import {
   cloneDesignInfo,
   deleteDesignInfo,
   setValue,
-  updateDesignInfos,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
 import { fabric } from "fabric";
@@ -15,9 +14,7 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-export interface IDesignCanvasProps {
-  blueprint: Blueprint;
-}
+export interface IDesignCanvasProps {}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
@@ -126,12 +123,14 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const designControlData = useAppSelector((state) => state.designControl);
+  const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const controlData = designControlData.controlData;
+  const blueprint = blueprintsData.blueprints.filter(
+    (blueprint) => blueprint.position === blueprintsData.position
+  )[0];
 
-  const { blueprint } = props;
-  const placeHolderData = blueprint.placeHolder;
-  const placeholderWidth = placeHolderData.width * 30;
-  const placeholderHeight = placeHolderData.height * 30;
+  const placeholderWidth = blueprint.placeHolder.width * 30;
+  const placeholderHeight = blueprint.placeHolder.height * 30;
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>();
@@ -139,6 +138,13 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const [aspectRatio, setAspectRatio] = React.useState<number>(1);
   React.useEffect(() => {
     setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "canvas"));
+  }, []);
+  React.useEffect(() => {
+    console.log("rerenderrrr");
+  });
+
+  React.useEffect(() => {
+    canvas?.clear();
     setPlaceHolder(
       initPlaceHolder(
         placeholderWidth,
@@ -148,9 +154,18 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       )
     );
     setAspectRatio(placeholderWidth / placeholderHeight);
-    dispatch(updateDesignInfos(blueprint.designInfos));
-    console.log("demm");
-  }, []);
+  }, [blueprintsData]);
+
+  const reverseDesigns = () => {
+    if (canvas && placeHolder) {
+      const designInfos = blueprint.designInfos;
+      if (designInfos) {
+        designInfos.forEach((design) => {
+          addRect(design);
+        });
+      }
+    }
+  };
 
   const calculatePoint = (
     left: number,
@@ -464,11 +479,11 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     }
     const { outerWidth, outerHeight } = outerSize;
 
-    if (canvas && placeHolder) {
+    if (canvas) {
       fabric.Image.fromURL(dataUrl, (image: fabric.Image) => {
         canvas.setWidth(outerWidth);
         canvas.setHeight(outerHeight);
-        canvas.add(placeHolder);
+
         canvas.renderAll();
         const sizeObj = resizer(
           { width: outerWidth, height: outerHeight },
@@ -483,8 +498,10 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   };
 
   React.useEffect(() => {
-    console.log(canvas, "renderrr");
     if (canvas && placeHolder) {
+      canvas.add(placeHolder);
+      canvas.renderAll();
+
       canvas.on("object:moving", function (options) {
         const obj = options.target;
         if (obj) {
@@ -587,11 +604,17 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       const blueprintImageUrl =
         "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
+
+      reverseDesigns();
     }
   }, [placeHolder]);
 
   return (
-    <div className="row h-80">
+    <div
+      className={`row h-80   ${
+        blueprintsData.position !== blueprint.position && "d-none"
+      }`}
+    >
       <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
         <div
           className="outer position-relative"

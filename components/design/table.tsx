@@ -37,17 +37,17 @@ export default function Table(props: ITableProps) {
     rotate: number;
   } = { width: 0, height: 0, top: 0, left: 0, scale: 0, rotate: 0 };
 
-  infoManageData.designInfos.forEach((design) => {
-    if (design.key === infoManageData.choosenKey)
-      designPosInitVal = {
-        width: design.width,
-        height: design.height,
-        top: design.top,
-        left: design.left,
-        scale: design.scale,
-        rotate: design.rotate,
-      };
-  });
+  // infoManageData.designInfos.forEach((design) => {
+  //   if (design.key === infoManageData.choosenKey)
+  //     designPosInitVal = {
+  //       width: design.width,
+  //       height: design.height,
+  //       top: design.top,
+  //       left: design.left,
+  //       scale: design.scale,
+  //       rotate: design.rotate,
+  //     };
+  // });
 
   const { register } = useForm({
     defaultValues: {
