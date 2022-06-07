@@ -1,18 +1,25 @@
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { UploadImage } from "./upload-image";
 import { UploadImageTable } from "./upload-image-table";
-import {
-  setValue,
-  addDesignInfo,
-  deleteDesignInfo,
-} from "@/redux/slices/design";
 export interface ITableProps {
-  addRect: (imgElement: string) => void;
-  deleteImage: (key: string) => void;
+  addNewRect: (imgSrc: string) => void;
+  deleteImage: (key: string, isLast: boolean) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
   align: (position: string) => void;
+  placeHolder?: fabric.Rect;
+  setDesignLocation: (
+    designKey: string,
+    pos: {
+      width: number;
+      height: number;
+      top: number;
+      left: number;
+      scale: number;
+      rotate: number;
+    }
+  ) => void;
 }
 
 const get2Decimal = (num: number): number => {
@@ -21,6 +28,33 @@ const get2Decimal = (num: number): number => {
 
 export default function Table(props: ITableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
+  let designPosInitVal: {
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+    scale: number;
+    rotate: number;
+  } = { width: 0, height: 0, top: 0, left: 0, scale: 0, rotate: 0 };
+
+  // infoManageData.designInfos.forEach((design) => {
+  //   if (design.key === infoManageData.choosenKey)
+  //     designPosInitVal = {
+  //       width: design.width,
+  //       height: design.height,
+  //       top: design.top,
+  //       left: design.left,
+  //       scale: design.scale,
+  //       rotate: design.rotate,
+  //     };
+  // });
+
+  const { register } = useForm({
+    defaultValues: {
+      ...designPosInitVal,
+    },
+  });
+
   const dispatch = useAppDispatch();
 
   const initVal = {
@@ -29,8 +63,15 @@ export default function Table(props: ITableProps) {
   // const exportToJson = () => {
   // 	infoManageData.designInfos.reduce((pre, cur) => {});
   // };
-  if (infoManageData.choosenKey === "") return <></>;
-  const { addRect, deleteImage, chooseDesign, cloneDesign, align } = props;
+  const {
+    addNewRect,
+    deleteImage,
+    chooseDesign,
+    cloneDesign,
+    align,
+    placeHolder,
+    setDesignLocation,
+  } = props;
   return (
     <div>
       <div className="">
@@ -65,7 +106,8 @@ export default function Table(props: ITableProps) {
                     <button
                       className="btn btn-link text-dark px-2 "
                       onClick={() => {
-                        deleteImage(designInfo.key);
+                        const isLast = infoManageData.designInfos.length === 1;
+                        deleteImage(designInfo.key, isLast);
                       }}
                     >
                       <i className="bi bi-file-earmark-x h4 "></i>
@@ -73,12 +115,7 @@ export default function Table(props: ITableProps) {
                   </div>
                 </div>
                 <div className="p-3">
-                  <table
-                    className="w-full p-5 text-gray-700"
-                    onClick={() => {
-                      console.log("ahihi");
-                    }}
-                  >
+                  <table className="w-full p-5 text-gray-700">
                     <tbody>
                       <tr className="">
                         <td></td>
@@ -90,7 +127,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.width)}
@@ -101,7 +138,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group ">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.height)}
@@ -124,7 +161,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.rotate)}
@@ -135,7 +172,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.scale)}
@@ -159,7 +196,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.left)}
@@ -170,7 +207,7 @@ export default function Table(props: ITableProps) {
                         <td className="w-30p pe-4">
                           <div className="input-group">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               aria-label="Inches (with dot and two decimal places)"
                               value={get2Decimal(designInfo.top)}
@@ -286,7 +323,8 @@ export default function Table(props: ITableProps) {
                     <button
                       className="btn btn-link text-dark px-2 "
                       onClick={() => {
-                        deleteImage(designInfo.key);
+                        const isLast = infoManageData.designInfos.length === 1;
+                        deleteImage(designInfo.key, isLast);
                       }}
                     >
                       <i className="bi bi-file-earmark-x h4 "></i>
@@ -299,7 +337,7 @@ export default function Table(props: ITableProps) {
         ))}
         <div>
           <p className="">
-            <UploadImageTable addRect={addRect} />
+            <UploadImageTable addNewRect={addNewRect} />
           </p>
           {/* <button onClick={} className="py-2">
 						Save

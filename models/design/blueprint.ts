@@ -1,3 +1,5 @@
+import { DesignState } from "./designInfo";
+
 export interface Blueprint {
   frame_image: string;
   position: string;
@@ -5,4 +7,5 @@ export interface Blueprint {
     width: number;
     height: number;
   };
+  designInfos?: DesignState[];
 }

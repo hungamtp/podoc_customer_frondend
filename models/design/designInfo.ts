@@ -1,7 +1,7 @@
 export interface DesignState {
-  key: "";
-  name: "";
-  type: "image/png" | "image/jpg" | "image/jpeg";
+  key: string;
+  name?: string;
+  type: "image/png" | "image/jpg" | "image/jpeg" | "text";
   height: number;
   width: number;
   x: number;

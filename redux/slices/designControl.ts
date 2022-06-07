@@ -1,13 +1,19 @@
+import { Blueprint } from "@/models/design/blueprint";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface DesignControlData {
-  controlData: { isChooseImage: boolean; isSetImage: boolean };
+  controlData: {
+    isChooseImage: boolean;
+    isSetImage: boolean;
+    isEmpty: boolean;
+  };
 }
 
 const initialState: DesignControlData = {
   controlData: {
     isChooseImage: false,
     isSetImage: false,
+    isEmpty: true,
   },
 };
 
@@ -16,8 +22,14 @@ export const designControlSlice = createSlice({
   initialState,
   reducers: {
     setControlData: (state, action) => {
-      console.log(action, "actionnnn");
-      return { controlData: action.payload };
+      return {
+        controlData: {
+          ...state.controlData,
+          isChooseImage: action.payload.isChooseImage,
+          isSetImage: action.payload.isSetImage,
+          isEmpty: action.payload.isEmpty,
+        },
+      };
     },
   },
 });

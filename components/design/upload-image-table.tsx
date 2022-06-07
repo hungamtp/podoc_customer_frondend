@@ -3,13 +3,14 @@ import ImageUploading from "react-images-uploading";
 import { fabric } from "fabric";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
+import { DesignState } from "@/models/design";
 
 export interface UploadImageTableProps {
-  addRect: (imgElement: string) => void;
+  addNewRect: (imageSrc: string) => void;
 }
 
 export function UploadImageTable(props: UploadImageTableProps) {
-  const { addRect } = props;
+  const { addNewRect } = props;
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
   const designControlData = useAppSelector((state) => state.designControl);
@@ -21,8 +22,7 @@ export function UploadImageTable(props: UploadImageTableProps) {
     const imgElement = document.getElementById(
       "upload-image"
     ) as HTMLImageElement;
-    addRect(imageList[0].data_url);
-    console.log(imageList[0].data_url, "urlll");
+    addNewRect(imageList[0].data_url);
   };
 
   return (

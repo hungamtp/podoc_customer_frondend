@@ -1,29 +1,21 @@
 import React from "react";
 import ImageUploading from "react-images-uploading";
-import { fabric } from "fabric";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { setControlData } from "@/redux/slices/designControl";
 
 export interface ITableProps {
-  addRect: (imgElement: string) => void;
+  addNewRect: (imageSrc: string) => void;
 }
 
 export function UploadImage(props: ITableProps) {
-  const { addRect } = props;
+  const { addNewRect } = props;
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
-  const designControlData = useAppSelector((state) => state.designControl);
-  const infoManageData = useAppSelector((state) => state.infoManageData);
-  const controlData = designControlData.controlData;
-  const dispatch = useAppDispatch();
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
     setImages(imageList);
     const imgElement = document.getElementById(
       "upload-image"
     ) as HTMLImageElement;
-    console.log(imageList[0].data_url, "urlll");
-    addRect(imageList[0].data_url);
+    addNewRect(imageList[0].data_url);
   };
 
   return (
