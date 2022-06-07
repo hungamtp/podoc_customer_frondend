@@ -43,6 +43,33 @@ export default function Factory() {
               </div>
               <div>
                 <div className="small-text card-body-title">Color</div>
+                <ul className="list-unstyled mt-4 mb-0">
+                  <li className="list-inline-item">
+                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-primary">
+                      <span className="d-none">.</span>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-danger">
+                      <span className="d-none">.</span>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-success">
+                      <span className="d-none">.</span>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-info">
+                      <span className="d-none">.</span>
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-secondary">
+                      <span className="d-none">.</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

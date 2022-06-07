@@ -114,43 +114,7 @@ export default function RawProducts(props: IProductProps) {
                       </ul>
                     </div>
                     {/* Categories */}
-                    {/* color */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Color</h5>
-                      <ul className="list-unstyled mt-4 mb-0">
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-primary">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-danger">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-success">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-info">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-secondary">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-warning">
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* COlor */}
+
                     {/* Top Products */}
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Top Products</h5>

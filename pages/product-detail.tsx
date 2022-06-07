@@ -119,6 +119,8 @@ export default function ProductDetail(props: IProductDetailProps) {
 
           <Factory />
           <Factory />
+          <Factory />
+          <Factory />
           <RecentProduct />
           {/*end container*/}
           <div className="container-fluid mt-100 mt-60 px-0">
