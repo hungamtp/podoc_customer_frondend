@@ -9,6 +9,10 @@ export interface DesignControlData {
   };
 }
 
+// isEmpty: render ra trang trống
+// isSetImage: bảng chọn hình
+// isChooseImage: mở bảng chọn hình từ trang trống
+
 const initialState: DesignControlData = {
   controlData: {
     isChooseImage: false,
@@ -24,7 +28,6 @@ export const designControlSlice = createSlice({
     setControlData: (state, action) => {
       return {
         controlData: {
-          ...state.controlData,
           isChooseImage: action.payload.isChooseImage,
           isSetImage: action.payload.isSetImage,
           isEmpty: action.payload.isEmpty,

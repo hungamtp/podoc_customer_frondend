@@ -9,10 +9,11 @@ export interface info {
 
 export interface IEmptyTableProps {
   addNewRect: (imageSrc: string) => void;
+  addNewText: (text: string) => void;
 }
 
 export default function EmptyTable(props: IEmptyTableProps) {
-  const { addNewRect } = props;
+  const { addNewRect, addNewText } = props;
   const designControlData = useAppSelector((state) => state.designControl);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const controlData = designControlData.controlData;
@@ -26,7 +27,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
   // };
   return (
     <>
-      {controlData.isChooseImage || infoManageData.choosenKey !== "" ? (
+      {controlData.isChooseImage ? (
         <>
           <div className="d-flex justify-content-start border-bottom  btn-group ">
             <button className="p-2 btn btn-outline-success borderless">
@@ -37,8 +38,14 @@ export default function EmptyTable(props: IEmptyTableProps) {
           <p className="fw-bolder py-2">Thêm từ</p>
           <ul className="list-group">
             <UploadImage addNewRect={addNewRect} />
-            <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
-              <i className="bi bi-fonts me-4 h4 pt-1"></i>Văn bản
+            <li
+              className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center"
+              onClick={() => {
+                addNewText("Hello");
+              }}
+            >
+              <i className="bi bi-fonts me-4 h4 pt-1"></i>
+              Văn bản
             </li>
             <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
               <i className="bi bi-google me-4 h4 pt-1"></i>Google Drive
@@ -60,7 +67,11 @@ export default function EmptyTable(props: IEmptyTableProps) {
                 className="btn btn-success"
                 onClick={() => {
                   dispatch(
-                    setControlData({ isSetImage: true, isChooseImage: true })
+                    setControlData({
+                      ...controlData,
+                      isChooseImage: true,
+                      isSetImage: true,
+                    })
                   );
                 }}
               >

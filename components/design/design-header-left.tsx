@@ -77,8 +77,12 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
               onClick={() => {
                 const tmpControlData =
                   infoManageData.choosenKey === ""
-                    ? { isSetImage: false, isChooseImage: false }
-                    : { ...controlData, isSetImage: false };
+                    ? { isSetImage: false, isChooseImage: false, isEmpty: true }
+                    : {
+                        ...controlData,
+                        isSetImage: false,
+                        isChooseImage: false,
+                      };
                 dispatch(setControlData(tmpControlData));
               }}
             >

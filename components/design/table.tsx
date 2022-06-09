@@ -1,7 +1,14 @@
+import { DesignState } from "@/models/design";
+import { nanoid } from "@reduxjs/toolkit";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+import AutoCompleteSelect from "../common/auto-complete-select";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import ImageInfo from "./image-info";
+import SingleInput from "./single-input";
+import TextInfo from "./text-info";
 import { UploadImageTable } from "./upload-image-table";
+
 export interface ITableProps {
   addNewRect: (imgSrc: string) => void;
   deleteImage: (key: string, isLast: boolean) => void;
@@ -11,58 +18,49 @@ export interface ITableProps {
   placeHolder?: fabric.Rect;
   setDesignLocation: (
     designKey: string,
-    pos: {
-      width: number;
-      height: number;
-      top: number;
-      left: number;
-      scale: number;
-      rotate: number;
+    posInfo: {
+      pos: "top" | "left" | "scale" | "angle" | "width" | "height";
+      value: number;
     }
   ) => void;
 }
 
-const get2Decimal = (num: number): number => {
-  return Number(Number(num).toFixed(2));
-};
-
 export default function Table(props: ITableProps) {
   const infoManageData = useAppSelector((state) => state.infoManageData);
-  let designPosInitVal: {
-    width: number;
-    height: number;
-    top: number;
-    left: number;
-    scale: number;
-    rotate: number;
-  } = { width: 0, height: 0, top: 0, left: 0, scale: 0, rotate: 0 };
+  const [designInfos, setDesignInfos] = React.useState([
+    ...infoManageData.designInfos,
+  ]);
 
-  // infoManageData.designInfos.forEach((design) => {
-  //   if (design.key === infoManageData.choosenKey)
-  //     designPosInitVal = {
-  //       width: design.width,
-  //       height: design.height,
-  //       top: design.top,
-  //       left: design.left,
-  //       scale: design.scale,
-  //       rotate: design.rotate,
-  //     };
-  // });
+  React.useEffect(() => {
+    let pos = -1;
+    let updatedDesignInfo: DesignState = {
+      key: "",
+      name: "",
+      type: "image/jpeg",
+      height: 0,
+      width: 0,
+      left: 0,
+      x: 0,
+      y: 0,
+      rotate: 0,
+      scale: 0,
+      top: 0,
+      src: "https://www.google.com/search?q=default+image&tbm=isch&source=iu&ictx=1&vet=1&fir=E__DFTIbn9J8IM%252CTx4IM-J_9YNR0M%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BdAOBLb6Mi03B7M%252CtF62HY2qabLnWM%252C_%253BdzPYWaGt8jz9-M%252CxyV8ddqOau4KMM%252C_%253B6tO2K22XfMJMrM%252CJQ2op_24QBAxAM%252C_%253BiBwkPVyfzII9PM%252CRpvxnsLrgxL3_M%252C_%253BQ6BBzp2xDdCTDM%252C5SCId8Hd97daPM%252C_%253BZUQ4hqK0eoOE9M%252CCG1CySSEUS0-DM%252C_%253BX_RNqGrs8uOLUM%252CQgac5TnVA2DlVM%252C_%253Bfzm-cB-sF1nIvM%252CYlh7sHyFI9lHtM%252C_%253BCFxypJE63mo0qM%252CCfVbZJhXslp5nM%252C_%253ByFECy8Q7jEiD6M%252CzfN5DSNirAo6lM%252C_%253BmFBeEI-GK2RjoM%252CC93Eufb1-gvCmM%252C_%253BIVgx2CC_VChlFM%252CzfN5DSNirAo6lM%252C_%253BGEbPHTiPVju47M%252CoXGuy_ozigx-hM%252C_&usg=AI4_-kRMLHt0QpXibXOVMObu4AxomAnBBA&sa=X&ved=2ahUKEwiqtJWqz7v3AhUazIsBHTxODDsQ9QF6BAgDEAE&biw=1920&bih=929&dpr=1#imgrc=E__DFTIbn9J8IM",
+    };
+    console.log(designInfos, "design infoo");
+    designInfos.forEach((design, index) => {
+      if (design.key === infoManageData.choosenKey) {
+        pos = index;
+        infoManageData.designInfos.forEach((designInfo) => {
+          if (infoManageData.choosenKey === designInfo.key) {
+            updatedDesignInfo = designInfo;
+          }
+        });
+      }
+    });
+    if (pos !== -1) designInfos[pos] = updatedDesignInfo;
+  }, [infoManageData]);
 
-  const { register } = useForm({
-    defaultValues: {
-      ...designPosInitVal,
-    },
-  });
-
-  const dispatch = useAppDispatch();
-
-  const initVal = {
-    images: [],
-  };
-  // const exportToJson = () => {
-  // 	infoManageData.designInfos.reduce((pre, cur) => {});
-  // };
   const {
     addNewRect,
     deleteImage,
@@ -72,266 +70,19 @@ export default function Table(props: ITableProps) {
     placeHolder,
     setDesignLocation,
   } = props;
+  const [activeFontFamily, setActiveFontFamily] = React.useState<any>();
   return (
     <div>
       <div className="">
-        {infoManageData.designInfos.map((designInfo) => (
+        {designInfos.map((designInfo) => (
           <>
-            {designInfo.key === infoManageData.choosenKey && (
-              <div
-                key={designInfo.key}
-                className="mb-6 bg-white border border-dark cursor-pointer"
-                onClick={() => {
-                  if (chooseDesign) chooseDesign(designInfo.key);
-                }}
-              >
-                <div className="border-bottom p-3 d-flex justify-content-between">
-                  <div className="d-flex">
-                    <img src={designInfo.src} width="50px" height="50px"></img>
-
-                    <div className="ms-4">
-                      <p className="h6 m-0">Tên hình</p>
-                      <p className="text-warning m-0">Độ phân giải</p>
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-link text-dark px-2"
-                      onClick={() => {
-                        cloneDesign(designInfo.key);
-                      }}
-                    >
-                      <i className="bi bi-file-earmark h4 "></i>
-                    </button>
-                    <button
-                      className="btn btn-link text-dark px-2 "
-                      onClick={() => {
-                        const isLast = infoManageData.designInfos.length === 1;
-                        deleteImage(designInfo.key, isLast);
-                      }}
-                    >
-                      <i className="bi bi-file-earmark-x h4 "></i>
-                    </button>
-                  </div>
-                </div>
-                <div className="p-3">
-                  <table className="w-full p-5 text-gray-700">
-                    <tbody>
-                      <tr className="">
-                        <td></td>
-                        <td>Width</td>
-                        <td>Height</td>
-                      </tr>
-                      <tr className="">
-                        <td className="w-quater">Size</td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.width)}
-                            />
-                            <span className="input-group-text">in</span>
-                          </div>
-                        </td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group ">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.height)}
-                            />
-                            <span className="input-group-text">in</span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="">
-                        <td></td>
-                        <td>
-                          <div className="mt-3">Rotate</div>
-                        </td>
-                        <td>
-                          <div className="mt-3">Scale</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Transform</td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.rotate)}
-                            />
-                            <span className="input-group-text">deg</span>
-                          </div>
-                        </td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.scale)}
-                            />
-                            <span className="input-group-text">%</span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr className="">
-                        <td></td>
-                        <td>
-                          <div className="mt-3">Left</div>
-                        </td>
-                        <td>
-                          {" "}
-                          <div className="mt-3">Top</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Positioning</td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.left)}
-                            />
-                            <span className="input-group-text">%</span>
-                          </div>
-                        </td>
-                        <td className="w-30p pe-4">
-                          <div className="input-group">
-                            <input
-                              type="number"
-                              className="form-control"
-                              aria-label="Inches (with dot and two decimal places)"
-                              value={get2Decimal(designInfo.top)}
-                            />
-                            <span className="input-group-text">%</span>
-                          </div>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="pt-4">Algin</td>
-                        <td className="w-30p pe-4 pt-4">
-                          <div
-                            className="btn-group btn-group-sm "
-                            role="group"
-                            aria-label="Basic outlined example"
-                          >
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("left");
-                              }}
-                            >
-                              <i className="bi bi-align-start"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("center");
-                              }}
-                            >
-                              <i className="bi bi-align-center"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("right");
-                              }}
-                            >
-                              <i className="bi bi-align-end"></i>
-                            </button>
-                          </div>
-                        </td>
-                        <td className="w-30p pe-4 pt-4">
-                          <div
-                            className="btn-group btn-group-sm"
-                            role="group"
-                            aria-label="Basic outlined example"
-                          >
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("top");
-                              }}
-                            >
-                              <i className="bi bi-align-top"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("middle");
-                              }}
-                            >
-                              <i className="bi bi-align-middle"></i>
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                              onClick={() => {
-                                align("bottom");
-                              }}
-                            >
-                              <i className="bi bi-align-bottom"></i>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+            {/* start image section */}
+            {designInfo.type.includes("image") && (
+              <ImageInfo {...props} designInfo={designInfo} />
             )}
-            {designInfo.key !== infoManageData.choosenKey && (
-              <div>
-                <div
-                  className="d-flex border p-3 my-4 justify-content-between cursor-pointer"
-                  onClick={() => {
-                    if (chooseDesign) chooseDesign(designInfo.key);
-                  }}
-                >
-                  <div className="d-flex">
-                    <img src={designInfo.src} width="50px" height="50px"></img>
-
-                    <div className="ms-4">
-                      <p className="h6 m-0">Tên hình</p>
-                      <p className="text-warning m-0">Độ phân giải</p>
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-link text-dark px-2"
-                      onClick={() => {
-                        cloneDesign(designInfo.key);
-                      }}
-                    >
-                      <i className="bi bi-file-earmark h4 "></i>
-                    </button>
-                    <button
-                      className="btn btn-link text-dark px-2 "
-                      onClick={() => {
-                        const isLast = infoManageData.designInfos.length === 1;
-                        deleteImage(designInfo.key, isLast);
-                      }}
-                    >
-                      <i className="bi bi-file-earmark-x h4 "></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            {/* start text section */}
+            {designInfo.type === "text" && (
+              <TextInfo {...props} designInfo={designInfo} />
             )}
           </>
         ))}
