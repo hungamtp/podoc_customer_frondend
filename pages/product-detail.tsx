@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Factory from '@/components/common/factory';
-import RecentProduct from '@/components/common/recent-product';
+import Products from '@/components/common/products';
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
 
@@ -121,7 +121,7 @@ export default function ProductDetail(props: IProductDetailProps) {
           <Factory />
           <Factory />
           <Factory />
-          <RecentProduct />
+          <Products title="Highest Rate Design" />
           {/*end container*/}
           <div className="container-fluid mt-100 mt-60 px-0">
             <div className="py-5 bg-light">

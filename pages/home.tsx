@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
-import RecentProduct from '@/components/common/recent-product';
+
+import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
+import Products from '@/components/common/products';
+
 type Props = {};
 
 export default function HomePage({}: Props) {
+  const { data: response, isLoading: isLoadingAccount } = useGetHighestRateDesign();
+
   return (
     <>
       <section className="home-slider position-relative">
@@ -116,7 +121,8 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      <RecentProduct />
+      <Products title="Highest Rate Designed Products" data={response} />
+      <Products title="Best Seller" data={response} />
 
       <div className="container mt-100 mt-60">
         <div className="row">
