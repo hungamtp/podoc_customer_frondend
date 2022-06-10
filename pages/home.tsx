@@ -121,8 +121,8 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      <Products title="Highest Rate Designed Products" data={response} />
-      <Products title="Best Seller" data={response} />
+      {response ? <Products title="Highest Rate Designed Products" data={response} /> : <></>}
+      {response ? <Products title="Best Selle" data={response} /> : <></>}
 
       <div className="container mt-100 mt-60">
         <div className="row">
