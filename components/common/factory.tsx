@@ -11,7 +11,7 @@ export default function Factory({ factory }: Props) {
   const startDesign = () => {
     router.push('/design');
   };
-  console.log('Factory ' + factory);
+
   return (
     <section className="factory">
       <div className="container">

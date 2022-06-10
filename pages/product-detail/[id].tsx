@@ -7,9 +7,7 @@ import { useGetHighestRateDesignById } from '@/hooks/api/use-get-highest-rate-de
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-export interface IProductDetailProps {}
-
-export default function ProductDetail(props: IProductDetailProps) {
+export default function ProductDetail() {
   const router = useRouter();
   const productId = window.location.pathname.split('/product-detail/')[1];
   const { data: response, isLoading: isLoading } = useProductDetail(Number(productId));
@@ -28,9 +26,8 @@ export default function ProductDetail(props: IProductDetailProps) {
                   <h4 className="title mb-0"> Branded T-Shirts </h4>
                 </div>
               </div>
-              {/*end col*/}
             </div>
-            {/*end row*/}
+
             <div className="position-breadcrumb">
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
@@ -47,9 +44,8 @@ export default function ProductDetail(props: IProductDetailProps) {
               </nav>
             </div>
           </div>
-          {/*end container*/}
         </section>
-        {/*end section*/}
+
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
             <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +53,7 @@ export default function ProductDetail(props: IProductDetailProps) {
             </svg>
           </div>
         </div>
-        {/* Hero End */}
+
         <section className="section pb-0">
           <div className="container">
             <div className="row align-items-center">
@@ -68,7 +64,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                   </div>
                 </div>
               </div>
-              {/*end col*/}
+
               <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div className="section-title ms-md-4">
                   <h4 className="title"> {response?.name}</h4>
@@ -144,7 +140,6 @@ export default function ProductDetail(props: IProductDetailProps) {
             <></>
           )}
 
-          {/*end container*/}
           <div className="container-fluid mt-100 mt-60 px-0">
             <div className="py-5 bg-light">
               <div className="container">
@@ -222,16 +217,11 @@ export default function ProductDetail(props: IProductDetailProps) {
                       </a>
                     </div>
                   </div>
-                  {/*end col*/}
                 </div>
-                {/*end row*/}
               </div>
-              {/*end container*/}
             </div>
-            {/*end div*/}
           </div>
         </section>
-        {/*end section*/}
       </div>
     </>
   );
