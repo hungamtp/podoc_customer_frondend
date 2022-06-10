@@ -6,7 +6,7 @@ type Props = {
 };
 function renderPage(pages: number, currentPage: number) {
   let page = [];
-  console.log(pages);
+
   for (var i = 1; i <= pages; i++) {
     page.push(
       <li key={i} className={i == currentPage ? 'page-item' : 'page-item active'}>

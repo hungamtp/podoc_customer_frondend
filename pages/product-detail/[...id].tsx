@@ -2,11 +2,14 @@
 import Factory from '@/components/common/factory';
 import Products from '@/components/common/products';
 import { MainLayout } from '@/components/layouts';
+import useProductDetail from '@/hooks/api/use-product-detail';
 import * as React from 'react';
 
 export interface IProductDetailProps {}
 
 export default function ProductDetail(props: IProductDetailProps) {
+  const productId = window.location.pathname.split('/product-detail/')[1];
+  const { data: response, isLoading: isLoading } = useProductDetail(Number(productId));
   return (
     <>
       <div>

@@ -18,7 +18,7 @@ const useProductDetail = (id: number) => {
 export const getProductDetail = async (id: number) => { 
  
     const { data } = await API.get<PageDTO>(
-      `/category/${id}` 
+      `/product/${id}` 
     );
     return data.data;
 };

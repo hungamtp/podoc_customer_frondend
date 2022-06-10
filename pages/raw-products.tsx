@@ -20,7 +20,6 @@ export default function RawProducts(props: IProductProps) {
   };
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
   const totalPage = Math.ceil(response?.elements / filter.pageSize);
-  console.log('totalPage:' + totalPage);
 
   return (
     <>
