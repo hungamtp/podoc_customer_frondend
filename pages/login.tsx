@@ -15,17 +15,7 @@ type FormLogin = {
 type Props = {
   data: any;
 };
-// export const getStaticProps: GetStaticProps = async () => {
-//   const res = await fetch('http:localhost:3001/login', {
-//     method: 'POST',
-//   });
-//   const data = await res.json();
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+
 const schema = yup.object().shape({
   email: yup.string().email().min(8, 'Email cần ít nhất 8 kí tự').max(50, 'Email tối đa 50 kí tự').required('Email không được để trống'),
   password: yup
@@ -61,13 +51,6 @@ export default function Login({ data }: Props) {
     }
   };
 
-  // const onSignIn(googleUser : any) : void {
-  //   var profile = googleUser.getBasicProfile();
-  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  //   console.log('Name: ' + profile.getName());
-  //   console.log('Image URL: ' + profile.getImageUrl());
-  //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  // };
   return (
     <>
       {isLoading ? (

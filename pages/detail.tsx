@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import Factory from '@/components/common/factory';
 import Products from '@/components/common/products';
@@ -6,15 +7,15 @@ import useProductDetail from '@/hooks/api/use-product-detail';
 import { useGetHighestRateDesignById } from '@/hooks/api/use-get-highest-rate-design-by-id';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import { useAppSelector } from '@/components/hooks/reduxHook';
 
 export default function ProductDetail() {
   const router = useRouter();
-  const productId = window.location.pathname.split('/product-detail/')[1];
-  const { data: response, isLoading: isLoading } = useProductDetail(Number(productId));
-  const { data: responseGetHighestRateDesignById, isLoading: isLoadingGetHighestRateDesignById } = useGetHighestRateDesignById(
-    Number(productId)
-  );
-  console.log(response?.factories.length);
+
+  const productId = window.location.search.split('id=')[1];
+  const { data: response, isLoading: isLoading } = useProductDetail(productId);
+  const { data: responseGetHighestRateDesignById, isLoading: isLoadingGetHighestRateDesignById } = useGetHighestRateDesignById(productId);
+
   return (
     <>
       <div>
@@ -32,7 +33,7 @@ export default function ProductDetail() {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Landrick</a>
+                    <a href="/home">Landrick</a>
                   </li>
                   <li className="breadcrumb-item">
                     <a href="index-shop.html">Shop</a>
@@ -147,32 +148,9 @@ export default function ProductDetail() {
                   <div className="col-12">
                     <div className="d-flex align-items-center justify-content-between">
                       <a href="shop-product-detail.html" className="text-dark align-items-center">
-                        <span className="pro-icons">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-arrow-left fea icon-sm"
-                          >
-                            <line x1={19} y1={12} x2={5} y2={12} />
-                            <polyline points="12 19 5 12 12 5" />
-                          </svg>
-                        </span>
-                        <span className="text-muted d-none d-md-inline-block">Web Development</span>
-                        <img
-                          src="asset/images/work/6.jpg"
-                          className="avatar avatar-small rounded shadow ms-2"
-                          style={{ height: 'auto' }}
-                          alt=""
-                        />
+                        <span className="pro-icons"></span>
                       </a>
-                      <a href="index.html" className="btn btn-lg btn-pills btn-icon btn-soft-primary">
+                      <a href="/" className="btn btn-lg btn-pills btn-icon btn-soft-primary">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width={24}
@@ -190,30 +168,7 @@ export default function ProductDetail() {
                         </svg>
                       </a>
                       <a className="text-dark align-items-center">
-                        <img
-                          src="asset/images/work/7.jpg"
-                          className="avatar avatar-small rounded shadow me-2"
-                          style={{ height: 'auto' }}
-                          alt=""
-                        />
-                        <span className="text-muted d-none d-md-inline-block">Web Designer</span>
-                        <span className="pro-icons">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-arrow-right fea icon-sm"
-                          >
-                            <line x1={5} y1={12} x2={19} y2={12} />
-                            <polyline points="12 5 19 12 12 19" />
-                          </svg>
-                        </span>
+                        <span className="pro-icons"></span>
                       </a>
                     </div>
                   </div>

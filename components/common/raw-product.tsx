@@ -2,14 +2,24 @@
 import React from 'react';
 import { ProductHomePageDTO } from '@/services/type.dto';
 import { useRouter } from 'next/router';
+import { useAppDispatch } from '../hooks/reduxHook';
+import { setCurrentProductId } from '@/redux/slices/product';
 type Props = {
   product: ProductHomePageDTO;
 };
 
 export default function RawProduct({ product }: Props) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const redirectToProductDetail = () => {
+    dispatch(setCurrentProductId(1));
+    router.push({
+      pathname: '/detail',
+      query: { id: product.id },
+    });
+  };
   return (
-    <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2" onClick={() => router.push(`product-detail/${product.id}`)}>
+    <div className="col-lg-4 col-md-6 col-12 mt-4 pt-2" onClick={redirectToProductDetail}>
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
           {product.tags.map((tag, index) => {
@@ -22,11 +32,7 @@ export default function RawProduct({ product }: Props) {
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
           <a>
-            {product.productImages[0].image ? (
-              <img src={product.productImages[0].image} className="img-fluid" alt="" />
-            ) : (
-              <img src="asset/images/shop/product/s1.jpg" className="img-fluid" alt="" />
-            )}
+            <img src={product.productImages[0].image} className="img-fluid" alt="" />
           </a>
           <a className="overlay-work">
             {product.productImages[1].image ? <img src={product.productImages[1].image} className="img-fluid" alt="" /> : ''}
