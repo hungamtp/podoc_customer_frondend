@@ -50,6 +50,7 @@ export default function Header({}: Props) {
                 <i className="uil uil-search h5 text-dark align-middle"></i>
               </a>
             </li>
+            <li className="list-inline-item mb-0">&nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown">
                 <button
@@ -122,7 +123,7 @@ export default function Header({}: Props) {
                 </div>
               </div>
             </li>
-            <li className="list-inline-item mb-0"> &#10240;</li>
+            <li className="list-inline-item mb-0"> &nbsp;</li>
 
             <li className="list-inline-item mb-0">
               <button type="button" className="btn btn-icon btn-pills btn-primary" aria-haspopup="true" aria-expanded="false">
@@ -147,7 +148,7 @@ export default function Header({}: Props) {
                 </Badge>
               </button>
             </li>
-            <li className="list-inline-item mb-0"> &#10240;</li>
+            <li className="list-inline-item mb-0"> &nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button

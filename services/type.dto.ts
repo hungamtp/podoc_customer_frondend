@@ -46,10 +46,12 @@ export interface LoginResponse extends ISuccessHttpResponse {
   data: User;
 }
 
-export interface PageDTO {
-  page : number;
-  elements : number;
-  data : Array<ProductHomePageDTO>
+export interface PageDTO { 
+  data : {
+    data :Array<ProductHomePageDTO> ,
+    page : number,
+    elements : number;
+  }
 }
 
 export interface ProductHomePageDTO{
@@ -57,7 +59,7 @@ export interface ProductHomePageDTO{
   name: string;
   productImages : {image : string}[],
   categoryName : string;
-  tags : {tag : string}[],
+  tags : {tag : string}[];
   numberOfSize : number;
   numberOfColor : number;
   numberOfFactory : number;

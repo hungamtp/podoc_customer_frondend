@@ -8,6 +8,7 @@ import '../styles/product-detail.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import '../styles/globals.css';
+import '../styles/global.scss';
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? EmptyLayout;
   const queryClient = new QueryClient();

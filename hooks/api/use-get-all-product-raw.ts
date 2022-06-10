@@ -14,8 +14,8 @@ const useRawProduct = (filter: RawProductFilter) => {
 };
 
   export interface RawProductFilter {
-    pageSize?: number;
-    pageNumber?: number;
+    pageSize: number;
+    pageNumber: number;
     search? : string;
     sort? : string;
   }

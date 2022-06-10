@@ -11,7 +11,7 @@ export interface IProductProps {}
 export default function RawProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: 9,
     search: '',
     sort: '',
   });
@@ -19,6 +19,8 @@ export default function RawProducts(props: IProductProps) {
     setFilter({ ...filter, pageNumber: value - 1 });
   };
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
+  const totalPage = Math.ceil(response?.elements / filter.pageSize);
+  console.log('totalPage:' + totalPage);
 
   return (
     <>
@@ -201,7 +203,10 @@ export default function RawProducts(props: IProductProps) {
                 <div className="row align-items-center">
                   <div className="col-lg-8 col-md-7">
                     <div className="section-title">
-                      <h5 className="mb-0">Showing 1–15 of 47 results</h5>
+                      <h5 className="mb-0">
+                        Showing 1–{response?.elements < filter.pageSize ? response?.elements : filter.pageSize} of {response?.elements}
+                        &nbsp;results
+                      </h5>
                     </div>
                   </div>
                   {/*end col*/}
@@ -234,16 +239,10 @@ export default function RawProducts(props: IProductProps) {
                 </div>
                 {/*end row*/}
                 <div className="row">
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <RawProduct />
-                  <Pagination />
+                  {response?.data.map(product => {
+                    return <RawProduct key={product.id} product={product} />;
+                  })}
+                  {totalPage == 0 ? <></> : <Pagination pages={totalPage} currentPage={filter.pageNumber} />}
                 </div>
                 {/*end row*/}
               </div>
