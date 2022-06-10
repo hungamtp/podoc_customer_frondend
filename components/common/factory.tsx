@@ -19,9 +19,9 @@ export default function Factory({ factory }: Props) {
           <div className="card-header card-factory-header">
             <div className="right-card-factory-header">
               <span style={{ marginRight: ' 20px' }}>
-                <b className="mb-0">Factory Name</b>
+                <b className="mb-0"> {factory.name}</b>
               </span>
-              <span className="mb-0">Location</span>
+              <span className="mb-0">{factory.location}</span>
             </div>
 
             <div className="left-card-factory-header">
@@ -36,15 +36,15 @@ export default function Factory({ factory }: Props) {
             <div className="card-factory-body">
               <div className="card-factory-body-content">
                 <div className="small-text text-muted mb-0 card-body-title">Price</div>
-                <div>From 4$</div>
+                <div>{factory.price}</div>
               </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">Size</div>
-                <div>S-3XL</div>
+                <div>{factory.sizes.join(' , ')}</div>
               </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">Area</div>
-                <div>Back and front</div>
+                <div>{factory.area.join(' , ')}</div>
               </div>
               <div>
                 <div className="small-text card-body-title">Color</div>

@@ -21,11 +21,11 @@ export default function Product({ product }: Props) {
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
           <a>
-            <img src="asset/images/shop/product/s13.jpg" className="img-fluid" alt="productImage" />
+            <img src={product.image} className="img-fluid" alt="productImage" />
           </a>
-          <a className="overlay-work">
+          {/* <a className="overlay-work">
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />
-          </a>
+          </a> */}
           <ul className="list-unstyled shop-icons">
             <li>
               <a className="btn btn-icon btn-pills btn-soft-danger">
@@ -77,9 +77,7 @@ export default function Product({ product }: Props) {
             {product.name}
           </a>
           <div className="d-flex justify-content-between mt-1">
-            <h6 className="text-dark small fst-italic mb-0 mt-1">
-              ${product.designedPrice} <del className="text-danger ms-2">${product.designedPrice}</del>
-            </h6>
+            <h6 className="text-dark small fst-italic mb-0 mt-1">${product.designedPrice}</h6>
             <ul className="list-unstyled text-warning mb-0">
               <li className="list-inline-item">
                 <i className="mdi mdi-star"></i>

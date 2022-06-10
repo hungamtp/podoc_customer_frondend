@@ -6,6 +6,7 @@ import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
 import { useState } from 'react';
 import RawProduct from '@/components/common/raw-product';
 import Pagination from '@/components/common/pagination';
+import search from '@/redux/slices/search';
 export interface IProductProps {}
 
 export default function RawProducts(props: IProductProps) {
@@ -15,6 +16,12 @@ export default function RawProducts(props: IProductProps) {
     search: '',
     sort: '',
   });
+  const [name, setName] = useState('');
+
+  const search = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    setFilter({ ...filter, search: name == '' ? `name:${name}` : '' });
+  };
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setFilter({ ...filter, pageNumber: value - 1 });
   };
@@ -73,8 +80,16 @@ export default function RawProducts(props: IProductProps) {
                     <div className="widget">
                       <form role="search" method="get">
                         <div className="input-group mb-3 border rounded">
-                          <input type="text" id="s" name="s" className="form-control border-0" placeholder="Search Keywords..." />
-                          <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit">
+                          <input
+                            type="text"
+                            id="s"
+                            name="s"
+                            className="form-control border-0"
+                            placeholder="Search Keywords..."
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                          />
+                          <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit" onClick={e => search(e)}>
                             <i className="uil uil-search" />
                           </button>
                         </div>
