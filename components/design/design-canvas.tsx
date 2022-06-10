@@ -8,12 +8,15 @@ import {
   deleteDesignInfo,
   setValue,
 } from "@/redux/slices/design";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { setControlData } from "@/redux/slices/designControl";
 import { fabric } from "fabric";
 import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
+import FontFaceObserver from "fontfaceobserver";
+import googleFonts from "google-fonts";
 export interface IDesignCanvasProps {}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
@@ -263,6 +266,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           };
 
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(object.name));
           canvas.renderAll();
         }
       }
@@ -317,25 +321,22 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     }
   };
 
-  const deleteImage = React.useCallback(
-    (key: string, isLast: boolean) => {
-      if (canvas) {
-        const image = _.find(canvas._objects, function (o) {
-          return o.name === key;
-        });
-        dispatch(deleteDesignInfo({ key: key }));
-        dispatch(
-          setControlData(
-            isLast
-              ? { ...controlData, isChooseImage: false, isEmpty: true }
-              : { ...controlData, isChooseImage: false }
-          )
-        );
-        if (image) canvas.remove(image);
-      }
-    },
-    [placeHolder]
-  );
+  const deleteImage = (key: string, isLast: boolean) => {
+    if (canvas) {
+      const image = _.find(canvas._objects, function (o) {
+        return o.name === key;
+      });
+      dispatch(deleteDesignInfo({ key: key }));
+      dispatch(
+        setControlData(
+          isLast
+            ? { ...controlData, isChooseImage: false, isEmpty: true }
+            : { ...controlData, isChooseImage: false }
+        )
+      );
+      if (image) canvas.remove(image);
+    }
+  };
 
   const chooseDesign = React.useCallback(
     (key: string) => {
@@ -363,6 +364,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           };
 
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
           canvas.setActiveObject(obj);
           canvas.renderAll();
         }
@@ -392,6 +394,69 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     [placeHolder]
   );
 
+  const changeText = React.useCallback(
+    (key: string, text: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          obj.set("text", text);
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const changeFont = React.useCallback(
+    (key: string, fontName: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          if (fontName === "Roboto") {
+            obj.set("fontFamily", "Roboto");
+            canvas.requestRenderAll();
+          } else {
+            googleFonts.add({ [fontName]: true });
+            const myFont = new FontFaceObserver(fontName);
+            myFont
+              .load()
+              .then(function () {
+                // when font is loaded, use it.
+                obj.set("fontFamily", fontName);
+                canvas.requestRenderAll();
+              })
+              .catch(function (e) {
+                console.log(e);
+                alert("font loading failed " + fontName);
+              });
+          }
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const changeTextColor = React.useCallback(
+    (key: string, color: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          obj.set("fill", color);
+          canvas.requestRenderAll();
+        }
+      }
+    },
+    [placeHolder]
+  );
+
   const addNewText = React.useCallback(
     (text: string) => {
       if (canvas && placeHolder) {
@@ -406,6 +471,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           top: imageTop,
           centeredScaling: true,
           transparentCorners: true,
+          fill: "white",
         })
           .setControlsVisibility({
             mt: false, // middle top disable
@@ -650,6 +716,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             top: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
         }
       });
 
@@ -672,6 +739,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             top: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
         }
       });
 
@@ -741,6 +809,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
                 cloneDesign={cloneDesign}
                 align={align}
                 setDesignLocation={setDesignLocation}
+                changeFont={changeFont}
+                changeTextColor={changeTextColor}
+                changeText={changeText}
               />
             )}
           </div>

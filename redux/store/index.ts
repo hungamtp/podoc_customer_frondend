@@ -4,6 +4,7 @@ import searchReducer from "@/redux/slices/search";
 import designReducer from "@/redux/slices/design";
 import designControlReducer from "@/redux/slices/designControl";
 import blueprintsReducer from "@/redux/slices/blueprints";
+import choosenKeyReducer from "@/redux/slices/choosenKey";
 import {
   persistStore,
   persistReducer,
@@ -20,7 +21,12 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ["infoManageData", "designControl", "blueprintsData"],
+  blacklist: [
+    "infoManageData",
+    "designControl",
+    "blueprintsData",
+    "choosenKey",
+  ],
 };
 
 const rootReducer = combineReducers({
@@ -29,6 +35,7 @@ const rootReducer = combineReducers({
   infoManageData: designReducer,
   designControl: designControlReducer,
   blueprintsData: blueprintsReducer,
+  choosenKey: choosenKeyReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

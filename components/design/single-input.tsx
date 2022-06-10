@@ -7,7 +7,7 @@ export interface ISingleInputProps {
   defaultVal?: string;
 }
 
-export default function SingleInput(props: ISingleInputProps) {
+const SingleInput = (props: ISingleInputProps) => {
   const { handleChange, type, unit, defaultVal } = props;
   const [value, setValue] = React.useState(defaultVal);
 
@@ -17,19 +17,19 @@ export default function SingleInput(props: ISingleInputProps) {
 
   return (
     <div>
-      <div className="input-group">
-        <input
-          type={type}
-          className="form-control"
-          aria-label="Inches (with dot and two decimal places)"
-          onChange={(e: any) => {
-            setValue(e.target.value);
-            handleChange(e.target.value);
-          }}
-          value={value}
-        />
-        {unit && <span className="input-group-text">{unit}</span>}
-      </div>
+      <input
+        type={type}
+        className="custom-input"
+        aria-label="Inches (with dot and two decimal places)"
+        onChange={(e: any) => {
+          setValue(e.target.value);
+          handleChange(e.target.value);
+        }}
+        value={value}
+      />
     </div>
   );
-}
+};
+
+const SingleInputMemo = React.memo(SingleInput);
+export default SingleInputMemo;

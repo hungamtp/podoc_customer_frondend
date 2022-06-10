@@ -15,7 +15,6 @@ export interface IEmptyTableProps {
 export default function EmptyTable(props: IEmptyTableProps) {
   const { addNewRect, addNewText } = props;
   const designControlData = useAppSelector((state) => state.designControl);
-  const infoManageData = useAppSelector((state) => state.infoManageData);
   const controlData = designControlData.controlData;
   const dispatch = useAppDispatch();
 
