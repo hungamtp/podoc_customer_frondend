@@ -46,7 +46,7 @@ export default function Header({}: Props) {
 
           <ul className="buy-button list-inline mb-0">
             <li className="list-inline-item mb-0 pe-1">
-              <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+              <a href=" " data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
                 <i className="uil uil-search h5 text-dark align-middle"></i>
               </a>
             </li>
@@ -79,7 +79,7 @@ export default function Header({}: Props) {
                   style={{ width: '300px' }}
                 >
                   <div className="pb-4">
-                    <a href="javascript:void(0)" className="d-flex align-items-center">
+                    <a href=" " className="d-flex align-items-center">
                       <img src="asset/images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">T-shirt (M)</h6>
@@ -88,7 +88,7 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$640</h6>
                     </a>
 
-                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                    <a href=" " className="d-flex align-items-center mt-4">
                       <img src="asset/images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Bag</h6>
@@ -97,7 +97,7 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$250</h6>
                     </a>
 
-                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                    <a href=" " className="d-flex align-items-center mt-4">
                       <img src="asset/images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Watch (Men)</h6>
@@ -212,7 +212,7 @@ export default function Header({}: Props) {
                 </a>
               </li>
               {/* <li className="has-submenu parent-menu-item">
-                <a href="javascript:void(0)">Shop</a>
+                <a href=" ">Shop</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
                   <li onClick={() => router.push("/product")}>
@@ -253,7 +253,7 @@ export default function Header({}: Props) {
               </li> */}
 
               {/* <li className="has-submenu parent-menu-item">
-                <a href="javascript:void(0)">Pages</a>
+                <a href=" ">Pages</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
                   <li onClick={() => router.push("/login")}>

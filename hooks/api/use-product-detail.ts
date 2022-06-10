@@ -1,5 +1,5 @@
 import {  useQuery } from 'react-query'; 
-import { PageDTO} from '@/services/type.dto'; 
+import { PageDTO , ProductDetailDTO} from '@/services/type.dto'; 
 import { API } from '@/api-client/axios';
 
  
@@ -17,7 +17,9 @@ const useProductDetail = (id: number) => {
 
 export const getProductDetail = async (id: number) => { 
  
-    const { data } = await API.get<PageDTO>(
+    const { data } = await API.get<{ 
+      data :ProductDetailDTO
+    }>(
       `/product/${id}` 
     );
     return data.data;

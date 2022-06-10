@@ -68,7 +68,7 @@ export default function Cart({}: Props) {
                   <tbody>
                     <tr className="shop-list">
                       <td className="h6 text-center">
-                        <a href="javascript:void(0)" className="text-danger">
+                        <a href=" " className="text-danger">
                           <i className="uil uil-times"></i>
                         </a>
                       </td>
@@ -94,7 +94,7 @@ export default function Cart({}: Props) {
 
                     <tr className="shop-list">
                       <td className="h6 text-center">
-                        <a href="javascript:void(0)" className="text-danger">
+                        <a href=" " className="text-danger">
                           <i className="uil uil-times"></i>
                         </a>
                       </td>
@@ -120,7 +120,7 @@ export default function Cart({}: Props) {
 
                     <tr className="shop-list">
                       <td className="h6 text-center">
-                        <a href="javascript:void(0)" className="text-danger">
+                        <a href=" " className="text-danger">
                           <i className="uil uil-times"></i>
                         </a>
                       </td>
@@ -146,7 +146,7 @@ export default function Cart({}: Props) {
 
                     <tr className="shop-list">
                       <td className="h6 text-center">
-                        <a href="javascript:void(0)" className="text-danger">
+                        <a href=" " className="text-danger">
                           <i className="uil uil-times"></i>
                         </a>
                       </td>
@@ -176,10 +176,10 @@ export default function Cart({}: Props) {
           </div>
           <div className="row">
             <div className="col-lg-8 col-md-6 mt-4 pt-2">
-              <a href="javascript:void(0)" className="btn btn-primary">
+              <a href=" " className="btn btn-primary">
                 Shop More
               </a>
-              <a href="javascript:void(0)" className="btn btn-soft-primary ms-2">
+              <a href=" " className="btn btn-soft-primary ms-2">
                 Update Cart
               </a>
             </div>

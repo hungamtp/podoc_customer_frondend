@@ -22,18 +22,18 @@ export default function Footer({}: Props) {
                   <p className="mt-4">Start working with Landrick that can provide everything you.</p>
                   <ul className="list-unstyled social-icon foot-social-icon mb-0 mt-4">
                     <li className="list-inline-item">
-                      <a href="javascript:void(0)" className="rounded">
+                      <a href=" " className="rounded">
                         <HeaerIcon />
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <a href="javascript:void(0)" className="rounded">
+                      <a href=" " className="rounded">
                         <EyeIcon />
                       </a>
                     </li>
 
                     <li className="list-inline-item">
-                      <a href="javascript:void(0)" className="rounded">
+                      <a href=" " className="rounded">
                         <CartIcon />
                       </a>
                     </li>
@@ -245,7 +245,7 @@ export default function Footer({}: Props) {
                   <div className="col-sm-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <ul className="list-unstyled text-sm-end mb-0">
                       <li className="list-inline-item">
-                        <a href="javascript:void(0)">
+                        <a href=" ">
                           <img
                             src="asset/images/payments/american-ex.png"
                             className="avatar avatar-ex-sm"
@@ -255,22 +255,22 @@ export default function Footer({}: Props) {
                         </a>
                       </li>
                       <li className="list-inline-item">
-                        <a href="javascript:void(0)">
+                        <a href=" ">
                           <img src="asset/images/payments/discover.png" className="avatar avatar-ex-sm" title="Discover" alt="" />
                         </a>
                       </li>
                       <li className="list-inline-item">
-                        <a href="javascript:void(0)">
+                        <a href=" ">
                           <img src="asset/images/payments/master-card.png" className="avatar avatar-ex-sm" title="Master Card" alt="" />
                         </a>
                       </li>
                       <li className="list-inline-item">
-                        <a href="javascript:void(0)">
+                        <a href=" ">
                           <img src="asset/images/payments/paypal.png" className="avatar avatar-ex-sm" title="Paypal" alt="" />
                         </a>
                       </li>
                       <li className="list-inline-item">
-                        <a href="javascript:void(0)">
+                        <a href=" ">
                           <img src="asset/images/payments/visa.png" className="avatar avatar-ex-sm" title="Visa" alt="" />
                         </a>
                       </li>

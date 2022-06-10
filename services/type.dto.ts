@@ -65,18 +65,7 @@ export interface ProductHomePageDTO{
   numberOfFactory : number;
 
 }
-
-export interface ProductDetailDTO{
-  id : number;
-  name : string;
-  description : string;
-  productImages: Array<ProductImagesDto>;
-  categoryName : string;
-  productTags : Array<ProductTagDto>;
-  priceByFactories : Array<PriceByFactoryDto>
-
-
-}
+ 
 
 export interface ProductImagesDto {
   image : string;
@@ -90,9 +79,28 @@ export interface PriceByFactoryDto{
   price : number;
 }
 
+export interface ProductDetailDTO {
+  id : number ,
+  name : string,
+  description : string,
+  images : string[],
+  categoryName : string,
+  tags : string[],
+  factories : FactoryDTO[]
+}
+export interface FactoryDTO{
+  id : number ,
+  name : string,
+  location : string,
+  price : number ,
+  sizes : string[],
+  area : string[],
+  colors : string[]
+}
 export enum TAG{
   HOT = "Hot",
   NEW = "New",
   BEST_SELLER = "Best Seller",
 
 }
+

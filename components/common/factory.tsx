@@ -1,12 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { useRouter } from 'next/router';
+import { FactoryDTO } from '@/services/type.dto';
 
-export default function Factory() {
+type Props = {
+  factory: FactoryDTO;
+};
+export default function Factory({ factory }: Props) {
   const router = useRouter();
   const startDesign = () => {
     router.push('/design');
   };
+  console.log('Factory ' + factory);
   return (
     <section className="factory">
       <div className="container">
@@ -45,27 +50,27 @@ export default function Factory() {
                 <div className="small-text card-body-title">Color</div>
                 <ul className="list-unstyled mt-4 mb-0">
                   <li className="list-inline-item">
-                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-primary">
+                    <a className="btn btn-sm btn-icon btn-pills btn-primary">
                       <span className="d-none">.</span>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-danger">
+                    <a className="btn btn-sm btn-icon btn-pills btn-danger">
                       <span className="d-none">.</span>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-success">
+                    <a className="btn btn-sm btn-icon btn-pills btn-success">
                       <span className="d-none">.</span>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-info">
+                    <a className="btn btn-sm btn-icon btn-pills btn-info">
                       <span className="d-none">.</span>
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-secondary">
+                    <a className="btn btn-sm btn-icon btn-pills btn-secondary">
                       <span className="d-none">.</span>
                     </a>
                   </li>

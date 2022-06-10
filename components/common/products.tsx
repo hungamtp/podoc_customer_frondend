@@ -8,7 +8,7 @@ import Product from './product';
 
 type Props = {
   title: string;
-  data: Array<ProductHomePage>;
+  data: ProductHomePage[];
 };
 
 export default function Products({ title, data }: Props) {

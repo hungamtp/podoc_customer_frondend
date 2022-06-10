@@ -175,7 +175,7 @@ export default function SignUp({}: Props) {
                         <div className="row">
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
+                              <a href=" " className="btn btn-light">
                                 <i className="mdi mdi-facebook text-primary"></i> Facebook
                               </a>
                             </div>
@@ -183,7 +183,7 @@ export default function SignUp({}: Props) {
 
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
+                              <a href=" " className="btn btn-light">
                                 <i className="mdi mdi-google text-danger"></i> Google
                               </a>
                             </div>

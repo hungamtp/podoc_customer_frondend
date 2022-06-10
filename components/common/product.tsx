@@ -14,23 +14,21 @@ export default function Product({ product }: Props) {
             product.tags.map((tag: String, index: number) => {
               return (
                 <li key={index}>
-                  <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-primary">
-                    {tag}
-                  </a>
+                  <a className="badge badge-link rounded-pill bg-primary">{tag}</a>
                 </li>
               );
             })}
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
-          <a href="shop-product-detail.html">
+          <a>
             <img src="asset/images/shop/product/s13.jpg" className="img-fluid" alt="productImage" />
           </a>
-          <a href="shop-product-detail.html" className="overlay-work">
+          <a className="overlay-work">
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />
           </a>
           <ul className="list-unstyled shop-icons">
             <li>
-              <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+              <a className="btn btn-icon btn-pills btn-soft-danger">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -44,12 +42,7 @@ export default function Product({ product }: Props) {
               </a>
             </li>
             <li className="mt-2">
-              <a
-                href="javascript:void(0)"
-                data-bs-toggle="modal"
-                data-bs-target="#productview"
-                className="btn btn-icon btn-pills btn-soft-primary"
-              >
+              <a className="btn btn-icon btn-pills btn-soft-primary">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -64,7 +57,7 @@ export default function Product({ product }: Props) {
               </a>
             </li>
             <li className="mt-2">
-              <a href="shop-cart.html" className="btn btn-icon btn-pills btn-soft-warning">
+              <a className="btn btn-icon btn-pills btn-soft-warning">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

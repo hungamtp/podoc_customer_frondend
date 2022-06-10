@@ -3,13 +3,20 @@ import Factory from '@/components/common/factory';
 import Products from '@/components/common/products';
 import { MainLayout } from '@/components/layouts';
 import useProductDetail from '@/hooks/api/use-product-detail';
+import { useGetHighestRateDesignById } from '@/hooks/api/use-get-highest-rate-design-by-id';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 export interface IProductDetailProps {}
 
 export default function ProductDetail(props: IProductDetailProps) {
+  const router = useRouter();
   const productId = window.location.pathname.split('/product-detail/')[1];
   const { data: response, isLoading: isLoading } = useProductDetail(Number(productId));
+  const { data: responseGetHighestRateDesignById, isLoading: isLoadingGetHighestRateDesignById } = useGetHighestRateDesignById(
+    Number(productId)
+  );
+  console.log(response?.factories.length);
   return (
     <>
       <div>
@@ -57,14 +64,14 @@ export default function ProductDetail(props: IProductDetailProps) {
               <div className="col-md-5">
                 <div className="tiny-single-item">
                   <div className="tiny-slide">
-                    <img src="asset/images/shop/product/single-2.jpg" className="img-fluid rounded" alt="productImage" />
+                    <img src={response?.images[0]} className="img-fluid rounded" alt="productImage" />
                   </div>
                 </div>
               </div>
               {/*end col*/}
               <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <div className="section-title ms-md-4">
-                  <h4 className="title">Branded T-Shirts</h4>
+                  <h4 className="title"> {response?.name}</h4>
                   <h5 className="text-muted">
                     $21.00 <del className="text-danger ms-2">$25.00</del>
                   </h5>
@@ -86,10 +93,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                     </li>
                   </ul>
                   <h5 className="mt-4 py-2">Overview :</h5>
-                  <p className="text-muted">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero exercitationem, unde molestiae sint quae inventore atque
-                    minima natus fugiat nihil quisquam voluptates ea omnis. Modi laborum soluta tempore unde accusantium.
-                  </p>
+                  <p className="text-muted">{response?.description}</p>
                   <ul className="list-unstyled text-muted">
                     <li className="mb-1">
                       <span className="text-primary h5 me-2">
@@ -119,12 +123,27 @@ export default function ProductDetail(props: IProductDetailProps) {
               </div>
             </div>
           </div>
+          {response?.factories.length != 0 ? (
+            response?.factories.map(factory => {
+              return <Factory key={factory.id} factory={factory} />;
+            })
+          ) : (
+            <>
+              <section className="factory">
+                <div className="container">
+                  <div className="card">
+                    <div className="card-header no-factory">No factory sell this product yet.</div>
+                  </div>
+                </div>
+              </section>
+            </>
+          )}
+          {responseGetHighestRateDesignById?.length != 0 ? (
+            <Products title="Highest Rate Design" data={responseGetHighestRateDesignById} />
+          ) : (
+            <></>
+          )}
 
-          <Factory />
-          <Factory />
-          <Factory />
-          <Factory />
-          <Products title="Highest Rate Design" />
           {/*end container*/}
           <div className="container-fluid mt-100 mt-60 px-0">
             <div className="py-5 bg-light">
@@ -175,7 +194,7 @@ export default function ProductDetail(props: IProductDetailProps) {
                           <polyline points="9 22 9 12 15 12 15 22" />
                         </svg>
                       </a>
-                      <a href="shop-product-detail.html" className="text-dark align-items-center">
+                      <a className="text-dark align-items-center">
                         <img
                           src="asset/images/work/7.jpg"
                           className="avatar avatar-small rounded shadow me-2"

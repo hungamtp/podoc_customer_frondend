@@ -33,17 +33,12 @@ export default function RawProduct({ product }: Props) {
           </a>
           <ul className="list-unstyled shop-icons">
             <li>
-              <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+              <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                 <i className="bi bi-heart"></i>
               </a>
             </li>
             <li className="mt-2">
-              <a
-                href="javascript:void(0)"
-                data-bs-toggle="modal"
-                data-bs-target="#productview"
-                className="btn btn-icon btn-pills btn-soft-primary"
-              >
+              <a href=" " data-bs-toggle="modal" data-bs-target="#productview" className="btn btn-icon btn-pills btn-soft-primary">
                 <i className="bi bi-eye"></i>
               </a>
             </li>

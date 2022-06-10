@@ -17,5 +17,9 @@
 .factory{
     margin-top: 10px;
 }
+.no-factory{
+    display: flex;
+    justify-content: center;
+}
 
  
