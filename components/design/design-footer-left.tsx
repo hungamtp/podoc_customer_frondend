@@ -4,11 +4,14 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { updateBlueprint, setPosition } from "@/redux/slices/blueprints";
 import { updateDesignInfos } from "@/redux/slices/design";
 import { DesignState } from "@/models/design/designInfo";
+import { setControlData } from "@/redux/slices/designControl";
 export interface IDesignHeaderLeftProps {}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
+
+  const save = () => {};
 
   const changePos = (position: string) => {
     console.log("change poss");
@@ -54,6 +57,25 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
 
     dispatch(updateDesignInfos(tmpDesignInfos));
     //hiển thị design của trang đang muốn load lên
+    console.log(blueprintData, "blueprint");
+
+    if (tmpDesignInfos[0].key === "") {
+      dispatch(
+        setControlData({
+          isSetImage: false,
+          isChooseImage: false,
+          isEmpty: true,
+        })
+      );
+    } else {
+      dispatch(
+        setControlData({
+          isSetImage: false,
+          isChooseImage: true,
+          isEmpty: false,
+        })
+      );
+    }
   };
   const positionArr = blueprintData.blueprints.map((blueprint) => (
     <button

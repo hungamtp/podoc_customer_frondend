@@ -1,11 +1,12 @@
 import DesignCanvas from "@/components/design/design-canvas";
 import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderLeft from "@/components/design/design-header-left";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { useAppDispatch } from "@/components/hooks/reduxHook";
+import { updateBlueprint } from "@/redux/slices/blueprints";
+import { fabric } from "fabric";
+import { IImageOptions, Image } from "fabric/fabric-impl";
 import * as React from "react";
 import { Blueprint } from "../models";
-import { updateBlueprint } from "@/redux/slices/blueprints";
-import { nanoid } from "@reduxjs/toolkit";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
