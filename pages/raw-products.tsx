@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
@@ -7,6 +8,8 @@ import { useState } from 'react';
 import RawProduct from '@/components/common/raw-product';
 import Pagination from '@/components/common/pagination';
 import search from '@/redux/slices/search';
+import Categories from '@/components/common/categories';
+
 export interface IProductProps {}
 
 export default function RawProducts(props: IProductProps) {
@@ -46,10 +49,10 @@ export default function RawProducts(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Landrick</a>
+                    <a href="home">Print on demand</a>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="index-shop.html">Shop</a>
+                    <a href="raw-products">Shop</a>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     Products
@@ -96,40 +99,8 @@ export default function RawProducts(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
-                    {/* Categories */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Categories</h5>
-                      <ul className="list-unstyled mt-4 mb-0 blog-categories">
-                        <li>
-                          <a href="jvascript:void(0)">Men</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Women</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Electronics</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Jewellery</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Shoes</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Kid’s Wear</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Sports</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Toys</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Gift Corners</a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* Categories */}
+
+                    <Categories />
 
                     {/* Top Products */}
                     <div className="widget mt-4 pt-2">

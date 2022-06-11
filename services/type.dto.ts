@@ -83,6 +83,8 @@ export interface ProductDetailDTO {
   id : number ,
   name : string,
   description : string,
+  lowestPrice: number,
+  highestPrice: number,
   images : string[],
   categoryName : string,
   tags : string[],
@@ -97,6 +99,13 @@ export interface FactoryDTO{
   area : string[],
   colors : string[]
 }
+
+export interface CategoryDTO{
+  id : number;
+  name : string;
+  image : string;
+}
+
 export enum TAG{
   HOT = "Hot",
   NEW = "New",

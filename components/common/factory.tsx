@@ -49,7 +49,7 @@ export default function Factory({ factory }: Props) {
                 <div className="small-text text-muted mb-0 card-body-title">
                   Price
                 </div>
-                <div>{factory.price}</div>
+                <div>${factory.price}</div>
               </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">
