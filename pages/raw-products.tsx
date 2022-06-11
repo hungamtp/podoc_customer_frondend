@@ -104,7 +104,7 @@ export default function RawProducts(props: IProductProps) {
                       <ul className="list-unstyled mt-4 mb-0 blog-categories">
                         {categories?.map(category => {
                           return (
-                            <li key={category.id}>
+                            <li className="category" key={category.id}>
                               <h6>{category.name}</h6>
                             </li>
                           );
