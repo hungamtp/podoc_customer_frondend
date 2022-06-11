@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Categories from '@/components/common/categories';
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
 
@@ -65,40 +66,9 @@ export default function Product(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
-                    {/* Categories */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Categories</h5>
-                      <ul className="list-unstyled mt-4 mb-0 blog-categories">
-                        <li>
-                          <a href="jvascript:void(0)">Men</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Women</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Electronics</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Jewellery</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Shoes</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Kid’s Wear</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Sports</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Toys</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Gift Corners</a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* Categories */}
+
+                    <Categories />
+
                     {/* color */}
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Color</h5>

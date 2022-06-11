@@ -8,7 +8,8 @@ import { useState } from 'react';
 import RawProduct from '@/components/common/raw-product';
 import Pagination from '@/components/common/pagination';
 import search from '@/redux/slices/search';
-import useCategory from '@/hooks/api/use-category';
+import Categories from '@/components/common/categories';
+
 export interface IProductProps {}
 
 export default function RawProducts(props: IProductProps) {
@@ -29,8 +30,7 @@ export default function RawProducts(props: IProductProps) {
   };
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
   const totalPage = Math.ceil(response?.elements / filter.pageSize);
-  const { data: categories, isLoading: isCategoryLoading } = useCategory();
-  console.log(categories);
+
   return (
     <>
       <div>
@@ -99,20 +99,8 @@ export default function RawProducts(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
-                    {/* Categories */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Categories</h5>
-                      <ul className="list-unstyled mt-4 mb-0 blog-categories">
-                        {categories?.map(category => {
-                          return (
-                            <li className="category" key={category.id}>
-                              <h6>{category.name}</h6>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                    {/* Categories */}
+
+                    <Categories />
 
                     {/* Top Products */}
                     <div className="widget mt-4 pt-2">
