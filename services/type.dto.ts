@@ -83,6 +83,8 @@ export interface ProductDetailDTO {
   id : number ,
   name : string,
   description : string,
+  lowestPrice: number,
+  highestPrice: number,
   images : string[],
   categoryName : string,
   tags : string[],

@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { data } from 'jquery';
-import { GetStaticProps } from 'next/types';
+
 import React, { useEffect } from 'react';
-import { Best4DesignedProduct, ProductHomePage } from '@/services/type.dto';
-import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
+import { ProductHomePage } from '@/services/type.dto';
+
 import Product from './product';
 
 type Props = {

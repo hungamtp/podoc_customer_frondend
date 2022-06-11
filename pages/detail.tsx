@@ -70,7 +70,9 @@ export default function ProductDetail() {
                 <div className="section-title ms-md-4">
                   <h4 className="title"> {response?.name}</h4>
                   <h5 className="text-muted">
-                    $21.00 <del className="text-danger ms-2">$25.00</del>
+                    {response?.lowestPrice == 0
+                      ? `from $${response?.highestPrice}`
+                      : `from $${response?.lowestPrice} to $${response?.highestPrice}`}
                   </h5>
                   <ul className="list-unstyled text-warning h5 mb-0">
                     <li className="list-inline-item">
