@@ -11,6 +11,8 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
 
+  const save = () => {};
+
   const changePos = (position: string) => {
     console.log("change poss");
     let pos = -1;

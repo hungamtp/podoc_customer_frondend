@@ -1,22 +1,22 @@
 import EmptyTable from "@/components/design/emptyTable";
 import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { Blueprint, DesignState } from "@/models/design";
+import { DesignState } from "@/models/design";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
 import {
   addDesignInfo,
   cloneDesignInfo,
   deleteDesignInfo,
   setValue,
 } from "@/redux/slices/design";
-import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { setControlData } from "@/redux/slices/designControl";
 import { fabric } from "fabric";
+import FontFaceObserver from "fontfaceobserver";
+import googleFonts from "google-fonts";
 import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-import FontFaceObserver from "fontfaceobserver";
-import googleFonts from "google-fonts";
 export interface IDesignCanvasProps {}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
@@ -88,15 +88,16 @@ const initPlaceHolder = (
 
   const rect = new fabric.Rect({
     width: newWidth,
+    name: "placeHolder",
     height: newHeight,
     left: left,
     top: top,
     absolutePositioned: true,
     selectable: false,
     strokeDashArray: [5, 5],
-    stroke: "white",
     strokeWidth: 2,
-    // noScaleCache: false,
+    stroke: "rgba(255,255,255,1.0)",
+    fill: "rgba(0,0,0,0.0)",
   });
   return rect;
 };
@@ -148,7 +149,10 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   });
 
   React.useEffect(() => {
-    canvas?.clear();
+    if (placeHolder && canvas) {
+      exportSvg();
+      canvas.clear();
+    }
 
     setPlaceHolder(
       initPlaceHolder(
@@ -169,6 +173,24 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           addRect(design);
         });
       }
+    }
+  };
+
+  const exportSvg = () => {
+    if (placeHolder && canvas) {
+      const ph = _.find(canvas._objects, function (o) {
+        return o.name === "placeHolder";
+      });
+      console.log(ph, "phss");
+      if (ph) canvas.remove(ph);
+      canvas._objects.forEach((object) => {
+        object.clipPath = undefined;
+      });
+      console.log(canvas._objects, "objsss");
+
+      const image = canvas.requestRenderAll().toDataURL();
+
+      console.log(image, "export image");
     }
   };
 
@@ -518,57 +540,63 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     (imgUrl: string) => {
       if (canvas && placeHolder) {
         const newName = nanoid();
-        fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
-          const imageLeft = (canvas.getWidth() - 150) / 2;
-          const imageTop = (canvas.getHeight() - 100) / 2;
+        fabric.Image.fromURL(
+          imgUrl,
+          (image: fabric.Image) => {
+            const imageLeft = (canvas.getWidth() - 150) / 2;
+            const imageTop = (canvas.getHeight() - 100) / 2;
 
-          image.set("name", newName);
-          image.set("left", imageLeft);
-          image.set("top", imageTop);
-          image.set("angle", 0);
-          image.set("opacity", 100);
-          image.set("noScaleCache", true);
-          image.transparentCorners = false;
-          image.centeredScaling = true;
-          image.scaleToWidth(150);
-          image.scaleToHeight(100);
-          image.set("clipPath", placeHolder);
-          image.setControlsVisibility({
-            mt: false, // middle top disable
-            mb: false, // midle bottom
-            ml: false, // middle left
-            mr: false, // I think you get it
-          });
+            image.set("name", newName);
 
-          canvas.add(image);
-          const tmpDesignData = calculatePoint(
-            image.left || 200,
-            image.top || 200,
-            image.getScaledWidth(),
-            image.getScaledHeight()
-          );
-          const designInfo = {
-            key: newName,
-            type: "image/png",
-            rotate: 0,
-            width: tmpDesignData?.width,
-            height: tmpDesignData?.height,
-            scale: tmpDesignData?.scale,
-            left: tmpDesignData?.left,
-            top: tmpDesignData?.top,
-            src: imgUrl,
-          };
+            image.set("left", imageLeft);
+            image.set("top", imageTop);
+            image.set("angle", 0);
+            image.set("opacity", 100);
+            image.set("noScaleCache", true);
+            image.transparentCorners = false;
+            image.centeredScaling = true;
+            image.scaleToWidth(150);
+            image.scaleToHeight(100);
+            image.set("clipPath", placeHolder);
 
-          dispatch(addDesignInfo({ ...designInfo }));
-          dispatch(
-            setControlData({
-              isSetImage: false,
-              isChooseImage: true,
-              isEmpty: false,
-            })
-          );
-          canvas.renderAll();
-        });
+            image.setControlsVisibility({
+              mt: false, // middle top disable
+              mb: false, // midle bottom
+              ml: false, // middle left
+              mr: false, // I think you get it
+            });
+
+            canvas.add(image);
+            const tmpDesignData = calculatePoint(
+              image.left || 200,
+              image.top || 200,
+              image.getScaledWidth(),
+              image.getScaledHeight()
+            );
+            const designInfo = {
+              key: newName,
+              type: "image/png",
+              rotate: 0,
+              width: tmpDesignData?.width,
+              height: tmpDesignData?.height,
+              scale: tmpDesignData?.scale,
+              left: tmpDesignData?.left,
+              top: tmpDesignData?.top,
+              src: imgUrl,
+            };
+
+            dispatch(addDesignInfo({ ...designInfo }));
+            dispatch(
+              setControlData({
+                isSetImage: false,
+                isChooseImage: true,
+                isEmpty: false,
+              })
+            );
+            canvas.renderAll();
+          },
+          { crossOrigin: "anonymous" }
+        );
       }
     },
     [placeHolder]
@@ -634,20 +662,25 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     const { outerWidth, outerHeight } = outerSize;
 
     if (canvas) {
-      fabric.Image.fromURL(dataUrl, (image: fabric.Image) => {
-        canvas.setWidth(outerWidth);
-        canvas.setHeight(outerHeight);
+      fabric.Image.fromURL(
+        dataUrl,
+        (image: fabric.Image) => {
+          canvas.setWidth(outerWidth);
+          canvas.setHeight(outerHeight);
 
-        canvas.renderAll();
-        const sizeObj = resizer(
-          { width: outerWidth, height: outerHeight },
-          { width: image.width || 100, height: image.height || 150 }
-        );
-        image.scaleToHeight(sizeObj.height);
-        image.set("top", sizeObj.y);
-        image.set({ left: sizeObj.x });
-        canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
-      });
+          canvas.renderAll();
+          const sizeObj = resizer(
+            { width: outerWidth, height: outerHeight },
+            { width: image.width || 100, height: image.height || 150 }
+          );
+          image.scaleToHeight(sizeObj.height);
+          image.set("top", sizeObj.y);
+          image.set({ left: sizeObj.x });
+          console.log(image, "err");
+          canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
+        },
+        { crossOrigin: "anonymous" }
+      );
     }
   };
 
@@ -756,8 +789,10 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         outerWidth: defaultWidth,
         outerHeight: pageHeight - pageHeight / 5.3,
       };
+      // const blueprintImageUrl =
+      //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
       const blueprintImageUrl =
-        "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
+        "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
 
       reverseDesigns();
@@ -767,12 +802,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   return (
     <div className="row h-80">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-        <div
-          className="outer position-relative"
-          style={{
-            backgroundImage: `url("https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117")`,
-          }}
-        >
+        <div className="outer position-relative">
           <canvas id="canvas" className="center-block"></canvas>
         </div>
       </div>

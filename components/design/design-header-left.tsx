@@ -15,6 +15,9 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
     loading: true,
     indicator: <Audio width="50" />,
   });
+  const getpreview = (setPreview: () => void) => {
+    setPreview();
+  };
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
   const dispatch = useAppDispatch();
