@@ -125,7 +125,7 @@ export default function About({}: Props) {
                   <h4>
                     Street style has its own <br /> rules
                   </h4>
-                  <a href="javascript:void(0)" className="btn btn-sm btn-soft-primary mt-2">
+                  <a href=" " className="btn btn-sm btn-soft-primary mt-2">
                     Shop Now
                   </a>
                 </div>
@@ -139,7 +139,7 @@ export default function About({}: Props) {
                   <h4>
                     Old style in a new <br /> edition
                   </h4>
-                  <a href="javascript:void(0)" className="btn btn-sm btn-soft-primary mt-2">
+                  <a href=" " className="btn btn-sm btn-soft-primary mt-2">
                     Shop Now
                   </a>
                 </div>
@@ -151,7 +151,7 @@ export default function About({}: Props) {
                 <img src="asset/images/shop/fea4.jpg" className="img-fluid" alt="" />
                 <div className="category-title ms-md-4 ms-2">
                   <h4>Summer Collection</h4>
-                  <a href="javascript:void(0)" className="btn btn-sm btn-soft-primary mt-2">
+                  <a href=" " className="btn btn-sm btn-soft-primary mt-2">
                     Shop Now
                   </a>
                 </div>

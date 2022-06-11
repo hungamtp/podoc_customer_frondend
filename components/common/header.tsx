@@ -8,6 +8,10 @@ type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
+  const logout = () => {
+    localStorage.removeItem('jwt');
+    router.push('/login');
+  };
   function toggleMenu(): void {
     var isOpen = document.getElementById('navigation');
     if (isOpen) {
@@ -23,9 +27,9 @@ export default function Header({}: Props) {
     <div>
       <div id="topnav" className="defaultscroll sticky">
         <div className="container">
-          <a className="logo" href="index.html">
-            <img src="images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
-            <img src="images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
+          <a className="logo" href="/">
+            <img src="asset/images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
+            <img src="asset/images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
           </a>
 
           <div className="menu-extras">
@@ -42,10 +46,11 @@ export default function Header({}: Props) {
 
           <ul className="buy-button list-inline mb-0">
             <li className="list-inline-item mb-0 pe-1">
-              <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+              <a href=" " data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
                 <i className="uil uil-search h5 text-dark align-middle"></i>
               </a>
             </li>
+            <li className="list-inline-item mb-0">&nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown">
                 <button
@@ -74,7 +79,7 @@ export default function Header({}: Props) {
                   style={{ width: '300px' }}
                 >
                   <div className="pb-4">
-                    <a href="javascript:void(0)" className="d-flex align-items-center">
+                    <a href=" " className="d-flex align-items-center">
                       <img src="asset/images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">T-shirt (M)</h6>
@@ -83,7 +88,7 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$640</h6>
                     </a>
 
-                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                    <a href=" " className="d-flex align-items-center mt-4">
                       <img src="asset/images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Bag</h6>
@@ -92,7 +97,7 @@ export default function Header({}: Props) {
                       <h6 className="text-dark mb-0">$250</h6>
                     </a>
 
-                    <a href="javascript:void(0)" className="d-flex align-items-center mt-4">
+                    <a href=" " className="d-flex align-items-center mt-4">
                       <img src="asset/images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
                       <div className="flex-1 text-start ms-3">
                         <h6 className="text-dark mb-0">Watch (Men)</h6>
@@ -115,11 +120,10 @@ export default function Header({}: Props) {
                       Checkout
                     </a>
                   </div>
-                  <p className="text-muted text-start mt-1 mb-0">*T&C Apply</p>
                 </div>
               </div>
             </li>
-            <li className="list-inline-item mb-0"> &#10240;</li>
+            <li className="list-inline-item mb-0"> &nbsp;</li>
 
             <li className="list-inline-item mb-0">
               <button type="button" className="btn btn-icon btn-pills btn-primary" aria-haspopup="true" aria-expanded="false">
@@ -144,7 +148,7 @@ export default function Header({}: Props) {
                 </Badge>
               </button>
             </li>
-            <li className="list-inline-item mb-0"> &#10240;</li>
+            <li className="list-inline-item mb-0"> &nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button
@@ -176,7 +180,7 @@ export default function Header({}: Props) {
                     <i className="uil uil-clipboard-notes align-middle me-1"></i> Order History
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
-                  <a className="dropdown-item text-dark" href="#">
+                  <a className="dropdown-item text-dark" onClick={logout}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i> Logout
                   </a>
                 </div>
@@ -197,8 +201,8 @@ export default function Header({}: Props) {
                   Giới thiệu
                 </a>
               </li>
-              <li onClick={() => router.push('/about')}>
-                <a href="raw-product" className="sub-menu-item">
+              <li onClick={() => router.push('/raw-products')}>
+                <a href="raw-products" className="sub-menu-item">
                   Tự thiết kế
                 </a>
               </li>
@@ -208,7 +212,7 @@ export default function Header({}: Props) {
                 </a>
               </li>
               {/* <li className="has-submenu parent-menu-item">
-                <a href="javascript:void(0)">Shop</a>
+                <a href=" ">Shop</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
                   <li onClick={() => router.push("/product")}>
@@ -249,7 +253,7 @@ export default function Header({}: Props) {
               </li> */}
 
               {/* <li className="has-submenu parent-menu-item">
-                <a href="javascript:void(0)">Pages</a>
+                <a href=" ">Pages</a>
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
                   <li onClick={() => router.push("/login")}>

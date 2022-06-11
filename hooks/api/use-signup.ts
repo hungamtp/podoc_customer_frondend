@@ -18,7 +18,7 @@ const useSignup = () => {
 			onSuccess: (data) => {
 				dispatch(signupAction(data));
 				//because data:any
-				// router.push('/dashboard');
+				router.push('/login');
 			},
 			onError: (error: AxiosError<ErrorHttpResponse>) => {
 				 

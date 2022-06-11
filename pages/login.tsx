@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import useLogin from '@/hooks/auth/use-login';
+import useLogin from '@/hooks/api/use-login';
 type FormLogin = {
   email: string;
   password: string;
@@ -15,17 +15,7 @@ type FormLogin = {
 type Props = {
   data: any;
 };
-// export const getStaticProps: GetStaticProps = async () => {
-//   const res = await fetch('http:localhost:3001/login', {
-//     method: 'POST',
-//   });
-//   const data = await res.json();
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+
 const schema = yup.object().shape({
   email: yup.string().email().min(8, 'Email cần ít nhất 8 kí tự').max(50, 'Email tối đa 50 kí tự').required('Email không được để trống'),
   password: yup
@@ -39,10 +29,10 @@ export default function Login({ data }: Props) {
   const [rememberMe, setRememberMe] = useState(false);
   // const [error, setError] = React.useState(false);
   const { mutate: login, isLoading, error } = useLogin();
-  console.log(error, 'erorrere');
+
   const defaultValues: FormLogin = {
-    email: 'vuvietsang10a9@gmail.com',
-    password: '12345678',
+    email: '',
+    password: '',
   };
   const {
     register,
@@ -61,23 +51,20 @@ export default function Login({ data }: Props) {
     }
   };
 
-  // const onSignIn(googleUser : any) : void {
-  //   var profile = googleUser.getBasicProfile();
-  //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  //   console.log('Name: ' + profile.getName());
-  //   console.log('Image URL: ' + profile.getImageUrl());
-  //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  // };
   return (
     <>
-      <div id="preloader">
-        <div id="status">
-          <div className="spinner">
-            <div className="double-bounce1"></div>
-            <div className="double-bounce2"></div>
+      {isLoading ? (
+        <div id="preloader">
+          <div id="status">
+            <div className="spinner">
+              <div className="double-bounce1"></div>
+              <div className="double-bounce2"></div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
 
       <div className="back-to-home rounded d-none d-sm-block">
         <a href="index.html" className="btn btn-icon btn-soft-primary">
@@ -168,7 +155,7 @@ export default function Login({ data }: Props) {
                         <div className="row">
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
+                              <a href=" " className="btn btn-light">
                                 <i className="mdi mdi-facebook text-primary"></i> Facebook
                               </a>
                             </div>
@@ -176,7 +163,7 @@ export default function Login({ data }: Props) {
 
                           <div className="col-6 mt-3">
                             <div className="d-grid">
-                              <a href="javascript:void(0)" className="btn btn-light">
+                              <a href=" " className="btn btn-light">
                                 {/* <i className="mdi mdi-google text-danger"></i> <div className="g-signin2" data-onsuccess={onSignIn}></div> */}
                                 <i className="mdi mdi-google text-danger"></i> <div className="g-signin2"></div>
                               </a>

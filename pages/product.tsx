@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Categories from '@/components/common/categories';
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
 
@@ -65,71 +66,40 @@ export default function Product(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
-                    {/* Categories */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Categories</h5>
-                      <ul className="list-unstyled mt-4 mb-0 blog-categories">
-                        <li>
-                          <a href="jvascript:void(0)">Men</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Women</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Electronics</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Jewellery</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Shoes</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Kid’s Wear</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Sports</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Toys</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Gift Corners</a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* Categories */}
+
+                    <Categories />
+
                     {/* color */}
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Color</h5>
                       <ul className="list-unstyled mt-4 mb-0">
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-primary">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-primary">
                             <span className="d-none">.</span>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-danger">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-danger">
                             <span className="d-none">.</span>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-success">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-success">
                             <span className="d-none">.</span>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-info">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-info">
                             <span className="d-none">.</span>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-secondary">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-secondary">
                             <span className="d-none">.</span>
                           </a>
                         </li>
                         <li className="list-inline-item">
-                          <a href="javascript:void(0)" className="btn btn-sm btn-icon btn-pills btn-warning">
+                          <a href=" " className="btn btn-sm btn-icon btn-pills btn-warning">
                             <span className="d-none">.</span>
                           </a>
                         </li>
@@ -141,7 +111,7 @@ export default function Product(props: IProductProps) {
                       <h5 className="widget-title">Top Products</h5>
                       <ul className="list-unstyled mt-4 mb-0">
                         <li className="d-flex align-items-center">
-                          <a href="javascript:void(0)">
+                          <a href=" ">
                             <img
                               src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
@@ -150,7 +120,7 @@ export default function Product(props: IProductProps) {
                             />
                           </a>
                           <div className="flex-1 content ms-3">
-                            <a href="javascript:void(0)" className="text-dark h6">
+                            <a href=" " className="text-dark h6">
                               T-Shirt
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
@@ -159,7 +129,7 @@ export default function Product(props: IProductProps) {
                           </div>
                         </li>
                         <li className="d-flex align-items-center mt-2">
-                          <a href="javascript:void(0)">
+                          <a href=" ">
                             <img
                               src="asset/images/shop/product/s3.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
@@ -168,7 +138,7 @@ export default function Product(props: IProductProps) {
                             />
                           </a>
                           <div className="flex-1 content ms-3">
-                            <a href="javascript:void(0)" className="text-dark h6">
+                            <a href=" " className="text-dark h6">
                               Watch
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
@@ -177,7 +147,7 @@ export default function Product(props: IProductProps) {
                           </div>
                         </li>
                         <li className="d-flex align-items-center mt-2">
-                          <a href="javascript:void(0)">
+                          <a href=" ">
                             <img
                               src="asset/images/shop/product/s6.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
@@ -186,7 +156,7 @@ export default function Product(props: IProductProps) {
                             />
                           </a>
                           <div className="flex-1 content ms-3">
-                            <a href="javascript:void(0)" className="text-dark h6">
+                            <a href=" " className="text-dark h6">
                               Coffee Cup
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
@@ -195,7 +165,7 @@ export default function Product(props: IProductProps) {
                           </div>
                         </li>
                         <li className="d-flex align-items-center mt-2">
-                          <a href="javascript:void(0)">
+                          <a href=" ">
                             <img
                               src="asset/images/shop/product/s8.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
@@ -204,7 +174,7 @@ export default function Product(props: IProductProps) {
                             />
                           </a>
                           <div className="flex-1 content ms-3">
-                            <a href="javascript:void(0)" className="text-dark h6">
+                            <a href=" " className="text-dark h6">
                               Wooden Stools
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
@@ -259,7 +229,7 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
@@ -273,13 +243,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -377,13 +347,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -439,13 +409,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -494,7 +464,7 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
+                          <a href=" " className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
@@ -508,13 +478,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -561,17 +531,17 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-primary">
+                          <a href=" " className="badge badge-link rounded-pill bg-primary">
                             New
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
+                          <a href=" " className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
@@ -627,13 +597,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -682,17 +652,17 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-primary">
+                          <a href=" " className="badge badge-link rounded-pill bg-primary">
                             New
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
+                          <a href=" " className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
@@ -706,13 +676,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -761,7 +731,7 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
@@ -775,13 +745,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -830,7 +800,7 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-primary">
+                          <a href=" " className="badge badge-link rounded-pill bg-primary">
                             New
                           </a>
                         </li>
@@ -879,7 +849,7 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
@@ -893,13 +863,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -948,17 +918,17 @@ export default function Product(props: IProductProps) {
                     <div className="card shop-list border-0 position-relative">
                       <ul className="label list-unstyled mb-0">
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-primary">
+                          <a href=" " className="badge badge-link rounded-pill bg-primary">
                             New
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-success">
+                          <a href=" " className="badge badge-link rounded-pill bg-success">
                             Featured
                           </a>
                         </li>
                         <li>
-                          <a href="javascript:void(0)" className="badge badge-link rounded-pill bg-warning">
+                          <a href=" " className="badge badge-link rounded-pill bg-warning">
                             Sale
                           </a>
                         </li>
@@ -972,13 +942,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -1034,13 +1004,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -1096,13 +1066,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -1158,13 +1128,13 @@ export default function Product(props: IProductProps) {
                         </a>
                         <ul className="list-unstyled shop-icons">
                           <li>
-                            <a href="javascript:void(0)" className="btn btn-icon btn-pills btn-soft-danger">
+                            <a href=" " className="btn btn-icon btn-pills btn-soft-danger">
                               <i data-feather="heart" className="icons" />
                             </a>
                           </li>
                           <li className="mt-2">
                             <a
-                              href="javascript:void(0)"
+                              href=" "
                               data-bs-toggle="modal"
                               data-bs-target="#productview"
                               className="btn btn-icon btn-pills btn-soft-primary"
@@ -1213,27 +1183,27 @@ export default function Product(props: IProductProps) {
                   <div className="col-12 mt-4 pt-2">
                     <ul className="pagination justify-content-center mb-0">
                       <li className="page-item">
-                        <a className="page-link" href="javascript:void(0)" aria-label="Previous">
+                        <a className="page-link" href=" " aria-label="Previous">
                           <i className="mdi mdi-arrow-left" /> Prev
                         </a>
                       </li>
                       <li className="page-item active">
-                        <a className="page-link" href="javascript:void(0)">
+                        <a className="page-link" href=" ">
                           1
                         </a>
                       </li>
                       <li className="page-item">
-                        <a className="page-link" href="javascript:void(0)">
+                        <a className="page-link" href=" ">
                           2
                         </a>
                       </li>
                       <li className="page-item">
-                        <a className="page-link" href="javascript:void(0)">
+                        <a className="page-link" href=" ">
                           3
                         </a>
                       </li>
                       <li className="page-item">
-                        <a className="page-link" href="javascript:void(0)" aria-label="Next">
+                        <a className="page-link" href=" " aria-label="Next">
                           Next <i className="mdi mdi-arrow-right" />
                         </a>
                       </li>

@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
-import RecentProduct from '@/components/common/recent-product';
+
+import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
+import Products from '@/components/common/products';
+
 type Props = {};
 
 export default function HomePage({}: Props) {
+  const { data: response, isLoading: isLoadingAccount } = useGetHighestRateDesign();
+
   return (
     <>
       <section className="home-slider position-relative">
@@ -42,7 +47,7 @@ export default function HomePage({}: Props) {
                           html page.
                         </p>
                         <div className="mt-4">
-                          <a href="javascript:void(0)" className="btn btn-soft-primary">
+                          <a href=" " className="btn btn-soft-primary">
                             Shop Now
                           </a>
                         </div>
@@ -72,7 +77,7 @@ export default function HomePage({}: Props) {
                           html page.
                         </p>
                         <div className="mt-4">
-                          <a href="javascript:void(0)" className="btn btn-soft-primary">
+                          <a href=" " className="btn btn-soft-primary">
                             Shop Now
                           </a>
                         </div>
@@ -102,7 +107,7 @@ export default function HomePage({}: Props) {
                           html page.
                         </p>
                         <div className="mt-4">
-                          <a href="javascript:void(0)" className="btn btn-soft-primary">
+                          <a href=" " className="btn btn-soft-primary">
                             Shop Now
                           </a>
                         </div>
@@ -116,7 +121,8 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      <RecentProduct />
+      {response ? <Products title="Highest Rate Designed Products" data={response} /> : <></>}
+      {response ? <Products title="Best Selle" data={response} /> : <></>}
 
       <div className="container mt-100 mt-60">
         <div className="row">
@@ -132,7 +138,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/fashion.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Fashion
                     </a>
                   </h6>
@@ -147,7 +153,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/sports.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Sports
                     </a>
                   </h6>
@@ -162,7 +168,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/music.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Music
                     </a>
                   </h6>
@@ -177,7 +183,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/furniture.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Furniture
                     </a>
                   </h6>
@@ -192,7 +198,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/electronics.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Electronics
                     </a>
                   </h6>
@@ -207,7 +213,7 @@ export default function HomePage({}: Props) {
                 <img src="asset/images/shop/categories/mobile.jpg" className="avatar avatar-small rounded-circle shadow-md" alt="" />
                 <div className="content mt-3">
                   <h6 className="mb-0">
-                    <a href="javascript:void(0)" className="title text-dark">
+                    <a href=" " className="title text-dark">
                       Mobiles
                     </a>
                   </h6>
@@ -233,7 +239,7 @@ export default function HomePage({}: Props) {
                     page.
                   </p>
                   <div className="mt-4">
-                    <a href="javascript:void(0)" className="btn btn-primary">
+                    <a href=" " className="btn btn-primary">
                       Shop Now
                     </a>
                   </div>

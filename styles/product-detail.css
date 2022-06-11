@@ -1,0 +1,25 @@
+.card-factory-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 0;
+}
+.card-factory-body{
+    display: flex;
+    justify-content: space-between;
+}
+.card-body-title{
+    margin-bottom: 10px;
+    font-size: small;
+}
+.card-factory-body-content{
+    display: block;
+}
+.factory{
+    margin-top: 10px;
+}
+.no-factory{
+    display: flex;
+    justify-content: center;
+}
+
+ 
