@@ -19,9 +19,10 @@ export default function Products({ title, data }: Props) {
         <h5 className="mb-0">{title}</h5>
       </div>
       <div className="row">
-        {data.map((item: ProductHomePage) => {
-          return <Product key={item.id} product={item} />;
-        })}
+        {data &&
+          data.map((item: ProductHomePage) => {
+            return <Product key={item.id} product={item} />;
+          })}
       </div>
     </div>
   );
