@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import { MainLayout } from '@/components/layouts';
 import * as React from 'react';
@@ -48,10 +49,10 @@ export default function RawProducts(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Landrick</a>
+                    <a href="home">Print on demand</a>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="index-shop.html">Shop</a>
+                    <a href="raw-products">Shop</a>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     Products
