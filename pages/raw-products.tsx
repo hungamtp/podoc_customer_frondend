@@ -7,6 +7,7 @@ import { useState } from 'react';
 import RawProduct from '@/components/common/raw-product';
 import Pagination from '@/components/common/pagination';
 import search from '@/redux/slices/search';
+import useCategory from '@/hooks/api/use-category';
 export interface IProductProps {}
 
 export default function RawProducts(props: IProductProps) {
@@ -27,7 +28,8 @@ export default function RawProducts(props: IProductProps) {
   };
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
   const totalPage = Math.ceil(response?.elements / filter.pageSize);
-
+  const { data: categories, isLoading: isCategoryLoading } = useCategory();
+  console.log(categories);
   return (
     <>
       <div>
@@ -100,33 +102,13 @@ export default function RawProducts(props: IProductProps) {
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Categories</h5>
                       <ul className="list-unstyled mt-4 mb-0 blog-categories">
-                        <li>
-                          <a href="jvascript:void(0)">Men</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Women</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Electronics</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Jewellery</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Shoes</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Kid’s Wear</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Sports</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Toys</a>
-                        </li>
-                        <li>
-                          <a href="jvascript:void(0)">Gift Corners</a>
-                        </li>
+                        {categories?.map(category => {
+                          return (
+                            <li key={category.id}>
+                              <h6>{category.name}</h6>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                     {/* Categories */}

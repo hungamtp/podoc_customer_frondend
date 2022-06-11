@@ -99,6 +99,13 @@ export interface FactoryDTO{
   area : string[],
   colors : string[]
 }
+
+export interface CategoryDTO{
+  id : number;
+  name : string;
+  image : string;
+}
+
 export enum TAG{
   HOT = "Hot",
   NEW = "New",
