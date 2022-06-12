@@ -23,7 +23,7 @@ export default function Cart({}: Props) {
                   <a href="index.html">Landrick</a>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="index-shop.html">Shop</a>
+                  <a href="home">Shop</a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
                   Cart

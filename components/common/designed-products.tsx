@@ -3,14 +3,14 @@
 import React, { useEffect } from 'react';
 import { ProductHomePage } from '@/services/type.dto';
 
-import Product from './product';
+import DesignedProduct from './designed-product';
 
 type Props = {
   title: string;
   data: ProductHomePage[];
 };
 
-export default function Products({ title, data }: Props) {
+export default function DesignedProducts({ title, data }: Props) {
   return (
     <div className="container mt-100 mt-60">
       <div className="row"></div>
@@ -20,7 +20,7 @@ export default function Products({ title, data }: Props) {
       <div className="row">
         {data &&
           data.map((item: ProductHomePage) => {
-            return <Product key={item.id} product={item} />;
+            return <DesignedProduct key={item.id} product={item} />;
           })}
       </div>
     </div>

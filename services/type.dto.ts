@@ -63,7 +63,7 @@ export interface ProductHomePageDTO{
   numberOfSize : number;
   numberOfColor : number;
   numberOfFactory : number;
-
+  priceFrom : number; 
 }
  
 

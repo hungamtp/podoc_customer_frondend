@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
-
 import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
-import Products from '@/components/common/products';
+import DesignedProducts from '@/components/common/designed-products';
 
 type Props = {};
 
@@ -121,8 +120,8 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      {response ? <Products title="Highest Rate Designed Products" data={response} /> : <></>}
-      {response ? <Products title="Best Selle" data={response} /> : <></>}
+      {response && <DesignedProducts title="Highest Rate Designed Products" data={response} />}
+      {response && <DesignedProducts title="Best Seller" data={response} />}
 
       <div className="container mt-100 mt-60">
         <div className="row">

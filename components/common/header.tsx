@@ -215,6 +215,10 @@ export default function Header({}: Props) {
                     <i className="bi bi-suit-heart me-1"></i>
                     Thiết kế của tôi
                   </a>
+                  <a className="dropdown-item text-dark" href="#">
+                    <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
+                    Order History
+                  </a>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" onClick={logout}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
