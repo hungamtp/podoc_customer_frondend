@@ -5,7 +5,7 @@ type Props = {
   product: ProductHomePage;
 };
 
-export default function Product({ product }: Props) {
+export default function DesignedProduct({ product }: Props) {
   return (
     <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
       <div className="card shop-list border-0 position-relative">

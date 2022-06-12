@@ -58,26 +58,9 @@ export default function RawProduct({ product }: Props) {
         <div className="card-body content pt-4 p-2">
           <a className="text-dark product-name h6">{product.name}</a>
           <div className="d-flex justify-content-between mt-1">
-            {/* <h6 className="text-dark small fst-italic mb-0 mt-1">
-               <del className="text-danger ms-2">$21.00</del>{' '}
-            </h6> */}
-            <ul className="list-unstyled text-warning mb-0">
-              <li className="list-inline-item">
-                <i className="mdi mdi-star" />
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star" />
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star" />
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star" />
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star" />
-              </li>
-            </ul>
+            <h6 className="text-dark small fst-italic mb-0 mt-1">
+              Price from<span className="text-danger ms-2">$ {product.priceFrom}</span>{' '}
+            </h6>
           </div>
           <p _ngcontent-cjt-c236="" className="small-text" style={{ color: '#757c7e' }}>
             <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
