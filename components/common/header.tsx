@@ -196,11 +196,6 @@ export default function Header({}: Props) {
                 </a>
               </li>
 
-              <li onClick={() => router.push('/about')}>
-                <a href="about" className="sub-menu-item">
-                  Giới thiệu
-                </a>
-              </li>
               <li onClick={() => router.push('/raw-products')}>
                 <a href="raw-products" className="sub-menu-item">
                   Tự thiết kế
@@ -208,7 +203,18 @@ export default function Header({}: Props) {
               </li>
               <li onClick={() => router.push('/about')}>
                 <a href="product" className="sub-menu-item">
-                  Shop
+                  Thiết kế sẵn
+                </a>
+              </li>
+
+              <li onClick={() => router.push('/mydesign')}>
+                <a href="mydesign" className="sub-menu-item">
+                  My design
+                </a>
+              </li>
+              <li onClick={() => router.push('/about')}>
+                <a href="about" className="sub-menu-item">
+                  Giới thiệu
                 </a>
               </li>
               {/* <li className="has-submenu parent-menu-item">
