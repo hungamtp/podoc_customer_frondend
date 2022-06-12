@@ -1,7 +1,8 @@
 import EmptyTable from "@/components/design/emptyTable";
 import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { Blueprint, DesignState } from "@/models/design";
+import { DesignState } from "@/models/design";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
 import {
   addDesignInfo,
   cloneDesignInfo,
@@ -10,6 +11,8 @@ import {
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
 import { fabric } from "fabric";
+import FontFaceObserver from "fontfaceobserver";
+import googleFonts from "google-fonts";
 import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
@@ -85,14 +88,16 @@ const initPlaceHolder = (
 
   const rect = new fabric.Rect({
     width: newWidth,
+    name: "placeHolder",
     height: newHeight,
     left: left,
     top: top,
     absolutePositioned: true,
     selectable: false,
     strokeDashArray: [5, 5],
-    stroke: "white",
     strokeWidth: 2,
+    stroke: "rgba(255,255,255,1.0)",
+    fill: "rgba(0,0,0,0.0)",
   });
   return rect;
 };
@@ -144,7 +149,11 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   });
 
   React.useEffect(() => {
-    canvas?.clear();
+    if (placeHolder && canvas) {
+      exportSvg();
+      canvas.clear();
+    }
+
     setPlaceHolder(
       initPlaceHolder(
         placeholderWidth,
@@ -164,6 +173,24 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           addRect(design);
         });
       }
+    }
+  };
+
+  const exportSvg = () => {
+    if (placeHolder && canvas) {
+      const ph = _.find(canvas._objects, function (o) {
+        return o.name === "placeHolder";
+      });
+      console.log(ph, "phss");
+      if (ph) canvas.remove(ph);
+      canvas._objects.forEach((object) => {
+        object.clipPath = undefined;
+      });
+      console.log(canvas._objects, "objsss");
+
+      const image = canvas.requestRenderAll().toDataURL();
+
+      console.log(image, "export image");
     }
   };
 
@@ -214,54 +241,77 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         data =
           (value / (blueprint.placeHolder.height / DPI)) *
           placeHolder.getScaledHeight();
-      if (key === "scale")
-        data =
-          (value / (blueprint.placeHolder.height / DPI)) *
-          placeHolder.getScaledHeight();
+      if (key === "scale") data = placeHolder.getScaledWidth() * value;
       return data;
     }
   };
 
-  const setDesignLocation = (
-    designKey: string,
-    pos: {
-      width: number;
-      height: number;
-      top: number;
-      left: number;
-      scale: number;
-      rotate: number;
-    }
-  ) => {
-    if (canvas) {
-      const object = _.find(canvas._objects, function (o) {
-        return o.name === designKey;
-      });
-      if (object && canvas) {
-        object.set("width", reverseData("width", pos.width));
-        object.set("height", reverseData("height", pos.height));
-        object.set("top", reverseData("top", pos.top));
-        object.set("left", reverseData("left", pos.left));
-        object.set("angle", pos.rotate);
-        object.scaleToWidth(placeHolder?.width || 1 * pos.scale);
-        canvas.renderAll();
+  const setDesignLocation = React.useCallback(
+    (
+      designKey: string,
+      posInfo: {
+        pos: string;
+        value: number;
       }
-    }
-  };
+    ) => {
+      if (canvas) {
+        const object = _.find(canvas._objects, function (o) {
+          return o.name === designKey;
+        });
+        if (object && canvas) {
+          if (posInfo.pos === "width") {
+            object.scaleToWidth(reverseData("width", posInfo.value) || 0);
+          } else if (posInfo.pos === "height") {
+            object.scaleToHeight(reverseData("height", posInfo.value) || 0);
+          } else if (posInfo.pos === "scale") {
+            object.scaleToWidth(reverseData("scale", posInfo.value) || 0);
+          } else if (posInfo.pos === "top") {
+            object.set("top", reverseData("top", posInfo.value) || 0);
+          } else if (posInfo.pos === "left") {
+            object.set("left", reverseData("left", posInfo.value) || 0);
+          }
+          const tmpDesignData = calculatePoint(
+            object.left || 200,
+            object.top || 200,
+            object.getScaledWidth(),
+            object.getScaledHeight()
+          );
 
-  const align = (position: string) => {
-    if (canvas) {
-      const activeObj = canvas.getActiveObject() || canvas.getActiveObjects();
-      if (position != "" && activeObj) {
-        process_align(position, activeObj);
-        activeObj.setCoords();
-        canvas.renderAll();
-      } else {
-        alert("Please select a item");
-        return false;
+          const designInfo = {
+            choosenKey: object.name,
+            rotate: object.angle,
+            width: tmpDesignData?.width,
+            height: tmpDesignData?.height,
+            scale: tmpDesignData?.scale,
+            left: tmpDesignData?.left,
+            top: tmpDesignData?.top,
+          };
+
+          dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(object.name));
+          canvas.renderAll();
+        }
       }
-    }
-  };
+    },
+    [placeHolder]
+  );
+
+  const align = React.useCallback(
+    (position: string) => {
+      if (canvas) {
+        const activeObj = canvas.getActiveObject() || canvas.getActiveObjects();
+        if (position != "" && activeObj) {
+          process_align(position, activeObj);
+          activeObj.setCoords();
+          canvas.renderAll();
+        } else {
+          alert("Please select a item");
+          return false;
+        }
+      }
+    },
+    [placeHolder]
+  );
 
   const process_align = (position: string, activeObj: fabric.Object) => {
     if (placeHolder && activeObj) {
@@ -310,72 +360,265 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     }
   };
 
-  const chooseDesign = (key: string) => {
-    if (canvas) {
-      const obj = _.find(canvas._objects, function (o) {
-        return o.name === key;
-      });
+  const chooseDesign = React.useCallback(
+    (key: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        });
 
-      if (obj) {
+        if (obj) {
+          const tmpDesignData = calculatePoint(
+            obj.left || 200,
+            obj.top || 200,
+            obj.getScaledWidth(),
+            obj.getScaledHeight()
+          );
+
+          const designInfo = {
+            choosenKey: obj.name,
+            rotate: obj.angle,
+            width: tmpDesignData?.width,
+            height: tmpDesignData?.height,
+            scale: tmpDesignData?.scale,
+            left: tmpDesignData?.left,
+            top: tmpDesignData?.top,
+          };
+
+          dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
+          canvas.setActiveObject(obj);
+          canvas.renderAll();
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const cloneDesign = React.useCallback(
+    (key: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        });
+        if (obj) {
+          obj.clone((cloned: fabric.Object) => {
+            const newName = nanoid();
+            cloned.set("name", newName);
+            cloned.set("left", 10);
+            cloned.set("top", 10);
+            canvas.add(cloned);
+            dispatch(cloneDesignInfo({ oldKey: key, newKey: newName }));
+          });
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const changeText = React.useCallback(
+    (key: string, text: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          obj.set("text", text);
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const changeFont = React.useCallback(
+    (key: string, fontName: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          if (fontName === "Roboto") {
+            obj.set("fontFamily", "Roboto");
+            canvas.requestRenderAll();
+          } else {
+            googleFonts.add({ [fontName]: true });
+            const myFont = new FontFaceObserver(fontName);
+            myFont
+              .load()
+              .then(function () {
+                // when font is loaded, use it.
+                obj.set("fontFamily", fontName);
+                canvas.requestRenderAll();
+              })
+              .catch(function (e) {
+                console.log(e);
+                alert("font loading failed " + fontName);
+              });
+          }
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const changeTextColor = React.useCallback(
+    (key: string, color: string) => {
+      if (canvas) {
+        const obj = _.find(canvas._objects, function (o) {
+          return o.name === key;
+        }) as fabric.Text;
+
+        if (obj) {
+          obj.set("fill", color);
+          canvas.requestRenderAll();
+        }
+      }
+    },
+    [placeHolder]
+  );
+
+  const addNewText = React.useCallback(
+    (text: string) => {
+      if (canvas && placeHolder) {
+        const imageLeft = (canvas.getWidth() - 150) / 2;
+        const imageTop = (canvas.getHeight() - 100) / 2;
+        const newName = nanoid();
+        const newText = new fabric.Text(text, {
+          fontFamily: "Roboto",
+          clipPath: placeHolder,
+          name: newName,
+          left: imageLeft,
+          top: imageTop,
+          centeredScaling: true,
+          transparentCorners: true,
+          fill: "white",
+        })
+          .setControlsVisibility({
+            mt: false, // middle top disable
+            mb: false, // midle bottom
+            ml: false, // middle left
+            mr: false, // I think you get it
+          })
+          .scaleToWidth(150)
+          .scaleToHeight(100);
+        canvas.add(newText);
         const tmpDesignData = calculatePoint(
-          obj.left || 200,
-          obj.top || 200,
-          obj.getScaledWidth(),
-          obj.getScaledHeight()
+          newText.left || 200,
+          newText.top || 200,
+          newText.getScaledWidth(),
+          newText.getScaledHeight()
         );
-
         const designInfo = {
-          choosenKey: obj.name,
-          rotate: obj.angle,
+          key: newName,
+          type: "text",
+          rotate: 0,
           width: tmpDesignData?.width,
           height: tmpDesignData?.height,
           scale: tmpDesignData?.scale,
           left: tmpDesignData?.left,
           top: tmpDesignData?.top,
+          src: text,
         };
 
-        dispatch(setValue({ ...designInfo }));
-        canvas.setActiveObject(obj);
+        dispatch(addDesignInfo({ ...designInfo }));
+        dispatch(
+          setControlData({
+            isSetImage: false,
+            isChooseImage: true,
+            isEmpty: false,
+          })
+        );
         canvas.renderAll();
       }
-    }
-  };
+    },
+    [placeHolder]
+  );
 
-  const cloneDesign = (key: string) => {
-    if (canvas) {
-      const obj = _.find(canvas._objects, function (o) {
-        return o.name === key;
-      });
-      if (obj) {
-        obj.clone((cloned: fabric.Object) => {
-          const newName = nanoid();
-          cloned.set("name", newName);
-          cloned.set("left", 10);
-          cloned.set("top", 10);
-          canvas.add(cloned);
-          dispatch(cloneDesignInfo({ oldKey: key, newKey: newName }));
-        });
+  const addNewRect = React.useCallback(
+    (imgUrl: string) => {
+      if (canvas && placeHolder) {
+        const newName = nanoid();
+        fabric.Image.fromURL(
+          imgUrl,
+          (image: fabric.Image) => {
+            const imageLeft = (canvas.getWidth() - 150) / 2;
+            const imageTop = (canvas.getHeight() - 100) / 2;
+
+            image.set("name", newName);
+
+            image.set("left", imageLeft);
+            image.set("top", imageTop);
+            image.set("angle", 0);
+            image.set("opacity", 100);
+            image.set("noScaleCache", true);
+            image.transparentCorners = false;
+            image.centeredScaling = true;
+            image.scaleToWidth(150);
+            image.scaleToHeight(100);
+            image.set("clipPath", placeHolder);
+
+            image.setControlsVisibility({
+              mt: false, // middle top disable
+              mb: false, // midle bottom
+              ml: false, // middle left
+              mr: false, // I think you get it
+            });
+
+            canvas.add(image);
+            const tmpDesignData = calculatePoint(
+              image.left || 200,
+              image.top || 200,
+              image.getScaledWidth(),
+              image.getScaledHeight()
+            );
+            const designInfo = {
+              key: newName,
+              type: "image/png",
+              rotate: 0,
+              width: tmpDesignData?.width,
+              height: tmpDesignData?.height,
+              scale: tmpDesignData?.scale,
+              left: tmpDesignData?.left,
+              top: tmpDesignData?.top,
+              src: imgUrl,
+            };
+
+            dispatch(addDesignInfo({ ...designInfo }));
+            dispatch(
+              setControlData({
+                isSetImage: false,
+                isChooseImage: true,
+                isEmpty: false,
+              })
+            );
+            canvas.renderAll();
+          },
+          { crossOrigin: "anonymous" }
+        );
       }
-    }
-  };
+    },
+    [placeHolder]
+  );
 
-  const addNewRect = (imgUrl?: string) => {
-    if (canvas && placeHolder) {
-      const newName = nanoid();
-      if (imgUrl) {
-        fabric.Image.fromURL(imgUrl, (image: fabric.Image) => {
-          const imageLeft = (canvas.getWidth() - 150) / 2;
-          const imageTop = (canvas.getHeight() - 100) / 2;
+  const addRect = React.useCallback(
+    (design: DesignState) => {
+      if (canvas && placeHolder) {
+        fabric.Image.fromURL(design.src, (image: fabric.Image) => {
+          const imageLeft = reverseData("left", design.left);
+          const imageTop = reverseData("top", design.top);
+          const imageWidth = reverseData("width", design.width);
 
-          image.set("name", newName);
+          image.set("name", design.key);
           image.set("left", imageLeft);
           image.set("top", imageTop);
-          image.set("angle", 0);
+          image.set("angle", design.rotate);
           image.set("opacity", 100);
+          image.set("noScaleCache", true);
           image.transparentCorners = false;
           image.centeredScaling = true;
-          image.scaleToWidth(150);
-          image.scaleToHeight(100);
+          image.scaleToWidth(imageWidth || 150);
           image.set("clipPath", placeHolder);
           image.setControlsVisibility({
             mt: false, // middle top disable
@@ -392,83 +635,22 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             image.getScaledHeight()
           );
           const designInfo = {
-            key: newName,
+            key: design.key,
             rotate: 0,
+            type: "image/png",
             width: tmpDesignData?.width,
             height: tmpDesignData?.height,
             scale: tmpDesignData?.scale,
             left: tmpDesignData?.left,
             top: tmpDesignData?.top,
-            src: imgUrl,
+            src: design.src,
           };
-
-          dispatch(addDesignInfo({ ...designInfo }));
-          dispatch(
-            setControlData({
-              isSetImage: false,
-              isChooseImage: true,
-              isEmpty: false,
-            })
-          );
           canvas.renderAll();
         });
-      } else {
-        //add text
       }
-    }
-  };
-
-  const addRect = (design: DesignState) => {
-    if (canvas && placeHolder) {
-      fabric.Image.fromURL(design.src, (image: fabric.Image) => {
-        const imageLeft = reverseData("left", design.left);
-        const imageTop = reverseData("top", design.top);
-        const imageWidth = reverseData("width", design.width);
-
-        image.set("name", design.key);
-        image.set("left", imageLeft);
-        image.set("top", imageTop);
-        image.set("angle", design.rotate);
-        image.set("opacity", 100);
-        image.transparentCorners = false;
-        image.centeredScaling = true;
-        image.scaleToWidth(imageWidth || 150);
-        image.set("clipPath", placeHolder);
-        image.setControlsVisibility({
-          mt: false, // middle top disable
-          mb: false, // midle bottom
-          ml: false, // middle left
-          mr: false, // I think you get it
-        });
-
-        canvas.add(image);
-        const tmpDesignData = calculatePoint(
-          image.left || 200,
-          image.top || 200,
-          image.getScaledWidth(),
-          image.getScaledHeight()
-        );
-        const designInfo = {
-          key: design.key,
-          rotate: 0,
-          width: tmpDesignData?.width,
-          height: tmpDesignData?.height,
-          scale: tmpDesignData?.scale,
-          left: tmpDesignData?.left,
-          top: tmpDesignData?.top,
-          src: design.src,
-        };
-        dispatch(
-          setControlData({
-            isSetImage: false,
-            isChooseImage: true,
-            isEmpty: false,
-          })
-        );
-        canvas.renderAll();
-      });
-    }
-  };
+    },
+    [placeHolder]
+  );
 
   const setBackgroundFromDataUrl = (
     dataUrl: string,
@@ -480,27 +662,31 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     const { outerWidth, outerHeight } = outerSize;
 
     if (canvas) {
-      fabric.Image.fromURL(dataUrl, (image: fabric.Image) => {
-        canvas.setWidth(outerWidth);
-        canvas.setHeight(outerHeight);
+      fabric.Image.fromURL(
+        dataUrl,
+        (image: fabric.Image) => {
+          canvas.setWidth(outerWidth);
+          canvas.setHeight(outerHeight);
 
-        canvas.renderAll();
-        const sizeObj = resizer(
-          { width: outerWidth, height: outerHeight },
-          { width: image.width || 100, height: image.height || 150 }
-        );
-        image.scaleToHeight(sizeObj.height);
-        image.set("top", sizeObj.y);
-        image.set({ left: sizeObj.x });
-        canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
-      });
+          canvas.renderAll();
+          const sizeObj = resizer(
+            { width: outerWidth, height: outerHeight },
+            { width: image.width || 100, height: image.height || 150 }
+          );
+          image.scaleToHeight(sizeObj.height);
+          image.set("top", sizeObj.y);
+          image.set({ left: sizeObj.x });
+          console.log(image, "err");
+          canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
+        },
+        { crossOrigin: "anonymous" }
+      );
     }
   };
 
   React.useEffect(() => {
     if (canvas && placeHolder) {
       canvas.add(placeHolder);
-      canvas.renderAll();
 
       canvas.on("object:moving", function (options) {
         const obj = options.target;
@@ -563,6 +749,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             top: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
         }
       });
 
@@ -585,6 +772,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             top: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
         }
       });
 
@@ -601,8 +789,10 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         outerWidth: defaultWidth,
         outerHeight: pageHeight - pageHeight / 5.3,
       };
+      // const blueprintImageUrl =
+      //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
       const blueprintImageUrl =
-        "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
+        "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
 
       reverseDesigns();
@@ -610,18 +800,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   }, [placeHolder]);
 
   return (
-    <div
-      className={`row h-80   ${
-        blueprintsData.position !== blueprint.position && "d-none"
-      }`}
-    >
+    <div className="row h-80">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-        <div
-          className="outer position-relative"
-          style={{
-            backgroundImage: `url("https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117")`,
-          }}
-        >
+        <div className="outer position-relative">
           <canvas id="canvas" className="center-block"></canvas>
         </div>
       </div>
@@ -649,7 +830,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           </button>
           <div className="p-3 ">
             {controlData.isSetImage || controlData.isEmpty ? (
-              <EmptyTable addNewRect={addNewRect} />
+              <EmptyTable addNewRect={addNewRect} addNewText={addNewText} />
             ) : (
               <Table
                 addNewRect={addNewRect}
@@ -658,6 +839,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
                 cloneDesign={cloneDesign}
                 align={align}
                 setDesignLocation={setDesignLocation}
+                changeFont={changeFont}
+                changeTextColor={changeTextColor}
+                changeText={changeText}
               />
             )}
           </div>

@@ -10,11 +10,14 @@ export interface IDesignHeaderLeftProps {
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const { closePreview, openPreview } = props;
-  const infoManageData = useAppSelector((state) => state.infoManageData);
+  const choosenKey = useAppSelector((state) => state.choosenKey);
   const { containerProps, indicatorEl } = useLoading({
     loading: true,
     indicator: <Audio width="50" />,
   });
+  const getpreview = (setPreview: () => void) => {
+    setPreview();
+  };
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
   const dispatch = useAppDispatch();
@@ -75,10 +78,11 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             <div
               className="btn h3 m-0 "
               onClick={() => {
-                const tmpControlData =
-                  infoManageData.choosenKey === ""
-                    ? { isSetImage: false, isChooseImage: false }
-                    : { ...controlData, isSetImage: false };
+                const tmpControlData = {
+                  ...controlData,
+                  isSetImage: false,
+                  isChooseImage: false,
+                };
                 dispatch(setControlData(tmpControlData));
               }}
             >
