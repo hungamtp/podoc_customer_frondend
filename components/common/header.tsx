@@ -209,7 +209,7 @@ export default function Header({}: Props) {
                   style={{ width: "200px" }}
                 >
                   <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-user align-middle me-1"></i> Account
+                    <i className="uil uil-user align-middle me-1"></i> Tài khoản
                   </a>
                   <a className="dropdown-item text-dark" href="/mydesign">
                     <i className="bi bi-suit-heart me-1"></i>
@@ -217,12 +217,12 @@ export default function Header({}: Props) {
                   </a>
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
-                    Order History
+                    Lịch sử mua hàng
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" onClick={logout}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                    Logout
+                    Đăng xuất
                   </a>
                 </div>
               </div>
