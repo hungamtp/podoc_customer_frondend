@@ -73,7 +73,7 @@ export default function Factory({ factory }: Props) {
                           key={color}
                           width={22}
                           height={22}
-                          className="rounded-circle"
+                          className="rounded-circle border"
                           src={color}
                           alt={color}
                         />
