@@ -38,7 +38,7 @@ export default function ProductDetail() {
                     <a href="/home">Landrick</a>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="index-shop.html">Shop</a>
+                    <a href="home">Shop</a>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     Product Details

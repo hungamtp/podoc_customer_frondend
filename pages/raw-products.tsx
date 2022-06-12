@@ -28,6 +28,7 @@ export default function RawProducts(props: IProductProps) {
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setFilter({ ...filter, pageNumber: value - 1 });
   };
+
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
   const totalPage = Math.ceil(response?.elements / filter.pageSize);
 
@@ -89,8 +90,10 @@ export default function RawProducts(props: IProductProps) {
                             name="s"
                             className="form-control border-0"
                             placeholder="Search Keywords..."
-                            value={name}
-                            onChange={e => setName(e.target.value)}
+                            onChange={e => {
+                              setName(e.target.value);
+                              setFilter({ ...filter, search: `${e.target.value === '' ? '' : `name:${e.target.value}`} ` });
+                            }}
                           />
                           <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit" onClick={e => search(e)}>
                             <i className="uil uil-search" />
