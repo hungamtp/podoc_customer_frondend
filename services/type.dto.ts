@@ -59,13 +59,16 @@ export interface ProductHomePageDTO{
   name: string;
   productImages : {image : string}[],
   categoryName : string;
-  tags : {tag : string}[];
+  tags : {tag :Tag}[];
   numberOfSize : number;
   numberOfColor : number;
   numberOfFactory : number;
   priceFrom : number; 
 }
- 
+
+interface Tag{
+  name : string;
+}
 
 export interface ProductImagesDto {
   image : string;
@@ -110,6 +113,7 @@ export enum TAG{
   HOT = "Hot",
   NEW = "New",
   BEST_SELLER = "Best Seller",
+  Bán_chạy = "Bán chạy",
 
 }
 

@@ -6,6 +6,14 @@ type Props = {
 };
 
 export default function DesignedProduct({ product }: Props) {
+  const getRates = (rate: number): number[] => {
+    let result = [];
+    rate = Math.ceil(rate);
+    for (var i = 1; i <= rate; i++) {
+      result.push(i);
+    }
+    return result;
+  };
   return (
     <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
       <div className="card shop-list border-0 position-relative">
@@ -14,7 +22,7 @@ export default function DesignedProduct({ product }: Props) {
             product.tags.map((tag: String, index: number) => {
               return (
                 <li key={index}>
-                  <a className="badge badge-link rounded-pill bg-primary">{tag}</a>
+                  <span className="badge badge-link rounded-pill bg-primary p-1">{tag}</span>
                 </li>
               );
             })}
@@ -78,23 +86,19 @@ export default function DesignedProduct({ product }: Props) {
           </a>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">${product.designedPrice}</h6>
-            <ul className="list-unstyled text-warning mb-0">
-              <li className="list-inline-item">
-                <i className="mdi mdi-star"></i>
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star"></i>
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star"></i>
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star"></i>
-              </li>
-              <li className="list-inline-item">
-                <i className="mdi mdi-star"></i>
-              </li>
+          </div>
+          <div className="design-detail">
+            <ul className="list-unstyled text-warning  ">
+              {getRates(product.rate).map(rate => {
+                return (
+                  <li key={rate} className="list-inline-item">
+                    <i className="mdi mdi-star"></i>
+                  </li>
+                );
+              })}
             </ul>
+            <span>({product.rate})</span>
+            <span className="sold-number">Sold: 100</span>
           </div>
         </div>
       </div>

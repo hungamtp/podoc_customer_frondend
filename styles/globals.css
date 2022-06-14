@@ -146,6 +146,14 @@ a {
 .category-active{
   color : #2F55D4;
 }
+.design-detail{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sold-number{
+  font-weight: 80;
+}
 
 
 

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
-import { ProductHomePageDTO } from '@/services/type.dto';
+import { ProductHomePageDTO, TAG } from '@/services/type.dto';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '../hooks/reduxHook';
 import { setCurrentProductId } from '@/redux/slices/product';
@@ -23,9 +23,16 @@ export default function RawProduct({ product }: Props) {
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
           {product.tags.map((tag, index) => {
+            console.log(tag);
             return (
               <li key={index}>
-                <span className="badge badge-link rounded-pill bg-success tag-pointer">Hot</span>
+                <span
+                  className={`badge badge-link rounded-pill ${tag.tag.name == TAG.HOT && 'bg-success'} ${
+                    tag.tag.name == TAG.NEW && 'bg-danger'
+                  } ${tag.tag.name == TAG.BEST_SELLER && 'bg-primary'} btn-primary tag-pointer p-1`}
+                >
+                  {tag.tag.name}
+                </span>
               </li>
             );
           })}
