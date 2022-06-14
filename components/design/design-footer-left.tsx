@@ -5,11 +5,24 @@ import { updateBlueprint, setPosition } from "@/redux/slices/blueprints";
 import { updateDesignInfos } from "@/redux/slices/design";
 import { DesignState } from "@/models/design/designInfo";
 import { setControlData } from "@/redux/slices/designControl";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 export interface IDesignHeaderLeftProps {}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
+  const handleOpenDialog = () => {
+    setIsOpen(true);
+  };
 
   const save = () => {};
 
@@ -88,21 +101,38 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   ));
   const dispatch = useAppDispatch();
   return (
-    <div className="row h-8">
-      <div className="col-lg-9 col-12 px-0 d-flex flex-column">
-        <div className="d-flex justify-content-between border-top border-dark  py-4">
-          <div className="d-flex justify-content-start w-quater align-items-center px-4">
-            {positionArr}
+    <>
+      <div className="row h-8">
+        <div className="col-lg-9 col-12 px-0 d-flex flex-column">
+          <div className="d-flex justify-content-between border-top border-dark  py-4">
+            <div className="d-flex justify-content-start w-quater align-items-center px-4">
+              {positionArr}
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
+          <div className="d-flex justify-content-center border-top border-dark  py-4">
+            <div className="d-flex  w-full align-items-center px-4">
+              <button className="btn btn-secondary w-full">Lưu lại</button>
+            </div>
           </div>
         </div>
       </div>
-      <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
-        <div className="d-flex justify-content-center border-top border-dark  py-4">
-          <div className="d-flex  w-full align-items-center px-4">
-            <button className="btn btn-secondary w-full">Lưu lại</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      {/* <Dialog
+        open={isOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Create New Product"}
+        </DialogTitle>
+        <DialogContent>
+          <CreateProductForm handleCloseDialog={handleCloseDialog} />
+        </DialogContent>
+        <DialogActions></DialogActions>
+      </Dialog> */}
+    </>
   );
 }
