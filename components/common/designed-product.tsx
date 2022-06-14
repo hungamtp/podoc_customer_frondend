@@ -1,15 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { Best4DesignedProduct, ProductHomePage } from '@/services/type.dto';
+import { MouseEventHandler } from 'react';
 type Props = {
   product: ProductHomePage;
 };
 
 export default function DesignedProduct({ product }: Props) {
+  const goToProfile = (userId: number) => {
+    console.log('first');
+  };
   const getRates = (rate: number): number[] => {
     let result = [];
     rate = Math.ceil(rate);
     for (var i = 1; i <= rate; i++) {
+      result.push(i);
+    }
+    return result;
+  };
+  const getUnRates = (rate: number): number[] => {
+    let result = [];
+    rate = Math.ceil(rate);
+    for (var i = 1; i <= 5 - rate; i++) {
       result.push(i);
     }
     return result;
@@ -88,8 +100,15 @@ export default function DesignedProduct({ product }: Props) {
             <h6 className="text-dark small fst-italic mb-0 mt-1">${product.designedPrice}</h6>
           </div>
           <div className="design-detail">
-            <ul className="list-unstyled text-warning  ">
+            <ul className="list-unstyled  ">
               {getRates(product.rate).map(rate => {
+                return (
+                  <li key={rate} className="list-inline-item text-warning  ">
+                    <i className="mdi mdi-star"></i>
+                  </li>
+                );
+              })}
+              {getUnRates(product.rate).map(rate => {
                 return (
                   <li key={rate} className="list-inline-item">
                     <i className="mdi mdi-star"></i>
@@ -97,8 +116,14 @@ export default function DesignedProduct({ product }: Props) {
                 );
               })}
             </ul>
-            <span>({product.rate})</span>
-            <span className="sold-number">Sold: 100</span>
+            <span className="list-unstyled text-warning  ">({product.rate})</span>
+            <span className="sold-number ">Sold: 100</span>
+          </div>
+          <div className="designer cursor-pointer">
+            Designed by{' '}
+            <span onClick={goToProfile(product.userId)}>
+              <b>{product.username}</b>
+            </span>
           </div>
         </div>
       </div>

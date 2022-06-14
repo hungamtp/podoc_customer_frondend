@@ -153,7 +153,14 @@ a {
 
 .sold-number{
   font-weight: 80;
+  font-style: italic;
 }
+.designer{
+    font-weight: 80;
+  font-style: italic;
+}
+
+
 
 
 

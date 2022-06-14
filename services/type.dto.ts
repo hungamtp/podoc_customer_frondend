@@ -30,6 +30,8 @@ export interface ProductHomePage{
   designedPrice : number;
   rate : number;
   tags : Array<string>;
+  userId : number;
+  username : string
 }
 
 export interface Best4DesignedProduct{
