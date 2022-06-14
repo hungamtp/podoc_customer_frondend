@@ -8,9 +8,9 @@ export interface BlueprintData {
 
 const blueprintInit = [
   {
-    frame_image:
+    frameImage:
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/6-0_55.jpg",
-    position: "front",
+    position: "Front",
     placeHolder: {
       width: 15,
       height: 17,
@@ -33,7 +33,7 @@ const blueprintInit = [
     ],
   },
   {
-    frame_image:
+    frameImage:
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
     position: "arm",
     placeHolder: {
@@ -58,7 +58,7 @@ const blueprintInit = [
     ],
   },
   {
-    frame_image:
+    frameImage:
       "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
     position: "back",
     placeHolder: {
@@ -85,7 +85,7 @@ const blueprintInit = [
 ] as Blueprint[];
 
 const initialState: BlueprintData = {
-  position: "front",
+  position: "Front",
   blueprints: blueprintInit,
 };
 

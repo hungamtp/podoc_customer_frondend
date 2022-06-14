@@ -1,7 +1,7 @@
 import { DesignState } from "./designInfo";
 
 export interface Blueprint {
-  frame_image: string;
+  frameImage: string;
   position: string;
   placeHolder: {
     width: number;

@@ -1,10 +1,13 @@
 import DesignCanvas from "@/components/design/design-canvas";
 import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderLeft from "@/components/design/design-header-left";
+import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
+import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { fabric } from "fabric";
 import { IImageOptions, Image } from "fabric/fabric-impl";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { Blueprint } from "../models";
 // import dynamic from 'next/dynamic';
@@ -13,73 +16,33 @@ import { Blueprint } from "../models";
 
 export interface AboutPageProps {}
 
-const blueprintInit = [
-  {
-    frame_image:
-      "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/6-0_55.jpg",
-    position: "front",
-    placeHolder: {
-      width: 15,
-      height: 17,
-    },
-  },
-  {
-    frame_image:
-      "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
-    position: "arm",
-    placeHolder: {
-      width: 14,
-      height: 16,
-    },
-  },
-  {
-    frame_image:
-      "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
-    position: "back",
-    placeHolder: {
-      width: 12,
-      height: 13.7,
-    },
-  },
-] as Blueprint[];
-
 export default function AboutPage(props: AboutPageProps) {
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
+  const productId = router.asPath.split("id=")[1];
+  const { data: blueprints, isLoading: isLoading } = useGetBlueprintByProduct(
+    Number(productId)
+  );
 
   React.useEffect(() => {
-    dispatch(
-      updateBlueprint({
-        position: "front",
-        blueprints: blueprintInit,
-      })
-    );
-  }, []);
+    if (blueprints)
+      dispatch(
+        updateBlueprint({
+          position: blueprints[0].position,
+          blueprints: blueprints,
+        })
+      );
+  }, [blueprints]);
+
+  const [isPreview, setIsPreview] = React.useState(false);
 
   const openPreview = () => {
-    // if (placeHolder) {
-    //   const placeHolderNode = placeHolder.getElement();
-    //   placeHolderNode.style.borderWidth = "1px";
-    //   placeHolderNode.style.borderColor = "rgba(1,1,1,0.3)".replace(
-    //     /[^,]+(?=\))/,
-    //     "0.5"
-    //   );
-    //   placeHolder._objects.forEach((obj) => {
-    //     obj.set("selectable", false);
-    //   });
-    //   placeHolder.discardActiveObject().renderAll();
-    // }
+    setIsPreview(true);
   };
 
   const closePreview = () => {
-    // if (placeHolder) {
-    //   const placeHolderNode = placeHolder.getElement();
-    //   placeHolder._objects.forEach((obj) => {
-    //     obj.set("selectable", true);
-    //   });
-    //   placeHolderNode.style.borderStyle = "dashed";
-    //   placeHolderNode.style.borderColor = "white";
-    //   placeHolderNode.style.borderWidth = "1px";
-    // }
+    setIsPreview(false);
   };
 
   return (
@@ -88,8 +51,10 @@ export default function AboutPage(props: AboutPageProps) {
         <DesignHeaderLeft
           openPreview={openPreview}
           closePreview={closePreview}
+          isPreview={isPreview}
         />
-        <DesignCanvas />
+
+        {isPreview ? <PreviewCanvas /> : <DesignCanvas />}
         <DesignFooterLeft />
       </>
     </div>

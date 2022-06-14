@@ -8,8 +8,9 @@ type Props = {
 };
 export default function Factory({ factory }: Props) {
   const router = useRouter();
+  const productId = router.asPath.split("id=")[1];
   const startDesign = () => {
-    router.push("/design");
+    router.push(`/design?id=${productId}`);
   };
 
   return (

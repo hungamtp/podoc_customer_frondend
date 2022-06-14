@@ -42,7 +42,6 @@ const ImageInfo = (props: IImageInfoProps) => {
     setDesignLocation,
     designInfo,
   } = props;
-  console.log("rerenderrr");
   const handleChangeWidth = (data: string) => {
     console.log(data, "handle change text");
   };

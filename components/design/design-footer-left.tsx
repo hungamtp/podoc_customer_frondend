@@ -88,7 +88,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   ));
   const dispatch = useAppDispatch();
   return (
-    <div className="row h-10">
+    <div className="row h-8">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-between border-top border-dark  py-4">
           <div className="d-flex justify-content-start w-quater align-items-center px-4">

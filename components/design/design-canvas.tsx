@@ -1,7 +1,7 @@
 import EmptyTable from "@/components/design/emptyTable";
 import Table from "@/components/design/table";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { DesignState } from "@/models/design";
+import { Blueprint, DesignState } from "@/models/design";
 import { setChoosenKey } from "@/redux/slices/choosenKey";
 import {
   addDesignInfo,
@@ -17,7 +17,9 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-export interface IDesignCanvasProps {}
+export interface IDesignCanvasProps {
+  // isPreview: boolean;
+}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
@@ -79,7 +81,7 @@ const initPlaceHolder = (
   placeHolderHeight: number,
   containerHeight: number,
   containerWidth: number
-): fabric.Rect => {
+): { rect: fabric.Rect; border: fabric.Object[] } => {
   const aspectRatio = placeHolderHeight / placeHolderWidth;
   const newHeight = containerHeight / 2.5;
   const newWidth = newHeight / aspectRatio;
@@ -94,33 +96,53 @@ const initPlaceHolder = (
     top: top,
     absolutePositioned: true,
     selectable: false,
+    opacity: 0.000001,
+  });
+  // `M ${left} ${top} L ${left + newWidth} ${top} L ${left + newWidth} ${top + newHeight} L ${left} ${top + newHeight} z`
+  const topLine = new fabric.Line([left, top, left + newWidth, top], {
+    absolutePositioned: true,
+    selectable: false,
     strokeDashArray: [5, 5],
     strokeWidth: 2,
     stroke: "rgba(255,255,255,1.0)",
-    fill: "rgba(0,0,0,0.0)",
   });
-  return rect;
-};
 
-const exportJSON = (canvas: fabric.Canvas) => {
-  return canvas.toJSON();
-};
-
-const importJSON = (canvas: fabric.Canvas, json: string) => {
-  canvas.loadFromJSON(json, (obj: fabric.Object) => {
-    canvas.renderAll();
+  const rightLine = new fabric.Line(
+    [left + newWidth, top, left + newWidth, top + newHeight],
+    {
+      absolutePositioned: true,
+      selectable: false,
+      strokeDashArray: [5, 5],
+      strokeWidth: 2,
+      stroke: "rgba(255,255,255,1.0)",
+    }
+  );
+  const bottomLine = new fabric.Line(
+    [left + newWidth, top + newHeight, left, top + newHeight],
+    {
+      absolutePositioned: true,
+      selectable: false,
+      strokeDashArray: [5, 5],
+      strokeWidth: 2,
+      stroke: "rgba(255,255,255,1.0)",
+    }
+  );
+  const leftLine = new fabric.Line([left, top + newHeight, left, top], {
+    absolutePositioned: true,
+    selectable: false,
+    strokeDashArray: [5, 5],
+    strokeWidth: 2,
+    stroke: "rgba(255,255,255,1.0)",
   });
+  const border = [topLine, rightLine, bottomLine, leftLine];
+
+  return { rect: rect, border };
 };
 
 export default function DesignCanvas(props: IDesignCanvasProps) {
-  const body = document.body,
-    html = document.documentElement;
   const pageHeight = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
   );
 
   const defaultWidth =
@@ -138,19 +160,22 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const placeholderHeight = blueprint.placeHolder.height * 30;
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
-  const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>();
+  const [placeHolder, setPlaceHolder] = React.useState<{
+    rect: fabric.Rect;
+    border: fabric.Object[];
+  }>();
   const [JSONdata, setJSONdata] = React.useState<string>();
   const [aspectRatio, setAspectRatio] = React.useState<number>(1);
   React.useEffect(() => {
     setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "canvas"));
   }, []);
+
   React.useEffect(() => {
     console.log("rerenderrrr");
   });
 
   React.useEffect(() => {
     if (placeHolder && canvas) {
-      exportSvg();
       canvas.clear();
     }
 
@@ -165,7 +190,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     setAspectRatio(placeholderWidth / placeholderHeight);
   }, [blueprintsData]);
 
-  const reverseDesigns = () => {
+  const reverseDesigns = (blueprint: Blueprint) => {
     if (canvas && placeHolder) {
       const designInfos = blueprint.designInfos;
       if (designInfos) {
@@ -178,19 +203,12 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const exportSvg = () => {
     if (placeHolder && canvas) {
-      const ph = _.find(canvas._objects, function (o) {
-        return o.name === "placeHolder";
+      blueprintsData.blueprints.map((blueprint) => {
+        canvas.clear();
+        reverseDesigns(blueprint);
+        const image = canvas.requestRenderAll().toDataURL();
+        console.log(image, "imageeee");
       });
-      console.log(ph, "phss");
-      if (ph) canvas.remove(ph);
-      canvas._objects.forEach((object) => {
-        object.clipPath = undefined;
-      });
-      console.log(canvas._objects, "objsss");
-
-      const image = canvas.requestRenderAll().toDataURL();
-
-      console.log(image, "export image");
     }
   };
 
@@ -202,16 +220,20 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   ) => {
     if (placeHolder) {
       const newLeft =
-        ((left - (placeHolder.left || 0)) / placeHolder.getScaledWidth()) * 100;
+        ((left - (placeHolder.rect.left || 0)) /
+          placeHolder.rect.getScaledWidth()) *
+        100;
       const newTop =
-        ((top - (placeHolder.top || 0)) / placeHolder.getScaledHeight()) * 100;
+        ((top - (placeHolder.rect.top || 0)) /
+          placeHolder.rect.getScaledHeight()) *
+        100;
       const newWidth =
-        (width / placeHolder.getScaledWidth()) *
+        (width / placeHolder.rect.getScaledWidth()) *
         (blueprint.placeHolder.width / DPI);
       const newHeight =
-        (height / placeHolder.getScaledHeight()) *
+        (height / placeHolder.rect.getScaledHeight()) *
         (blueprint.placeHolder.height / DPI);
-      const scale = width / placeHolder.getScaledWidth();
+      const scale = width / placeHolder.rect.getScaledWidth();
       return {
         left: newLeft,
         top: newTop,
@@ -227,21 +249,21 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     if (placeHolder) {
       if (key === "top")
         data =
-          (value / 100) * placeHolder.getScaledHeight() +
-          (placeHolder.top || 0);
+          (value / 100) * placeHolder.rect.getScaledHeight() +
+          (placeHolder.rect.top || 0);
       if (key === "left")
         data =
-          (value / 100) * placeHolder.getScaledWidth() +
-          (placeHolder.left || 0);
+          (value / 100) * placeHolder.rect.getScaledWidth() +
+          (placeHolder.rect.left || 0);
       if (key === "width")
         data =
           (value / (blueprint.placeHolder.width / DPI)) *
-          placeHolder.getScaledWidth();
+          placeHolder.rect.getScaledWidth();
       if (key === "height")
         data =
           (value / (blueprint.placeHolder.height / DPI)) *
-          placeHolder.getScaledHeight();
-      if (key === "scale") data = placeHolder.getScaledWidth() * value;
+          placeHolder.rect.getScaledHeight();
+      if (key === "scale") data = placeHolder.rect.getScaledWidth() * value;
       return data;
     }
   };
@@ -321,7 +343,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         });
       } else if (position === "right") {
         activeObj.set({
-          left: (placeHolder.width || 0) - activeObj.getScaledWidth(),
+          left: (placeHolder.rect.width || 0) - activeObj.getScaledWidth(),
         });
       } else if (position === "top") {
         activeObj.set({
@@ -329,15 +351,18 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         });
       } else if (position === "bottom") {
         activeObj.set({
-          top: (placeHolder.height || 1) - activeObj.getScaledHeight(),
+          top: (placeHolder.rect.height || 1) - activeObj.getScaledHeight(),
         });
       } else if (position === "middle") {
         activeObj.set({
-          top: (placeHolder.height || 1) / 2 - activeObj.getScaledHeight() / 2,
+          top:
+            (placeHolder.rect.height || 1) / 2 -
+            activeObj.getScaledHeight() / 2,
         });
       } else if (position === "center") {
         activeObj.set({
-          left: (placeHolder.width || 1) / 2 - activeObj.getScaledWidth() / 2,
+          left:
+            (placeHolder.rect.width || 1) / 2 - activeObj.getScaledWidth() / 2,
         });
       }
     }
@@ -487,7 +512,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         const newName = nanoid();
         const newText = new fabric.Text(text, {
           fontFamily: "Roboto",
-          clipPath: placeHolder,
+          clipPath: placeHolder.rect,
           name: newName,
           left: imageLeft,
           top: imageTop,
@@ -551,13 +576,13 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             image.set("left", imageLeft);
             image.set("top", imageTop);
             image.set("angle", 0);
-            image.set("opacity", 100);
+            image.set("opacity", 1000);
             image.set("noScaleCache", true);
             image.transparentCorners = false;
             image.centeredScaling = true;
             image.scaleToWidth(150);
             image.scaleToHeight(100);
-            image.set("clipPath", placeHolder);
+            image.set("clipPath", placeHolder.rect);
 
             image.setControlsVisibility({
               mt: false, // middle top disable
@@ -619,7 +644,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           image.transparentCorners = false;
           image.centeredScaling = true;
           image.scaleToWidth(imageWidth || 150);
-          image.set("clipPath", placeHolder);
+          image.set("clipPath", placeHolder.rect);
           image.setControlsVisibility({
             mt: false, // middle top disable
             mb: false, // midle bottom
@@ -676,7 +701,6 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           image.scaleToHeight(sizeObj.height);
           image.set("top", sizeObj.y);
           image.set({ left: sizeObj.x });
-          console.log(image, "err");
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
         },
         { crossOrigin: "anonymous" }
@@ -686,7 +710,10 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   React.useEffect(() => {
     if (canvas && placeHolder) {
-      canvas.add(placeHolder);
+      canvas.add(placeHolder.rect);
+      placeHolder.border.forEach((line) => {
+        canvas.add(line);
+      });
 
       canvas.on("object:moving", function (options) {
         const obj = options.target;
@@ -696,21 +723,25 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             obj.width &&
             obj.left &&
             obj.top &&
-            placeHolder.top &&
-            placeHolder.height &&
-            placeHolder.left &&
-            placeHolder.width
+            placeHolder.rect.top &&
+            placeHolder.rect.height &&
+            placeHolder.rect.left &&
+            placeHolder.rect.width
           ) {
             const top = obj.top;
             const bottom = top + obj.getScaledHeight();
             const left = obj.left;
             const right = left + obj.getScaledWidth();
-            const topBound = placeHolder.top - obj.getScaledHeight();
+            const topBound = placeHolder.rect.top - obj.getScaledHeight();
             const bottomBound =
-              placeHolder.top + placeHolder.height + obj.getScaledHeight();
-            const leftBound = placeHolder.left - obj.getScaledWidth();
+              placeHolder.rect.top +
+              placeHolder.rect.height +
+              obj.getScaledHeight();
+            const leftBound = placeHolder.rect.left - obj.getScaledWidth();
             const rightBound =
-              placeHolder.left + placeHolder.width + obj.getScaledWidth();
+              placeHolder.rect.left +
+              placeHolder.rect.width +
+              obj.getScaledWidth();
 
             if (top <= topBound) {
               obj.lockMovementY = true;
@@ -791,16 +822,16 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       };
       // const blueprintImageUrl =
       //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
-      const blueprintImageUrl =
-        "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
+      const blueprintImageUrl = blueprint.frameImage;
+      // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
 
-      reverseDesigns();
+      reverseDesigns(blueprint);
     }
   }, [placeHolder]);
 
   return (
-    <div className="row h-80">
+    <div className="row h-81">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
         <div className="outer position-relative">
           <canvas id="canvas" className="center-block"></canvas>
@@ -809,25 +840,6 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
       <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
         <div className=" d-flex flex-column">
-          <button
-            onClick={() => {
-              if (canvas) {
-                const JSON = exportJSON(canvas);
-                setJSONdata(JSON);
-              }
-            }}
-          >
-            Export JSON
-          </button>
-          <button
-            onClick={() => {
-              if (canvas && JSONdata) {
-                importJSON(canvas, JSONdata);
-              }
-            }}
-          >
-            Import JSON
-          </button>
           <div className="p-3 ">
             {controlData.isSetImage || controlData.isEmpty ? (
               <EmptyTable addNewRect={addNewRect} addNewText={addNewText} />
