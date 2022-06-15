@@ -119,7 +119,7 @@ export default function DesignedProduct({ product }: Props) {
             <span className="list-unstyled text-warning  ">({product.rate})</span>
           </div>
           <div>
-            <span className="sold-number ">Sold: 100</span>
+            <span className="sold-number ">Sold: {product.soldCount}</span>
           </div>
           <div className="designer cursor-pointer">
             Designed by{' '}

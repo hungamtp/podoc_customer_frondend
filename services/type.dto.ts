@@ -31,7 +31,8 @@ export interface ProductHomePage{
   rate : number;
   tags : Array<string>;
   userId : number;
-  username : string
+  username : string;
+  soldCount : number;
 }
 
 export interface Best4DesignedProduct{
