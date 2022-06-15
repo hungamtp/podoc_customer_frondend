@@ -17,6 +17,8 @@ export default function ProductDetail() {
   const { data: responseGetHighestRateDesignById, isLoading: isLoadingGetHighestRateDesignById } = useGetHighestRateDesignById(
     Number(productId)
   );
+  const id = useAppSelector(state => state.productDetail);
+  console.log(id);
 
   return (
     <>

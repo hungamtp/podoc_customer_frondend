@@ -100,10 +100,10 @@ export default function DesignedProduct({ product }: Props) {
             <h6 className="text-dark small fst-italic mb-0 mt-1">${product.designedPrice}</h6>
           </div>
           <div className="design-detail">
-            <ul className="list-unstyled  ">
+            <ul className="list-unstyled">
               {getRates(product.rate).map(rate => {
                 return (
-                  <li key={rate} className="list-inline-item text-warning  ">
+                  <li key={rate} className="list-inline-item text-warning ">
                     <i className="mdi mdi-star"></i>
                   </li>
                 );
@@ -117,6 +117,8 @@ export default function DesignedProduct({ product }: Props) {
               })}
             </ul>
             <span className="list-unstyled text-warning  ">({product.rate})</span>
+          </div>
+          <div>
             <span className="sold-number ">Sold: 100</span>
           </div>
           <div className="designer cursor-pointer">
