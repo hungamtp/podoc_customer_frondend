@@ -2,11 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface CurrentRawProductId {
   id: number;
-
 }
 
 const initialState: CurrentRawProductId = {
-  id : 0
+  id: 0,
 };
 
 export const productSlice = createSlice({
@@ -18,9 +17,8 @@ export const productSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.id = action.id;
-
-    } 
+      state.id = action.payload.id;
+    },
   },
 });
 

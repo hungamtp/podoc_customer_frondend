@@ -153,15 +153,22 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
 
   React.useEffect(() => {
     if (canvas) {
-      reverseDesigns(blueprint);
       canvas.clear();
+      setPlaceHolder(
+        initPlaceHolder(
+          placeholderWidth,
+          placeholderHeight,
+          pageHeight / placeHolderAndOuterRate,
+          defaultWidth
+        )
+      );
     }
     const rerenderLoop = setInterval(() => {
       if (canvas && imgSrc === "") {
         const canvasObjs = canvas._objects || [];
         if (blueprint.designInfos) {
           if (
-            canvasObjs.length == (blueprint.designInfos.length || 0) &&
+            canvasObjs.length == (blueprint.designInfos.length || 0) + 1 &&
             canvasObjs.some((design) => {
               if (blueprint.designInfos)
                 return design.name === blueprint.designInfos[0].key;
@@ -197,6 +204,12 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
       setImgSrc("");
     }
   }, [imgSrc]);
+  React.useEffect(() => {
+    if (canvas && placeHolder) {
+      canvas.add(placeHolder);
+      reverseDesigns(blueprint);
+    }
+  }, [placeHolder]);
 
   const reverseDesigns = (blueprint: Blueprint) => {
     if (canvas && placeHolder) {
@@ -244,8 +257,8 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   const addRect = (design: DesignState) => {
     if (canvas && placeHolder) {
       fabric.Image.fromURL(design.src, (image: fabric.Image) => {
-        const imageLeft = reverseData("left", design.left);
-        const imageTop = reverseData("top", design.top);
+        const imageLeft = reverseData("left", design.leftPosition);
+        const imageTop = reverseData("top", design.topPosition);
         const imageWidth = reverseData("width", design.width);
 
         image.set("name", design.key);
@@ -255,6 +268,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
         image.set("opacity", 100);
         image.set("noScaleCache", true);
         image.scaleToWidth(imageWidth || 150);
+        image.set("clipPath", placeHolder);
         image.set("selectable", false);
 
         canvas.add(image);

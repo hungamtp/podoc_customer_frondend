@@ -158,7 +158,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       <SingleInputMemo
                         type="number"
                         handleChange={handleChangeScale}
-                        defaultVal={get2Decimal(designInfo.scale) + ""}
+                        defaultVal={get2Decimal(designInfo.scales) + ""}
                       />
                       <span className="custom-input-tag">%</span>
                     </div>
@@ -181,7 +181,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       <SingleInputMemo
                         type="number"
                         handleChange={handleChangeLeft}
-                        defaultVal={get2Decimal(designInfo.left) + ""}
+                        defaultVal={get2Decimal(designInfo.leftPosition) + ""}
                       />
                       <span className="custom-input-tag">%</span>
                     </div>
@@ -191,7 +191,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       <SingleInputMemo
                         type="number"
                         handleChange={handleChangeTop}
-                        defaultVal={get2Decimal(designInfo.top) + ""}
+                        defaultVal={get2Decimal(designInfo.topPosition) + ""}
                       />
                       <span className="custom-input-tag">%</span>
                     </div>

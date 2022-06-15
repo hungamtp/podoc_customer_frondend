@@ -37,7 +37,7 @@ export default function Table(props: ITableProps) {
   //   let updatedDesignInfo: DesignState = {
   //     key: "",
   //     name: "",
-  //     type: "image/jpeg",
+  //     types: "image/jpeg",
   //     height: 0,
   //     width: 0,
   //     left: 0,
@@ -79,7 +79,7 @@ export default function Table(props: ITableProps) {
         {designInfos.map((designInfo) => (
           <>
             {/* start image section */}
-            {designInfo.type.includes("image") && (
+            {designInfo.types.includes("image") && (
               <ImageInfo
                 {...imageInfoProps}
                 deleteImage={tmpDeleteImage}
@@ -87,7 +87,7 @@ export default function Table(props: ITableProps) {
               />
             )}
             {/* start text section */}
-            {designInfo.type === "text" && (
+            {designInfo.types === "text" && (
               <TextInfo
                 {...props}
                 designInfo={designInfo}

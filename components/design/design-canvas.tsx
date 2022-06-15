@@ -537,13 +537,13 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
         );
         const designInfo = {
           key: newName,
-          type: "text",
+          types: "text",
           rotate: 0,
           width: tmpDesignData?.width,
           height: tmpDesignData?.height,
-          scale: tmpDesignData?.scale,
-          left: tmpDesignData?.left,
-          top: tmpDesignData?.top,
+          scales: tmpDesignData?.scale,
+          leftPosition: tmpDesignData?.left,
+          topPosition: tmpDesignData?.top,
           src: text,
         };
 
@@ -600,13 +600,13 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             );
             const designInfo = {
               key: newName,
-              type: "image/png",
+              types: "image/png",
               rotate: 0,
               width: tmpDesignData?.width,
               height: tmpDesignData?.height,
-              scale: tmpDesignData?.scale,
-              left: tmpDesignData?.left,
-              top: tmpDesignData?.top,
+              scales: tmpDesignData?.scale,
+              leftPosition: tmpDesignData?.left,
+              topPosition: tmpDesignData?.top,
               src: imgUrl,
             };
 
@@ -631,8 +631,8 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     (design: DesignState) => {
       if (canvas && placeHolder) {
         fabric.Image.fromURL(design.src, (image: fabric.Image) => {
-          const imageLeft = reverseData("left", design.left);
-          const imageTop = reverseData("top", design.top);
+          const imageLeft = reverseData("left", design.leftPosition);
+          const imageTop = reverseData("top", design.topPosition);
           const imageWidth = reverseData("width", design.width);
 
           image.set("name", design.key);
@@ -659,17 +659,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             image.getScaledWidth(),
             image.getScaledHeight()
           );
-          const designInfo = {
-            key: design.key,
-            rotate: 0,
-            type: "image/png",
-            width: tmpDesignData?.width,
-            height: tmpDesignData?.height,
-            scale: tmpDesignData?.scale,
-            left: tmpDesignData?.left,
-            top: tmpDesignData?.top,
-            src: design.src,
-          };
+
           canvas.renderAll();
         });
       }
@@ -775,9 +765,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             rotate: obj.angle,
             width: tmpDesignData?.width,
             height: tmpDesignData?.height,
-            scale: tmpDesignData?.scale,
-            left: tmpDesignData?.left,
-            top: tmpDesignData?.top,
+            scales: tmpDesignData?.scale,
+            leftPosition: tmpDesignData?.left,
+            topPosition: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
@@ -798,9 +788,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
             rotate: obj.angle,
             width: tmpDesignData?.width,
             height: tmpDesignData?.height,
-            scale: tmpDesignData?.scale,
-            left: tmpDesignData?.left,
-            top: tmpDesignData?.top,
+            scales: tmpDesignData?.scale,
+            leftPosition: tmpDesignData?.left,
+            topPosition: tmpDesignData?.top,
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
