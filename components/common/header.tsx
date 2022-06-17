@@ -113,7 +113,7 @@ export default function Header({}: Props) {
                   </div>
 
                   <div className="mt-3 text-center">
-                    <a href="/cart" className="btn btn-primary me-2">
+                    <a href="/carts" className="btn btn-primary me-2">
                       View Cart
                     </a>
                     <a href="/checkout" className="btn btn-primary">
@@ -195,7 +195,7 @@ export default function Header({}: Props) {
           <div id="navigation">
             <ul className="navigation-menu">
               <li>
-                <a href="/product" className="sub-menu-item">
+                <a href="/designs" className="sub-menu-item">
                   Thiết kế có sẵn
                 </a>
               </li>
@@ -215,7 +215,7 @@ export default function Header({}: Props) {
                 <span className="menu-arrow"></span>
                 <ul className="submenu">
                   <li onClick={() => router.push("/product")}>
-                    <a href="product" className="sub-menu-item">
+                    <a href="designs" className="sub-menu-item">
                       Product List Blueprint
                     </a>
                   </li>

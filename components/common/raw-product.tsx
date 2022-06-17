@@ -12,7 +12,7 @@ export default function RawProduct({ product }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const redirectToProductDetail = () => {
-    dispatch(setCurrentProductId(1));
+    dispatch(setCurrentProductId(product.id));
     router.push({
       pathname: '/detail',
       query: { id: product.id },

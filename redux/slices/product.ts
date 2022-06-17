@@ -4,9 +4,7 @@ export interface CurrentRawProductId {
   id: number;
 }
 
-const initialState: CurrentRawProductId = {
-  id: 0,
-};
+const initialState = 1;
 
 export const productSlice = createSlice({
   name: "productDetail",
@@ -17,7 +15,7 @@ export const productSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.id = action.payload.id;
+      return action.payload;
     },
   },
 });
