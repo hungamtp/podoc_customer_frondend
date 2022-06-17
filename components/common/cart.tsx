@@ -8,23 +8,16 @@ type Props = {
 export default function Cart({ cart }: Props) {
   return (
     <tr className="shop-list">
-      <td className="h6 text-center">
-        <a href=" " className="text-danger">
-          <i className="uil uil-times"></i>
-        </a>
+      <td className="h6 text-center cursor-pointer ">
+        <i className="bi bi-trash"></i>
       </td>
       <td>
         <div className="d-flex align-items-center">
-          <img
-            src="asset/images/shop/product/s1.jpg"
-            className="img-fluid avatar avatar-small rounded shadow"
-            style={{ height: 'auto' }}
-            alt="product"
-          />
-          <h6 className="mb-0 ms-3">T-Shirt</h6>
+          <img src={cart.designedImage} className="img-fluid avatar avatar-small rounded shadow" style={{ height: 'auto' }} alt="product" />
+          <h6 className="mb-0 ms-3">{cart.designedProductName}</h6>
         </div>
       </td>
-      <td className="text-center">{cart.size}</td>
+      <td className="text-center mb-0 ms-3">{cart.size}</td>
       <td className="text-center">{cart.color}</td>
       <td className="text-center">$ {cart.price}</td>
       <td className="text-center qty-icons">

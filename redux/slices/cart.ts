@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CartDetailDTO } from "@/services/type.dto";
  
 
-const initialState: CartDetailDTO[] = [];
+const initialState: CartDetailDTO[] = [
+ 
+];
 
 export const cartSlice = createSlice({
   name: "carts",
@@ -13,7 +15,7 @@ export const cartSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      return action.payload;
+      return action.payload ;
     }
   },
 });

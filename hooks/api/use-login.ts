@@ -15,8 +15,7 @@ const useLogin = () => {
       return await login(data);
     },
     {
-      onSuccess: (data) => {
-        localStorage.setItem("jwt" ,data.token );
+      onSuccess: (data) => { 
         dispatch(loginAction(data)); 
         //because data:any
         router.push('/home');

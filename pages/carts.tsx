@@ -8,10 +8,9 @@ import { useAppSelector } from '@/components/hooks/reduxHook';
 type Props = {};
 
 export default function Carts({}: Props) {
-  const { data: response, isLoading: isLoading } = useCart();
-  const haveProduct = response?.length != 0;
+  const carts = useAppSelector(state => state.carts);
+  const haveProduct = carts?.length != 0;
 
-  const cart = useAppSelector(state => state.carts);
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -56,7 +55,7 @@ export default function Carts({}: Props) {
             </div>
           </div>
 
-          {response?.length == 0 ? (
+          {carts?.length == 0 ? (
             <div>chuwa cos san pham trong cac</div>
           ) : (
             <table className="table mb-0 table-center">
@@ -85,7 +84,7 @@ export default function Carts({}: Props) {
               </thead>
 
               <tbody>
-                {response?.map(cart => {
+                {carts?.map(cart => {
                   return <Cart key={cart.id} cart={cart} />;
                 })}
               </tbody>

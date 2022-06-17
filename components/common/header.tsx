@@ -5,15 +5,14 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useAppDispatch } from '@/components/hooks/reduxHook';
 import useCart from '@/hooks/api/cart/use-cart';
-import { setCart } from '@/redux/slices/cart';
+import cart, { setCart } from '@/redux/slices/cart';
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
-  // const dispatch = useAppDispatch();
-  // const { data: response, isLoading: isLoading } = useCart();
-  // dispatch(setCart(response));
-  // console.log(response);
+  const dispatch = useAppDispatch();
+  const { data: response, isLoading: isLoading } = useCart();
+  dispatch(setCart(response));
   const logout = () => {
     localStorage.removeItem('jwt');
     router.push('/login');
@@ -50,12 +49,6 @@ export default function Header({}: Props) {
           </div>
 
           <ul className="buy-button list-inline mb-0">
-            {/* <li className="list-inline-item mb-0 pe-1">
-              <a href=" " data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-                <i className="uil uil-search h5 text-dark align-middle"></i>
-              </a>
-            </li>
-            <li className="list-inline-item mb-0">&nbsp;</li> */}
             <li className="list-inline-item mb-0">
               <div className="dropdown">
                 <button
@@ -84,45 +77,33 @@ export default function Header({}: Props) {
                   style={{ width: '300px' }}
                 >
                   <div className="pb-4">
-                    <a href=" " className="d-flex align-items-center">
-                      <img src="asset/images/shop/product/s-1.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
-                      <div className="flex-1 text-start ms-3">
-                        <h6 className="text-dark mb-0">T-shirt (M)</h6>
-                        <p className="text-muted mb-0">$320 X 2</p>
-                      </div>
-                      <h6 className="text-dark mb-0">$640</h6>
-                    </a>
-
-                    <a href=" " className="d-flex align-items-center mt-4">
-                      <img src="asset/images/shop/product/s-2.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
-                      <div className="flex-1 text-start ms-3">
-                        <h6 className="text-dark mb-0">Bag</h6>
-                        <p className="text-muted mb-0">$50 X 5</p>
-                      </div>
-                      <h6 className="text-dark mb-0">$250</h6>
-                    </a>
-
-                    <a href=" " className="d-flex align-items-center mt-4">
-                      <img src="asset/images/shop/product/s-3.jpg" className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
-                      <div className="flex-1 text-start ms-3">
-                        <h6 className="text-dark mb-0">Watch (Men)</h6>
-                        <p className="text-muted mb-0">$800 X 1</p>
-                      </div>
-                      <h6 className="text-dark mb-0">$800</h6>
-                    </a>
+                    {response?.slice(0, 3).map(cart => {
+                      return (
+                        <a key={cart.id} href=" " className="d-flex align-items-center">
+                          <img src={cart.designedImage} className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
+                          <div className="flex-1 text-start ms-3">
+                            <h6 className="text-dark mb-0">
+                              {cart.designedProductName} ({cart.size})
+                            </h6>
+                            <p className="text-muted mb-0">
+                              ${cart.price} X {cart.quantity}
+                            </p>
+                          </div>
+                          <h6 className="text-dark mb-0">${cart.price * cart.quantity}</h6>
+                        </a>
+                      );
+                    })}
+                    <div
+                      className="text-dark mb-0  "
+                      style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px', fontStyle: 'italic' }}
+                    >
+                      You have {cart.length} product in cart
+                    </div>
                   </div>
 
-                  <div className="d-flex align-items-center justify-content-between pt-4 border-top">
-                    <h6 className="text-dark mb-0">Total($):</h6>
-                    <h6 className="text-dark mb-0">$1690</h6>
-                  </div>
-
-                  <div className="mt-3 text-center">
+                  <div className="  text-center">
                     <a href="/carts" className="btn btn-primary me-2">
                       View Cart
-                    </a>
-                    <a href="/checkout" className="btn btn-primary">
-                      Checkout
                     </a>
                   </div>
                 </div>
@@ -130,30 +111,6 @@ export default function Header({}: Props) {
             </li>
             <li className="list-inline-item mb-0"> &nbsp;</li>
 
-            {/* <li className="list-inline-item mb-0">
-              <button type="button" className="btn btn-icon btn-pills btn-primary" aria-haspopup="true" aria-expanded="false">
-                <Badge
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  color="secondary"
-                  badgeContent={itemCount}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-heart"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                  </svg>
-                </Badge>
-              </button>
-            </li>
-            <li className="list-inline-item mb-0"> &nbsp;</li> */}
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button
@@ -215,88 +172,6 @@ export default function Header({}: Props) {
                   Giới thiệu
                 </a>
               </li>
-              {/* <li className="has-submenu parent-menu-item">
-                <a href=" ">Shop</a>
-                <span className="menu-arrow"></span>
-                <ul className="submenu">
-                  <li onClick={() => router.push("/product")}>
-                    <a href="designs" className="sub-menu-item">
-                      Product List Blueprint
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="shop-lists.html" className="sub-menu-item">
-                      Product List Designed
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="shop-product-detail.html"
-                      className="sub-menu-item"
-                    >
-                      Product Details
-                    </a>
-                  </li>
-                  <li>
-                    <a href="cart" className="sub-menu-item">
-                      Shop Cart
-                    </a>
-                  </li>
-                  <li>
-                    <a href="shop-checkouts.html" className="sub-menu-item">
-                      Checkouts
-                    </a>
-                  </li>
-                  <li>
-                    <a href="shop-myaccount.html" className="sub-menu-item">
-                      My Account
-                    </a>
-                  </li>
-                </ul>
-              </li> */}
-
-              {/* <li className="has-submenu parent-menu-item">
-                <a href=" ">Pages</a>
-                <span className="menu-arrow"></span>
-                <ul className="submenu">
-                  <li onClick={() => router.push("/login")}>
-                    <a href="login" className="sub-menu-item">
-                      Login
-                    </a>
-                  </li>
-                  <li>
-                    <a href="auth-signup.html" className="sub-menu-item">
-                      Signup
-                    </a>
-                  </li>
-                  <li>
-                    <a href="auth-re-password.html" className="sub-menu-item">
-                      Reset Password
-                    </a>
-                  </li>
-                  <li>
-                    <a href="page-comingsoon.html" className="sub-menu-item">
-                      Coming Soon
-                    </a>
-                  </li>
-                  <li>
-                    <a href="page-maintenance.html" className="sub-menu-item">
-                      Maintenance
-                    </a>
-                  </li>
-                  <li>
-                    <a href="page-error.html" className="sub-menu-item">
-                      Error
-                    </a>
-                  </li>
-                  <li>
-                    <a href="page-thankyou.html" className="sub-menu-item">
-                      Thank you
-                    </a>
-                  </li>
-                </ul>
-              </li> */}
             </ul>
           </div>
         </div>
