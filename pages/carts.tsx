@@ -12,7 +12,6 @@ export default function Carts({}: Props) {
   const haveProduct = response?.length != 0;
 
   const cart = useAppSelector(state => state.carts);
-  console.log(cart);
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">

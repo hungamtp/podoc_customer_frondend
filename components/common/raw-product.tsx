@@ -23,7 +23,6 @@ export default function RawProduct({ product }: Props) {
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
           {product.tags.map((tag, index) => {
-            console.log(tag);
             return (
               <li key={index}>
                 <span

@@ -50,8 +50,7 @@ export default function Login({ data }: Props) {
   });
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     data.email = data.email.trimStart().trimEnd();
-    const res = login({ email: data.email, password: data.password });
-    console.log(res);
+    const res = login({ email: data.email, password: data.password }); 
     if (rememberMe) {
     }
   };
