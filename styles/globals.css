@@ -43,9 +43,27 @@ a {
   height: 9vh;
 }
 
-
 .h-81{
   height:81vh;
+}
+.h-60{
+  height:60vh;
+}
+
+.h-50{
+  height: 50vh;
+}
+
+.set-hover {
+  background-color:'none'
+}
+
+.highligh-bg{
+  background-color:rgb(228, 228, 228)
+}
+
+.set-hover:hover{
+  background-color:rgb(228, 228, 228)
 }
 
 .bg-gray{
@@ -79,6 +97,8 @@ a {
 .w-full{
   width: 100%;
 }
+
+
 
 .py-3point5 {
   padding-top: 1.4rem !important;
