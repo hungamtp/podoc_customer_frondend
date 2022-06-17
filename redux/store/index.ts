@@ -8,6 +8,8 @@ import choosenKeyReducer from "@/redux/slices/choosenKey";
 import previewsReducer from "@/redux/slices/previews";
 import productDetailReducer from "@/redux/slices/product";
 import selectedColorsReducer from "@/redux/slices/selectedColors";
+import cartsReducer from "@/redux/slices/cart";
+
 import {
   persistStore,
   persistReducer,
@@ -44,6 +46,7 @@ const rootReducer = combineReducers({
   previews: previewsReducer,
   productDetail: productDetailReducer,
   selectedColors: selectedColorsReducer,
+  carts: cartsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

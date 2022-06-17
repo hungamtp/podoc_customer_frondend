@@ -2,9 +2,17 @@
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
 import Cart from '@/components/common/cart';
+import useCart from '@/hooks/api/cart/use-cart';
+
+import { useAppSelector } from '@/components/hooks/reduxHook';
 type Props = {};
 
 export default function Carts({}: Props) {
+  const { data: response, isLoading: isLoading } = useCart();
+  const haveProduct = response?.length != 0;
+
+  const cart = useAppSelector(state => state.carts);
+  console.log(cart);
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -41,82 +49,86 @@ export default function Carts({}: Props) {
           </svg>
         </div>
       </div>
-
       <section className="section">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div className="table-responsive bg-white shadow rounded">
-                <table className="table mb-0 table-center">
-                  <thead>
-                    <tr>
-                      <th className="border-bottom py-3" style={{ minWidth: '20px' }}></th>
-                      <th className="border-bottom text-start py-3" style={{ minWidth: '300px' }}>
-                        Product
-                      </th>
-                      <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
-                        Size
-                      </th>
-                      <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
-                        Color
-                      </th>
-                      <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
-                        Price
-                      </th>
-                      <th className="border-bottom text-center py-3" style={{ minWidth: '160px' }}>
-                        Qty
-                      </th>
-                      <th className="border-bottom text-end py-3 pe-4" style={{ minWidth: '160px' }}>
-                        Total
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                  </tbody>
-                </table>
-              </div>
+              <div className="table-responsive bg-white shadow rounded"></div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-lg-8 col-md-6 mt-4 pt-2">
-              <a href=" " className="btn btn-primary">
-                Shop More
-              </a>
-              <a href=" " className="btn btn-soft-primary ms-2">
-                Update Cart
-              </a>
-            </div>
-            <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
-              <div className="table-responsive bg-white rounded shadow">
-                <table className="table table-center table-padding mb-0">
-                  <tbody>
-                    <tr>
-                      <td className="h6 ps-4 py-3">Subtotal</td>
-                      <td className="text-end fw-bold pe-4">$ 2190</td>
-                    </tr>
-                    <tr>
-                      <td className="h6 ps-4 py-3">Taxes</td>
-                      <td className="text-end fw-bold pe-4">$ 219</td>
-                    </tr>
-                    <tr className="bg-light">
-                      <td className="h6 ps-4 py-3">Total</td>
-                      <td className="text-end fw-bold pe-4">$ 2409</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="mt-4 pt-2 text-end">
-                <a href="checkout" className="btn btn-primary">
-                  Proceed to checkout
+
+          {response?.length == 0 ? (
+            <div>chuwa cos san pham trong cac</div>
+          ) : (
+            <table className="table mb-0 table-center">
+              <thead>
+                <tr>
+                  <th className="border-bottom py-3" style={{ minWidth: '20px' }}></th>
+                  <th className="border-bottom text-start py-3" style={{ minWidth: '300px' }}>
+                    Product
+                  </th>
+                  <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
+                    Size
+                  </th>
+                  <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
+                    Color
+                  </th>
+                  <th className="border-bottom text-center py-3" style={{ minWidth: '60px' }}>
+                    Price
+                  </th>
+                  <th className="border-bottom text-center py-3" style={{ minWidth: '160px' }}>
+                    Qty
+                  </th>
+                  <th className="border-bottom text-end py-3 pe-4" style={{ minWidth: '160px' }}>
+                    Total
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {response?.map(cart => {
+                  return <Cart key={cart.id} cart={cart} />;
+                })}
+              </tbody>
+            </table>
+          )}
+          {haveProduct && (
+            <div className="row">
+              <div className="col-lg-8 col-md-6 mt-4 pt-2">
+                <a href=" " className="btn btn-primary">
+                  Shop More
+                </a>
+                <a href=" " className="btn btn-soft-primary ms-2">
+                  Update Cart
                 </a>
               </div>
+              <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
+                <div className="table-responsive bg-white rounded shadow">
+                  <table className="table table-center table-padding mb-0">
+                    <tbody>
+                      <tr>
+                        <td className="h6 ps-4 py-3">Subtotal</td>
+                        <td className="text-end fw-bold pe-4">$ 2190</td>
+                      </tr>
+                      <tr>
+                        <td className="h6 ps-4 py-3">Taxes</td>
+                        <td className="text-end fw-bold pe-4">$ 219</td>
+                      </tr>
+                      <tr className="bg-light">
+                        <td className="h6 ps-4 py-3">Total</td>
+                        <td className="text-end fw-bold pe-4">$ 2409</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-4 pt-2 text-end">
+                  <a href="checkout" className="btn btn-primary">
+                    Proceed to checkout
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </>

@@ -7,9 +7,7 @@ type Props = {
 };
 
 export default function DesignedProduct({ product }: Props) {
-  const goToProfile = (userId: number) => {
-    console.log('first');
-  };
+  const goToProfile = (userId: number) => {};
   const getRates = (rate: number): number[] => {
     let result = [];
     rate = Math.ceil(rate);
@@ -47,7 +45,7 @@ export default function DesignedProduct({ product }: Props) {
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />
           </a> */}
           <ul className="list-unstyled shop-icons">
-            <li>
+            {/* <li>
               <a className="btn btn-icon btn-pills btn-soft-danger">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +73,7 @@ export default function DesignedProduct({ product }: Props) {
                   <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                 </svg>
               </a>
-            </li>
+            </li> */}
             <li className="mt-2">
               <a className="btn btn-icon btn-pills btn-soft-warning">
                 <svg
