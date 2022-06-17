@@ -93,7 +93,7 @@ export default function Carts({}: Props) {
           {haveProduct && (
             <div className="row">
               <div className="col-lg-8 col-md-6 mt-4 pt-2">
-                <a href=" " className="btn btn-primary">
+                <a href="designs" className="btn btn-primary">
                   Shop More
                 </a>
                 <a href=" " className="btn btn-soft-primary ms-2">
