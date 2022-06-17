@@ -4,8 +4,6 @@ export interface DesignState {
   types: "image/png" | "image/jpg" | "image/jpeg" | "text";
   height: number;
   width: number;
-  x: number;
-  y: number;
   scales: number;
   rotate: number;
   leftPosition: number;

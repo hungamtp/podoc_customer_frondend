@@ -1,9 +1,6 @@
-import { Blueprint } from "@/models/design/blueprint";
-import * as React from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { updateBlueprint, setPosition } from "@/redux/slices/blueprints";
-import { updateDesignInfos } from "@/redux/slices/design";
 import { DesignState } from "@/models/design/designInfo";
+import { updateBlueprint } from "@/redux/slices/blueprints";
+import { updateDesignInfos } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
 import {
   Dialog,
@@ -11,6 +8,9 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import * as React from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import CreateDesignedProductForm from "./designed-product-info";
 export interface IDesignHeaderLeftProps {}
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
@@ -37,8 +37,6 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         height: 0,
         width: 0,
         leftPosition: 0,
-        x: 0,
-        y: 0,
         rotate: 0,
         scales: 0,
         topPosition: 0,
@@ -113,26 +111,29 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
           <div className="d-flex justify-content-center border-top border-dark  py-4">
             <div className="d-flex  w-full align-items-center px-4">
-              <button className="btn btn-secondary w-full">Lưu lại</button>
+              <button
+                className="btn btn-secondary w-full"
+                onClick={() => handleOpenDialog()}
+              >
+                Lưu lại
+              </button>
             </div>
           </div>
         </div>
       </div>
-      {/* <Dialog
+      <Dialog
         open={isOpen}
         onClose={handleCloseDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth={true}
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Create New Product"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">Tạo mẫu thiết kế</DialogTitle>
         <DialogContent>
-          <CreateProductForm handleCloseDialog={handleCloseDialog} />
+          <CreateDesignedProductForm handleCloseDialog={handleCloseDialog} />
         </DialogContent>
         <DialogActions></DialogActions>
-      </Dialog> */}
+      </Dialog>
     </>
   );
 }

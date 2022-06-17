@@ -2,6 +2,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { FactoryDTO } from "@/services/type.dto";
+import { addColors } from "@/redux/slices/blueprints";
+import { useAppDispatch } from "../hooks/reduxHook";
 
 type Props = {
   factory: FactoryDTO;
@@ -9,8 +11,11 @@ type Props = {
 export default function Factory({ factory }: Props) {
   const router = useRouter();
   const productId = router.asPath.split("id=")[1];
-  const startDesign = () => {
+  const dispatch = useAppDispatch();
+  const startDesign = (colors: string[]) => {
+    dispatch(addColors(colors));
     router.push(`/design?id=${productId}`);
+    //push sẽ hủy hết lệnh và route qua trang khác
   };
 
   return (
@@ -28,7 +33,7 @@ export default function Factory({ factory }: Props) {
               <span>
                 <button
                   className="btn btn-primary btn-sm"
-                  onClick={startDesign}
+                  onClick={() => startDesign(factory.colors)}
                 >
                   Start Design
                 </button>
@@ -75,7 +80,10 @@ export default function Factory({ factory }: Props) {
                           width={22}
                           height={22}
                           className="rounded-circle border"
-                          src={color}
+                          src={
+                            "https://images.printify.com/5853fec7ce46f30f8328200a"
+                          }
+                          style={{ backgroundColor: color }}
                           alt={color}
                         />
                       ))}

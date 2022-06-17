@@ -6,11 +6,9 @@ export interface GetBlueprintDto extends ISuccessHttpResponse {
 }
 export interface DesignedProductDto {
   designedPrice: number;
-  imagePreviews: [
-    {
-      image: string;
-      position: string;
-    }
-  ];
-  bluePrintDtos: Blueprint;
+  imagePreviews: {
+    image: string;
+    position: string;
+  }[];
+  bluePrintDtos: Blueprint[];
 }

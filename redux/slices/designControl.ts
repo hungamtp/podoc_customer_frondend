@@ -6,6 +6,7 @@ export interface DesignControlData {
     isChooseImage: boolean;
     isSetImage: boolean;
     isEmpty: boolean;
+    isLoadingImage: boolean;
   };
 }
 
@@ -18,6 +19,7 @@ const initialState: DesignControlData = {
     isChooseImage: false,
     isSetImage: false,
     isEmpty: true,
+    isLoadingImage: false,
   },
 };
 
@@ -31,6 +33,7 @@ export const designControlSlice = createSlice({
           isChooseImage: action.payload.isChooseImage,
           isSetImage: action.payload.isSetImage,
           isEmpty: action.payload.isEmpty,
+          isLoadingImage: action.payload.isLoadingImage,
         },
       };
     },

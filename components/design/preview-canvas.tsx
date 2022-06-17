@@ -100,8 +100,8 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   const [renderCount, setRenderCount] = React.useState(0);
 
   const blueprint = blueprintsData.blueprints[renderCount];
-  const placeholderWidth = blueprint.placeHolder.width * 30;
-  const placeholderHeight = blueprint.placeHolder.height * 30;
+  const placeholderWidth = blueprint.placeholder.width * 30;
+  const placeholderHeight = blueprint.placeholder.height * 30;
   const dispatch = useAppDispatch();
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
@@ -132,6 +132,11 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           canvas.setHeight(outerHeight);
 
           canvas.renderAll();
+          const colorFilter = new fabric.Image.filters.BlendColor({
+            color: "gray",
+            mode: "add",
+            alpha: 0.8,
+          });
           const sizeObj = resizer(
             { width: outerWidth, height: outerHeight },
             { width: image.width || 100, height: image.height || 150 }
@@ -139,6 +144,9 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           image.scaleToHeight(sizeObj.height);
           image.set("top", sizeObj.y);
           image.set({ left: sizeObj.x });
+          image.filters?.push(colorFilter);
+          image.applyFilters();
+          canvas.renderAll();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
           // canvas.clipPath = image;
         },
@@ -244,11 +252,11 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           (placeHolder.left || 0);
       if (key === "width")
         data =
-          (value / (blueprint.placeHolder.width / DPI)) *
+          (value / (blueprint.placeholder.width / DPI)) *
           placeHolder.getScaledWidth();
       if (key === "height")
         data =
-          (value / (blueprint.placeHolder.height / DPI)) *
+          (value / (blueprint.placeholder.height / DPI)) *
           placeHolder.getScaledHeight();
       if (key === "scale") data = placeHolder.getScaledWidth() * value;
       return data;
@@ -256,25 +264,29 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   };
   const addRect = (design: DesignState) => {
     if (canvas && placeHolder) {
-      fabric.Image.fromURL(design.src, (image: fabric.Image) => {
-        const imageLeft = reverseData("left", design.leftPosition);
-        const imageTop = reverseData("top", design.topPosition);
-        const imageWidth = reverseData("width", design.width);
+      fabric.Image.fromURL(
+        design.src,
+        (image: fabric.Image) => {
+          const imageLeft = reverseData("left", design.leftPosition);
+          const imageTop = reverseData("top", design.topPosition);
+          const imageWidth = reverseData("width", design.width);
 
-        image.set("name", design.key);
-        image.set("left", imageLeft);
-        image.set("top", imageTop);
-        image.set("angle", design.rotate);
-        image.set("opacity", 100);
-        image.set("noScaleCache", true);
-        image.scaleToWidth(imageWidth || 150);
-        image.set("clipPath", placeHolder);
-        image.set("selectable", false);
+          image.set("name", design.key);
+          image.set("left", imageLeft);
+          image.set("top", imageTop);
+          image.set("angle", design.rotate);
+          image.set("opacity", 100);
+          image.set("noScaleCache", true);
+          image.scaleToWidth(imageWidth || 150);
+          image.set("clipPath", placeHolder);
+          image.set("selectable", false);
 
-        canvas.add(image);
+          canvas.add(image);
 
-        canvas.renderAll();
-      });
+          canvas.renderAll();
+        },
+        { crossOrigin: "anonymous" }
+      );
     }
   };
 
@@ -291,10 +303,10 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
         ((top - (placeHolder.top || 0)) / placeHolder.getScaledHeight()) * 100;
       const newWidth =
         (width / placeHolder.getScaledWidth()) *
-        (blueprint.placeHolder.width / DPI);
+        (blueprint.placeholder.width / DPI);
       const newHeight =
         (height / placeHolder.getScaledHeight()) *
-        (blueprint.placeHolder.height / DPI);
+        (blueprint.placeholder.height / DPI);
       const scale = width / placeHolder.getScaledWidth();
       return {
         left: newLeft,

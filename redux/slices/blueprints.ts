@@ -4,6 +4,7 @@ import { Blueprint } from "@/models/design/blueprint";
 export interface BlueprintData {
   position: string;
   blueprints: Blueprint[];
+  colors: string[];
 }
 
 const blueprintInit = [
@@ -11,7 +12,7 @@ const blueprintInit = [
     frameImage:
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/6-0_55.jpg",
     position: "Front",
-    placeHolder: {
+    placeholder: {
       width: 15,
       height: 17,
     },
@@ -23,8 +24,6 @@ const blueprintInit = [
         height: 0,
         width: 0,
         leftPosition: 0,
-        x: 0,
-        y: 0,
         rotate: 0,
         scales: 0,
         topPosition: 0,
@@ -36,7 +35,7 @@ const blueprintInit = [
     frameImage:
       "https://media.coolmate.me/cdn-cgi/image/quality=80/uploads/March2022/15-0.jpg",
     position: "arm",
-    placeHolder: {
+    placeholder: {
       width: 14,
       height: 16,
     },
@@ -48,8 +47,6 @@ const blueprintInit = [
         height: 0,
         width: 0,
         leftPosition: 0,
-        x: 0,
-        y: 0,
         rotate: 0,
         scales: 0,
         topPosition: 0,
@@ -61,7 +58,7 @@ const blueprintInit = [
     frameImage:
       "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
     position: "back",
-    placeHolder: {
+    placeholder: {
       width: 12,
       height: 13.7,
     },
@@ -73,8 +70,6 @@ const blueprintInit = [
         height: 0,
         width: 0,
         leftPosition: 0,
-        x: 0,
-        y: 0,
         rotate: 0,
         scales: 0,
         topPosition: 0,
@@ -87,6 +82,7 @@ const blueprintInit = [
 const initialState: BlueprintData = {
   position: "Front",
   blueprints: blueprintInit,
+  colors: ["white"],
 };
 
 export const blueprintsSlice = createSlice({
@@ -98,14 +94,22 @@ export const blueprintsSlice = createSlice({
     },
     updateBlueprint: (state, action) => {
       return {
+        ...state,
         position: action.payload.position,
         blueprints: action.payload.blueprints,
+      };
+    },
+    addColors: (state, action) => {
+      return {
+        ...state,
+        colors: action.payload,
       };
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateBlueprint, setPosition } = blueprintsSlice.actions;
+export const { updateBlueprint, setPosition, addColors } =
+  blueprintsSlice.actions;
 
 export default blueprintsSlice.reducer;

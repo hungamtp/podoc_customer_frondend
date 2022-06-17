@@ -1,24 +1,31 @@
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-sync-scripts */
 import { storage } from "@/firebase/firebase";
+import useCreateBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
+import { DesignedProductDto } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import useGetBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
+import { Theme, useTheme } from "@mui/material/styles";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  getMetadata,
+} from "firebase/storage";
+import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import { ImageListType } from "react-images-uploading";
 import * as yup from "yup";
+import { useAppSelector } from "../hooks/reduxHook";
 
-export interface ICreateProductFormProps {
+export interface ICreateDesignedProductFormProps {
   handleCloseDialog: () => void;
 }
 
-type FormCreateProduct = {
+type FormAddDesignInfo = {
   name: string;
   designedPrice: number;
   description: string;
@@ -36,16 +43,50 @@ const schema = yup.object().shape({
   description: yup.string().max(100, "Description tối đa 100 kí tự"),
 });
 
-export default function CreateProductForm(props: ICreateProductFormProps) {
-  const { handleCloseDialog } = props;
-  const [categoryName, setCategoryName] = React.useState("");
-  const [images, setImages] = React.useState<ImageListType>([]);
+function b64toBlob(dataURI: string) {
+  var byteString = atob(dataURI.split(",")[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategoryName(event.target.value);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: "image/jpeg" });
+}
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
   };
+}
 
-  const defaultValues: FormCreateProduct = {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export default function CreateDesignedProductForm(
+  props: ICreateDesignedProductFormProps
+) {
+  const { handleCloseDialog } = props;
+  const theme = useTheme();
+  const previews = useAppSelector((state) => state.previews);
+  const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
+  const [images, setImages] = React.useState<ImageListType>();
+  const colors = useAppSelector((state) => state.blueprintsData.colors);
+  console.log(colors, "colorrr");
+  const router = useRouter();
+
+  const defaultValues: FormAddDesignInfo = {
     name: "",
     designedPrice: 0,
     description: "",
@@ -55,10 +96,20 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormCreateProduct>({
+  } = useForm<FormAddDesignInfo>({
     defaultValues,
     resolver: yupResolver(schema),
   });
+  const [colorsList, setColorsList] = React.useState<string[]>([]);
+  const handleChange = (event: SelectChangeEvent<typeof colorsList>) => {
+    const {
+      target: { value },
+    } = event;
+    setColorsList(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
 
   const maxNumber = 69;
   const onChange = (imageList: ImageListType, addUpdateIndex: any) => {
@@ -67,37 +118,50 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
   };
   const onUploadImage = (data: {
     name: string;
-    categoryName: string;
+    designedPrice: number;
     description: string;
-    images: [];
   }) => {
     if (images !== null) {
-      const imageList = [] as string[];
-      images.map((image) => {
-        const file = image.file;
-        const imageRef = ref(storage, `images/${file?.name}`);
-        uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
+      const imageList = [] as { image: string; position: string }[];
+      previews.map((image) => {
+        const file = b64toBlob(image.imageSrc);
+        const imageRef = ref(
+          storage,
+          `images/${data.name + "-" + image.position}`
+        );
+
+        uploadBytes(imageRef, file).then((snapshot) => {
           getDownloadURL(snapshot.ref).then((url) => {
-            imageList.push(url);
-            if (imageList.length === images.length) {
-              const submitData = { ...data, images: imageList };
-              addProduct(submitData);
+            const position = url.split("%2F")[1].split("-")[1].split("?")[0];
+            imageList.push({ image: url, position: position });
+            const submitBlueprint = blueprints.map((blueprint) => {
+              if (blueprint.designInfos) return blueprint;
+              return { ...blueprint, designInfos: [] };
+            });
+            if (imageList.length === previews.length) {
+              const submitData = {
+                ...data,
+                colors: colors,
+                imagePreviews: imageList,
+                bluePrintDtos: submitBlueprint,
+              } as DesignedProductDto;
+
+              addDesignedProduct(submitData);
             }
           });
         });
       });
     }
   };
-  const [filter, setFilter] = useState<Filter>({
-    pageNumber: 0,
-    pageSize: 10,
-  });
-  const { data: response, isLoading: isLoadingCategory } =
-    useCategories(filter);
-  const { mutate: addProduct, error } = useCreateProduct(handleCloseDialog);
 
-  const onSubmit: SubmitHandler<FormCreateProduct> = (data) => {
-    data.categoryName = categoryName;
+  const productId = router.asPath.split("id=")[1];
+
+  const { mutate: addDesignedProduct, error } = useCreateBlueprintByProduct(
+    Number(productId),
+    handleCloseDialog
+  );
+
+  const onSubmit: SubmitHandler<FormAddDesignInfo> = (data) => {
     onUploadImage(data);
   };
 
@@ -112,17 +176,11 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                   className="col-sm-2 col-form-label"
                   htmlFor="basic-icon-default-fullname"
                 >
-                  Name
+                  Tên thiết kế
                 </label>
 
                 <div className="col-sm-10">
                   <div className="input-group input-group-merge">
-                    <span
-                      id="basic-icon-default-fullname2"
-                      className="input-group-text"
-                    >
-                      <i className="bx bx-user" />
-                    </span>
                     <input
                       type="text"
                       className="form-control"
@@ -145,29 +203,51 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                   className="col-sm-2 col-form-label"
                   htmlFor="basic-icon-default-fullname"
                 >
-                  Category Name
+                  Màu áo
                 </label>
                 <div className="col-sm-10">
-                  <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="demo-select-small">Category</InputLabel>
+                  <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
                     <Select
-                      labelId="demo-select-small"
-                      id="demo-select-small"
-                      value={categoryName}
-                      label="categoryName"
+                      multiple
+                      displayEmpty
+                      value={colorsList}
                       onChange={handleChange}
+                      variant="standard"
+                      renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em>{colors[0]}</em>;
+                        }
+
+                        return selected.map((color) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            key={color}
+                            width={22}
+                            height={22}
+                            className="rounded-circle border"
+                            src={
+                              "https://images.printify.com/5853fec7ce46f30f8328200a"
+                            }
+                            style={{ backgroundColor: color }}
+                            alt={color}
+                          />
+                        ));
+                      }}
+                      MenuProps={MenuProps}
+                      inputProps={{ "aria-label": "Without label" }}
                     >
-                      {!isLoadingCategory &&
-                        response &&
-                        response.content.map((categoryN) => (
-                          <MenuItem
-                            className="d-flex flex-column"
-                            key={categoryN.name}
-                            value={categoryN.name}
-                          >
-                            {categoryN.name}
-                          </MenuItem>
-                        ))}
+                      <MenuItem disabled value="">
+                        <em>{colors[0]}</em>
+                      </MenuItem>
+                      {colors.map((name) => (
+                        <MenuItem
+                          key={name}
+                          value={name}
+                          style={getStyles(name, colorsList, theme)}
+                        >
+                          {name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -177,16 +257,10 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                   className="col-sm-2 col-form-label"
                   htmlFor="basic-icon-default-company"
                 >
-                  Description
+                  Mô tả
                 </label>
                 <div className="col-sm-10">
                   <div className="input-group input-group-merge">
-                    <span
-                      id="basic-icon-default-company2"
-                      className="input-group-text"
-                    >
-                      <KeyIcon fontSize="small" />
-                    </span>
                     <input
                       type="text"
                       id="basic-icon-default-company"
@@ -204,54 +278,7 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                   )}
                 </div>
               </div>
-              <div className="row mb-3">
-                <label
-                  className="col-sm-2 col-form-label"
-                  htmlFor="basic-icon-default-fullname"
-                >
-                  Image
-                </label>
-                <div className="col-sm-10">
-                  <ImageUploading
-                    multiple
-                    value={images}
-                    onChange={onChange}
-                    maxNumber={maxNumber}
-                    dataURLKey="data_url"
-                  >
-                    {({
-                      imageList,
-                      onImageUpload,
-                      onImageRemoveAll,
-                      onImageUpdate,
-                      onImageRemove,
-                      isDragging,
-                      dragProps,
-                    }) => (
-                      // write your building UI
-                      <div className="upload__image-wrapper">
-                        {imageList.map((image, index) => (
-                          <div key={index} className="image-item">
-                            <img src={image["data_url"]} alt="" width="100" />
-                          </div>
-                        ))}
-                        <button
-                          style={isDragging ? { color: "red" } : undefined}
-                          onClick={onImageUpload}
-                          {...dragProps}
-                          type="button"
-                        >
-                          Thêm ảnh
-                        </button>
-                        &nbsp;
-                        <button type="button" onClick={onImageRemoveAll}>
-                          Xóa ảnh
-                        </button>
-                      </div>
-                    )}
-                  </ImageUploading>
-                </div>
-              </div>
+
               <div className="d-flex justify-content-center">
                 <div className="col-sm-10 d-flex justify-content-around">
                   <button
@@ -259,7 +286,7 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                     color="primary"
                     type="submit"
                   >
-                    CREATE
+                    Tạo
                   </button>
                   <button
                     className="btn btn-secondary"
@@ -267,7 +294,7 @@ export default function CreateProductForm(props: ICreateProductFormProps) {
                     autoFocus
                     type="button"
                   >
-                    CANCEL
+                    Hủy
                   </button>
                 </div>
               </div>
