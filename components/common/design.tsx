@@ -4,7 +4,7 @@ import React from 'react';
 
 type Props = {};
 
-export default function Design({}: Props) {
+export default function Design({ key }: Props) {
   return (
     <tr className="shop-list">
       <td className="h6 text-center">
@@ -29,45 +29,26 @@ export default function Design({}: Props) {
               <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
                 <b>2</b>&nbsp;colors
               </span>
-              <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-                <b>3</b>&nbsp;print providers
-              </span>
             </p>
           </div>
         </div>
       </td>
       <td className="text-center">$ 255.00</td>
       <td className="text-center qty-icons">
-        <button type="button" className="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
           Published
         </button>
-        {/* <button type="button" className="btn btn-light">
+        {/* 
+        <button type="button" className="btn btn-light">
           Unpublished
         </button> */}
       </td>
-      {/* <div className="modal fade " id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Modal title
-              </h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">...</div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      <td className="text-center qty-icons">
+        <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+          Order
+        </button>
+      </td>
+
       <td className="text-end fw-bold pe-4">
         <div className="dropdown">
           <button
@@ -80,8 +61,11 @@ export default function Design({}: Props) {
             <i className="bi bi-pencil cursor-pointer fa-lg"></i>
           </button>
 
-          <div className="dropdown-menu dd-menu dropdown-menu-end bg-success shadow rounded border-0 p-3" style={{ width: '120px' }}>
-            <a href=" " className="d-flex align-items-center mt-1">
+          <div
+            className="dropdown-menu dd-menu dropdown-menu-end bg-light shadow rounded border border-primary p-3"
+            style={{ width: '120px' }}
+          >
+            <a href=" " className="d-flex align-items-center mt-1 ">
               Edit Price
             </a>
             <a href=" " className="d-flex align-items-center mt-1">

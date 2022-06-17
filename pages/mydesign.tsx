@@ -60,6 +60,9 @@ export default function MyDesign({}: Props) {
                       <th className="border-bottom text-center py-3" style={{ minWidth: '160px' }}>
                         Status
                       </th>
+                      <th className="border-bottom text-center py-3" style={{ minWidth: '160px' }}>
+                        Order
+                      </th>
                       <th className="border-bottom text-end py-3 pe-4" style={{ minWidth: '160px' }}></th>
                     </tr>
                   </thead>
