@@ -112,6 +112,17 @@ export interface CategoryDTO{
   image : string;
 }
 
+export interface CartDetailDTO{
+  id : number;
+  designedProductId : number;
+  designedProductName : string;
+  designedImage : string;
+  size : string;
+  color : string;
+  quantity : number;
+  price : number;
+
+}
 export enum TAG{
   HOT = "Hot",
   NEW = "New",

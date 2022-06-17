@@ -3,11 +3,17 @@
 import { Badge } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-
+import { useAppDispatch } from '@/components/hooks/reduxHook';
+import useCart from '@/hooks/api/cart/use-cart';
+import { setCart } from '@/redux/slices/cart';
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
+  // const dispatch = useAppDispatch();
+  // const { data: response, isLoading: isLoading } = useCart();
+  // dispatch(setCart(response));
+  // console.log(response);
   const logout = () => {
     localStorage.removeItem('jwt');
     router.push('/login');
@@ -29,7 +35,6 @@ export default function Header({}: Props) {
         <div className="container">
           <a className="logo" href="/">
             <img src="asset/images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
-            <img src="asset/images/logo-light.png" height="24" className="logo-dark-mode" alt="" />
           </a>
 
           <div className="menu-extras">
@@ -45,12 +50,12 @@ export default function Header({}: Props) {
           </div>
 
           <ul className="buy-button list-inline mb-0">
-            <li className="list-inline-item mb-0 pe-1">
+            {/* <li className="list-inline-item mb-0 pe-1">
               <a href=" " data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
                 <i className="uil uil-search h5 text-dark align-middle"></i>
               </a>
             </li>
-            <li className="list-inline-item mb-0">&nbsp;</li>
+            <li className="list-inline-item mb-0">&nbsp;</li> */}
             <li className="list-inline-item mb-0">
               <div className="dropdown">
                 <button
@@ -125,7 +130,7 @@ export default function Header({}: Props) {
             </li>
             <li className="list-inline-item mb-0"> &nbsp;</li>
 
-            <li className="list-inline-item mb-0">
+            {/* <li className="list-inline-item mb-0">
               <button type="button" className="btn btn-icon btn-pills btn-primary" aria-haspopup="true" aria-expanded="false">
                 <Badge
                   anchorOrigin={{
@@ -148,7 +153,7 @@ export default function Header({}: Props) {
                 </Badge>
               </button>
             </li>
-            <li className="list-inline-item mb-0"> &nbsp;</li>
+            <li className="list-inline-item mb-0"> &nbsp;</li> */}
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button

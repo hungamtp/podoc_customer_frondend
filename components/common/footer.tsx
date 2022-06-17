@@ -16,9 +16,6 @@ export default function Footer({}: Props) {
             <div className="footer-py-60">
               <div className="row">
                 <div className="col-lg-3 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
-                  <a href="#" className="logo-footer">
-                    <img src="asset/images/logo-light.png" height="24" alt="" />
-                  </a>
                   <p className="mt-4">Start working with Landrick that can provide everything you.</p>
                   <ul className="list-unstyled social-icon foot-social-icon mb-0 mt-4">
                     <li className="list-inline-item">
