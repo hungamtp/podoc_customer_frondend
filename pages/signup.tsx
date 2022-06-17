@@ -47,8 +47,7 @@ export default function SignUp({}: Props) {
       data.lastName = data.lastName.charAt(0).toUpperCase() + data.lastName.slice(1).toLowerCase();
       data.email = data.email.trimStart().trimEnd();
       data.phone = data.phone.trimStart().trimEnd();
-      const res = signUp(data);
-      console.log(res);
+      const res = signUp(data); 
     } else {
     }
   };

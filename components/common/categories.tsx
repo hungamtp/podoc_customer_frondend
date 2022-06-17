@@ -5,8 +5,7 @@ type Props = {};
 export default function Categories({}: Props) {
   const { data: categories, isLoading: isCategoryLoading } = useCategory();
   const [selectedCategory, setSelectedCategory] = useState('');
-  const handleCategoryChange = () => {};
-  console.log(categories);
+  const handleCategoryChange = () => {}; 
   return (
     <div className="widget mt-4 pt-2">
       <h5 className="widget-title">Categories</h5>
