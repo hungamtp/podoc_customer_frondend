@@ -5,7 +5,10 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 
-const useGetBlueprintByProduct = (productId: number) => {
+const useCreateBlueprintByProduct = (
+  productId: number,
+  handleCloseDialog: () => void
+) => {
   const router = useRouter();
   return useMutation(
     async (data: DesignedProductDto) => {
@@ -15,6 +18,7 @@ const useGetBlueprintByProduct = (productId: number) => {
       onSuccess: (data) => {
         //because data:any
         router.push("/design");
+        handleCloseDialog();
         // router.back();
       },
       onError: (error: AxiosError<ErrorHttpResponse>) => {},
@@ -22,4 +26,4 @@ const useGetBlueprintByProduct = (productId: number) => {
   );
 };
 
-export default useGetBlueprintByProduct;
+export default useCreateBlueprintByProduct;

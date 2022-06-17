@@ -3,7 +3,7 @@ import { DesignState } from "./designInfo";
 export interface Blueprint {
   frameImage: string;
   position: string;
-  placeHolder: {
+  placeholder: {
     width: number;
     height: number;
   };

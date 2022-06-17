@@ -5,11 +5,8 @@ import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
 import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { fabric } from "fabric";
-import { IImageOptions, Image } from "fabric/fabric-impl";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { Blueprint } from "../models";
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });

@@ -16,8 +16,6 @@ const initialState: InfoManageData = {
       height: 0,
       width: 0,
       leftPosition: 0,
-      x: 0,
-      y: 0,
       rotate: 0,
       scales: 0,
       topPosition: 0,
@@ -47,8 +45,6 @@ export const designSlice = createSlice({
             scales: action.payload.scales,
             topPosition: action.payload.topPosition,
             width: action.payload.width,
-            x: 0,
-            y: 0,
           };
         }
         return designInfo;
