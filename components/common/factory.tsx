@@ -2,7 +2,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { FactoryDTO } from "@/services/type.dto";
-import { addColors } from "@/redux/slices/blueprints";
 import { useAppDispatch } from "../hooks/reduxHook";
 
 type Props = {
@@ -13,7 +12,6 @@ export default function Factory({ factory }: Props) {
   const productId = router.asPath.split("id=")[1];
   const dispatch = useAppDispatch();
   const startDesign = (colors: string[]) => {
-    dispatch(addColors(colors));
     router.push(`/design?id=${productId}`);
     //push sẽ hủy hết lệnh và route qua trang khác
   };

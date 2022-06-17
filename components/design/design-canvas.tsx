@@ -619,6 +619,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
                 isSetImage: false,
                 isChooseImage: true,
                 isEmpty: false,
+                isLoadingImage: false,
               })
             );
             canvas.renderAll();
@@ -838,7 +839,9 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
         <div className=" d-flex flex-column">
           <div className="p-3 ">
-            {controlData.isSetImage || controlData.isEmpty ? (
+            {controlData.isSetImage ||
+            controlData.isEmpty ||
+            controlData.isLoadingImage ? (
               <EmptyTable addNewRect={addNewRect} addNewText={addNewText} />
             ) : (
               <Table

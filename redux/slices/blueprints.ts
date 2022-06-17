@@ -4,7 +4,6 @@ import { Blueprint } from "@/models/design/blueprint";
 export interface BlueprintData {
   position: string;
   blueprints: Blueprint[];
-  colors: string[];
 }
 
 const blueprintInit = [
@@ -82,7 +81,6 @@ const blueprintInit = [
 const initialState: BlueprintData = {
   position: "Front",
   blueprints: blueprintInit,
-  colors: ["white"],
 };
 
 export const blueprintsSlice = createSlice({
@@ -99,17 +97,10 @@ export const blueprintsSlice = createSlice({
         blueprints: action.payload.blueprints,
       };
     },
-    addColors: (state, action) => {
-      return {
-        ...state,
-        colors: action.payload,
-      };
-    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateBlueprint, setPosition, addColors } =
-  blueprintsSlice.actions;
+export const { updateBlueprint, setPosition } = blueprintsSlice.actions;
 
 export default blueprintsSlice.reducer;

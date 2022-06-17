@@ -9,6 +9,30 @@ const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
 
+const initBlueprint = {
+  frameImage:
+    "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
+  position: "back",
+  placeholder: {
+    width: 12,
+    height: 13.7,
+  },
+  designInfos: [
+    {
+      key: "",
+      name: "",
+      types: "image/jpeg",
+      height: 0,
+      width: 0,
+      leftPosition: 0,
+      rotate: 0,
+      scales: 0,
+      topPosition: 0,
+      src: "https://www.google.com/search?q=default+image&tbm=isch&source=iu&ictx=1&vet=1&fir=E__DFTIbn9J8IM%252CTx4IM-J_9YNR0M%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BdAOBLb6Mi03B7M%252CtF62HY2qabLnWM%252C_%253BdzPYWaGt8jz9-M%252CxyV8ddqOau4KMM%252C_%253B6tO2K22XfMJMrM%252CJQ2op_24QBAxAM%252C_%253BiBwkPVyfzII9PM%252CRpvxnsLrgxL3_M%252C_%253BQ6BBzp2xDdCTDM%252C5SCId8Hd97daPM%252C_%253BZUQ4hqK0eoOE9M%252CCG1CySSEUS0-DM%252C_%253BX_RNqGrs8uOLUM%252CQgac5TnVA2DlVM%252C_%253Bfzm-cB-sF1nIvM%252CYlh7sHyFI9lHtM%252C_%253BCFxypJE63mo0qM%252CCfVbZJhXslp5nM%252C_%253ByFECy8Q7jEiD6M%252CzfN5DSNirAo6lM%252C_%253BmFBeEI-GK2RjoM%252CC93Eufb1-gvCmM%252C_%253BIVgx2CC_VChlFM%252CzfN5DSNirAo6lM%252C_%253BGEbPHTiPVju47M%252CoXGuy_ozigx-hM%252C_&usg=AI4_-kRMLHt0QpXibXOVMObu4AxomAnBBA&sa=X&ved=2ahUKEwiqtJWqz7v3AhUazIsBHTxODDsQ9QF6BAgDEAE&biw=1920&bih=929&dpr=1#imgrc=E__DFTIbn9J8IM",
+    },
+  ],
+} as Blueprint;
+
 const resizer = (
   canvasSize: { width: number; height: number },
   imageSize: { width: number; height: number }
@@ -93,6 +117,9 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
     window.innerHeight || 0
   );
 
+  const [renderedPosition, setRenderedPosition] = React.useState("");
+  const [isDrawPreview, setIsDrawPreview] = React.useState(true);
+
   const defaultWidth =
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
@@ -103,6 +130,8 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   const placeholderWidth = blueprint.placeholder.width * 30;
   const placeholderHeight = blueprint.placeholder.height * 30;
   const dispatch = useAppDispatch();
+
+  const [renderColor, setRenderColor] = React.useState("gray");
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
@@ -133,7 +162,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
 
           canvas.renderAll();
           const colorFilter = new fabric.Image.filters.BlendColor({
-            color: "gray",
+            color: renderColor,
             mode: "add",
             alpha: 0.8,
           });
@@ -158,6 +187,31 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
     setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "preview"));
     dispatch(clearAllPreview());
   }, []);
+  React.useEffect(() => {
+    dispatch(clearAllPreview());
+    setRenderCount(0);
+    setIsDrawPreview(true);
+  }, [renderColor]);
+  React.useEffect(() => {
+    if (canvas) {
+      let renderedBlueprint = initBlueprint;
+      blueprintsData.blueprints.forEach((blueprint) => {
+        if (blueprint.position === renderedPosition) {
+          renderedBlueprint = blueprint;
+        }
+      });
+
+      canvas.clear();
+      setPlaceHolder(
+        initPlaceHolder(
+          renderedBlueprint.placeholder.width,
+          renderedBlueprint.placeholder.height,
+          pageHeight / placeHolderAndOuterRate,
+          defaultWidth
+        )
+      );
+    }
+  }, [renderedPosition]);
 
   React.useEffect(() => {
     if (canvas) {
@@ -215,7 +269,15 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   React.useEffect(() => {
     if (canvas && placeHolder) {
       canvas.add(placeHolder);
-      reverseDesigns(blueprint);
+      let renderedBlueprint = initBlueprint;
+      blueprintsData.blueprints.forEach((blueprint) => {
+        if (blueprint.position === renderedPosition) {
+          renderedBlueprint = blueprint;
+        }
+      });
+
+      const drawBlueprint = isDrawPreview ? blueprint : renderedBlueprint;
+      reverseDesigns(drawBlueprint);
     }
   }, [placeHolder]);
 
@@ -329,7 +391,12 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
       <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
         <div className=" d-flex flex-column">
           <div className="p-3 ">
-            <PreviewTable />
+            <PreviewTable
+              renderColor={renderColor}
+              setRenderColor={setRenderColor}
+              setRenderedPosition={setRenderedPosition}
+              setIsDrawPreview={setIsDrawPreview}
+            />
           </div>
         </div>
       </div>

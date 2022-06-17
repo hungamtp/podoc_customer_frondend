@@ -2,7 +2,8 @@ import { storage } from "@/firebase/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { useAppDispatch } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import { setControlData } from "@/redux/slices/designControl";
 
 export interface ITableProps {
   addNewRect: (imageSrc: string) => void;
@@ -10,10 +11,15 @@ export interface ITableProps {
 
 export function UploadImage(props: ITableProps) {
   const { addNewRect } = props;
+  const dispatch = useAppDispatch();
+  const controlData = useAppSelector((state) => state.designControl);
+
   const maxNumber = 69;
   const [images, setImages] = React.useState<ImageListType>([]);
   const onChange = (imageList: ImageListType, addUpdateIndex: any) => {
     // data for submit
+    dispatch(setControlData({ ...controlData, isLoadingImage: true }));
+
     setImages(imageList);
     onUploadImage(imageList);
   };

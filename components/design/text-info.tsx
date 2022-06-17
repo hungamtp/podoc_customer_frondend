@@ -98,7 +98,7 @@ const TextInfo = (props: ITextInfoProps) => {
       {designInfo.key === choosenKey && (
         <div
           key={designInfo.key}
-          className="mb-6 bg-white border border-dark cursor-pointer"
+          className="mb-6 bg-white border  cursor-pointer"
           onClick={() => {
             if (chooseDesign) chooseDesign(designInfo.key);
           }}

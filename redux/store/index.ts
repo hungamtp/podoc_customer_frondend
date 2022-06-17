@@ -7,6 +7,7 @@ import blueprintsReducer from "@/redux/slices/blueprints";
 import choosenKeyReducer from "@/redux/slices/choosenKey";
 import previewsReducer from "@/redux/slices/previews";
 import productDetailReducer from "@/redux/slices/product";
+import selectedColorsReducer from "@/redux/slices/selectedColors";
 import {
   persistStore,
   persistReducer,
@@ -29,6 +30,7 @@ const persistConfig = {
     "blueprintsData",
     "choosenKey",
     "previews",
+    "selectedColors",
   ],
 };
 
@@ -41,6 +43,7 @@ const rootReducer = combineReducers({
   choosenKey: choosenKeyReducer,
   previews: previewsReducer,
   productDetail: productDetailReducer,
+  selectedColors: selectedColorsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -35,8 +35,6 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         height: 0,
         width: 0,
         leftPosition: 0,
-        x: 0,
-        y: 0,
         rotate: 0,
         scales: 0,
         topPosition: 0,
@@ -76,7 +74,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   return (
     <div className="row h-9">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
-        <div className="d-flex justify-content-between border-bottom border-dark py-0 px-0">
+        <div className="d-flex justify-content-between border-bottom  py-0 px-0">
           <div className="d-flex">
             <p className="h6 px-4 m-auto">{`<--`} Trở về trang sản phẩm</p>
             <div className="d-flex flex-column justify-content-center">
@@ -124,7 +122,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
 
       <div className=" col-lg-3 d-md-none d-lg-block border-start px-0">
         {controlData.isSetImage ? (
-          <div className="d-flex justify-content-around border-bottom border-dark px-0 py-2point5">
+          <div className="d-flex justify-content-around border-bottom  px-0 py-2point5">
             <p className="h5 pt-3 me-5">Thông tin chi tiết</p>
             <div
               className="btn h3 m-0 "
@@ -141,7 +139,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             </div>
           </div>
         ) : (
-          <div className="d-flex justify-content-around border-bottom  border-dark  py-3point5 px-0">
+          <div className="d-flex justify-content-around border-bottom  py-3point5 px-0">
             <p className="h5 pt-2">Thêm thiết kế</p>
             <button className="m-0 pt-2 btn btn-link text-success text-decoration-underline">
               Giá và thông số thêm
