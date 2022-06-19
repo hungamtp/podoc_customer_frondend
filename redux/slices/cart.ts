@@ -17,13 +17,13 @@ export const cartSlice = createSlice({
       // immutable state based off those changes
       return action.payload ;
     },
-    deleteCartDetail: (state , action) =>{
-       
-    }
+    deleteCartDetail: (state , action) => {
+       return state.filter((cart : CartDetailDTO) => cart.id != action.payload);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCart } = cartSlice.actions;
+export const { setCart , deleteCartDetail } = cartSlice.actions;
 
 export default cartSlice.reducer;

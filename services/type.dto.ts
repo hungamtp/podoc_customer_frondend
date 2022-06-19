@@ -123,6 +123,12 @@ export interface CartDetailDTO{
   price : number;
 
 }
+
+export interface ResponseDTO{
+  successMessage : string ,
+  data : any ,
+  errorMessage : string 
+}
 export enum TAG{
   HOT = "Hot",
   NEW = "New",
