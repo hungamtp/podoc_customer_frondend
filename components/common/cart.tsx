@@ -1,14 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import { CartDetailDTO } from '@/services/type.dto';
 import React from 'react';
-
+import { useAppDispatch } from '@/components/hooks/reduxHook';
+import  { deleteCartDetail, setCart } from '@/redux/slices/cart';
+import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
 type Props = {
   cart: CartDetailDTO;
 };
 export default function Cart({ cart }: Props) {
+  const dispatch = useAppDispatch();
+  const { mutate: deleteCartDetailApi, isLoading, error } = useDeleteCartDetail();
+  const handleDeleteCartDetail = () => {
+    dispatch(deleteCartDetail(cart.id));
+    deleteCartDetailApi(cart.id);
+  }
+
+
   return (
     <tr className="shop-list">
-      <td className="h6 text-center cursor-pointer ">
+      <td className="h6 text-center cursor-pointer" onClick={handleDeleteCartDetail}>
         <i className="bi bi-trash"></i>
       </td>
       <td>

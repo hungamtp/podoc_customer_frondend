@@ -55,7 +55,7 @@ export default function Header({}: Props) {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <Badge color="secondary" badgeContent={itemCount}>
+                  <Badge color="secondary" badgeContent={cart.length}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
