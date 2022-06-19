@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
 import  { deleteCartDetail, updateQuantityCartDetail } from '@/redux/slices/cart';
 import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
 import useUpdateCart from '@/hooks/api/cart/use-update-cart';
+import { forEach } from 'lodash';
 type Props = {
   cart: CartDetailDTO;
 };
@@ -21,8 +22,13 @@ export default function Cart({ cart }: Props) {
   const updateQuantity = (newQuantity : number) =>{
     dispatch(updateQuantityCartDetail({...cart , quantity : newQuantity}))
     setQuantity(newQuantity);
-    let newCart =  carts;
-    newCart[newCart.findIndex((cart: CartDetailDTO) => cart.id == cart.id)].quantity = newQuantity;
+    const newCart :CartDetailDTO[] =[];
+    carts.forEach(cartDetail => {
+      if(cartDetail.id != cart.id){
+        newCart.push(cartDetail);
+      }
+    });
+    newCart.push({...cart , quantity : newQuantity})
     updateCart(newCart);
   }
 
