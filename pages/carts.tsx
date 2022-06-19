@@ -2,8 +2,7 @@
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
 import Cart from '@/components/common/cart';
-import useCart from '@/hooks/api/cart/use-cart';
-
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
 import { useAppSelector } from '@/components/hooks/reduxHook';
 import cart from '@/redux/slices/cart';
 type Props = {};
@@ -11,7 +10,10 @@ type Props = {};
 export default function Carts({}: Props) {
   const carts = useAppSelector(state => state.carts);
   const haveProduct = carts?.length != 0;
-
+ 
+  const handleProceed = () =>{
+    
+  }
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -90,9 +92,6 @@ export default function Carts({}: Props) {
                     <a href="designs" className="btn btn-primary">
                       Shop More
                     </a>
-                    <a href=" " className="btn btn-soft-primary ms-2">
-                      Update Cart
-                    </a>
                   </div>
                   <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                     <div className="table-responsive bg-white rounded shadow">
@@ -102,12 +101,17 @@ export default function Carts({}: Props) {
                             <td className="h6 ps-4 py-3">Subtotal</td>
                             <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
                           </tr>
-                          {/* <tr>
+                          <tr>
                             <td className="h6 ps-4 py-3">Coupon</td>
                             <td className="text-end fw-bold pe-4">
-                              <input type="text" />
+                              <div className="input-group">
+                                <input type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                                <div className="input-group-append">
+                                  <button className="btn btn-outline-secondary" type="button">Apply</button>
+                                </div>
+                              </div>
                             </td>
-                          </tr> */}
+                          </tr>
                           <tr className="bg-light">
                             <td className="h6 ps-4 py-3">Total</td>
                             <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
@@ -116,9 +120,9 @@ export default function Carts({}: Props) {
                       </table>
                     </div>
                     <div className="mt-4 pt-2 text-end">
-                      <a href="checkout" className="btn btn-primary">
+                      <button className="btn btn-primary" onClick={handleProceed}>
                         Proceed to checkout
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

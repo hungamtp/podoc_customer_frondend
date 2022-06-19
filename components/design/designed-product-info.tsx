@@ -63,6 +63,7 @@ export default function CreateDesignedProductForm(
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
   const [images, setImages] = React.useState<ImageListType>();
   const router = useRouter();
+  const { productId, factoryId } = router.query;
 
   const defaultValues: FormAddDesignInfo = {
     name: "",
@@ -84,6 +85,7 @@ export default function CreateDesignedProductForm(
     setImages(imageList);
     // data for submit
   };
+  const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
     name: string;
     designedPrice: number;
@@ -107,11 +109,15 @@ export default function CreateDesignedProductForm(
               return { ...blueprint, designInfos: [] };
             });
             if (imageList.length === previews.length) {
+              setIsLoading(false);
+              console.log(submitBlueprint, "blueprint ne");
               const submitData = {
                 ...data,
                 colors: colors,
                 imagePreviews: imageList,
                 bluePrintDtos: submitBlueprint,
+                factoryId: Number(factoryId),
+                productId: Number(productId),
               } as DesignedProductDto;
 
               addDesignedProduct(submitData);
@@ -122,14 +128,14 @@ export default function CreateDesignedProductForm(
     }
   };
 
-  const productId = router.asPath.split("id=")[1];
-
-  const { mutate: addDesignedProduct, error } = useCreateBlueprintByProduct(
-    Number(productId),
-    handleCloseDialog
-  );
+  const {
+    mutate: addDesignedProduct,
+    error,
+    isLoading: isLoadingSubmit,
+  } = useCreateBlueprintByProduct(handleCloseDialog);
 
   const onSubmit: SubmitHandler<FormAddDesignInfo> = (data) => {
+    setIsLoading(true);
     onUploadImage(data);
   };
 
@@ -165,6 +171,27 @@ export default function CreateDesignedProductForm(
               </div>
 
               <div className="row mb-3">
+                <label htmlFor="basic-icon-default-company">Giá thiết kế</label>
+                <div className="col-sm-10">
+                  <div className="input-group input-group-merge">
+                    <input
+                      type="number"
+                      id="basic-icon-default-company"
+                      className="form-control"
+                      placeholder="ACME Inc."
+                      aria-label="ACME Inc."
+                      aria-describedby="basic-icon-default-company2"
+                      {...register("designedPrice")}
+                    />
+                  </div>
+                  {errors.designedPrice && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.designedPrice.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="row mb-3">
                 <label htmlFor="basic-icon-default-company">Mô tả</label>
                 <div className="col-sm-10">
                   <div className="input-group input-group-merge">
@@ -194,6 +221,13 @@ export default function CreateDesignedProductForm(
                     color="primary"
                     type="submit"
                   >
+                    {(isLoading || isLoadingSubmit) && (
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                    )}
                     Tạo
                   </button>
                   <button
