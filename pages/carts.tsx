@@ -101,12 +101,17 @@ export default function Carts({}: Props) {
                             <td className="h6 ps-4 py-3">Subtotal</td>
                             <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
                           </tr>
-                          {/* <tr>
+                          <tr>
                             <td className="h6 ps-4 py-3">Coupon</td>
                             <td className="text-end fw-bold pe-4">
-                              <input type="text" />
+                              <div className="input-group">
+                                <input type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                                <div className="input-group-append">
+                                  <button className="btn btn-outline-secondary" type="button">Apply</button>
+                                </div>
+                              </div>
                             </td>
-                          </tr> */}
+                          </tr>
                           <tr className="bg-light">
                             <td className="h6 ps-4 py-3">Total</td>
                             <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
