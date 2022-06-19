@@ -11,8 +11,8 @@ export default function Factory({ factory }: Props) {
   const router = useRouter();
   const productId = router.asPath.split("id=")[1];
   const dispatch = useAppDispatch();
-  const startDesign = (colors: string[]) => {
-    router.push(`/design?id=${productId}`);
+  const startDesign = () => {
+    router.push(`/design?productId=${productId}&factoryId=${factory.id}`);
     //push sẽ hủy hết lệnh và route qua trang khác
   };
 
@@ -31,7 +31,7 @@ export default function Factory({ factory }: Props) {
               <span>
                 <button
                   className="btn btn-primary btn-sm"
-                  onClick={() => startDesign(factory.colors)}
+                  onClick={() => startDesign()}
                 >
                   Start Design
                 </button>

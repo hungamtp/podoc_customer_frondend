@@ -9,4 +9,6 @@ export interface DesignState {
   leftPosition: number;
   topPosition: number;
   src: string;
+  font?: string;
+  textColor?: string;
 }

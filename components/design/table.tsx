@@ -29,10 +29,10 @@ export default function Table(props: ITableProps) {
   const designInfos = infoManageData.designInfos;
 
   const { addNewRect, deleteImage } = props;
-  const tmpDeleteImage = React.useCallback((key: string) => {
+  const tmpDeleteImage = (key: string) => {
     const isLast = infoManageData.designInfos.length === 1;
     deleteImage(key, isLast);
-  }, []);
+  };
   const imageInfoProps = { ...props };
   delete imageInfoProps.changeFont;
   delete imageInfoProps.changeTextColor;

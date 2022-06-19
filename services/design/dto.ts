@@ -12,3 +12,7 @@ export interface DesignedProductDto {
   }[];
   bluePrintDtos: Blueprint[];
 }
+
+export interface ColorDto {
+  data: { id: number; name: string; image: string }[];
+}

@@ -50,6 +50,32 @@ export const designSlice = createSlice({
         return designInfo;
       });
     },
+    updateUniqueData: (state, action) => {
+      state.choosenKey = action.payload.choosenKey;
+      state.designInfos = state.designInfos.map((designInfo) => {
+        if (designInfo.key === action.payload.choosenKey) {
+          if (action.payload.dataKey === "font") {
+            return {
+              ...designInfo,
+              font: action.payload.data,
+            };
+          } else if (action.payload.dataKey === "textColor") {
+            return {
+              ...designInfo,
+              textColor: action.payload.data,
+            };
+          } else if (action.payload.dataKey === "src") {
+            return {
+              ...designInfo,
+              src: action.payload.data,
+            };
+          }
+        }
+        return designInfo;
+      });
+
+      console.log(state.designInfos, "design infoo");
+    },
     addDesignInfo: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
@@ -58,7 +84,6 @@ export const designSlice = createSlice({
       if (state.choosenKey == "") {
         state.designInfos = [action.payload];
       } else state.designInfos = [...state.designInfos, action.payload];
-      state.choosenKey = action.payload.key;
     },
     deleteDesignInfo: (state, action) => {
       const newInfoList = state.designInfos.filter(
@@ -77,7 +102,7 @@ export const designSlice = createSlice({
       const needDesign = state.designInfos.filter(
         (design) => design.key === action.payload.oldKey
       );
-      if (needDesign.length === 1) {
+      if (needDesign.length >= 1) {
         state.designInfos = [
           ...state.designInfos,
           {
@@ -87,11 +112,9 @@ export const designSlice = createSlice({
             topPosition: 10,
           },
         ];
-        state.choosenKey = action.payload.newKey;
       }
     },
     updateDesignInfos: (state, action) => {
-      state.choosenKey = "";
       state.designInfos = action.payload;
     },
   },
@@ -104,6 +127,7 @@ export const {
   deleteDesignInfo,
   cloneDesignInfo,
   updateDesignInfos,
+  updateUniqueData,
 } = designSlice.actions;
 
 export default designSlice.reducer;

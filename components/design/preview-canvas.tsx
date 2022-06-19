@@ -124,14 +124,16 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
 
-  const [renderCount, setRenderCount] = React.useState(0);
+  const [renderCount, setRenderCount] = React.useState(
+    blueprintsData.blueprints.length - 1
+  );
 
   const blueprint = blueprintsData.blueprints[renderCount];
   const placeholderWidth = blueprint.placeholder.width * 30;
   const placeholderHeight = blueprint.placeholder.height * 30;
   const dispatch = useAppDispatch();
 
-  const [renderColor, setRenderColor] = React.useState("gray");
+  const [renderColor, setRenderColor] = React.useState("");
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
@@ -186,10 +188,13 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   React.useEffect(() => {
     setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "preview"));
     dispatch(clearAllPreview());
+    return () => {
+      canvas?.clear();
+    };
   }, []);
   React.useEffect(() => {
     dispatch(clearAllPreview());
-    setRenderCount(0);
+    setRenderCount(blueprintsData.blueprints.length - 1);
     setIsDrawPreview(true);
   }, [renderColor]);
   React.useEffect(() => {
@@ -232,7 +237,8 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           if (
             canvasObjs.length == (blueprint.designInfos.length || 0) + 1 &&
             canvasObjs.some((design) => {
-              if (blueprint.designInfos)
+              console.log(blueprint.designInfos, "design info");
+              if (blueprint.designInfos && blueprint.designInfos.length > 0)
                 return design.name === blueprint.designInfos[0].key;
             })
           ) {
@@ -244,7 +250,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           clearInterval(rerenderLoop);
         }
       } else clearInterval(rerenderLoop);
-    }, 1000);
+    }, 200);
 
     return () => {
       clearInterval(rerenderLoop);
@@ -253,15 +259,14 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
 
   React.useEffect(() => {
     if (canvas && imgSrc !== "") {
-      console.log(imgSrc, "hinh nhee");
       dispatch(
         addPreview({
           position: blueprint.position,
           imageSrc: imgSrc,
         })
       );
-      if (renderCount < blueprintsData.blueprints.length - 1) {
-        setRenderCount((count) => count + 1);
+      if (renderCount > 0) {
+        setRenderCount((count) => count - 1);
       }
       setImgSrc("");
     }
@@ -326,29 +331,54 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   };
   const addRect = (design: DesignState) => {
     if (canvas && placeHolder) {
-      fabric.Image.fromURL(
-        design.src,
-        (image: fabric.Image) => {
-          const imageLeft = reverseData("left", design.leftPosition);
-          const imageTop = reverseData("top", design.topPosition);
-          const imageWidth = reverseData("width", design.width);
+      const imageLeft = reverseData("left", design.leftPosition);
+      const imageTop = reverseData("top", design.topPosition);
+      const imageWidth = reverseData("width", design.width);
+      if (design.types === "text") {
+        const newText = new fabric.Text(design.src, {
+          fontFamily: design.font,
+          clipPath: placeHolder,
+          name: design.name,
+          left: imageLeft,
+          top: imageTop,
+          angle: design.rotate,
+          selectable: false,
+          centeredScaling: true,
+          transparentCorners: true,
+          fill: design.textColor,
+        })
+          .setControlsVisibility({
+            mt: false, // middle top disable
+            mb: false, // midle bottom
+            ml: false, // middle left
+            mr: false, // I think you get it
+          })
+          .scaleToWidth(150)
+          .scaleToHeight(100);
+        newText.scaleToWidth(imageWidth || 150);
+        canvas.add(newText);
+        canvas.renderAll();
+      } else {
+        fabric.Image.fromURL(
+          design.src,
+          (image: fabric.Image) => {
+            image.set("name", design.key);
+            image.set("left", imageLeft);
+            image.set("top", imageTop);
+            image.set("angle", design.rotate);
+            image.set("opacity", 100);
+            image.set("noScaleCache", true);
+            image.scaleToWidth(imageWidth || 150);
+            image.set("clipPath", placeHolder);
+            image.set("selectable", false);
 
-          image.set("name", design.key);
-          image.set("left", imageLeft);
-          image.set("top", imageTop);
-          image.set("angle", design.rotate);
-          image.set("opacity", 100);
-          image.set("noScaleCache", true);
-          image.scaleToWidth(imageWidth || 150);
-          image.set("clipPath", placeHolder);
-          image.set("selectable", false);
+            canvas.add(image);
 
-          canvas.add(image);
-
-          canvas.renderAll();
-        },
-        { crossOrigin: "anonymous" }
-      );
+            canvas.renderAll();
+          },
+          { crossOrigin: "anonymous" }
+        );
+      }
     }
   };
 

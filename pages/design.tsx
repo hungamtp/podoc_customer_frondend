@@ -17,7 +17,7 @@ export default function AboutPage(props: AboutPageProps) {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const productId = router.asPath.split("id=")[1];
+  const { productId } = router.query;
   const { data: blueprints, isLoading: isLoading } = useGetBlueprintByProduct(
     Number(productId)
   );
