@@ -9,7 +9,7 @@ const UseCart = () => {
 };
 
 export const getCart = async () => {
-  const data  = await API.get<  CartDetailDTO[] >(`/cart`);
+  const data  = await API.get< CartDetailDTO[]>(`/cart`);
   return data.data;
 };
 

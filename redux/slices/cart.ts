@@ -21,7 +21,6 @@ export const cartSlice = createSlice({
        return state.filter((cart : CartDetailDTO) => cart.id != action.payload);
     },
     updateQuantityCartDetail : (state , action) =>{
-
       const cartIndex = state.findIndex((cart: CartDetailDTO) => cart.id == action.payload.id);
       state[cartIndex].quantity = action.payload.quantity;
       return state;

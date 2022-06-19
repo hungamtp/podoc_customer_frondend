@@ -2,8 +2,7 @@
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
 import Cart from '@/components/common/cart';
-import useCart from '@/hooks/api/cart/use-cart';
-
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
 import { useAppSelector } from '@/components/hooks/reduxHook';
 import cart from '@/redux/slices/cart';
 type Props = {};
@@ -11,7 +10,10 @@ type Props = {};
 export default function Carts({}: Props) {
   const carts = useAppSelector(state => state.carts);
   const haveProduct = carts?.length != 0;
-
+ 
+  const handleProceed = () =>{
+    
+  }
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -90,9 +92,6 @@ export default function Carts({}: Props) {
                     <a href="designs" className="btn btn-primary">
                       Shop More
                     </a>
-                    <a href=" " className="btn btn-soft-primary ms-2">
-                      Update Cart
-                    </a>
                   </div>
                   <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                     <div className="table-responsive bg-white rounded shadow">
@@ -116,9 +115,9 @@ export default function Carts({}: Props) {
                       </table>
                     </div>
                     <div className="mt-4 pt-2 text-end">
-                      <a href="checkout" className="btn btn-primary">
+                      <button className="btn btn-primary" onClick={handleProceed}>
                         Proceed to checkout
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
