@@ -1,9 +1,10 @@
-import * as React from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { useLoading, Audio } from "@agney/react-loading";
-import { setControlData } from "@/redux/slices/designControl";
 import { DesignState } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
+import { setControlData } from "@/redux/slices/designControl";
+import { Audio, useLoading } from "@agney/react-loading";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface IDesignHeaderLeftProps {
   closePreview: () => void;
@@ -20,6 +21,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
     loading: true,
     indicator: <Audio width="50" />,
   });
+  const router = useRouter();
 
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
@@ -76,7 +78,12 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-between border-bottom  py-0 px-0">
           <div className="d-flex">
-            <p className="h6 px-4 m-auto">{`<--`} Trở về trang sản phẩm</p>
+            <p
+              className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
+              onClick={() => router.push("/")}
+            >
+              Trở về trang sản phẩm
+            </p>
             <div className="d-flex flex-column justify-content-center">
               <p className="h5 pt-2">Áo thun name</p>
               <p className="text-secondary">Cung cấp bởi nhà in H2PD</p>
