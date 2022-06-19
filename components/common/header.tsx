@@ -3,16 +3,13 @@
 import { Badge } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useAppDispatch } from '@/components/hooks/reduxHook';
-import useCart from '@/hooks/api/cart/use-cart';
-import cart, { setCart } from '@/redux/slices/cart';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { CartDetailDTO } from '@/services/type.dto';
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
-  const dispatch = useAppDispatch();
-  const { data: response, isLoading: isLoading } = useCart();
-  dispatch(setCart(response));
+  const cart = useAppSelector(state => state.carts);
   const logout = () => {
     localStorage.removeItem('jwt');
     router.push('/login');
@@ -77,7 +74,7 @@ export default function Header({}: Props) {
                   style={{ width: '300px' }}
                 >
                   <div className="pb-4">
-                    {response?.slice(0, 3).map(cart => {
+                    {cart?.slice(0, 3).map(cart => {
                       return (
                         <a key={cart.id} href=" " className="d-flex align-items-center">
                           <img src={cart.designedImage} className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />

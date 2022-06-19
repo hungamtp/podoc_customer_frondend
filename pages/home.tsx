@@ -3,12 +3,16 @@ import React from 'react';
 import { MainLayout } from '@/components/layouts';
 import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
 import DesignedProducts from '@/components/common/designed-products';
-
+import { useAppDispatch } from '@/components/hooks/reduxHook';
+import useCart from '@/hooks/api/cart/use-cart';
+import cart, { setCart } from '@/redux/slices/cart';
 type Props = {};
 
 export default function HomePage({}: Props) {
   const { data: response, isLoading: isLoadingAccount } = useGetHighestRateDesign();
-
+  const dispatch = useAppDispatch();
+  const { data: responseCart, isLoading: isLoading } = useCart();
+  dispatch(setCart(responseCart));
   return (
     <>
       <section className="home-slider position-relative">

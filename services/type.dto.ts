@@ -127,7 +127,9 @@ export enum TAG{
   HOT = "Hot",
   NEW = "New",
   BEST_SELLER = "Best Seller",
-  Bán_chạy = "Bán chạy",
+  BÁN_CHẠY = "Bán chạy",
+  MỚI = "Mới",
+  ƯU_ĐÃI ="Ưu Đãi"
 
 }
 

@@ -33,6 +33,7 @@ const persistConfig = {
     "choosenKey",
     "previews",
     "selectedColors",
+    "carts",
   ],
 };
 
