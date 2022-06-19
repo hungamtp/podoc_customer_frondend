@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { CartDetailDTO } from '@/services/type.dto';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch } from '@/components/hooks/reduxHook';
-import  { deleteCartDetail, setCart } from '@/redux/slices/cart';
+import  { deleteCartDetail, updateQuantityCartDetail } from '@/redux/slices/cart';
 import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
 type Props = {
   cart: CartDetailDTO;
@@ -14,6 +14,14 @@ export default function Cart({ cart }: Props) {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
   }
+
+  const updateQuantity = (newQuantity : number) =>{
+    dispatch(updateQuantityCartDetail({...cart , quantity : newQuantity}))
+    setQuantity(newQuantity);
+    
+  }
+
+  const [quantity , setQuantity] = useState(cart.quantity);
 
 
   return (
@@ -31,9 +39,9 @@ export default function Cart({ cart }: Props) {
       <td className="text-center">{cart.color}</td>
       <td className="text-center">$ {cart.price}</td>
       <td className="text-center qty-icons">
-        <button className="btn btn-icon btn-soft-primary minus">-</button>
-        <input min="0" name="quantity" value={cart.quantity} type="number" className="btn btn-icon btn-soft-primary qty-btn quantity" />
-        <button className="btn btn-icon btn-soft-primary plus">+</button>
+        <button className={`btn btn-icon btn-soft-primary minus ${quantity ==1 && 'disabled'}`} onClick={() => updateQuantity(quantity -1)}>-</button>
+        <input min="0" name="quantity" value={quantity} type="number" className="btn btn-icon btn-soft-primary qty-btn quantity" />
+        <button className="btn btn-icon btn-soft-primary plus" onClick={() => updateQuantity(quantity +1)}>+</button>
       </td>
       <td className="text-end fw-bold pe-4">$ {cart.price * cart.quantity}</td>
     </tr>
