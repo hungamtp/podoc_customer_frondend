@@ -68,7 +68,6 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
 
     dispatch(updateDesignInfos(tmpDesignInfos));
     //hiển thị design của trang đang muốn load lên
-    console.log(blueprintData, "blueprint");
 
     if (tmpDesignInfos[0].key === "") {
       dispatch(
@@ -90,7 +89,9 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   };
   const positionArr = blueprintData.blueprints.map((blueprint) => (
     <button
-      className="btn btn-light w-half"
+      className={`btn  w-half ${
+        blueprint.position === blueprintData.position && "btn-success"
+      }`}
       key={blueprint.position}
       onClick={() => changePos(blueprint.position)}
     >
@@ -102,8 +103,8 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
     <>
       <div className="row h-8">
         <div className="col-lg-9 col-12 px-0 d-flex flex-column">
-          <div className="d-flex justify-content-between border-top  py-4">
-            <div className="d-flex justify-content-start w-quater align-items-center px-4">
+          <div className="d-flex justify-content-center  border-top  py-4">
+            <div className="d-flex w-quater align-items-center px-4 btn-group group">
               {positionArr}
             </div>
           </div>
