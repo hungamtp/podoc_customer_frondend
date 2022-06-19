@@ -6,6 +6,7 @@ import { useState } from "react";
 type Props = {};
 
 export default function Checkout({}: Props) {
+  const handleOrder = async () => {};
   return (
     <>
       <div>
@@ -282,7 +283,22 @@ export default function Checkout({}: Props) {
                       </label>
                     </div>
                     <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
-                    <PayPalButtons style={{ layout: "vertical" }} />
+                    <PayPalButtons
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              description: "test",
+                              amount: {
+                                currency_code: "USD",
+                                value: "totalPrice",
+                              },
+                            },
+                          ],
+                        });
+                      }}
+                      style={{ layout: "vertical" }}
+                    />
                     <button className="w-100 btn btn-primary" type="submit">
                       Continue to checkout
                     </button>
