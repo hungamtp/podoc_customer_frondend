@@ -4,14 +4,16 @@ import { Badge } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { setCart } from '@/redux/slices/cart';
 import { CartDetailDTO } from '@/services/type.dto';
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   const cart = useAppSelector(state => state.carts);
+  const dispatch = useAppDispatch();
   const logout = () => {
-    localStorage.removeItem('jwt');
+    dispatch(setCart([]))
     router.push('/login');
   };
   function toggleMenu(): void {
