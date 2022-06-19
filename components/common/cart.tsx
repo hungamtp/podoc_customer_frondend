@@ -1,15 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 import { CartDetailDTO } from '@/services/type.dto';
 import React, { useState } from 'react';
-import { useAppDispatch } from '@/components/hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
 import  { deleteCartDetail, updateQuantityCartDetail } from '@/redux/slices/cart';
 import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
 type Props = {
   cart: CartDetailDTO;
 };
 export default function Cart({ cart }: Props) {
   const dispatch = useAppDispatch();
   const { mutate: deleteCartDetailApi, isLoading, error } = useDeleteCartDetail();
+  const { mutate: updateCart, isUpdateCartLoading, updateCartError } = useUpdateCart();
+  const carts = useAppSelector((state) => state.carts);
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
@@ -18,7 +21,9 @@ export default function Cart({ cart }: Props) {
   const updateQuantity = (newQuantity : number) =>{
     dispatch(updateQuantityCartDetail({...cart , quantity : newQuantity}))
     setQuantity(newQuantity);
-    
+    let newCart =  carts;
+    newCart[newCart.findIndex((cart: CartDetailDTO) => cart.id == cart.id)].quantity = newQuantity;
+    updateCart(newCart);
   }
 
   const [quantity , setQuantity] = useState(cart.quantity);
@@ -39,8 +44,8 @@ export default function Cart({ cart }: Props) {
       <td className="text-center">{cart.color}</td>
       <td className="text-center">$ {cart.price}</td>
       <td className="text-center qty-icons">
-        <button className={`btn btn-icon btn-soft-primary minus ${quantity ==1 && 'disabled'}`} onClick={() => updateQuantity(quantity -1)}>-</button>
-        <input min="0" name="quantity" value={quantity} type="number" className="btn btn-icon btn-soft-primary qty-btn quantity" />
+        <button className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'}`} onClick={() => updateQuantity(quantity -1)}>-</button>
+        <input type="number" min={1} name="quantity" value={quantity} className="btn btn-icon btn-soft-primary qty-btn" />
         <button className="btn btn-icon btn-soft-primary plus" onClick={() => updateQuantity(quantity +1)}>+</button>
       </td>
       <td className="text-end fw-bold pe-4">$ {cart.price * cart.quantity}</td>

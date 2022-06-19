@@ -124,9 +124,12 @@ export interface CartDetailDTO{
 
 }
 
-export interface ResponseDTO{
-  successMessage : string ,
-  data : any ,
+export interface CartNotEnoughQuantity {
+  id : number;
+  quantityAvailable : number;
+}
+export interface UpdateCartResponseDTO{
+  data : CartNotEnoughQuantity[] ,
   errorMessage : string 
 }
 export enum TAG{
