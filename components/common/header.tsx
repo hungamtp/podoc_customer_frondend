@@ -70,7 +70,7 @@ export default function Header({}: Props) {
                 </button>
 
                 <div
-                  className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-4"
+                  className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 p-4"
                   style={{ width: '300px' }}
                 >
                   <div className="pb-4">
@@ -129,7 +129,7 @@ export default function Header({}: Props) {
                   </svg>
                 </button>
                 <div
-                  className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 py-3"
+                  className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 py-3"
                   style={{ width: '200px' }}
                 >
                   <a className="dropdown-item text-dark" href="#">
