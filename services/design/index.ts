@@ -1,5 +1,18 @@
 import { API } from "@/api-client/axios";
-import { ColorDto, DesignedProductDto, GetBlueprintDto } from "./dto";
+import {
+  ColorDto,
+  DesignedProductDto,
+  getAllDesignProductDto,
+  GetBlueprintDto,
+  getDesignProductDto,
+} from "./dto";
+
+export interface Filter {
+  pageSize?: number;
+  pageNumber?: number;
+  sort?: string;
+  search?: string;
+}
 
 export const getBluprintFromProduct = async (productId: number) => {
   const { data } = await API.get<GetBlueprintDto>(
@@ -9,11 +22,12 @@ export const getBluprintFromProduct = async (productId: number) => {
 };
 
 export const createDesignedProduct = async (
-  productId: number,
-  designedProduct: DesignedProductDto
+  designedProduct: DesignedProductDto,
+  factoryId: number,
+  productId: number
 ) => {
   const { data } = await API.post<GetBlueprintDto>(
-    `/design/${productId}`,
+    `/design?productId=${productId}&factoryId=${factoryId}`,
     designedProduct
   );
   return data.data;
@@ -25,6 +39,24 @@ export const getColorsByFactoryAndProductId = async (
 ) => {
   const { data } = await API.get<ColorDto>(
     `/product/colors?productId=${productId}&factoryId=${factoryId}`
+  );
+  return data.data;
+};
+
+export const getDesignById = async (designId: number) => {
+  const { data } = await API.get<getDesignProductDto>(`/design`);
+  return data.data;
+};
+
+export const getAllDesignedProducts = async (filter: Filter) => {
+  const pageNumber = 0;
+  const pageSize = 9;
+  const query = new URLSearchParams({
+    pageNumber: filter?.pageNumber?.toString() || pageNumber.toString(),
+    pageSize: filter?.pageSize?.toString() || pageSize.toString(),
+  });
+  const { data } = await API.get<getAllDesignProductDto>(
+    `/design?${query.toString()}`
   );
   return data.data;
 };

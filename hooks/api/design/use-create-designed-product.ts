@@ -5,14 +5,11 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 
-const useCreateBlueprintByProduct = (
-  productId: number,
-  handleCloseDialog: () => void
-) => {
+const useCreateBlueprintByProduct = (handleCloseDialog: () => void) => {
   const router = useRouter();
   return useMutation(
     async (data: DesignedProductDto) => {
-      return await createDesignedProduct(productId, data);
+      return await createDesignedProduct(data, data.factoryId, data.productId);
     },
     {
       onSuccess: (data) => {
