@@ -32,8 +32,7 @@ const persistConfig = {
     "blueprintsData",
     "choosenKey",
     "previews",
-    "selectedColors",
-    "carts",
+    "selectedColors" 
   ],
 };
 

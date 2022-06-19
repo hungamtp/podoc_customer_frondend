@@ -5,6 +5,7 @@ import Cart from '@/components/common/cart';
 import useCart from '@/hooks/api/cart/use-cart';
 
 import { useAppSelector } from '@/components/hooks/reduxHook';
+import cart from '@/redux/slices/cart';
 type Props = {};
 
 export default function Carts({}: Props) {
@@ -99,15 +100,17 @@ export default function Carts({}: Props) {
                         <tbody>
                           <tr>
                             <td className="h6 ps-4 py-3">Subtotal</td>
-                            <td className="text-end fw-bold pe-4">$ 2190</td>
+                            <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
                           </tr>
-                          <tr>
-                            <td className="h6 ps-4 py-3">Taxes</td>
-                            <td className="text-end fw-bold pe-4">$ 219</td>
-                          </tr>
+                          {/* <tr>
+                            <td className="h6 ps-4 py-3">Coupon</td>
+                            <td className="text-end fw-bold pe-4">
+                              <input type="text" />
+                            </td>
+                          </tr> */}
                           <tr className="bg-light">
                             <td className="h6 ps-4 py-3">Total</td>
-                            <td className="text-end fw-bold pe-4">$ 2409</td>
+                            <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
                           </tr>
                         </tbody>
                       </table>
