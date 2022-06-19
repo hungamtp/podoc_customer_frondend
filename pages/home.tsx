@@ -5,7 +5,7 @@ import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design
 import DesignedProducts from '@/components/common/designed-products';
 import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
 import useCart from '@/hooks/api/cart/use-cart';
-import cart, { setCart } from '@/redux/slices/cart';
+import { setCart } from '@/redux/slices/cart';
 type Props = {};
 
 export default function HomePage({}: Props) {
