@@ -1,8 +1,15 @@
 /* eslint-disable @next/next/no-sync-scripts */
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-title-in-document-head */
-import React, { ReactElement } from 'react';
-import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from 'next/document';
+import React, { ReactElement } from "react";
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentInitialProps,
+  DocumentContext,
+} from "next/document";
 
 export default class MyDocument extends Document {
   render(): ReactElement {
@@ -13,20 +20,47 @@ export default class MyDocument extends Document {
 
           <meta name="website" content="https://shreethemes.in" />
           <meta name="Version" content="v3.8.0" />
-          <meta name="google-signin-client_id" content="curious-subject-317901.apps.googleusercontent.com" />
+          <meta
+            name="google-signin-client_id"
+            content="curious-subject-317901.apps.googleusercontent.com"
+          />
           <link rel="shortcut icon" href="asset/images/favicon.ico" />
 
-          <link href="asset/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+          <link
+            href="asset/css/bootstrap.min.css"
+            rel="stylesheet"
+            type="text/css"
+          />
 
-          <link href="asset/css/tobii.min.css" rel="stylesheet" type="text/css" />
+          <link
+            href="asset/css/tobii.min.css"
+            rel="stylesheet"
+            type="text/css"
+          />
 
-          <link href="asset/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-          <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+          <link
+            href="asset/css/materialdesignicons.min.css"
+            rel="stylesheet"
+            type="text/css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"
+          />
 
           <link rel="stylesheet" href="asset/css/tiny-slider.css" />
 
-          <link href="asset/css/style.css" rel="stylesheet" type="text/css" id="theme-opt" />
-          <link href="asset/css/colors/default.css" rel="stylesheet" id="color-opt" />
+          <link
+            href="asset/css/style.css"
+            rel="stylesheet"
+            type="text/css"
+            id="theme-opt"
+          />
+          <link
+            href="asset/css/colors/default.css"
+            rel="stylesheet"
+            id="color-opt"
+          />
           <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -51,7 +85,11 @@ export default class MyDocument extends Document {
           <script src="asset/js/plugins.init.js"></script>
 
           <script src="asset/js/app.js"></script>
-          <script src="https://apis.google.com/js/platform.js" async defer></script>
+          <script
+            src="https://apis.google.com/js/platform.js"
+            async
+            defer
+          ></script>
           <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
