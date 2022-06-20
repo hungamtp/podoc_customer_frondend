@@ -51,7 +51,7 @@ export const getColorsByFactoryAndProductId = async (
 };
 
 export const getDesignById = async (designId: number) => {
-  const { data } = await API.get<getDesignProductDto>(`/design`);
+  const { data } = await API.get<getDesignProductDto>(`/design/${designId}`);
   return data.data;
 };
 
