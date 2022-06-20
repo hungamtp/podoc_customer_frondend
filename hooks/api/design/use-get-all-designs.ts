@@ -1,7 +1,11 @@
-import { Filter, getAllDesignedProducts } from "@/services/design";
+import {
+  Filter,
+  getAllDesignedProducts,
+  GetAllDesignFilter,
+} from "@/services/design";
 import { useQuery } from "react-query";
 
-const useGetAllDesigns = (filter: Filter) => {
+const useGetAllDesigns = (filter: GetAllDesignFilter) => {
   return useQuery(["allDesignedProduct", filter], async () => {
     return await getAllDesignedProducts(filter);
   });

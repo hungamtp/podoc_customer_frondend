@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useEffect } from 'react';
-import { ProductHomePage } from '@/services/type.dto';
+import React, { useEffect } from "react";
+import { ProductHomePage } from "@/services/type.dto";
 
-import DesignedProduct from './designed-product';
+import DesignedProduct from "./designed-product";
 
 type Props = {
   title: string;

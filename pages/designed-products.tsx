@@ -1,12 +1,51 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import Categories from "@/components/common/categories";
-import DesignedProductCard from "@/components/designs/designed-product-card";
+import DesignedProduct from "@/components/common/designed-product";
+import PaginationComponent from "@/components/common/mui-pagination";
+import RawProduct from "@/components/common/raw-product";
+import DesignedProductCard from "@/components/designed-products/designed-product-card";
 import { MainLayout } from "@/components/layouts";
+import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
+import useRawProduct, {
+  RawProductFilter,
+} from "@/hooks/api/use-get-all-product-raw";
+import search from "@/redux/slices/search";
 import * as React from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export interface IProductProps {}
 
-export default function Designs(props: IProductProps) {
+export default function DesignedProducts(props: IProductProps) {
+  const [filter, setFilter] = useState<RawProductFilter>({
+    pageNumber: 0,
+    pageSize: 9,
+    sort: "",
+  });
+  const [totalPages, setTotalPages] = React.useState(0);
+
+  const { register, handleSubmit } = useForm<{ name: string }>({
+    defaultValues: { name: "" },
+  });
+
+  const onSubmit = (data: { name: string }) => {
+    const value = data.name;
+    let tmpFilter = { ...filter };
+    delete filter.name;
+    if (!value) tmpFilter = { ...filter, name: value };
+    setFilter(tmpFilter);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    let tmpFilter = { ...filter };
+    delete filter.category;
+    if (!value) tmpFilter = { ...filter, category: value };
+    setFilter(tmpFilter);
+  };
+
+  const { data: response, isLoading: isLoading } = useGetAllDesigns(filter);
+
   return (
     <>
       <div>
@@ -25,10 +64,10 @@ export default function Designs(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Landrick</a>
+                    <a href="home">Print on demand</a>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="home">Shop</a>
+                    <a href="raw-products">Shop</a>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     Products
@@ -64,14 +103,16 @@ export default function Designs(props: IProductProps) {
                   <div className="card-body p-0">
                     {/* SEARCH */}
                     <div className="widget">
-                      <form role="search" method="get">
+                      <form
+                        role="search"
+                        method="get"
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
                         <div className="input-group mb-3 border rounded">
                           <input
                             type="text"
-                            id="s"
-                            name="s"
                             className="form-control border-0"
-                            placeholder="Search Keywords..."
+                            {...register("name")}
                           />
                           <button
                             type="submit"
@@ -84,64 +125,8 @@ export default function Designs(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
+                    <Categories handleCategoryChange={handleCategoryChange} />
 
-                    <Categories />
-
-                    {/* color */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Color</h5>
-                      <ul className="list-unstyled mt-4 mb-0">
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-primary"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-danger"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-success"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-info"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-secondary"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                        <li className="list-inline-item">
-                          <a
-                            href=" "
-                            className="btn btn-sm btn-icon btn-pills btn-warning"
-                          >
-                            <span className="d-none">.</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* COlor */}
                     {/* Top Products */}
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Top Products</h5>
@@ -168,7 +153,7 @@ export default function Designs(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href=" ">
                             <img
-                              src="asset/images/shop/product/s3.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: "auto" }}
                               alt=""
@@ -187,7 +172,7 @@ export default function Designs(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href=" ">
                             <img
-                              src="asset/images/shop/product/s6.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: "auto" }}
                               alt=""
@@ -206,7 +191,7 @@ export default function Designs(props: IProductProps) {
                         <li className="d-flex align-items-center mt-2">
                           <a href=" ">
                             <img
-                              src="asset/images/shop/product/s8.jpg"
+                              src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
                               style={{ height: "auto" }}
                               alt=""
@@ -228,21 +213,78 @@ export default function Designs(props: IProductProps) {
                 </div>
               </div>
               {/*end col*/}
-              <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
-                <div className="row align-items-center">
-                  <div className="col-lg-8 col-md-7">
-                    <div className="section-title">
-                      <h5 className="mb-0">Showing 1–15 of 47 results</h5>
+              {response && (
+                <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
+                  <div className="row align-items-center">
+                    <div className="col-lg-8 col-md-7">
+                      <div className="section-title">
+                        <h5 className="mb-0">
+                          Showing 1–
+                          {response && response.totalElements < filter.pageSize
+                            ? response.totalElements
+                            : filter.pageSize}{" "}
+                          of {response.totalElements}
+                          &nbsp;results
+                        </h5>
+                      </div>
                     </div>
+                    {/*end col*/}
+                    <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                      <div className="d-flex justify-content-md-between align-items-center">
+                        <div className="form custom-form">
+                          <div className="mb-0">
+                            <select
+                              className="form-select form-control"
+                              aria-label="Default select example"
+                              id="Sortbylist-job"
+                            >
+                              <option selected>Sort by latest</option>
+                              <option>Sort by popularity</option>
+                              <option>Sort by rating</option>
+                              <option>Sort by price: low to high</option>
+                              <option>Sort by price: high to low</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="mx-2">
+                          <a href="shop-grids.html" className="h5 text-muted">
+                            <i className="uil uil-apps" />
+                          </a>
+                        </div>
+                        <div>
+                          <a href="shop-lists.html" className="h5 text-muted">
+                            <i className="uil uil-list-ul" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    {/*end col*/}
                   </div>
-                  {/*end col*/}
-
-                  {/*end col*/}
+                  {/*end row*/}
+                  <div className="row">
+                    {response?.content.map((product) => {
+                      return (
+                        <DesignedProductCard
+                          key={product.id}
+                          product={product}
+                        />
+                      );
+                    })}
+                    {response?.totalPages == 0 ? (
+                      <></>
+                    ) : (
+                      <div className="d-flex justify-content-center">
+                        <PaginationComponent
+                          total={response?.totalPages}
+                          filter={filter}
+                          setFilter={setFilter}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {/*end row*/}
                 </div>
-                {/*end row*/}
-
-                {/*end row*/}
-              </div>
+              )}
               {/*end col*/}
             </div>
             {/*end row*/}
@@ -254,4 +296,4 @@ export default function Designs(props: IProductProps) {
     </>
   );
 }
-Designs.Layout = MainLayout;
+DesignedProducts.Layout = MainLayout;

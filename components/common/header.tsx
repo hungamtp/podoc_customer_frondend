@@ -1,28 +1,28 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import { Badge } from '@material-ui/core';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
-import { setCart } from '@/redux/slices/cart';
-import { CartDetailDTO } from '@/services/type.dto';
+import { Badge } from "@material-ui/core";
+import { useRouter } from "next/router";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { setCart } from "@/redux/slices/cart";
+import { CartDetailDTO } from "@/services/type.dto";
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
-  const cart = useAppSelector(state => state.carts);
+  const cart = useAppSelector((state) => state.carts);
   const dispatch = useAppDispatch();
   const logout = () => {
-    dispatch(setCart([]))
-    router.push('/login');
+    dispatch(setCart([]));
+    router.push("/login");
   };
   function toggleMenu(): void {
-    var isOpen = document.getElementById('navigation');
+    var isOpen = document.getElementById("navigation");
     if (isOpen) {
-      if (isOpen.style.display === 'block') {
-        isOpen.style.display = 'none';
+      if (isOpen.style.display === "block") {
+        isOpen.style.display = "none";
       } else {
-        isOpen.style.display = 'block';
+        isOpen.style.display = "block";
       }
     }
   }
@@ -32,7 +32,12 @@ export default function Header({}: Props) {
       <div id="topnav" className="defaultscroll sticky">
         <div className="container">
           <a className="logo" href="/">
-            <img src="asset/images/logo-dark.png" height="24" className="logo-light-mode" alt="" />
+            <img
+              src="asset/images/logo-dark.png"
+              height="24"
+              className="logo-light-mode"
+              alt=""
+            />
           </a>
 
           <div className="menu-extras">
@@ -73,13 +78,22 @@ export default function Header({}: Props) {
 
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 p-4"
-                  style={{ width: '300px' }}
+                  style={{ width: "300px" }}
                 >
                   <div className="pb-4">
-                    {cart?.slice(0, 3).map(cart => {
+                    {cart?.slice(0, 3).map((cart) => {
                       return (
-                        <a key={cart.id} href=" " className="d-flex align-items-center">
-                          <img src={cart.designedImage} className="shadow rounded" style={{ maxHeight: '64px' }} alt="" />
+                        <a
+                          key={cart.id}
+                          href=" "
+                          className="d-flex align-items-center"
+                        >
+                          <img
+                            src={cart.designedImage}
+                            className="shadow rounded"
+                            style={{ maxHeight: "64px" }}
+                            alt=""
+                          />
                           <div className="flex-1 text-start ms-3">
                             <h6 className="text-dark mb-0">
                               {cart.designedProductName} ({cart.size})
@@ -88,13 +102,20 @@ export default function Header({}: Props) {
                               ${cart.price} X {cart.quantity}
                             </p>
                           </div>
-                          <h6 className="text-dark mb-0">${cart.price * cart.quantity}</h6>
+                          <h6 className="text-dark mb-0">
+                            ${cart.price * cart.quantity}
+                          </h6>
                         </a>
                       );
                     })}
                     <div
                       className="text-dark mb-0  "
-                      style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px', fontStyle: 'italic' }}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        marginTop: "20px",
+                        fontStyle: "italic",
+                      }}
                     >
                       You have {cart.length} product in cart
                     </div>
@@ -110,6 +131,35 @@ export default function Header({}: Props) {
             </li>
             <li className="list-inline-item mb-0"> &nbsp;</li>
 
+            <li className="list-inline-item mb-0">
+              <button
+                type="button"
+                className="btn btn-icon btn-pills btn-primary"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <Badge
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  color="secondary"
+                  badgeContent={itemCount}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-heart"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                  </svg>
+                </Badge>
+              </button>
+            </li>
+            <li className="list-inline-item mb-0"> &nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
                 <button
@@ -132,7 +182,7 @@ export default function Header({}: Props) {
                 </button>
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 py-3"
-                  style={{ width: '200px' }}
+                  style={{ width: "200px" }}
                 >
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-user align-middle me-1"></i> Tài khoản
@@ -142,11 +192,13 @@ export default function Header({}: Props) {
                     Thiết kế của tôi
                   </a>
                   <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-clipboard-notes align-middle me-1"></i> Lịch sử mua hàng
+                    <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
+                    Lịch sử mua hàng
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" onClick={logout}>
-                    <i className="uil uil-sign-out-alt align-middle me-1"></i> Đăng xuất
+                    <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
+                    Đăng xuất
                   </a>
                 </div>
               </div>
@@ -156,17 +208,17 @@ export default function Header({}: Props) {
           <div id="navigation">
             <ul className="navigation-menu">
               <li>
-                <a href="/designs" className="sub-menu-item">
+                <a href="/designed-products" className="sub-menu-item">
                   Thiết kế có sẵn
                 </a>
               </li>
 
-              <li onClick={() => router.push('/raw-products')}>
+              <li onClick={() => router.push("/raw-products")}>
                 <a href="raw-products" className="sub-menu-item">
                   Tự thiết kế
                 </a>
               </li>
-              <li onClick={() => router.push('/about')}>
+              <li onClick={() => router.push("/about")}>
                 <a href="about" className="sub-menu-item">
                   Giới thiệu
                 </a>

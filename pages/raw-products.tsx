@@ -1,14 +1,16 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import { MainLayout } from '@/components/layouts';
-import * as React from 'react';
-import useRawProduct from '@/hooks/api/use-get-all-product-raw';
-import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
-import { useState } from 'react';
-import RawProduct from '@/components/common/raw-product';
-import Pagination from '@/components/common/pagination';
-import search from '@/redux/slices/search';
-import Categories from '@/components/common/categories';
+import { MainLayout } from "@/components/layouts";
+import * as React from "react";
+import useRawProduct from "@/hooks/api/use-get-all-product-raw";
+import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
+import { useState } from "react";
+import RawProduct from "@/components/common/raw-product";
+import Pagination from "@/components/common/pagination";
+import search from "@/redux/slices/search";
+import Categories from "@/components/common/categories";
+import { useForm } from "react-hook-form";
+import PaginationComponent from "@/components/common/mui-pagination";
 
 export interface IProductProps {}
 
@@ -16,24 +18,33 @@ export default function RawProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
     pageSize: 9,
-    search: '',
-    sort: '',
+    sort: "",
   });
-  const [name, setName] = useState('');
+  const [totalPages, setTotalPages] = React.useState(0);
 
-  const search = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.preventDefault();
-    setFilter({ ...filter, search: name == '' ? `name:${name}` : '' });
+  const { register, handleSubmit } = useForm<{ name: string }>({
+    defaultValues: { name: "" },
+  });
+
+  const onSubmit = (data: { name: string }) => {
+    const value = data.name;
+    let tmpFilter = { ...filter };
+    delete filter.name;
+    if (!value) tmpFilter = { ...filter, name: value };
+    setFilter(tmpFilter);
   };
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setFilter({ ...filter, pageNumber: value - 1 });
-  };
-  const handleCategoryChange = (event: React.ChangeEvent<unknown>, value: string) => {
-    setFilter({ ...filter, search: `${search}` });
+
+  const handleCategoryChange = (value: string) => {
+    let tmpFilter = { ...filter };
+    delete filter.category;
+    if (!value) tmpFilter = { ...filter, category: value };
+    setFilter(tmpFilter);
   };
 
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
-  const totalPage = Math.ceil(response?.elements / filter.pageSize);
+  React.useEffect(() => {
+    if (response) setTotalPages(Math.ceil(response.elements / filter.pageSize));
+  }, [response]);
 
   return (
     <>
@@ -64,14 +75,21 @@ export default function RawProducts(props: IProductProps) {
                 </ul>
               </nav>
             </div>
-          </div>{' '}
+          </div>{" "}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
+            <svg
+              viewBox="0 0 2880 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
+                fill="currentColor"
+              />
             </svg>
           </div>
         </div>
@@ -85,23 +103,22 @@ export default function RawProducts(props: IProductProps) {
                   <div className="card-body p-0">
                     {/* SEARCH */}
                     <div className="widget">
-                      <form role="search" method="get">
+                      <form
+                        role="search"
+                        method="get"
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
                         <div className="input-group mb-3 border rounded">
                           <input
                             type="text"
-                            id="s"
-                            name="s"
                             className="form-control border-0"
-                            placeholder="Search Keywords..."
-                            onChange={e => {
-                              setName(e.target.value);
-                              setFilter({
-                                ...filter,
-                                search: `${e.target.value === '' ? `${filter.search.replace('name:')}` : `name:${e.target.value}`} `,
-                              });
-                            }}
+                            {...register("name")}
                           />
-                          <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit" onClick={e => search(e)}>
+                          <button
+                            type="submit"
+                            className="input-group-text bg-white border-0"
+                            id="searchsubmit"
+                          >
                             <i className="uil uil-search" />
                           </button>
                         </div>
@@ -119,7 +136,7 @@ export default function RawProducts(props: IProductProps) {
                             <img
                               src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: 'auto' }}
+                              style={{ height: "auto" }}
                               alt=""
                             />
                           </a>
@@ -128,7 +145,8 @@ export default function RawProducts(props: IProductProps) {
                               T-Shirt
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00 <del className="text-danger ms-2">$22.00</del>{' '}
+                              $18.00{" "}
+                              <del className="text-danger ms-2">$22.00</del>{" "}
                             </h6>
                           </div>
                         </li>
@@ -137,7 +155,7 @@ export default function RawProducts(props: IProductProps) {
                             <img
                               src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: 'auto' }}
+                              style={{ height: "auto" }}
                               alt=""
                             />
                           </a>
@@ -146,7 +164,8 @@ export default function RawProducts(props: IProductProps) {
                               Watch
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00 <del className="text-danger ms-2">$22.00</del>{' '}
+                              $18.00{" "}
+                              <del className="text-danger ms-2">$22.00</del>{" "}
                             </h6>
                           </div>
                         </li>
@@ -155,7 +174,7 @@ export default function RawProducts(props: IProductProps) {
                             <img
                               src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: 'auto' }}
+                              style={{ height: "auto" }}
                               alt=""
                             />
                           </a>
@@ -164,7 +183,8 @@ export default function RawProducts(props: IProductProps) {
                               Coffee Cup
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00 <del className="text-danger ms-2">$22.00</del>{' '}
+                              $18.00{" "}
+                              <del className="text-danger ms-2">$22.00</del>{" "}
                             </h6>
                           </div>
                         </li>
@@ -173,7 +193,7 @@ export default function RawProducts(props: IProductProps) {
                             <img
                               src="asset/images/shop/product/s1.jpg"
                               className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: 'auto' }}
+                              style={{ height: "auto" }}
                               alt=""
                             />
                           </a>
@@ -182,7 +202,8 @@ export default function RawProducts(props: IProductProps) {
                               Wooden Stools
                             </a>
                             <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00 <del className="text-danger ms-2">$22.00</del>{' '}
+                              $18.00{" "}
+                              <del className="text-danger ms-2">$22.00</del>{" "}
                             </h6>
                           </div>
                         </li>
@@ -197,7 +218,11 @@ export default function RawProducts(props: IProductProps) {
                   <div className="col-lg-8 col-md-7">
                     <div className="section-title">
                       <h5 className="mb-0">
-                        Showing 1–{response?.elements < filter.pageSize ? response?.elements : filter.pageSize} of {response?.elements}
+                        Showing 1–
+                        {response && response?.elements < filter.pageSize
+                          ? response?.elements
+                          : filter.pageSize}{" "}
+                        of {response?.elements}
                         &nbsp;results
                       </h5>
                     </div>
@@ -207,7 +232,11 @@ export default function RawProducts(props: IProductProps) {
                     <div className="d-flex justify-content-md-between align-items-center">
                       <div className="form custom-form">
                         <div className="mb-0">
-                          <select className="form-select form-control" aria-label="Default select example" id="Sortbylist-job">
+                          <select
+                            className="form-select form-control"
+                            aria-label="Default select example"
+                            id="Sortbylist-job"
+                          >
                             <option selected>Sort by latest</option>
                             <option>Sort by popularity</option>
                             <option>Sort by rating</option>
@@ -232,10 +261,20 @@ export default function RawProducts(props: IProductProps) {
                 </div>
                 {/*end row*/}
                 <div className="row">
-                  {response?.data.map(product => {
+                  {response?.data.map((product) => {
                     return <RawProduct key={product.id} product={product} />;
                   })}
-                  {totalPage == 0 ? <></> : <Pagination pages={totalPage} currentPage={filter.pageNumber} />}
+                  {totalPages == 0 ? (
+                    <></>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <PaginationComponent
+                        total={totalPages}
+                        filter={filter}
+                        setFilter={setFilter}
+                      />
+                    </div>
+                  )}
                 </div>
                 {/*end row*/}
               </div>

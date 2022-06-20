@@ -2,14 +2,17 @@
 import React from "react";
 import { Best4DesignedProduct, ProductHomePage } from "@/services/type.dto";
 import { MouseEventHandler } from "react";
+import { ShownDesignedProduct } from "@/models/design";
+import { useRouter } from "next/router";
 type Props = {
-  product: ProductHomePage;
+  product: ShownDesignedProduct;
 };
 
-export default function DesignedProduct({ product }: Props) {
+export default function DesignedProductCard({ product }: Props) {
   const goToProfile = (userId: number) => {
     console.log("first");
   };
+  const router = useRouter();
   const getRates = (rate: number): number[] => {
     let result = [];
     rate = Math.ceil(rate);
@@ -27,11 +30,14 @@ export default function DesignedProduct({ product }: Props) {
     return result;
   };
   return (
-    <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+    <div
+      className="col-lg-3 col-md-6 col-12 mt-4 pt-2"
+      onClick={() => router.push(`/design-detail?id=${product.id}`)}
+    >
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
-          {product.tags &&
-            product.tags.map((tag: String, index: number) => {
+          {product.tagName &&
+            product.tagName.map((tag: String, index: number) => {
               return (
                 <li key={index}>
                   <span className="badge badge-link rounded-pill bg-primary p-1">
@@ -43,13 +49,17 @@ export default function DesignedProduct({ product }: Props) {
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
           <a>
-            <img src={product.image} className="img-fluid" alt="productImage" />
+            <img
+              src={product.imagePreviews[0].image}
+              className="img-fluid"
+              alt="productImage"
+            />
           </a>
           {/* <a className="overlay-work">
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />
           </a> */}
           <ul className="list-unstyled shop-icons">
-            {/* <li>
+            <li>
               <a className="btn btn-icon btn-pills btn-soft-danger">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +87,7 @@ export default function DesignedProduct({ product }: Props) {
                   <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                 </svg>
               </a>
-            </li> */}
+            </li>
             <li className="mt-2">
               <a className="btn btn-icon btn-pills btn-soft-warning">
                 <svg
@@ -103,19 +113,19 @@ export default function DesignedProduct({ product }: Props) {
           </a>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">
-              ${product.designedPrice}
+              ${product.price}
             </h6>
           </div>
           <div className="design-detail">
             <ul className="list-unstyled">
-              {getRates(product.rate).map((rate) => {
+              {getRates(product.rating).map((rate) => {
                 return (
                   <li key={rate} className="list-inline-item text-warning ">
                     <i className="mdi mdi-star"></i>
                   </li>
                 );
               })}
-              {getUnRates(product.rate).map((rate) => {
+              {getUnRates(product.rating).map((rate) => {
                 return (
                   <li key={rate} className="list-inline-item">
                     <i className="mdi mdi-star"></i>
@@ -124,16 +134,16 @@ export default function DesignedProduct({ product }: Props) {
               })}
             </ul>
             <span className="list-unstyled text-warning  ">
-              ({product.rate})
+              ({product.rating})
             </span>
           </div>
           <div>
-            <span className="sold-number ">Sold: {product.soldCount}</span>
+            <span className="sold-number ">Đã bán {product.sold}</span>
           </div>
           <div className="designer cursor-pointer">
-            Designed by{" "}
-            <span onClick={() => goToProfile(product.userId)}>
-              <b>{product.username}</b>
+            Thiết kế bởi{" "}
+            <span onClick={() => goToProfile(product.user.id)}>
+              <b>{product.user.firstName + " " + product.user.lastName}</b>
             </span>
           </div>
         </div>
