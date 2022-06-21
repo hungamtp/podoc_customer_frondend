@@ -1,4 +1,5 @@
 import { API } from "@/api-client/axios";
+import { ShownDesignedProduct } from "@/models/design";
 import {
   ColorDto,
   DesignedProductDto,
@@ -6,6 +7,7 @@ import {
   getAllSimpleDesignProductDto,
   GetBlueprintDto,
   getDesignProductDto,
+  getOthersDesignProductDto,
 } from "./dto";
 
 export interface Filter {
@@ -53,6 +55,13 @@ export const getColorsByFactoryAndProductId = async (
 
 export const getDesignById = async (designId: number) => {
   const { data } = await API.get<getDesignProductDto>(`/design/${designId}`);
+  return data.data;
+};
+
+export const getOthersDesignById = async (designId: number) => {
+  const { data } = await API.get<getOthersDesignProductDto>(
+    `/design/details/${designId}`
+  );
   return data.data;
 };
 

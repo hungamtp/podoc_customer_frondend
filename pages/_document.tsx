@@ -27,19 +27,19 @@ export default class MyDocument extends Document {
           <link rel="shortcut icon" href="asset/images/favicon.ico" />
 
           <link
-            href="asset/css/bootstrap.min.css"
+            href="/asset/css/bootstrap.min.css"
             rel="stylesheet"
             type="text/css"
           />
 
           <link
-            href="asset/css/tobii.min.css"
+            href="/asset/css/tobii.min.css"
             rel="stylesheet"
             type="text/css"
           />
 
           <link
-            href="asset/css/materialdesignicons.min.css"
+            href="/asset/css/materialdesignicons.min.css"
             rel="stylesheet"
             type="text/css"
           />
@@ -48,16 +48,16 @@ export default class MyDocument extends Document {
             href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"
           />
 
-          <link rel="stylesheet" href="asset/css/tiny-slider.css" />
+          <link rel="stylesheet" href="/asset/css/tiny-slider.css" />
 
           <link
-            href="asset/css/style.css"
+            href="/asset/css/style.css"
             rel="stylesheet"
             type="text/css"
             id="theme-opt"
           />
           <link
-            href="asset/css/colors/default.css"
+            href="/asset/css/colors/default.css"
             rel="stylesheet"
             id="color-opt"
           />
@@ -72,19 +72,19 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
 
-          <script src="asset/js/bootstrap.bundle.min.js"></script>
+          <script src="/asset/js/bootstrap.bundle.min.js"></script>
 
-          <script src="asset/js/tiny-slider.js "></script>
+          <script src="/asset/js/tiny-slider.js "></script>
 
-          <script src="asset/js/tobii.min.js "></script>
+          <script src="/asset/js/tobii.min.js "></script>
 
-          <script src="asset/js/feather.min.js"></script>
+          <script src="/asset/js/feather.min.js"></script>
 
-          <script src="asset/js/switcher.js"></script>
+          <script src="/asset/js/switcher.js"></script>
 
-          <script src="asset/js/plugins.init.js"></script>
+          <script src="/asset/js/plugins.init.js"></script>
 
-          <script src="asset/js/app.js"></script>
+          <script src="/asset/js/app.js"></script>
           <script
             src="https://apis.google.com/js/platform.js"
             async

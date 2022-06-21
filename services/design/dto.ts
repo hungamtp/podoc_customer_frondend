@@ -39,6 +39,9 @@ export interface SimpleDesignProduct {
 export interface getDesignProductDto extends ISuccessHttpResponse {
   data: DesignedProduct;
 }
+export interface getOthersDesignProductDto extends ISuccessHttpResponse {
+  data: ShownDesignedProduct;
+}
 
 export interface getAllDesignProductDto extends ISuccessHttpResponse {
   data: {

@@ -27,4 +27,8 @@ export interface ShownDesignedProduct {
   rating: number;
   sold: number;
   tagName: string[];
+  colors: string[];
+  sizes: string[];
+  description: string;
+  factoryName: string;
 }
