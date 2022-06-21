@@ -2,17 +2,27 @@
 import React from 'react';
 import { MainLayout } from '@/components/layouts';
 import Cart from '@/components/common/cart';
-import useUpdateCart from '@/hooks/api/cart/use-update-cart';
-import { useAppSelector } from '@/components/hooks/reduxHook';
-import cart from '@/redux/slices/cart';
+import { setCartNotEnough , resetCartNotEnough } from '@/redux/slices/checkCart';
+import { useAppSelector , useAppDispatch } from '@/components/hooks/reduxHook';
+import useCheckCart from '@/hooks/api/cart/use-check-cart';
+import { useRouter } from 'next/router';
 type Props = {};
 
 export default function Carts({}: Props) {
   const carts = useAppSelector(state => state.carts);
   const haveProduct = carts?.length != 0;
- 
+  const dispatch = useAppDispatch();
+  const { mutate: checkCart, isLoading, error } = useCheckCart();
+  const router = useRouter();
   const handleProceed = () =>{
-    
+  checkCart(carts , {onSuccess: (data) => {
+      dispatch(setCartNotEnough(data))
+      if(data.length == 0){
+        dispatch(setCartNotEnough([]));
+        router.push("/checkout")
+      }
+    }});
+  
   }
   return (
     <>

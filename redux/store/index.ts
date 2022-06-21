@@ -9,6 +9,7 @@ import previewsReducer from "@/redux/slices/previews";
 import productDetailReducer from "@/redux/slices/product";
 import selectedColorsReducer from "@/redux/slices/selectedColors";
 import cartsReducer from "@/redux/slices/cart";
+import checkCartSliceReducer from "@/redux/slices/checkCart";
 
 import {
   persistStore,
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   productDetail: productDetailReducer,
   selectedColors: selectedColorsReducer,
   carts: cartsReducer,
+  checkCartSlice : checkCartSliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

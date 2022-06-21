@@ -14,6 +14,7 @@ export default function Cart({ cart }: Props) {
   const { mutate: deleteCartDetailApi, isLoading, error } = useDeleteCartDetail();
   const { mutate: updateCart, isUpdateCartLoading, updateCartError } = useUpdateCart();
   const carts = useAppSelector((state) => state.carts);
+  const productDontHaveEnoughQuatity = useAppSelector((state) => state.checkCartSlice);
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
@@ -53,6 +54,7 @@ export default function Cart({ cart }: Props) {
         <button className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'}`} onClick={() => updateQuantity(quantity -1)}>-</button>
         <input type="number" min={1} name="quantity" value={quantity} className="btn btn-icon btn-soft-primary qty-btn" />
         <button className="btn btn-icon btn-soft-primary plus" onClick={() => updateQuantity(quantity +1)}>+</button>
+        <div>{productDontHaveEnoughQuatity.filter((product) => product.id === cart.id).length >0 && `This product have ${productDontHaveEnoughQuatity.filter((product) => product.id === cart.id)[0].quantityAvailable} left`}</div>
       </td>
       <td className="text-end fw-bold pe-4">$ {cart.price * cart.quantity}</td>
     </tr>

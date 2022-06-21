@@ -15,11 +15,7 @@ const useCheckCart = () => {
       return await checkQuantityBefore(cart);
     },
     {
-      onSuccess: (data) => { 
-        console.log(data)
-        // if(data.length == 0){
-        //     router.push("/checkout")
-        // }
+      onSuccess: (data) => {
       },
       onError: (error: AxiosError<ErrorHttpResponse>) => {
          
@@ -29,8 +25,8 @@ const useCheckCart = () => {
 };
 
 export const checkQuantityBefore = async (cart: CartDetailDTO[]) => {
-    const {data} = await API.put<CartNotEnoughQuantity[]>(`/cart/checkQuantity` , cart);
-    return data;
+    const data = await API.put<CartNotEnoughQuantity[]>(`/cart/checkQuantity` , cart);
+    return data.data;
 };
 
 export default useCheckCart;
