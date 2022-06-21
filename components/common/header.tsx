@@ -6,6 +6,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { setCart } from "@/redux/slices/cart";
 import { CartDetailDTO } from "@/services/type.dto";
+import Link from "next/link";
 type Props = {};
 
 export default function Header({}: Props) {
@@ -208,20 +209,20 @@ export default function Header({}: Props) {
           <div id="navigation">
             <ul className="navigation-menu">
               <li>
-                <a href="/designed-products" className="sub-menu-item">
+                <Link href="/designed-products" className="sub-menu-item">
                   Thiết kế có sẵn
-                </a>
+                </Link>
               </li>
 
               <li onClick={() => router.push("/raw-products")}>
-                <a href="raw-products" className="sub-menu-item">
+                <Link href="raw-products" className="sub-menu-item">
                   Tự thiết kế
-                </a>
+                </Link>
               </li>
               <li onClick={() => router.push("/about")}>
-                <a href="about" className="sub-menu-item">
+                <Link href="about" className="sub-menu-item">
                   Giới thiệu
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

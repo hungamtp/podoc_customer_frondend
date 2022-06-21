@@ -15,6 +15,15 @@ export default function DesignedProductDetail() {
 
   const { id } = router.query;
   const { data: response, isLoading: isLoading } = useGetDesignById(Number(id));
+  const [checked, setChecked] = React.useState<string>();
+  const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    if (checked === true) {
+      setCheckValue(event.target.value);
+      console.log(checkValue, "check");
+    }
+    console.log(checked, "check");
+  };
 
   return (
     <>
@@ -82,24 +91,8 @@ export default function DesignedProductDetail() {
                   <div className="section-title ms-md-4">
                     <h4 className="title"> {response.name}</h4>
                     <h5 className="text-muted">{response.designedPrice}</h5>
-                    <ul className="list-unstyled text-warning h5 mb-0">
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                    </ul>
-                    <h5 className="mt-4 py-2">Overview :</h5>
+
+                    <h5 className="mt-4 py-2">Mô tả :</h5>
                     <p className="text-muted">{response.description}</p>
                     <ul className="list-unstyled text-muted">
                       <li className="mb-1">
@@ -130,7 +123,7 @@ export default function DesignedProductDetail() {
                 </div>
               </div>
             </div>
-            {response?.factories.length != 0 ? (
+            {/* {response?.factories.length != 0 ? (
               response?.factories.map((factory) => {
                 return <Factory key={factory.id} factory={factory} />;
               })
@@ -146,7 +139,7 @@ export default function DesignedProductDetail() {
                   </div>
                 </section>
               </>
-            )}
+            )} */}
 
             <div className="container-fluid mt-100 mt-60 px-0">
               <div className="py-5 bg-light">
