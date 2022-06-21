@@ -3,6 +3,7 @@ import {
   ColorDto,
   DesignedProductDto,
   getAllDesignProductDto,
+  getAllSimpleDesignProductDto,
   GetBlueprintDto,
   getDesignProductDto,
 } from "./dto";
@@ -66,6 +67,22 @@ export const getAllDesignedProducts = async (filter: GetAllDesignFilter) => {
   });
   const { data } = await API.get<getAllDesignProductDto>(
     `/design?${query.toString()}`
+  );
+  return data.data;
+};
+export const getAllDesignedProductsByUserId = async (
+  filter: GetAllDesignFilter
+) => {
+  const pageNumber = 0;
+  const pageSize = 9;
+  let search = filter.name ? `name:${filter.name},` : "";
+  if (filter.category) search = search + `category:${filter.category}`;
+  const query = new URLSearchParams({
+    pageNumber: filter?.pageNumber?.toString() || pageNumber.toString(),
+    pageSize: filter?.pageSize?.toString() || pageSize.toString(),
+  });
+  const { data } = await API.get<getAllSimpleDesignProductDto>(
+    `/design/view?${query.toString()}`
   );
   return data.data;
 };

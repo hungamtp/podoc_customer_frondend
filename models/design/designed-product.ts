@@ -8,7 +8,7 @@ export interface DesignedProduct {
   designedPrice: number;
   priceFromFactory: number;
   colors: string[];
-  imagePreviews: { position: string; imageSrc: string }[];
+  imagePreviews: { position: string; image: string }[];
   bluePrints: Blueprint[];
 }
 

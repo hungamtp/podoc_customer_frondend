@@ -32,7 +32,8 @@ export default function DesignedProductCard({ product }: Props) {
   return (
     <div
       className="col-lg-3 col-md-6 col-12 mt-4 pt-2"
-      onClick={() => router.push(`/design-detail?id=${product.id}`)}
+      // onClick={() => router.push(`/design-detail?id=${product.id}`)}
+      onClick={() => router.push(`/edit-design?id=${product.id}`)}
     >
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
