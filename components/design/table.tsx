@@ -5,7 +5,7 @@ import SelectColor from "./select-color";
 import TextInfo from "./text-info";
 import { UploadImageTable } from "./upload-image-table";
 export interface ITableProps {
-  addNewRect: (imgSrc: string) => void;
+  addNewRect: (imgSrc: string, tmpSrc: string) => void;
   deleteImage: (key: string, isLast: boolean) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
@@ -64,7 +64,7 @@ export default function Table(props: ITableProps) {
         ))}
         <div>
           <p className="">
-            <UploadImageTable addNewRect={addNewRect} />
+            <UploadImageTable />
           </p>
           {/* <button onClick={} className="py-2">
 						Save

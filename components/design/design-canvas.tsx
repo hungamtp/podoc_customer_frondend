@@ -66,6 +66,19 @@ const resizer = (
   };
 };
 
+const getBase64FromUrl = async (url: string): Promise<string> => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result + "" || url;
+      resolve(base64data);
+    };
+  });
+};
+
 const initCanvas = (
   defaultWidth: number,
   defaultHeight: number,
@@ -200,7 +213,12 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       const designInfos = blueprint.designInfos;
       if (designInfos) {
         designInfos.forEach((design) => {
-          addRect(design);
+          if (design.tmpSrc) addRect(design);
+          else {
+            getBase64FromUrl(design.src).then((base64) =>
+              addRect({ ...design, tmpSrc: base64 })
+            );
+          }
         });
       }
     }
@@ -571,7 +589,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   );
 
   const addNewRect = React.useCallback(
-    (imgUrl: string) => {
+    (imgUrl: string, tmpSrc: string) => {
       if (canvas && placeHolder) {
         const newName = nanoid();
         fabric.Image.fromURL(
@@ -579,6 +597,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           (image: fabric.Image) => {
             const imageLeft = (canvas.getWidth() - 150) / 2;
             const imageTop = (canvas.getHeight() - 100) / 2;
+            console.log(image, "imageee");
 
             image.set("name", newName);
 
@@ -619,6 +638,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
               scales: tmpDesignData?.scale,
               leftPosition: tmpDesignData?.left,
               topPosition: tmpDesignData?.top,
+              tmpSrc: tmpSrc,
               src: imgUrl,
             };
 
@@ -671,7 +691,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           canvas.renderAll();
         } else {
           fabric.Image.fromURL(
-            design.src,
+            design.tmpSrc,
             (image: fabric.Image) => {
               image.set("name", design.key);
               image.set("left", imageLeft);
@@ -850,7 +870,8 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
 
-      reverseDesigns(blueprint);
+      if (blueprint.designInfos && blueprint.designInfos[0].key !== "")
+        reverseDesigns(blueprint);
     }
   }, [placeHolder]);
 

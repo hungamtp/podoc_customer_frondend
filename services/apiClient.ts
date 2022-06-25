@@ -1,17 +1,26 @@
 import { API } from "@/api-client/axios";
-import axios from "axios";
-import { SignUpDTO , SignUpResponse , ProductHomePage , Best4DesignedProduct , LoginDto , LoginResponse , ResponseDTO} from "./type.dto";
+import {
+  Best4DesignedProduct,
+  LoginDto,
+  LoginResponse,
+  SignUpDTO,
+  SignUpResponse,
+} from "./type.dto";
 
-export const signup = async (requestData: SignUpDTO) => { 
-  const { data } = await API.post<SignUpResponse>("/auth/register", requestData);
+export const signup = async (requestData: SignUpDTO) => {
+  const { data } = await API.post<SignUpResponse>(
+    "/auth/register",
+    requestData
+  );
   return data.data;
 };
 
-export const getHighestRateProduct = async () => { 
-  const { data } = await API.get<Best4DesignedProduct>("/design/4highestDRateDesignedProduct");
+export const getHighestRateProduct = async () => {
+  const { data } = await API.get<Best4DesignedProduct>(
+    "/design/4highestDRateDesignedProduct"
+  );
   return data;
 };
-
 
 export const login = async (requestData: LoginDto) => {
   const { data } = await API.post<LoginResponse>("/auth/login", requestData);

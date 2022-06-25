@@ -360,7 +360,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
         canvas.renderAll();
       } else {
         fabric.Image.fromURL(
-          design.src,
+          design.tmpSrc,
           (image: fabric.Image) => {
             image.set("name", design.key);
             image.set("left", imageLeft);
