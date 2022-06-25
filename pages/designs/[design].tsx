@@ -137,80 +137,128 @@ export default function DesignedProductDetail() {
                             Create your own skin to match your brand
                           </li>
                         </ul>
+
+                        <div>
+                          <div className="row mt-4 pt-2">
+                            <div className="col-lg-6 col-12">
+                              <div className="d-flex align-items-center">
+                                <h6 className="mb-0">Size:</h6>
+                                <ul className="list-unstyled mb-0 ms-3">
+                                  <li className="list-inline-item">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      S
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      M
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      L
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      XL
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div className="d-flex align-items-center pt-4">
+                                <h6 className="mb-0">Màu:</h6>
+                                <ul className="list-unstyled mb-0 ms-3">
+                                  <li className="list-inline-item">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      S
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      M
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      L
+                                    </a>
+                                  </li>
+                                  <li className="list-inline-item ms-1">
+                                    <a
+                                      href="javascript:void(0)"
+                                      className="btn btn-icon btn-soft-primary"
+                                    >
+                                      XL
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            {/*end col*/}
+                            <div className="col-lg-6 col-12 mt-4 mt-lg-0">
+                              <div className="d-flex shop-list align-items-center">
+                                <h6 className="mb-0">Quantity:</h6>
+                                <div className="qty-icons ms-3">
+                                  <button className="btn btn-icon btn-soft-primary minus">
+                                    -
+                                  </button>
+                                  <input
+                                    min={0}
+                                    name="quantity"
+                                    defaultValue={0}
+                                    type="number"
+                                    className="btn btn-icon btn-soft-primary qty-btn quantity"
+                                  />
+                                  <button className="btn btn-icon btn-soft-primary plus">
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            {/*end col*/}
+                          </div>
+                          {/*end row*/}
+                          <div className="mt-4 pt-2">
+                            <a
+                              href="javascript:void(0)"
+                              className="btn btn-primary"
+                            >
+                              Shop Now
+                            </a>
+                            <a
+                              href="shop-cart.html"
+                              className="btn btn-soft-primary ms-2"
+                            >
+                              Add to Cart
+                            </a>
+                          </div>
+                        </div>
+
                         <div className="row mt-4 pt-2">
                           <div className="col-lg-6 col-12">
                             <div className="d-flex align-items-center"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="card-body">
-                    <div className="invoice-top pb-4 border-bottom">
-                      <div className="row">
-                        <div className="col-md-8">
-                          <div className="logo-invoice mb-2">Tự đặt hàng</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="table-responsive text-nowrap">
-                          <table className="table table-bordered">
-                            <thead>
-                              <tr className="">
-                                <th>Colors/Sizes</th>
-                                {designedProduct.colors.map((color) => (
-                                  <th key={color}>{color}</th>
-                                ))}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {designedProduct.sizes.map((size, index) => (
-                                <tr key={index}>
-                                  {size}
-                                  {designedProduct.sizes.map((x, index) => (
-                                    <td key={index}>
-                                      <div className="form-check form-check-inline">
-                                        <div className="mb-0">
-                                          <div className="form-check">
-                                            <input
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              checked
-                                              value=""
-                                              id="flexCheckDefault1"
-                                              onChange={handleChangeCheckBox}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor="flexCheckDefault1"
-                                            >
-                                              One
-                                            </label>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  ))}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                          <div className="mt-2">
-                            <button
-                              type="button"
-                              className="btn btn-primary me-2"
-                            >
-                              Save changes
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary"
-                            >
-                              Cancel
-                            </button>
                           </div>
                         </div>
                       </div>

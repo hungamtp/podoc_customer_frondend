@@ -5,9 +5,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
 import { DesignState } from "@/models/design";
 
-export interface UploadImageTableProps {
-  addNewRect: (imageSrc: string) => void;
-}
+export interface UploadImageTableProps {}
 
 export function UploadImageTable(props: UploadImageTableProps) {
   const designControlData = useAppSelector((state) => state.designControl);

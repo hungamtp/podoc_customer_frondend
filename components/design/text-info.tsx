@@ -6,7 +6,7 @@ import SingleInput from "./single-input";
 import ColorPicker from "./color-picker";
 
 export interface ITextInfoProps {
-  addNewRect: (imgSrc: string) => void;
+  addNewRect: (imgSrc: string, tmpSrc: string) => void;
   deleteImage: (key: string) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;

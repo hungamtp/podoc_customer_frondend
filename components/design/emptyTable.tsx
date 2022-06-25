@@ -8,7 +8,7 @@ export interface info {
 }
 
 export interface IEmptyTableProps {
-  addNewRect: (imageSrc: string) => void;
+  addNewRect: (imageSrc: string, tmpSrc: string) => void;
   addNewText: (text: string) => void;
 }
 

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
 
 export interface ITableProps {
-  addNewRect: (imageSrc: string) => void;
+  addNewRect: (imageSrc: string, tmpSrc: string) => void;
 }
 
 export function UploadImage(props: ITableProps) {
@@ -27,10 +27,11 @@ export function UploadImage(props: ITableProps) {
   const onUploadImage = (imageList: ImageListType) => {
     if (imageList !== null) {
       const file = imageList[0].file;
+      const tmpSrc = imageList[0].data_url;
       const imageRef = ref(storage, `images/${file?.name}`);
       uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          addNewRect(url);
+          addNewRect(url, tmpSrc);
         });
       });
     }

@@ -4,7 +4,7 @@ import { useAppSelector } from "../hooks/reduxHook";
 import SingleInputMemo from "./single-input";
 
 export interface IImageInfoProps {
-  addNewRect: (imgSrc: string) => void;
+  addNewRect: (imgSrc: string, tmpSrc: string) => void;
   deleteImage: (key: string) => void;
   chooseDesign: (key: string) => void;
   cloneDesign: (key: string) => void;
