@@ -10,22 +10,9 @@ import { login } from "@/services/apiClient";
 const useLogin = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  return useMutation(
-    async (data: LoginDto) => { 
-      return await login(data);
-    },
-    {
-      onSuccess: (data) => { 
-        dispatch(loginAction(data)); 
-        //because data:any
-        router.push('/home');
-        // router.back();
-      },
-      onError: (error: AxiosError<ErrorHttpResponse>) => {
-         
-      },
-    }
-  );
+  return useMutation(async (data: LoginDto) => {
+    return await login(data);
+  });
 };
 
 export default useLogin;

@@ -82,33 +82,34 @@ export default function Header({}: Props) {
                   style={{ width: "300px" }}
                 >
                   <div className="pb-4">
-                    {cart?.slice(0, 3).map((cart) => {
-                      return (
-                        <a
-                          key={cart.id}
-                          href=" "
-                          className="d-flex align-items-center"
-                        >
-                          <img
-                            src={cart.designedImage}
-                            className="shadow rounded"
-                            style={{ maxHeight: "64px" }}
-                            alt=""
-                          />
-                          <div className="flex-1 text-start ms-3">
+                    {cart &&
+                      cart?.slice(0, 3).map((cart) => {
+                        return (
+                          <a
+                            key={cart.id}
+                            href=" "
+                            className="d-flex align-items-center"
+                          >
+                            <img
+                              src={cart.designedImage}
+                              className="shadow rounded"
+                              style={{ maxHeight: "64px" }}
+                              alt=""
+                            />
+                            <div className="flex-1 text-start ms-3">
+                              <h6 className="text-dark mb-0">
+                                {cart.designedProductName} ({cart.size})
+                              </h6>
+                              <p className="text-muted mb-0">
+                                ${cart.price} X {cart.quantity}
+                              </p>
+                            </div>
                             <h6 className="text-dark mb-0">
-                              {cart.designedProductName} ({cart.size})
+                              ${cart.price * cart.quantity}
                             </h6>
-                            <p className="text-muted mb-0">
-                              ${cart.price} X {cart.quantity}
-                            </p>
-                          </div>
-                          <h6 className="text-dark mb-0">
-                            ${cart.price * cart.quantity}
-                          </h6>
-                        </a>
-                      );
-                    })}
+                          </a>
+                        );
+                      })}
                     <div
                       className="text-dark mb-0  "
                       style={{
