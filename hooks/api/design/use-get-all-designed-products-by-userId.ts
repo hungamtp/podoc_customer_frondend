@@ -1,8 +1,4 @@
-import {
-  Filter,
-  getAllDesignedProductsByUserId,
-  GetAllDesignFilter,
-} from "@/services/design";
+import { Filter, getAllMyDesign, GetAllDesignFilter } from "@/services/design";
 import { useQuery } from "react-query";
 
 const useGetAllDesignsByUserId = (filter: GetAllDesignFilter) => {

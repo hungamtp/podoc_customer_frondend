@@ -26,7 +26,7 @@ export interface SimpleDesignProduct {
   id: number;
   name: string;
   publish: string;
-  price: number;
+  designedPrice: number;
   user: {
     id: number;
     firstName: string;

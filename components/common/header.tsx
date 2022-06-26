@@ -158,10 +158,9 @@ export default function Header({}: Props) {
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-user align-middle me-1"></i> Tài khoản
                   </a>
-                  <a className="dropdown-item text-dark" href="/mydesign">
-                    <i className="bi bi-suit-heart me-1"></i>
-                    Thiết kế của tôi
-                  </a>
+                  <Link className="dropdown-item text-dark" href="/mydesign">
+                    <i className="bi bi-suit-heart me-1"> Thiết kế của tôi</i>
+                  </Link>
                   <a className="dropdown-item text-dark" href="#">
                     <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
                     Lịch sử mua hàng

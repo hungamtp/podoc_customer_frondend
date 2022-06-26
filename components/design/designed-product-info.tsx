@@ -118,7 +118,7 @@ export default function CreateDesignedProductForm(
                 bluePrintDtos: submitBlueprint,
                 factoryId: Number(factoryId),
                 productId: Number(productId),
-              } as DesignedProductDto;
+              } as unknown as DesignedProductDto;
 
               addDesignedProduct(submitData);
             }

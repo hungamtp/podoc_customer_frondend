@@ -1,51 +1,76 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
+import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-product";
+import { GetAllDesignFilter } from "@/services/design";
+import { SimpleDesignProduct } from "@/services/design/dto";
+import { Link } from "@material-ui/icons";
+import React, { useState } from "react";
 
-type Props = {};
+type Props = {
+  product: SimpleDesignProduct;
+};
 
-export default function Design({ key }: Props) {
+export default function Design({ product }: Props) {
+  const { mutate, isLoading } = usePublishDesignedProduct();
   return (
     <tr className="shop-list">
-      <td className="h6 text-center">
-        <a href=" " className="text-danger">
-          <input type="checkbox" name="select" id="select" />
-        </a>
-      </td>
       <td>
         <div className="d-flex align-items-center">
           <img
-            src="asset/images/shop/product/s1.jpg"
+            src={product.imagePreviews[0].image}
             className="img-fluid avatar avatar-small rounded shadow"
-            style={{ height: 'auto' }}
+            style={{ height: "auto" }}
             alt="product"
           />
           <div>
-            <h6 className="mb-0 ms-3">Design of Unisex Jersey Short Sleeve Tee</h6>
-            <p _ngcontent-cjt-c236="" className="small-text mb-0 ms-3" style={{ color: '#757c7e' }}>
+            <h6 className="mb-0 ms-3">{product.name}</h6>
+            {/* <p
+              _ngcontent-cjt-c236=""
+              className="small-text mb-0 ms-3"
+              style={{ color: "#757c7e" }}
+            >
               <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
                 <b>1</b>&nbsp;sizes
               </span>
               <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
                 <b>2</b>&nbsp;colors
               </span>
-            </p>
+            </p> */}
           </div>
         </div>
       </td>
-      <td className="text-center">$ 255.00</td>
+      <td className="text-center">{product.designedPrice}</td>
       <td className="text-center qty-icons">
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          Published
-        </button>
+        {product.publish ? (
+          <button
+            className="btn btn-success"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Đang đăng bán
+          </button>
+        ) : (
+          <button
+            className="btn btn-secondary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Chỉ mình tôi
+          </button>
+        )}
         {/* 
         <button type="button" className="btn btn-light">
           Unpublished
         </button> */}
       </td>
       <td className="text-center qty-icons">
-        <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-          Order
+        <button
+          className="btn btn-outline-success"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          <i className="bi bi-cart" />
         </button>
       </td>
 
@@ -63,13 +88,27 @@ export default function Design({ key }: Props) {
 
           <div
             className="dropdown-menu dd-menu dropdown-menu-end bg-light shadow rounded border border-primary p-3"
-            style={{ width: '120px' }}
+            style={{ width: "120px" }}
           >
-            <a href=" " className="d-flex align-items-center mt-1 ">
-              Edit Price
-            </a>
+            {product.publish ? (
+              <div
+                className="d-flex align-items-center mt-1 cursor-pointer"
+                onClick={() =>
+                  mutate({ publish: false, productId: product.id })
+                }
+              >
+                Gỡ xuống
+              </div>
+            ) : (
+              <div
+                className="d-flex align-items-center mt-1 cursor-pointer"
+                onClick={() => mutate({ publish: true, productId: product.id })}
+              >
+                Đăng bán
+              </div>
+            )}
             <a href=" " className="d-flex align-items-center mt-1">
-              Edit design
+              Chi tiết
             </a>
           </div>
         </div>

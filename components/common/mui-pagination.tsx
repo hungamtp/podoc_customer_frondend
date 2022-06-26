@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IPaginationComponent {
-  total: number;
+  total: number | undefined;
   filter: RawProductFilter;
   setFilter: (value: React.SetStateAction<RawProductFilter>) => void;
 }
 
 function PaginationComponent({
-  total,
+  total = 0,
   filter,
   setFilter,
 }: IPaginationComponent) {

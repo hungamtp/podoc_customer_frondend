@@ -79,9 +79,7 @@ export const getAllDesignedProducts = async (filter: GetAllDesignFilter) => {
   );
   return data.data;
 };
-export const getAllDesignedProductsByUserId = async (
-  filter: GetAllDesignFilter
-) => {
+export const getAllMyDesign = async (filter: GetAllDesignFilter) => {
   const pageNumber = 0;
   const pageSize = 9;
   let search = filter.name ? `name:${filter.name},` : "";
@@ -91,7 +89,32 @@ export const getAllDesignedProductsByUserId = async (
     pageSize: filter?.pageSize?.toString() || pageSize.toString(),
   });
   const { data } = await API.get<getAllSimpleDesignProductDto>(
-    `/design/view?${query.toString()}`
+    `/design/mydesign?${query.toString()}`
   );
   return data.data;
 };
+
+export const pulishUnpublishDesign = async (publish: boolean, id: number) => {
+  if (publish) {
+    return await API.put(`/design/publish/${id}`);
+  } else {
+    return await API.put(`/design/unpublish/${id}`);
+  }
+};
+
+// export const getAllMyDesign = async (
+//   filter: GetAllDesignFilter
+// ) => {
+//   const pageNumber = 0;
+//   const pageSize = 9;
+//   let search = filter.name ? `name:${filter.name},` : "";
+//   if (filter.category) search = search + `category:${filter.category}`;
+//   const query = new URLSearchParams({
+//     pageNumber: filter?.pageNumber?.toString() || pageNumber.toString(),
+//     pageSize: filter?.pageSize?.toString() || pageSize.toString(),
+//   });
+//   const { data } = await API.get<getAllSimpleDesignProductDto>(
+//     `/design/view?${query.toString()}`
+//   );
+//   return data.data;
+// };
