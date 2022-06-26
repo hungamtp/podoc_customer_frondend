@@ -51,12 +51,12 @@ export default function Cart({ cart }: Props) {
       <td className="text-center">{cart.color}</td>
       <td className="text-center">$ {cart.price}</td>
       <td className="text-center qty-icons">
-        <button className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'}`} onClick={() => updateQuantity(quantity -1)}>-</button>
+        <button className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'} ${!cart.publish && ' disabled'}` } onClick={() => updateQuantity(quantity -1)}>-</button>
         <input type="number" min={1} name="quantity" value={quantity} className="btn btn-icon btn-soft-primary qty-btn" />
-        <button className="btn btn-icon btn-soft-primary plus" onClick={() => updateQuantity(quantity +1)}>+</button>
+        <button className={`btn btn-icon btn-soft-primary plus ${!cart.publish && ' disabled'}`} onClick={() => updateQuantity(quantity +1)}>+</button>
         <div>{productDontHaveEnoughQuatity.filter((product) => product.id === cart.id).length >0 && `This product have ${productDontHaveEnoughQuatity.filter((product) => product.id === cart.id)[0].quantityAvailable} left`}</div>
       </td>
-      <td className="text-end fw-bold pe-4">$ {cart.price * cart.quantity}</td>
+      { cart.publish ?<td className="text-end fw-bold pe-4">$ {cart.price * cart.quantity}</td> : <td style={{width : "100px" , color : "red"}}>Sản phẩm ngừng kinh doanh</td>}
     </tr>
   );
 }

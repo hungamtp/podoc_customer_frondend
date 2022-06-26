@@ -61,7 +61,7 @@ export default function Carts({}: Props) {
             <div className="col-12">
               <div className="table-responsive bg-white shadow rounded">
                 {carts?.length == 0 ? (
-                  <div>Have no product in cart</div>
+                  <h4 className='warning-cart-text'>Chưa có sản phẩm nào trong giỏ hàng</h4>
                 ) : (
                   <table className="table mb-0 table-center">
                     <thead>

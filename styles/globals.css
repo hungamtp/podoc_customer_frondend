@@ -184,6 +184,10 @@ ul.list-unstyled {
 }
 
 
-
+.warning-cart-text{
+  display: flex;
+  justify-content: center;
+  
+}
 
 

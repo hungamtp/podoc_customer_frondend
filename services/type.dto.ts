@@ -121,7 +121,7 @@ export interface CartDetailDTO{
   color : string;
   quantity : number;
   price : number;
-
+  publish : boolean;
 }
 
 export interface CartNotEnoughQuantity {
