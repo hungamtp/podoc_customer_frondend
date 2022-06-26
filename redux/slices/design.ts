@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface InfoManageData {
   choosenKey: string;
+  isEmpty: boolean;
   designInfos: DesignState[];
 }
 
 const initialState: InfoManageData = {
   choosenKey: "",
+  isEmpty: true,
   designInfos: [
     {
       key: "",
@@ -35,6 +37,7 @@ export const designSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.choosenKey = action.payload.choosenKey;
+      state.isEmpty = false;
       state.designInfos = state.designInfos.map((designInfo) => {
         // console.log(action.payload.choosenKey === designInfo.key, 'chay nee');
         if (designInfo.key === action.payload.choosenKey) {
@@ -53,6 +56,7 @@ export const designSlice = createSlice({
     },
     updateUniqueData: (state, action) => {
       state.choosenKey = action.payload.choosenKey;
+      state.isEmpty = false;
       state.designInfos = state.designInfos.map((designInfo) => {
         if (designInfo.key === action.payload.choosenKey) {
           if (action.payload.dataKey === "font") {
@@ -82,16 +86,19 @@ export const designSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      if (state.choosenKey == "") {
+      if (state.isEmpty) {
         state.designInfos = [action.payload];
-      } else state.designInfos = [...state.designInfos, action.payload];
+        state.isEmpty = false;
+      } else {
+        state.designInfos = [...state.designInfos, action.payload];
+      }
     },
     deleteDesignInfo: (state, action) => {
       const newInfoList = state.designInfos.filter(
         (designInfo) => designInfo.key !== action.payload.key
       );
       if (newInfoList.length == 0) {
-        return { choosenKey: "", designInfos: newInfoList };
+        return { choosenKey: "", isEmpty: true, designInfos: newInfoList };
       }
       return { ...state, designInfos: newInfoList };
     },
@@ -116,7 +123,8 @@ export const designSlice = createSlice({
       }
     },
     updateDesignInfos: (state, action) => {
-      state.designInfos = action.payload;
+      state.isEmpty = action.payload.isEmpty;
+      state.designInfos = action.payload.designInfos;
     },
   },
 });

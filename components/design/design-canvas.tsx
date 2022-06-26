@@ -870,7 +870,11 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
 
-      if (blueprint.designInfos && blueprint.designInfos[0].key !== "")
+      if (
+        blueprint.designInfos &&
+        blueprint.designInfos.length !== 0 &&
+        blueprint.designInfos[0].key !== ""
+      )
         reverseDesigns(blueprint);
     }
   }, [placeHolder]);
