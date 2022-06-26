@@ -32,6 +32,18 @@ export default function Cart({ cart }: Props) {
     newCart.push({...cart , quantity : newQuantity})
     updateCart(newCart);
   }
+  const updateQuantityCart = (newQuantity : number) =>{
+    dispatch(updateQuantityCartDetail({...cart , quantity : newQuantity}))
+    setQuantity(newQuantity);
+    const newCart :CartDetailDTO[] =[];
+    carts.forEach(cartDetail => {
+      if(cartDetail.id != cart.id){
+        newCart.push(cartDetail);
+      }
+    });
+    newCart.push({...cart , quantity : newQuantity})
+    updateCart(newCart);
+  }
 
   const [quantity , setQuantity] = useState(cart.quantity);
 
@@ -52,7 +64,7 @@ export default function Cart({ cart }: Props) {
       <td className="text-center">$ {cart.price}</td>
       <td className="text-center qty-icons">
         <button className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'} ${!cart.publish && ' disabled'}` } onClick={() => updateQuantity(quantity -1)}>-</button>
-        <input type="number" min={1} name="quantity" value={quantity} className="btn btn-icon btn-soft-primary qty-btn" />
+        <input className='input-quantity' type="number" min={1} name="quantity" value={quantity} onChange={(e) => updateQuantityCart(e.target.value)}  />
         <button className={`btn btn-icon btn-soft-primary plus ${!cart.publish && ' disabled'}`} onClick={() => updateQuantity(quantity +1)}>+</button>
         <div>{productDontHaveEnoughQuatity.filter((product) => product.id === cart.id).length >0 && `This product have ${productDontHaveEnoughQuatity.filter((product) => product.id === cart.id)[0].quantityAvailable} left`}</div>
       </td>

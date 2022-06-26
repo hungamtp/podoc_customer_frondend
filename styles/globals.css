@@ -190,4 +190,24 @@ ul.list-unstyled {
   
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input-quantity{
+  margin-top: 10px;
+  width: 40px;
+  height: 33px;
+  border: 1px solid #eceffc;
+  border-radius: 1px;
+  text-align: center;
+}
+
 
