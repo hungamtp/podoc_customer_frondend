@@ -132,6 +132,18 @@ export interface UpdateCartResponseDTO{
   data : CartNotEnoughQuantity[] ,
   errorMessage : string 
 }
+
+export interface AddToCartDTO{
+  designId : number,
+  size :  string,
+  color : string,
+  quantity : number
+}
+
+export interface AddToCartResponseDTO {
+  data: CartDetailDTO,
+  errorMessage: string
+}
 export enum TAG{
   HOT = "Hot",
   NEW = "New",
