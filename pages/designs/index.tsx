@@ -23,7 +23,6 @@ export default function DesignedProducts(props: IProductProps) {
     pageSize: 9,
     sort: "",
   });
-  const [totalPages, setTotalPages] = React.useState(0);
 
   const { register, handleSubmit } = useForm<{ name: string }>({
     defaultValues: { name: "" },
@@ -45,6 +44,10 @@ export default function DesignedProducts(props: IProductProps) {
   };
 
   const { data: response, isLoading: isLoading } = useGetAllDesigns(filter);
+
+  const totalPages = Math.ceil(
+    (response?.elements || filter.pageSize) / filter.pageSize
+  );
 
   return (
     <>
@@ -220,10 +223,10 @@ export default function DesignedProducts(props: IProductProps) {
                       <div className="section-title">
                         <h5 className="mb-0">
                           Showing 1–
-                          {response && response.totalElements < filter.pageSize
-                            ? response.totalElements
+                          {response && response.elements < filter.pageSize
+                            ? response.elements
                             : filter.pageSize}{" "}
-                          of {response.totalElements}
+                          of {response.elements}
                           &nbsp;results
                         </h5>
                       </div>
@@ -262,7 +265,7 @@ export default function DesignedProducts(props: IProductProps) {
                   </div>
                   {/*end row*/}
                   <div className="row">
-                    {response?.content.map((product) => {
+                    {response.data.map((product) => {
                       return (
                         <DesignedProductCard
                           key={product.id}
@@ -270,17 +273,14 @@ export default function DesignedProducts(props: IProductProps) {
                         />
                       );
                     })}
-                    {response?.totalPages == 0 ? (
-                      <></>
-                    ) : (
-                      <div className="d-flex justify-content-center">
-                        <PaginationComponent
-                          total={response?.totalPages}
-                          filter={filter}
-                          setFilter={setFilter}
-                        />
-                      </div>
-                    )}
+
+                    <div className="d-flex justify-content-center">
+                      <PaginationComponent
+                        total={totalPages}
+                        filter={filter}
+                        setFilter={setFilter}
+                      />
+                    </div>
                   </div>
                   {/*end row*/}
                 </div>

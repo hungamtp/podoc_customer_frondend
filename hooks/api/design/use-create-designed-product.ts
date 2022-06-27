@@ -14,7 +14,7 @@ const useCreateBlueprintByProduct = (handleCloseDialog: () => void) => {
     {
       onSuccess: (data) => {
         //because data:any
-        router.push("/design");
+        router.push("/mydesign");
         handleCloseDialog();
         // router.back();
       },

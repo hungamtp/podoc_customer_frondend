@@ -1,16 +1,92 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { PageWithHero } from "@/components/layouts/page-with-hero";
+import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
+import useUpdateCart from "@/hooks/api/cart/use-update-cart";
 import useGetOthersDesignById from "@/hooks/api/design/use-get-others-design-by-id";
+import {
+  updateQuantityCartDetail,
+  addNewCartDetail,
+} from "@/redux/slices/cart";
+import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
+import { nanoid } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
 import * as React from "react";
 
 export default function DesignedProductDetail() {
   const router = useRouter();
-
+  const dispatch = useAppDispatch();
   const { design } = router.query;
   const { data: designedProduct, isLoading: isLoading } =
     useGetOthersDesignById(Number(design));
+  const {
+    mutate: addToCart,
+    data: cartDetailFromAPI,
+    isLoading: isLoadingAddNewCartDetail,
+    error,
+  } = useAddToCart();
+  const carts = useAppSelector((state) => state.carts);
+  const [cart, setCart] = React.useState<CartDetailDTO>();
+
+  const [selectedSize, setSelectedSize] = React.useState<string>("");
+  const [selectedColor, setSelectedColor] = React.useState<string>("");
+  const haveProduct = carts?.length != 0;
+  const [quantity, setQuantity] = React.useState(0);
+
+  const { mutate: updateCart } = useUpdateCart();
+
+  React.useEffect(() => {
+    if (cartDetailFromAPI) {
+      dispatch(addNewCartDetail(cartDetailFromAPI));
+      setCart(cartDetailFromAPI);
+    }
+  }, [cartDetailFromAPI]);
+
+  const productDontHaveEnoughQuatity = useAppSelector(
+    (state) => state.checkCartSlice
+  );
+
+  const updateQuantity = (newQuantity: number) => {
+    const indentity = selectedColor + selectedSize;
+    const cartDetailExisted = carts.some((cart) => {
+      setCart(cart);
+      return `${cart.color + cart.size}` === indentity;
+    });
+    console.log(cartDetailExisted, "detaill");
+    if (cartDetailExisted) {
+      updateCartDetailQuantity(newQuantity);
+    } else {
+      addNewDetail(newQuantity);
+    }
+  };
+
+  const addNewDetail = (newQuantity: number) => {
+    const newCartDetail: AddToCartDTO = {
+      designId: Number(design),
+      color: selectedColor,
+      size: selectedSize,
+      quantity: newQuantity,
+    };
+    addToCart(newCartDetail);
+  };
+
+  const updateCartDetailQuantity = (newQuantity: number) => {
+    console.log(cart, "detaill");
+    if (cart) {
+      dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
+      setQuantity(newQuantity);
+      const newCart: CartDetailDTO[] = [];
+      carts.forEach((cartDetail) => {
+        if (cartDetail.id != cart.id) {
+          newCart.push(cartDetail);
+        }
+      });
+      newCart.push({ ...cart, quantity: newQuantity });
+      updateCart(newCart);
+    }
+  };
+
   const getRates = (rate: number): number[] => {
     let result = [];
     rate = Math.ceil(rate);
@@ -29,15 +105,6 @@ export default function DesignedProductDetail() {
   };
   const goToProfile = (userId: number) => {
     console.log(userId);
-  };
-  const [checked, setChecked] = React.useState<string>();
-  const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // setChecked(event.target.checked);
-    // if (checked === true) {
-    //   setCheckValue(event.target.value);
-    //   console.log(checkValue, "check");
-    // }
-    // console.log(checked, "check");
   };
 
   return (
@@ -65,7 +132,7 @@ export default function DesignedProductDetail() {
 
                     <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                       <div className="section-title ms-md-4">
-                        <h4 className="title"> {designedProduct?.name}</h4>
+                        <h4 className="title"> {designedProduct.name}</h4>
                         <div className="d-flex">
                           <ul className="list-unstyled">
                             {getRates(designedProduct.rating).map((rate) => {
@@ -144,75 +211,58 @@ export default function DesignedProductDetail() {
                               <div className="d-flex align-items-center">
                                 <h6 className="mb-0">Size:</h6>
                                 <ul className="list-unstyled mb-0 ms-3">
-                                  <li className="list-inline-item">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
+                                  {designedProduct.sizes.map((size) => (
+                                    <li
+                                      key={size}
+                                      className="list-inline-item ms-1"
                                     >
-                                      S
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      M
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      L
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      XL
-                                    </a>
-                                  </li>
+                                      <button
+                                        className={`${
+                                          size === selectedSize
+                                            ? `is-select`
+                                            : "my-button"
+                                        }`}
+                                        onClick={() => setSelectedSize(size)}
+                                      >
+                                        {size}
+                                      </button>
+                                    </li>
+                                  ))}
                                 </ul>
                               </div>
                               <div className="d-flex align-items-center pt-4">
                                 <h6 className="mb-0">Màu:</h6>
                                 <ul className="list-unstyled mb-0 ms-3">
-                                  <li className="list-inline-item">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
+                                  {designedProduct.colors.map((color) => (
+                                    <li
+                                      key={color.image}
+                                      className="list-inline-item ms-1"
                                     >
-                                      S
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      M
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      L
-                                    </a>
-                                  </li>
-                                  <li className="list-inline-item ms-1">
-                                    <a
-                                      href="javascript:void(0)"
-                                      className="btn btn-icon btn-soft-primary"
-                                    >
-                                      XL
-                                    </a>
-                                  </li>
+                                      <div
+                                        className={` ${
+                                          color.name === selectedColor &&
+                                          "border-blue"
+                                        }`}
+                                        onClick={() => {
+                                          setSelectedColor(color.name);
+                                        }}
+                                      >
+                                        <img
+                                          width={30}
+                                          height={30}
+                                          className="rounded-circle border"
+                                          src={
+                                            "https://images.printify.com/5853fec7ce46f30f8328200a"
+                                          }
+                                          style={{
+                                            backgroundColor: color.image,
+                                            opacity: "0.8",
+                                          }}
+                                          alt={color.image}
+                                        />
+                                      </div>
+                                    </li>
+                                  ))}
                                 </ul>
                               </div>
                             </div>
@@ -221,17 +271,30 @@ export default function DesignedProductDetail() {
                               <div className="d-flex shop-list align-items-center">
                                 <h6 className="mb-0">Quantity:</h6>
                                 <div className="qty-icons ms-3">
-                                  <button className="btn btn-icon btn-soft-primary minus">
+                                  <button
+                                    className={`btn btn-icon btn-soft-primary minus ${
+                                      quantity == 1 && "disabled"
+                                    } ${cart && !cart.publish && " disabled"}`}
+                                    onClick={() => setQuantity(quantity - 1)}
+                                  >
                                     -
                                   </button>
                                   <input
-                                    min={0}
                                     name="quantity"
-                                    defaultValue={0}
                                     type="number"
+                                    min={1}
+                                    value={quantity}
+                                    onChange={(e: any) =>
+                                      setQuantity(Number(e.target.value))
+                                    }
                                     className="btn btn-icon btn-soft-primary qty-btn quantity"
                                   />
-                                  <button className="btn btn-icon btn-soft-primary plus">
+                                  <button
+                                    className={`btn btn-icon btn-soft-primary plus  ${
+                                      cart && !cart.publish && " disabled"
+                                    }`}
+                                    onClick={() => setQuantity(quantity + 1)}
+                                  >
                                     +
                                   </button>
                                 </div>
@@ -241,18 +304,18 @@ export default function DesignedProductDetail() {
                           </div>
                           {/*end row*/}
                           <div className="mt-4 pt-2">
-                            <a
-                              href="javascript:void(0)"
+                            <button
                               className="btn btn-primary"
+                              onClick={() => router.push("/carts")}
                             >
                               Shop Now
-                            </a>
-                            <a
-                              href="shop-cart.html"
+                            </button>
+                            <button
                               className="btn btn-soft-primary ms-2"
+                              onClick={() => updateQuantity(quantity)}
                             >
                               Add to Cart
-                            </a>
+                            </button>
                           </div>
                         </div>
 

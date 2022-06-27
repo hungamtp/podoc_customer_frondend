@@ -18,7 +18,10 @@ export default function Design({ product }: Props) {
       <td>
         <div className="d-flex align-items-center">
           <img
-            src={product.imagePreviews[0].image}
+            src={
+              product.imagePreviews[0]?.image ||
+              "https://kravmaganewcastle.com.au/wp-content/uploads/2017/04/default-image.jpg"
+            }
             className="img-fluid avatar avatar-small rounded shadow"
             style={{ height: "auto" }}
             alt="product"

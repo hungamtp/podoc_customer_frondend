@@ -17,6 +17,7 @@ export default function Header({}: Props) {
     dispatch(setCart([]));
     router.push("/login");
   };
+  console.log(cart, "cart neee");
   function toggleMenu(): void {
     var isOpen = document.getElementById("navigation");
     if (isOpen) {

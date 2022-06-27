@@ -43,19 +43,18 @@ export interface getOthersDesignProductDto extends ISuccessHttpResponse {
   data: ShownDesignedProduct;
 }
 
-export interface getAllDesignProductDto extends ISuccessHttpResponse {
-  data: {
-    content: ShownDesignedProduct[];
-    totalElements: number;
-    totalPages: number;
-    number: number;
-  };
-}
 export interface getAllSimpleDesignProductDto extends ISuccessHttpResponse {
   data: {
     content: SimpleDesignProduct[];
     totalElements: number;
     totalPages: number;
     number: number;
+  };
+}
+export interface getAllDesignProductDto extends ISuccessHttpResponse {
+  data: {
+    data: ShownDesignedProduct[];
+    page: number;
+    elements: number;
   };
 }
