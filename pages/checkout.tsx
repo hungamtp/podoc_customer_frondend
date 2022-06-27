@@ -283,22 +283,18 @@ export default function Checkout({}: Props) {
                       </label>
                     </div>
                     <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
-                    <PayPalButtons
-                      createOrder={(data, actions) => {
-                        return actions.order.create({
-                          purchase_units: [
-                            {
-                              description: "test",
-                              amount: {
-                                currency_code: "USD",
-                                value: "totalPrice",
-                              },
-                            },
-                          ],
-                        });
-                      }}
-                      style={{ layout: "vertical" }}
-                    />
+                    <div className="checkout-button">
+                    <div className="checkout-selector">
+                      <input type="radio" className="btn btn-m2 btn-checkout btn-logo-inline" />
+                      </div>
+                    <div className="content" style={{  display: "flex",
+                    alignItems: "center"}}>
+                      <span className="checkout-title">
+                      Thanh toán bằng
+                    </span>
+                      <img  src="asset/images/momologo.svg" width="25" alt="momo"/>
+                    </div>
+                  </div>
                     <button className="w-100 btn btn-primary" type="submit">
                       Continue to checkout
                     </button>

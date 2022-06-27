@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 /* eslint-disable @next/next/no-sync-scripts */
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-title-in-document-head */
@@ -31,7 +32,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             type="text/css"
           />
-
+          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
           <link
             href="/asset/css/tobii.min.css"
             rel="stylesheet"
