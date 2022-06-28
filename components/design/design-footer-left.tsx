@@ -11,9 +11,12 @@ import {
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import CreateDesignedProductForm from "./designed-product-info";
-export interface IDesignHeaderLeftProps {}
+import EditDesignForm from "./edit-design";
+export interface IDesignHeaderLeftProps {
+  isEdit: boolean;
+}
 
-export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
+export default function DesignHeaderLeft({ isEdit }: IDesignHeaderLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -142,9 +145,12 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         aria-describedby="alert-dialog-description"
         fullWidth={true}
       >
-        <DialogTitle id="alert-dialog-title">Tạo mẫu thiết kế</DialogTitle>
         <DialogContent>
-          <CreateDesignedProductForm handleCloseDialog={handleCloseDialog} />
+          {isEdit ? (
+            <EditDesignForm handleCloseDialog={handleCloseDialog} />
+          ) : (
+            <CreateDesignedProductForm handleCloseDialog={handleCloseDialog} />
+          )}
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>

@@ -8,6 +8,7 @@ import {
   cloneDesignInfo,
   deleteDesignInfo,
   setValue,
+  updateTmpSrc,
   updateUniqueData,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
@@ -213,12 +214,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       const designInfos = blueprint.designInfos;
       if (designInfos) {
         designInfos.forEach((design) => {
-          if (design.tmpSrc) addRect(design);
-          else {
-            getBase64FromUrl(design.src).then((base64) =>
-              addRect({ ...design, tmpSrc: base64 })
-            );
-          }
+          addRect(design);
         });
       }
     }
@@ -690,30 +686,60 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           canvas.add(newText);
           canvas.renderAll();
         } else {
-          fabric.Image.fromURL(
-            design.tmpSrc,
-            (image: fabric.Image) => {
-              image.set("name", design.key);
-              image.set("left", imageLeft);
-              image.set("top", imageTop);
-              image.set("angle", design.rotate);
-              image.set("opacity", 100);
-              image.set("noScaleCache", true);
-              image.transparentCorners = false;
-              image.centeredScaling = true;
-              image.scaleToWidth(imageWidth || 150);
-              image.set("clipPath", placeHolder.rect);
-              image.setControlsVisibility({
-                mt: false, // middle top disable
-                mb: false, // midle bottom
-                ml: false, // middle left
-                mr: false, // I think you get it
-              });
-              canvas.add(image);
-              canvas.renderAll();
-            },
-            { crossOrigin: "anonymous" }
-          );
+          if (!design.tmpSrc) {
+            getBase64FromUrl(design.src).then((tmpSrc) => {
+              fabric.Image.fromURL(
+                tmpSrc,
+                (image: fabric.Image) => {
+                  image.set("name", design.key);
+                  image.set("left", imageLeft);
+                  image.set("top", imageTop);
+                  image.set("angle", design.rotate);
+                  image.set("opacity", 100);
+                  image.set("noScaleCache", true);
+                  image.transparentCorners = false;
+                  image.centeredScaling = true;
+                  image.scaleToWidth(imageWidth || 150);
+                  image.set("clipPath", placeHolder.rect);
+                  image.setControlsVisibility({
+                    mt: false, // middle top disable
+                    mb: false, // midle bottom
+                    ml: false, // middle left
+                    mr: false, // I think you get it
+                  });
+                  canvas.add(image);
+                  canvas.renderAll();
+                  dispatch(updateTmpSrc({ key: design.key, tmpSrc: tmpSrc }));
+                },
+                { crossOrigin: "anonymous" }
+              );
+            });
+          } else {
+            fabric.Image.fromURL(
+              design.tmpSrc,
+              (image: fabric.Image) => {
+                image.set("name", design.key);
+                image.set("left", imageLeft);
+                image.set("top", imageTop);
+                image.set("angle", design.rotate);
+                image.set("opacity", 100);
+                image.set("noScaleCache", true);
+                image.transparentCorners = false;
+                image.centeredScaling = true;
+                image.scaleToWidth(imageWidth || 150);
+                image.set("clipPath", placeHolder.rect);
+                image.setControlsVisibility({
+                  mt: false, // middle top disable
+                  mb: false, // midle bottom
+                  ml: false, // middle left
+                  mr: false, // I think you get it
+                });
+                canvas.add(image);
+                canvas.renderAll();
+              },
+              { crossOrigin: "anonymous" }
+            );
+          }
         }
       }
     },

@@ -7,7 +7,7 @@ export interface DesignedProduct {
   publish: boolean;
   designedPrice: number;
   priceFromFactory: number;
-  colors: string[];
+  colorsObj: { id: number; name: string; image: string }[];
   imagePreviews: { position: string; image: string }[];
   bluePrints: Blueprint[];
 }

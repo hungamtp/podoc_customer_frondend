@@ -260,11 +260,6 @@ input[type=number] {
 }
 
 
-html, body{
-  color: #ae2070;
-  font-family: 'Roboto', sans-serif;
-}
-
 .checkout-button {
   display: flex;
   align-items: center;

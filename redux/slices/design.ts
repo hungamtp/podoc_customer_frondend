@@ -126,6 +126,22 @@ export const designSlice = createSlice({
       state.isEmpty = action.payload.isEmpty;
       state.designInfos = action.payload.designInfos;
     },
+    updateTmpSrc: (state, action) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      state.designInfos = state.designInfos.map((designInfo) => {
+        // console.log(action.payload.choosenKey === designInfo.key, 'chay nee');
+        if (designInfo.key === action.payload.key) {
+          return {
+            ...designInfo,
+            tmpSrc: action.payload.tmpSrc,
+          };
+        }
+        return designInfo;
+      });
+    },
   },
 });
 
@@ -137,6 +153,7 @@ export const {
   cloneDesignInfo,
   updateDesignInfos,
   updateUniqueData,
+  updateTmpSrc,
 } = designSlice.actions;
 
 export default designSlice.reducer;

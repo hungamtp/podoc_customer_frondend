@@ -5,6 +5,7 @@ import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-p
 import { GetAllDesignFilter } from "@/services/design";
 import { SimpleDesignProduct } from "@/services/design/dto";
 import { Link } from "@material-ui/icons";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 export default function Design({ product }: Props) {
   const { mutate, isLoading } = usePublishDesignedProduct();
+  const router = useRouter();
   return (
     <tr className="shop-list">
       <td>
@@ -110,9 +112,12 @@ export default function Design({ product }: Props) {
                 Đăng bán
               </div>
             )}
-            <a href=" " className="d-flex align-items-center mt-1">
+            <div
+              className="d-flex align-items-center mt-1 cursor-pointer"
+              onClick={() => router.push(`/my-product/${product.id}`)}
+            >
               Chi tiết
-            </a>
+            </div>
           </div>
         </div>
       </td>
