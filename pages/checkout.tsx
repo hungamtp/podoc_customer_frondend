@@ -1,12 +1,26 @@
-import { MainLayout } from "@/components/layouts";
-import { PayPalButtons } from "@paypal/react-paypal-js";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { MainLayout } from "@/components/layouts"; 
+import React, { useEffect } from "react"; 
+import useCreatePaymentTransaction from "@/hooks/api/order/use-create-transaction";
 
 type Props = {};
 
 export default function Checkout({}: Props) {
   const handleOrder = async () => {};
+  const { mutate: createPaymentTransaction, isLoading, error } = useCreatePaymentTransaction();
+  const handleCheckout  = () => {
+    const res = createPaymentTransaction(
+      {},
+      {
+        onSuccess : (data) =>{
+          // const qrCode = $($.parseHTML)
+          // const rp = fetch(data.data.payUrl).then(response => response.json())
+          // .then(data => console.log(data))
+          window.open(data.data.payUrl , "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800")
+        }
+      }
+    )
+
+  }
   return (
     <>
       <div>
@@ -99,7 +113,6 @@ export default function Checkout({}: Props) {
                       <strong>$20</strong>
                     </li>
                   </ul>
-                  <form>
                     <div className="input-group">
                       <input
                         type="text"
@@ -110,14 +123,14 @@ export default function Checkout({}: Props) {
                         Redeem
                       </button>
                     </div>
-                  </form>
+
                 </div>
               </div>
               {/*end col*/}
               <div className="col-md-7 col-lg-8">
                 <div className="card rounded shadow p-4 border-0">
                   <h4 className="mb-3">Billing address</h4>
-                  <form className="needs-validation" noValidate>
+ 
                     <div className="row g-3">
                       <div className="col-sm-6">
                         <label htmlFor="firstName" className="form-label">
@@ -295,10 +308,10 @@ export default function Checkout({}: Props) {
                       <img  src="asset/images/momologo.svg" width="25" alt="momo"/>
                     </div>
                   </div>
-                    <button className="w-100 btn btn-primary" type="submit">
+                    <button className="w-100 btn btn-primary"   onClick={handleCheckout}>
                       Continue to checkout
                     </button>
-                  </form>
+ 
                 </div>
               </div>
               {/*end col*/}
