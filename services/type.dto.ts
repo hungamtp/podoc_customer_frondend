@@ -1,5 +1,6 @@
 import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
 import { User } from "@/models/user";
+import { number, string } from "yup";
 
 
 export interface LoginDto {
@@ -140,6 +141,20 @@ export interface AddToCartDTO{
   quantity : number
 }
 
+export interface PaymentResponse{
+  requestId : string; 
+  amount : number; 
+  payUrl : string; 
+  shortLink :string; 
+  deeplink : string; 
+  qrCodeUrl : string; 
+  deeplinkWebInApp : string; 
+  transId : number; 
+  applink : string; 
+  partnerClientId : string; 
+  bindingUrl : string; 
+  deeplinkMiniApp : string;
+}
 export interface AddToCartResponseDTO {
   data: CartDetailDTO,
   errorMessage: string
