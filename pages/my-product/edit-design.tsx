@@ -4,16 +4,20 @@ import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
+import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
+import { Blueprint } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { nanoid } from "@reduxjs/toolkit";
+import { updateDesignInfos } from "@/redux/slices/design";
+import { setControlData } from "@/redux/slices/designControl";
 import { useRouter } from "next/router";
+import { nanoid } from "nanoid";
 import * as React from "react";
-import { Blueprint } from "../models";
+
 // import dynamic from 'next/dynamic';
 
 // const Header = dynamic(() => import('@/components/common/main-header'), { ssr: false });
 
-export interface AboutPageProps {}
+export interface EditDesignProps {}
 
 const blueprintInit = [
   {
@@ -87,15 +91,18 @@ const blueprintInit = [
   },
 ] as Blueprint[];
 
-export default function AboutPage(props: AboutPageProps) {
+export default function EditDesign(props: EditDesignProps) {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const { productId } = router.query;
-  const { data: blueprints, isLoading: isLoading } = useGetBlueprintByProduct(
-    Number(productId)
+  const { designId } = router.query;
+  const { data: response, isLoading: isLoading } = useGetDesignById(
+    Number(designId)
   );
   const position = useAppSelector((state) => state.blueprintsData.position);
+  const blueprints = response?.bluePrints;
+
+  console.log(blueprints, "blueprintss");
 
   const renderedBlueprint = blueprints || blueprintInit;
 
@@ -104,15 +111,35 @@ export default function AboutPage(props: AboutPageProps) {
   );
 
   React.useEffect(() => {
-    if (blueprints)
+    if (blueprints) {
+      blueprints.forEach((blueprint) => {
+        blueprint.designInfos?.forEach((designInfo) => {
+          designInfo.key = nanoid();
+        });
+      });
       dispatch(
         updateBlueprint({
           position: blueprints[0].position,
           blueprints: blueprints,
         })
       );
-  }, [blueprints]);
 
+      dispatch(
+        updateDesignInfos({
+          isEmpty: false,
+          designInfos: blueprints[0].designInfos,
+        })
+      );
+
+      dispatch(
+        setControlData({
+          isSetImage: false,
+          isChooseImage: true,
+          isEmpty: false,
+        })
+      );
+    }
+  }, [response]);
   const [isPreview, setIsPreview] = React.useState(false);
 
   const openPreview = () => {
@@ -133,7 +160,7 @@ export default function AboutPage(props: AboutPageProps) {
         />
 
         {isPreview ? <PreviewCanvas /> : designCanvas}
-        <DesignFooterLeft isEdit={false} />
+        <DesignFooterLeft isEdit={true} />
       </>
     </div>
   );

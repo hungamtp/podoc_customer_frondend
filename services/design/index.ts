@@ -31,6 +31,13 @@ export const getBluprintFromProduct = async (productId: number) => {
   return data.data;
 };
 
+export const getBluprintFromDesign = async (designId: number) => {
+  const { data } = await API.get<GetBlueprintDto>(
+    `/product/design/${designId}`
+  );
+  return data.data;
+};
+
 export const createDesignedProduct = async (
   designedProduct: DesignedProductDto,
   factoryId: number,

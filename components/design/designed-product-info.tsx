@@ -61,7 +61,6 @@ export default function CreateDesignedProductForm(
   const { handleCloseDialog } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
-  const [images, setImages] = React.useState<ImageListType>();
   const router = useRouter();
   const { productId, factoryId } = router.query;
 
@@ -81,51 +80,45 @@ export default function CreateDesignedProductForm(
   });
   const colors = useAppSelector((state) => state.selectedColors);
 
-  const onChange = (imageList: ImageListType, addUpdateIndex: any) => {
-    setImages(imageList);
-    // data for submit
-  };
   const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
     name: string;
     designedPrice: number;
     description: string;
   }) => {
-    if (images !== null) {
-      const imageList = [] as { image: string; position: string }[];
-      previews.map((image) => {
-        const file = b64toBlob(image.imageSrc);
-        const imageRef = ref(
-          storage,
-          `images/${data.name + "-" + image.position}`
-        );
+    const imageList = [] as { image: string; position: string }[];
+    previews.map((image) => {
+      const file = b64toBlob(image.imageSrc);
+      const imageRef = ref(
+        storage,
+        `images/${data.name + "-" + image.position}`
+      );
 
-        uploadBytes(imageRef, file).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            const position = url.split("%2F")[1].split("-")[1].split("?")[0];
-            imageList.push({ image: url, position: position });
-            const submitBlueprint = blueprints.map((blueprint) => {
-              if (blueprint.designInfos) return blueprint;
-              return { ...blueprint, designInfos: [] };
-            });
-            if (imageList.length === previews.length) {
-              setIsLoading(false);
-              console.log(submitBlueprint, "blueprint ne");
-              const submitData = {
-                ...data,
-                colors: colors,
-                imagePreviews: imageList,
-                bluePrintDtos: submitBlueprint,
-                factoryId: Number(factoryId),
-                productId: Number(productId),
-              } as unknown as DesignedProductDto;
-
-              addDesignedProduct(submitData);
-            }
+      uploadBytes(imageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          const position = url.split("%2F")[1].split("-")[1].split("?")[0];
+          imageList.push({ image: url, position: position });
+          const submitBlueprint = blueprints.map((blueprint) => {
+            if (blueprint.designInfos) return blueprint;
+            return { ...blueprint, designInfos: [] };
           });
+          if (imageList.length === previews.length) {
+            setIsLoading(false);
+            console.log(submitBlueprint, "blueprint ne");
+            const submitData = {
+              ...data,
+              colors: colors,
+              imagePreviews: imageList,
+              bluePrintDtos: submitBlueprint,
+              factoryId: Number(factoryId),
+              productId: Number(productId),
+            } as unknown as DesignedProductDto;
+
+            addDesignedProduct(submitData);
+          }
         });
       });
-    }
+    });
   };
 
   const {

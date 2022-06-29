@@ -155,7 +155,7 @@ export default function MyDesinedProduct(props: IMyDesinedProductProps) {
                                 </TableCell>
 
                                 <TableCell sx={{ fontSize: 12 }} align="left">
-                                  {numberWithCommas(row.price)}
+                                  {numberWithCommas(row.designedPrice)}
                                 </TableCell>
                                 <TableCell sx={{ fontSize: 12 }} align="left">
                                   {row.publish
