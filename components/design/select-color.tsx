@@ -4,6 +4,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import * as React from "react";
 import { setColors } from "@/redux/slices/selectedColors";
 import { useAppDispatch } from "../hooks/reduxHook";
+import { useRouter } from "next/router";
+import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 export interface ISelectColorProps {}
 
 const ITEM_HEIGHT = 48;
@@ -16,8 +18,11 @@ const MenuProps = {
     },
   },
 };
-const colors = ["white", "black", "red", "yellow"];
 export default function SelectColor(props: ISelectColorProps) {
+  const router = useRouter();
+  const { productId, factoryId } = router.query;
+  const { data: colors, isLoading: isLoadingColors } =
+    useGetColorsByFactoryAndProductId(Number(factoryId), Number(productId));
   const [colorsList, setColorsList] = React.useState<string[]>([]);
   const dispatch = useAppDispatch();
   const handleChange = (event: SelectChangeEvent<typeof colorsList>) => {
@@ -36,69 +41,76 @@ export default function SelectColor(props: ISelectColorProps) {
     <div>
       <div className="d-flex flex-column">
         <label>Màu áo</label>
-        <FormControl sx={{ mb: 1, width: 400 }}>
-          <Select
-            multiple
-            disableUnderline
-            displayEmpty
-            value={colorsList}
-            onChange={handleChange}
-            variant="standard"
-            renderValue={(selected) => {
-              if (selected.length === 0) {
-                return (
+        {colors && (
+          <FormControl sx={{ mb: 1, width: 400 }}>
+            <Select
+              multiple
+              disableUnderline
+              displayEmpty
+              value={colorsList}
+              onChange={handleChange}
+              variant="standard"
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return (
+                    <img
+                      key={colors[0].image}
+                      width={30}
+                      height={30}
+                      className="rounded-circle border"
+                      src={
+                        "https://images.printify.com/5853fec7ce46f30f8328200a"
+                      }
+                      style={{
+                        backgroundColor: colors[0].image,
+                        opacity: "0.8",
+                      }}
+                      alt={colors[0].name}
+                    />
+                  );
+                }
+
+                return selected.map((color) => (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    key={colors[0]}
+                    key={color}
                     width={30}
                     height={30}
                     className="rounded-circle border"
                     src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
-                    style={{ backgroundColor: colors[0], opacity: "0.8" }}
-                    alt={colors[0]}
+                    style={{
+                      backgroundColor: color,
+                      marginRight: "0.5rem",
+                      opacity: "0.8",
+                    }}
+                    alt={color}
                   />
-                );
-              }
-
-              return selected.map((color) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={color}
-                  width={30}
-                  height={30}
-                  className="rounded-circle border"
-                  src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
-                  style={{
-                    backgroundColor: color,
-                    marginRight: "0.5rem",
-                    opacity: "0.8",
-                  }}
-                  alt={color}
-                />
-              ));
-            }}
-            MenuProps={MenuProps}
-            inputProps={{ "aria-label": "Without label" }}
-          >
-            {colors.map((name) => (
-              <MenuItem
-                key={name}
-                value={name}
-                className="d-flex justify-content-between"
-              >
-                <p className="m-0">{name}</p>
-                <img
-                  key={name}
-                  width={30}
-                  height={30}
-                  className="rounded-circle border"
-                  src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
-                  style={{ backgroundColor: name, opacity: "0.8" }}
-                  alt={name}
-                />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+                ));
+              }}
+              MenuProps={MenuProps}
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              {colors.map((color) => (
+                <MenuItem
+                  key={color.name}
+                  value={color.image}
+                  className="d-flex justify-content-between"
+                >
+                  <p className="m-0">{color.name}</p>
+                  <img
+                    key={color.name}
+                    width={30}
+                    height={30}
+                    className="rounded-circle border"
+                    src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
+                    style={{ backgroundColor: color.image, opacity: "0.8" }}
+                    alt={color.name}
+                  />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </div>
     </div>
   );
