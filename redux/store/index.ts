@@ -10,6 +10,7 @@ import productDetailReducer from "@/redux/slices/product";
 import selectedColorsReducer from "@/redux/slices/selectedColors";
 import cartsReducer from "@/redux/slices/cart";
 import checkCartSliceReducer from "@/redux/slices/checkCart";
+import isEditSliceReducer from "@/redux/slices/isEdit";
 
 import {
   persistStore,
@@ -33,7 +34,7 @@ const persistConfig = {
     "blueprintsData",
     "choosenKey",
     "previews",
-    "selectedColors" 
+    "selectedColors",
   ],
 };
 
@@ -48,7 +49,8 @@ const rootReducer = combineReducers({
   productDetail: productDetailReducer,
   selectedColors: selectedColorsReducer,
   carts: cartsReducer,
-  checkCartSlice : checkCartSliceReducer,
+  checkCartSlice: checkCartSliceReducer,
+  isEdit: isEditSliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
