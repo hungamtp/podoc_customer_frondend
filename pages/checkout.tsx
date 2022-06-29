@@ -1,26 +1,157 @@
-import { MainLayout } from "@/components/layouts"; 
-import React, { useEffect } from "react"; 
+import { MainLayout } from "@/components/layouts";
+import React, { useEffect, useState } from "react";
 import useCreatePaymentTransaction from "@/hooks/api/order/use-create-transaction";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Dialog, DialogContent } from "@mui/material";
+import { nanoid } from "@reduxjs/toolkit";
+import { ShippingInfo } from "@/services/order/dto";
+import useAddOrder from "@/hooks/api/order/use-create-order";
+import { useAppSelector } from "@/components/hooks/reduxHook";
+import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
 
 type Props = {};
 
+const shippingArray = [
+  {
+    name: "Nguyen Minh Hieu",
+    email: "hieuthomnghiep@gmail.com",
+    address: "thai binh que anh",
+    phone: "0907543291",
+  },
+  {
+    name: "Nguyen Van Tai",
+    email: "nguyenvantai@gmail.com",
+    address: "ca mau que anh",
+    phone: "0907543291",
+  },
+  {
+    name: "Nguyen Van Ttuan",
+    email: "nguyenvantuan@gmail.com",
+    address: "thai thuy que anh",
+    phone: "0907543291",
+  },
+];
+
 export default function Checkout({}: Props) {
   const handleOrder = async () => {};
-  const { mutate: createPaymentTransaction, isLoading, error } = useCreatePaymentTransaction();
-  const handleCheckout  = () => {
-    const res = createPaymentTransaction(
-      {},
-      {
-        onSuccess : (data) =>{
-          // const qrCode = $($.parseHTML)
-          // const rp = fetch(data.data.payUrl).then(response => response.json())
-          // .then(data => console.log(data))
-          window.open(data.data.payUrl , "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800")
-        }
-      }
-    )
+  const {data:shippingInfos,isLoading:isLoadingShippingInfos} = useGetAllShippingInfo();
+  const cart = useAppSelector(state=>state.carts);
 
-  }
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
+  const handleOpenDialog = () => {
+    setIsOpen(true);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    mutate: createPaymentTransaction,
+    isLoading,
+    error,
+  } = useCreatePaymentTransaction();
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email()
+      .min(8, "Email cần ít nhất 8 kí tự")
+      .max(50, "Email tối đa 50 kí tự")
+      .required("Email không được để trống"),
+    address: yup
+      .string()
+      .min(8, "Email cần ít nhất 8 kí tự")
+      .max(26, "Email tối đa 50 kí tự"),
+    name: yup
+      .string()
+      .min(8, "Tên cần ít nhất 8 kí tự")
+      .max(26, "Tên tối đa 50 kí tự")
+      .required("Tên không được để trống"),
+    phone: yup
+      .string()
+      .min(8, "Số điện thoại cần ít nhất 8 kí tự")
+      .max(26, "Số điện thoại tối đa 50 kí tự")
+      .required("Số điện thoại không được để trống"),
+  });
+  const form = useForm<ShippingInfo>({
+    defaultValues: {
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+      shouldSave: true,
+    },
+    resolver: yupResolver(schema),
+  });
+
+  const { mutate: addShippingInfo, isLoading: isUpdatingInfo } = useAddOrder();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = form;
+
+  const submit: SubmitHandler<ShippingInfo> = (data) => {
+    addShippingInfo({cartId:cart.,shippingInfo:data});
+  };
+
+  const handleChange = (shipping: {
+    name: string;
+    email: string;
+    address: string;
+    phone: string;
+  }) => {
+    handleCloseDialog();
+    reset(shipping);
+  };
+
+  const shippingInfosList = shippingInfos?.map((shipping) => (
+    <div
+      key={nanoid()}
+      className="p-4 card rounded shadow mb-4 btn"
+      onClick={() => handleChange(shipping)}
+    >
+      <div className="d-flex justify-content-between">
+        <span className="">Tên khách hàng</span>
+        <p className="text-left w-half">{shipping.name}</p>
+      </div>
+      <div className="d-flex justify-content-between">
+        <span className="">Email</span>
+        <p className="text-left w-half">{shipping.email}</p>
+      </div>
+      <div className="d-flex justify-content-between">
+        <span className="">Địa chỉ</span>
+        <p className="text-left w-half">{shipping.address}</p>
+      </div>
+      <div className="d-flex justify-content-between">
+        <span className="">Số điện thoại</span>
+        <p className="text-left w-half">{shipping.phone}</p>
+      </div>
+    </div>
+  ));
+
+  const handleCheckout = () => {
+    handleSubmit(submit);
+    // const res = createPaymentTransaction(
+    //   {},
+    //   {
+    //     onSuccess: (data) => {
+    //       // const qrCode = $($.parseHTML)
+    //       // const rp = fetch(data.data.payUrl).then(response => response.json())
+    //       // .then(data => console.log(data))
+    //       window.open(
+    //         data.data.payUrl,
+    //         "_blank",
+    //         "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800"
+    //       );
+    //     },
+    //   }
+    // );
+  };
   return (
     <>
       <div>
@@ -113,206 +244,163 @@ export default function Checkout({}: Props) {
                       <strong>$20</strong>
                     </li>
                   </ul>
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Promo code"
-                      />
-                      <button type="submit" className="btn btn-secondary">
-                        Redeem
-                      </button>
-                    </div>
-
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Promo code"
+                    />
+                    <button type="submit" className="btn btn-secondary">
+                      Redeem
+                    </button>
+                  </div>
                 </div>
               </div>
               {/*end col*/}
               <div className="col-md-7 col-lg-8">
-                <div className="card rounded shadow p-4 border-0">
-                  <h4 className="mb-3">Billing address</h4>
- 
-                    <div className="row g-3">
-                      <div className="col-sm-6">
-                        <label htmlFor="firstName" className="form-label">
-                          First name
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="firstName"
-                          placeholder="First Name"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Valid first name is required.
-                        </div>
-                      </div>
-                      <div className="col-sm-6">
-                        <label htmlFor="lastName" className="form-label">
-                          Last name
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="lastName"
-                          placeholder="Last Name"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Valid last name is required.
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="username" className="form-label">
-                          Username
-                        </label>
-                        <div className="input-group has-validation">
-                          <span className="input-group-text bg-light text-muted border">
-                            @
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="username"
-                            placeholder="Username"
-                            required
-                          />
-                          <div className="invalid-feedback">
-                            {" "}
-                            Your username is required.{" "}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="email" className="form-label">
-                          Email <span className="text-muted">(Optional)</span>
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email"
-                          placeholder="you@example.com"
-                        />
-                        <div className="invalid-feedback">
-                          Please enter a valid email address for shipping
-                          updates.
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="address" className="form-label">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="address"
-                          placeholder="1234 Main St"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Please enter your shipping address.
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <label htmlFor="address2" className="form-label">
-                          Address 2{" "}
-                          <span className="text-muted">(Optional)</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="address2"
-                          placeholder="Apartment or suite"
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <label htmlFor="country" className="form-label">
-                          Country
-                        </label>
-                        <select
-                          className="form-select form-control"
-                          id="country"
-                          required
-                        >
-                          <option value="1">Choose...</option>
-                          <option>United States</option>
-                        </select>
-                        <div className="invalid-feedback">
-                          Please select a valid country.
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <label htmlFor="state" className="form-label">
-                          State
-                        </label>
-                        <select
-                          className="form-select form-control"
-                          id="state"
-                          required
-                        >
-                          <option value="1">Choose...</option>
-                          <option>California</option>
-                        </select>
-                        <div className="invalid-feedback">
-                          Please provide a valid state.
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <label htmlFor="zip" className="form-label">
-                          Zip
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="zip"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Zip code required.
-                        </div>
-                      </div>
-                    </div>
-                    <div className="form-check mt-4 pt-4 border-top">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="same-address"
+                <form
+                  className="card rounded shadow p-4 border-0"
+                  onSubmit={handleSubmit(submit)}
+                >
+                  <div className="d-flex justify-content-between">
+                    <h4 className="mb-3">Thông tin giao hàng</h4>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setIsOpen(true);
+                      }}
+                      color="secondary"
+                    >
+                      {/* {(isLoading || isLoadingSubmit) && (
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
                       />
-                      <label
-                        className="form-check-label"
-                        htmlFor="same-address"
-                      >
-                        Shipping address is the same as my billing address
+                    )} */}
+                      Chọn địa chỉ khác
+                    </button>
+                  </div>
+
+                  <div className="row g-3">
+                    <div className="col-sm-6">
+                      <label htmlFor="name" className="form-label">
+                        Họ và tên
                       </label>
-                    </div>
-                    <div className="form-check">
                       <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="save-info"
+                        id="name"
+                        type="text"
+                        className="form-control"
+                        {...register("name")}
                       />
-                      <label className="form-check-label" htmlFor="save-info">
-                        Save this information for next time
-                      </label>
+                      {errors.name && (
+                        <div className="invalid-feedback">
+                          {errors.name.message}
+                        </div>
+                      )}
                     </div>
-                    <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
-                    <div className="checkout-button">
-                    <div className="checkout-selector">
-                      <input type="radio" className="btn btn-m2 btn-checkout btn-logo-inline" />
-                      </div>
-                    <div className="content" style={{  display: "flex",
-                    alignItems: "center"}}>
-                      <span className="checkout-title">
-                      Thanh toán bằng
-                    </span>
-                      <img  src="asset/images/momologo.svg" width="25" alt="momo"/>
+                    <div className="col-sm-6">
+                      <label htmlFor="phone" className="form-label">
+                        Số điện thoại
+                      </label>
+                      <input
+                        id="phone"
+                        type="text"
+                        className="form-control"
+                        {...register("phone")}
+                      />
+                      {errors.phone && (
+                        <div className="invalid-feedback">
+                          {errors.phone.message}
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12">
+                      <label htmlFor="email" className="form-label">
+                        Email <span className="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        id="email"
+                        className="form-control"
+                        placeholder="you@example.com"
+                        {...register("email")}
+                      />
+                      {errors.email && (
+                        <div className="invalid-feedback">
+                          {errors.email.message}
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12">
+                      <label htmlFor="address" className="form-label">
+                        Địa chỉ
+                      </label>
+                      <input
+                        type="text"
+                        id="address"
+                        className="form-control"
+                        {...register("address")}
+                      />
+                      {errors.address && (
+                        <div className="invalid-feedback">
+                          {errors.address.message}
+                        </div>
+                      )}
                     </div>
                   </div>
-                    <button className="w-100 btn btn-primary"   onClick={handleCheckout}>
-                      Continue to checkout
-                    </button>
- 
-                </div>
+                  <div className="form-check mt-4 pt-4 border-top">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="same-address"
+                      {...register("shouldSave")}
+                    />
+                    <label className="form-check-label" htmlFor="same-address">
+                      Lưu lại địa chỉ giao hàng
+                    </label>
+                  </div>
+
+                  <Dialog
+                    open={isOpen}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    fullWidth={true}
+                  >
+                    {shippingInfos&&<DialogContent>
+                      <div className="overflow-y-scroll h-60">
+                        {shippingInfosList}
+                      </div>
+                    </DialogContent>}
+                  </Dialog>
+
+                  <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
+                  <div className="checkout-button">
+                    <div className="checkout-selector">
+                      <input
+                        type="radio"
+                        className="btn btn-m2 btn-checkout btn-logo-inline"
+                      />
+                    </div>
+                    <div
+                      className="content"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <span className="checkout-title">Thanh toán bằng</span>
+                      <img
+                        src="asset/images/momologo.svg"
+                        width="25"
+                        alt="momo"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    className="w-100 btn btn-primary"
+                    onClick={handleCheckout}
+                  >
+                    Continue to checkout
+                  </button>
+                </form>
               </div>
               {/*end col*/}
             </div>

@@ -12,6 +12,7 @@ import {
   updateUniqueData,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
+import { setIsEdit } from "@/redux/slices/isEdit";
 import { fabric } from "fabric";
 import FontFaceObserver from "fontfaceobserver";
 import googleFonts from "google-fonts";
@@ -345,6 +346,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const process_align = (position: string, activeObj: fabric.Object) => {
     if (placeHolder && activeObj) {
+      dispatch(setIsEdit(true));
       if (position === "left") {
         activeObj.set({
           left: 0,
@@ -378,6 +380,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const deleteImage = (key: string, isLast: boolean) => {
     if (canvas) {
+      dispatch(setIsEdit(true));
       const image = _.find(canvas._objects, function (o) {
         return o.name === key;
       });
@@ -426,6 +429,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   };
 
   const cloneDesign = (key: string) => {
+    dispatch(setIsEdit(true));
     if (canvas && placeHolder) {
       const obj = _.find(canvas._objects, function (o) {
         return o.name === key;
@@ -447,6 +451,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const changeText = React.useCallback(
     (key: string, text: string) => {
+      dispatch(setIsEdit(true));
       console.log(text, "texxtt");
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
@@ -467,6 +472,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const changeFont = React.useCallback(
     (key: string, fontName: string) => {
+      dispatch(setIsEdit(true));
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -502,6 +508,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const changeTextColor = React.useCallback(
     (key: string, color: string) => {
+      dispatch(setIsEdit(true));
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -526,6 +533,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const addNewText = React.useCallback(
     (text: string) => {
       if (canvas && placeHolder) {
+        dispatch(setIsEdit(true));
         const imageLeft = (canvas.getWidth() - 150) / 2;
         const imageTop = (canvas.getHeight() - 100) / 2;
         const newName = nanoid();
@@ -586,6 +594,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
 
   const addNewRect = React.useCallback(
     (imgUrl: string, tmpSrc: string) => {
+      dispatch(setIsEdit(true));
       if (canvas && placeHolder) {
         const newName = nanoid();
         fabric.Image.fromURL(

@@ -123,6 +123,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   const defaultWidth =
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
+  const isEdit = useAppSelector((state) => state.isEdit);
 
   const [renderCount, setRenderCount] = React.useState(
     blueprintsData.blueprints.length - 1
@@ -193,6 +194,11 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
     };
   }, []);
   React.useEffect(() => {
+    // if (isEdit) {
+    //   dispatch(clearAllPreview());
+    //   setRenderCount(blueprintsData.blueprints.length - 1);
+    //   setIsDrawPreview(true);
+    // }
     dispatch(clearAllPreview());
     setRenderCount(blueprintsData.blueprints.length - 1);
     setIsDrawPreview(true);
