@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { login as loginAction } from "@/redux/slices/auth";
 import { setCart } from "@/redux/slices/cart";
 import useCart from "@/hooks/api/cart/use-cart";
+
 type FormLogin = {
   email: string;
   password: string;
@@ -60,7 +61,7 @@ export default function Login({ data }: Props) {
       {
         onSuccess: (data) => {
           dispatch(loginAction(data));
-          dispatch(setCart([]));
+          dispatch(setCart(responseCart));
           router.push("/home");
           // router.back();
         },
