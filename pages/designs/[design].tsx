@@ -31,8 +31,7 @@ export default function DesignedProductDetail() {
 
   const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [selectedColor, setSelectedColor] = React.useState<string>("");
-  const haveProduct = carts?.length != 0;
-  const [quantity, setQuantity] = React.useState(0);
+  const [quantity, setQuantity] = React.useState(1);
 
   const { mutate: updateCart } = useUpdateCart();
 
@@ -62,6 +61,18 @@ export default function DesignedProductDetail() {
   };
 
   const addNewDetail = (newQuantity: number) => {
+    if(selectedColor === ""){
+      console.log("color")
+      return
+    }
+    if(selectedSize === ""){
+      console.log("size")
+      return
+    }
+    if(newQuantity === 0 ){
+      console.log("quantity")
+      return
+    }
     const newCartDetail: AddToCartDTO = {
       designId: Number(design),
       color: selectedColor,
