@@ -4,9 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 // isEmpty: render ra trang trống
 // isSetImage: bảng chọn hình
 // isChooseImage: mở bảng chọn hình từ trang trống
-interface Preview {
+export interface Preview {
   position: string;
   imageSrc: string;
+  color: string;
 }
 
 const initialState: Preview[] = [];

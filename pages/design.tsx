@@ -4,6 +4,7 @@ import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
+import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { nanoid } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
@@ -91,7 +92,7 @@ export default function AboutPage(props: AboutPageProps) {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const { productId } = router.query;
+  const { productId, factoryId } = router.query;
   const { data: blueprints, isLoading: isLoading } = useGetBlueprintByProduct(
     Number(productId)
   );
@@ -102,6 +103,9 @@ export default function AboutPage(props: AboutPageProps) {
   const designCanvas = renderedBlueprint.map(
     (blueprint) => position === blueprint.position && <DesignCanvas />
   );
+
+  const { data: colors, isLoading: isLoadingColors } =
+    useGetColorsByFactoryAndProductId(Number(factoryId), Number(productId));
 
   React.useEffect(() => {
     if (blueprints)
@@ -132,7 +136,7 @@ export default function AboutPage(props: AboutPageProps) {
           isPreview={isPreview}
         />
 
-        {isPreview ? <PreviewCanvas /> : designCanvas}
+        {isPreview ? <PreviewCanvas colors={colors} /> : designCanvas}
         <DesignFooterLeft isEdit={false} />
       </>
     </div>
