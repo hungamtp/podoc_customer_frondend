@@ -9,7 +9,7 @@ type Props = {
 
 export default function DesignedProduct({ product }: Props) {
   const router = useRouter();
-  const goToProfile = (userId: number) => {
+  const goToProfile = (userId: string) => {
     console.log("first");
   };
   const getRates = (rate: number): number[] => {
@@ -29,7 +29,10 @@ export default function DesignedProduct({ product }: Props) {
     return result;
   };
   return (
-    <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2 cursor-pointer" onClick={() => router.push(`/designs/${product.id}`)}>
+    <div
+      className="col-lg-3 col-md-6 col-12 mt-4 pt-2 cursor-pointer"
+      onClick={() => router.push(`/designs/${product.id}`)}
+    >
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
           {product.tags &&
