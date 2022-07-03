@@ -7,10 +7,7 @@ export const getAllShippingInfos = async () => {
   return data.data;
 };
 
-export const addOrder = async (cartId: number, shippingInfo: ShippingInfo) => {
-  const { data } = await API.post<ISuccessHttpResponse>(
-    `/order?cartId=${cartId}`,
-    shippingInfo
-  );
-  return data.data;
+export const addOrder = async (shippingInfo: ShippingInfo) => {
+  const { data } = await API.post<PaymentResponse>(`/order`, shippingInfo);
+  return data;
 };

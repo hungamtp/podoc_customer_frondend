@@ -36,8 +36,9 @@ const shippingArray = [
 
 export default function Checkout({}: Props) {
   const handleOrder = async () => {};
-  const {data:shippingInfos,isLoading:isLoadingShippingInfos} = useGetAllShippingInfo();
-  const cart = useAppSelector(state=>state.carts);
+  const { data: shippingInfos, isLoading: isLoadingShippingInfos } =
+    useGetAllShippingInfo();
+  const cart = useAppSelector((state) => state.carts);
 
   const handleCloseDialog = () => {
     setIsOpen(false);
@@ -96,7 +97,21 @@ export default function Checkout({}: Props) {
   } = form;
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
-    addShippingInfo({cartId:cart.id,shippingInfo:data});
+    addShippingInfo(
+      { cartId: cart[0].cartId, shippingInfo: data },
+      {
+        onSuccess: (data) => {
+          // const qrCode = $($.parseHTML)
+          // const rp = fetch(data.data.payUrl).then(response => response.json())
+          // .then(data => console.log(data))
+          window.open(
+            data.data.payUrl,
+            "_blank",
+            "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800"
+          );
+        },
+      }
+    );
   };
 
   const handleChange = (shipping: {
@@ -134,24 +149,6 @@ export default function Checkout({}: Props) {
     </div>
   ));
 
-  const handleCheckout = () => {
-    handleSubmit(submit);
-    // const res = createPaymentTransaction(
-    //   {},
-    //   {
-    //     onSuccess: (data) => {
-    //       // const qrCode = $($.parseHTML)
-    //       // const rp = fetch(data.data.payUrl).then(response => response.json())
-    //       // .then(data => console.log(data))
-    //       window.open(
-    //         data.data.payUrl,
-    //         "_blank",
-    //         "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800"
-    //       );
-    //     },
-    //   }
-    // );
-  };
   return (
     <>
       <div>
@@ -264,22 +261,24 @@ export default function Checkout({}: Props) {
                 >
                   <div className="d-flex justify-content-between">
                     <h4 className="mb-3">Thông tin giao hàng</h4>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        setIsOpen(true);
-                      }}
-                      color="secondary"
-                    >
-                      {/* {(isLoading || isLoadingSubmit) && (
+                    {shippingInfos && (
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          setIsOpen(true);
+                        }}
+                        color="secondary"
+                      >
+                        {/* {(isLoading || isLoadingSubmit) && (
                       <span
                         className="spinner-border spinner-border-sm"
                         role="status"
                         aria-hidden="true"
                       />
                     )} */}
-                      Chọn địa chỉ khác
-                    </button>
+                        Chọn địa chỉ khác
+                      </button>
+                    )}
                   </div>
 
                   <div className="row g-3">
@@ -367,11 +366,13 @@ export default function Checkout({}: Props) {
                     aria-describedby="alert-dialog-description"
                     fullWidth={true}
                   >
-                    {shippingInfos&&<DialogContent>
-                      <div className="overflow-y-scroll h-60">
-                        {shippingInfosList}
-                      </div>
-                    </DialogContent>}
+                    {shippingInfos && (
+                      <DialogContent>
+                        <div className="overflow-y-scroll h-60">
+                          {shippingInfosList}
+                        </div>
+                      </DialogContent>
+                    )}
                   </Dialog>
 
                   <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
@@ -394,10 +395,7 @@ export default function Checkout({}: Props) {
                       />
                     </div>
                   </div>
-                  <button
-                    className="w-100 btn btn-primary"
-                    onClick={handleCheckout}
-                  >
+                  <button className="w-100 btn btn-primary" type="submit">
                     Continue to checkout
                   </button>
                 </form>

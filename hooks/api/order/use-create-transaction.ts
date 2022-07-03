@@ -17,8 +17,10 @@ const useCreatePaymentTransaction = () => {
 };
 
 export const createPaymentTransaction = async () => {
-    const data  = await API.get<PaymentResponse>(`/order`);
-    return data;
-  };
+  console.log("dcmm");
+
+  const data = await API.post<PaymentResponse>(`/order`);
+  return data;
+};
 
 export default useCreatePaymentTransaction;
