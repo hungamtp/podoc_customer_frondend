@@ -4,20 +4,11 @@ import { storage } from "@/firebase/firebase";
 import useCreateBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
 import { DesignedProductDto } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  getMetadata,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ImageListType } from "react-images-uploading";
 import * as yup from "yup";
 import { useAppSelector } from "../hooks/reduxHook";
 import SelectColor from "./select-color";

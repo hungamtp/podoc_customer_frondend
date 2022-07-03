@@ -859,6 +859,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
+          dispatch(setIsEdit(true));
         }
       });
 
@@ -882,6 +883,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
+          dispatch(setIsEdit(true));
         }
       });
 

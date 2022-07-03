@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // isSetImage: bảng chọn hình
 // isChooseImage: mở bảng chọn hình từ trang trống
 
-const initialState = false;
+const initialState = true;
 
 export const isEdit = createSlice({
   name: "isEdit",

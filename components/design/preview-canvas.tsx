@@ -1,10 +1,20 @@
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import { Blueprint, DesignState } from "@/models/design";
-import { addPreview, clearAllPreview } from "@/redux/slices/previews";
+import { setIsEdit } from "@/redux/slices/isEdit";
+import { addPreview, clearAllPreview, Preview } from "@/redux/slices/previews";
+import { nanoid } from "@reduxjs/toolkit";
 import { fabric } from "fabric";
+import { useRouter } from "next/router";
 import * as React from "react";
 import PreviewTable from "./preview-table";
-export interface IPreviewCanvasProps {}
+export interface IPreviewCanvasProps {
+  colors: {
+    id: number;
+    name: string;
+    image: string;
+  }[];
+}
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
@@ -111,19 +121,35 @@ const initPlaceHolder = (
   return rect;
 };
 
-export default function PreviewCanvas(props: IPreviewCanvasProps) {
+export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
   const pageHeight = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0
   );
 
-  const [renderedPosition, setRenderedPosition] = React.useState("");
-  const [isDrawPreview, setIsDrawPreview] = React.useState(true);
+  const router = useRouter();
+
+  const [isDrawPreview, setIsDrawPreview] = React.useState(false);
 
   const defaultWidth =
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const isEdit = useAppSelector((state) => state.isEdit);
+
+  const previews = useAppSelector((state) => state.previews);
+
+  let renderedPreviews: Preview[] = [];
+  previews.forEach((preview) => {
+    if (preview.color === renderColor) {
+      renderedPreviews.push(preview);
+    }
+  });
+  if (renderedPreviews.length === 0 && previews.length !== 0)
+    renderedPreviews = [previews[0], previews[1]];
+
+  const [renderedPosition, setRenderedPosition] = React.useState(
+    blueprintsData.position
+  );
 
   const [renderCount, setRenderCount] = React.useState(
     blueprintsData.blueprints.length - 1
@@ -134,7 +160,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   const placeholderHeight = blueprint.placeholder.height * 30;
   const dispatch = useAppDispatch();
 
-  const [renderColor, setRenderColor] = React.useState("");
+  const [renderColor, setRenderColor] = React.useState(colors[0].image);
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
@@ -147,9 +173,19 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
     )
   );
 
+  let hasMorePreview = true; //chuyển từ trang design qua trang preview
+  if (previews.length > 0 && isEdit === false) {
+    previews.forEach((preview) => {
+      if (preview.color === renderColor) {
+        hasMorePreview = false;
+      }
+    });
+  }
+
   const setBackgroundFromDataUrl = (
     dataUrl: string,
-    outerSize: { outerWidth: number; outerHeight: number }
+    outerSize: { outerWidth: number; outerHeight: number },
+    isNeedColor: boolean
   ) => {
     if (!dataUrl && !outerSize) {
       return true;
@@ -176,7 +212,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           image.scaleToHeight(sizeObj.height);
           image.set("top", sizeObj.y);
           image.set({ left: sizeObj.x });
-          image.filters?.push(colorFilter);
+          if (isNeedColor) image.filters?.push(colorFilter);
           image.applyFilters();
           canvas.renderAll();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
@@ -186,46 +222,75 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
       );
     }
   };
+
   React.useEffect(() => {
     setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "preview"));
-    dispatch(clearAllPreview());
+    if (isEdit) {
+      dispatch(clearAllPreview());
+    }
     return () => {
+      dispatch(setIsEdit(false));
       canvas?.clear();
     };
   }, []);
+
   React.useEffect(() => {
-    // if (isEdit) {
-    //   dispatch(clearAllPreview());
-    //   setRenderCount(blueprintsData.blueprints.length - 1);
-    //   setIsDrawPreview(true);
-    // }
-    dispatch(clearAllPreview());
-    setRenderCount(blueprintsData.blueprints.length - 1);
-    setIsDrawPreview(true);
-  }, [renderColor]);
-  React.useEffect(() => {
-    if (canvas) {
-      let renderedBlueprint = initBlueprint;
-      blueprintsData.blueprints.forEach((blueprint) => {
-        if (blueprint.position === renderedPosition) {
-          renderedBlueprint = blueprint;
+    let hasMorePreview = true;
+
+    if (previews.length > 0) {
+      previews.forEach((preview) => {
+        if (preview.color === renderColor) {
+          hasMorePreview = false;
         }
       });
+    }
 
+    if (renderColor) {
+      if (hasMorePreview) {
+        setRenderCount(blueprintsData.blueprints.length - 1);
+      } else {
+        canvas?.clear();
+        let renderImage = previews[0].imageSrc;
+        previews.forEach((preview) => {
+          if (
+            preview.color === renderColor &&
+            preview.position === renderedPosition
+          ) {
+            renderImage = preview.imageSrc;
+          }
+        });
+
+        const outerSize = {
+          outerWidth: defaultWidth,
+          outerHeight: pageHeight - pageHeight / 5.3,
+        };
+
+        setBackgroundFromDataUrl(renderImage, outerSize, false);
+      }
+    }
+
+    setIsDrawPreview(true);
+  }, [renderColor]);
+
+  React.useEffect(() => {
+    console.log(hasMorePreview, "hasMorePreview");
+    if (canvas && previews.length !== 0 && hasMorePreview) {
       canvas.clear();
-      setPlaceHolder(
-        initPlaceHolder(
-          renderedBlueprint.placeholder.width,
-          renderedBlueprint.placeholder.height,
-          pageHeight / placeHolderAndOuterRate,
-          defaultWidth
-        )
+      const renderedImage = previews.filter(
+        (preview) =>
+          preview.color === renderColor && preview.position === renderedPosition
       );
+      console.log(renderedImage, "renderedImage");
+      const outerSize = {
+        outerWidth: defaultWidth,
+        outerHeight: pageHeight - pageHeight / 5.3,
+      };
+      setBackgroundFromDataUrl(renderedImage[0].imageSrc, outerSize, false);
     }
   }, [renderedPosition]);
 
   React.useEffect(() => {
-    if (canvas) {
+    if (canvas && hasMorePreview) {
       canvas.clear();
       setPlaceHolder(
         initPlaceHolder(
@@ -236,6 +301,22 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
         )
       );
     }
+
+    if (canvas && !hasMorePreview) {
+      canvas?.clear();
+      const renderedImage = previews.filter((preview) => {
+        return (
+          preview.color === renderColor && preview.position === renderedPosition
+        );
+      });
+      const outerSize = {
+        outerWidth: defaultWidth,
+        outerHeight: pageHeight - pageHeight / 5.3,
+      };
+
+      setBackgroundFromDataUrl(renderedImage[0].imageSrc, outerSize, false);
+    }
+
     const rerenderLoop = setInterval(() => {
       if (canvas && imgSrc === "") {
         const canvasObjs = canvas._objects || [];
@@ -243,7 +324,6 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           if (
             canvasObjs.length == (blueprint.designInfos.length || 0) + 1 &&
             canvasObjs.some((design) => {
-              console.log(blueprint.designInfos, "design info");
               if (blueprint.designInfos && blueprint.designInfos.length > 0)
                 return design.name === blueprint.designInfos[0].key;
             })
@@ -255,7 +335,9 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
           setImgSrc(canvas.toDataURL());
           clearInterval(rerenderLoop);
         }
-      } else clearInterval(rerenderLoop);
+      } else {
+        clearInterval(rerenderLoop);
+      }
     }, 200);
 
     return () => {
@@ -264,11 +346,12 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   }, [renderCount, canvas]);
 
   React.useEffect(() => {
-    if (canvas && imgSrc !== "") {
+    if (canvas && imgSrc !== "" && hasMorePreview) {
       dispatch(
         addPreview({
           position: blueprint.position,
           imageSrc: imgSrc,
+          color: renderColor,
         })
       );
       if (renderCount > 0) {
@@ -277,8 +360,10 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
       setImgSrc("");
     }
   }, [imgSrc]);
+
   React.useEffect(() => {
-    if (canvas && placeHolder) {
+    if (canvas && placeHolder && hasMorePreview) {
+      console.log("count");
       canvas.add(placeHolder);
       let renderedBlueprint = initBlueprint;
       blueprintsData.blueprints.forEach((blueprint) => {
@@ -300,7 +385,7 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
       };
 
       const blueprintImageUrl = blueprint.frameImage;
-      setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
+      setBackgroundFromDataUrl(blueprintImageUrl, outerSize, true);
 
       const designInfos = blueprint.designInfos;
       if (designInfos) {
@@ -417,25 +502,38 @@ export default function PreviewCanvas(props: IPreviewCanvasProps) {
   };
 
   return (
-    <div className="row h-81">
-      <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-        <div className="outer position-relative">
-          <canvas id="preview" className="center-block"></canvas>
+    <>
+      <div className="row h-81">
+        <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
+          <div className="outer position-relative">
+            <canvas id="preview" className="center-block"></canvas>
+          </div>
         </div>
-      </div>
 
-      <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
-        <div className=" d-flex flex-column">
-          <div className="p-3 ">
-            <PreviewTable
-              renderColor={renderColor}
-              setRenderColor={setRenderColor}
-              setRenderedPosition={setRenderedPosition}
-              setIsDrawPreview={setIsDrawPreview}
-            />
+        <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
+          <div className=" d-flex flex-column">
+            <div className="p-3 ">
+              <PreviewTable
+                renderColor={renderColor}
+                setRenderColor={setRenderColor}
+                setRenderedPosition={setRenderedPosition}
+                setIsDrawPreview={setIsDrawPreview}
+                colors={colors}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {!colors && (
+        <div id="preloader">
+          <div id="status">
+            <div className="spinner">
+              <div className="double-bounce1"></div>
+              <div className="double-bounce2"></div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

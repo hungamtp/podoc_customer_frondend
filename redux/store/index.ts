@@ -35,6 +35,7 @@ const persistConfig = {
     "choosenKey",
     "previews",
     "selectedColors",
+    "isEdit",
   ],
 };
 
