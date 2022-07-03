@@ -11,7 +11,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
 
   const { detail } = router.query;
   const { data: response, isLoading: isLoading } = useGetDesignById(
-    Number(detail)
+    detail as string
   );
 
   return (

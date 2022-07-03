@@ -15,20 +15,20 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
     position: string;
   }[];
   bluePrintDtos: Blueprint[];
-  factoryId: number;
-  productId: number;
+  factoryId: string;
+  productId: string;
 }
 
 export interface ColorDto extends ISuccessHttpResponse {
-  data: { id: number; name: string; image: string }[];
+  data: { id: string; name: string; image: string }[];
 }
 export interface SimpleDesignProduct {
-  id: number;
+  id: string;
   name: string;
   publish: string;
   designedPrice: number;
   user: {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     credentialImage: string;

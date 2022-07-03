@@ -9,7 +9,7 @@ const usePublishDesignedProduct = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   return useMutation(
-    async (data: { publish: boolean; productId: number }) => {
+    async (data: { publish: boolean; productId: string }) => {
       return await pulishUnpublishDesign(data.publish, data.productId);
     },
     {

@@ -20,9 +20,10 @@ const MenuProps = {
 };
 export default function SelectColor(props: ISelectColorProps) {
   const router = useRouter();
+  console.log("query", router.query);
   const { productId, factoryId } = router.query;
   const { data: colors, isLoading: isLoadingColors } =
-    useGetColorsByFactoryAndProductId(Number(factoryId), Number(productId));
+    useGetColorsByFactoryAndProductId(factoryId as string, productId as string);
   const [colorsList, setColorsList] = React.useState<string[]>([]);
   const dispatch = useAppDispatch();
   const handleChange = (event: SelectChangeEvent<typeof colorsList>) => {

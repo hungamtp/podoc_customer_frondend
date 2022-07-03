@@ -21,8 +21,8 @@ export default function MyDesinedProduct(props: IMyDesinedProductProps) {
     sort: "",
   });
   const { data: response, isLoading } = useGetAllDesignsByUserId(filter);
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked && response) {
       const newSelecteds = response?.content.map((design) => design.id);
@@ -32,10 +32,10 @@ export default function MyDesinedProduct(props: IMyDesinedProductProps) {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: number) => {
-    const id = Number(name);
+  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    const id = name;
     const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
+    let newSelected: readonly string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);

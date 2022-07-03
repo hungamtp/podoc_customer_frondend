@@ -87,7 +87,7 @@ export default function Checkout({}: Props) {
     resolver: yupResolver(schema),
   });
 
-  const { mutate: addShippingInfo, isLoading: isUpdatingInfo } = useAddOrder();
+  const { mutate: createOrder, isLoading: isUpdatingInfo } = useAddOrder();
 
   const {
     register,
@@ -97,8 +97,8 @@ export default function Checkout({}: Props) {
   } = form;
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
-    addShippingInfo(
-      { cartId: cart[0].cartId, shippingInfo: data },
+    createOrder(
+      { shippingInfo: data, paymentMethod: 0 },
       {
         onSuccess: (data) => {
           // const qrCode = $($.parseHTML)

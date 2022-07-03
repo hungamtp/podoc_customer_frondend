@@ -7,7 +7,10 @@ export const getAllShippingInfos = async () => {
   return data.data;
 };
 
-export const addOrder = async (shippingInfo: ShippingInfo) => {
-  const { data } = await API.post<PaymentResponse>(`/order`, shippingInfo);
+export const addOrder = async (
+  shippingInfo: ShippingInfo,
+  paymentethod: number
+) => {
+  const { data } = await API.post<PaymentResponse>(`/order/${0}`, shippingInfo);
   return data;
 };

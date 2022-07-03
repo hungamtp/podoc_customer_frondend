@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface CurrentRawProductId {
-  id: number;
+  id: string;
 }
 
 const initialState = 1;

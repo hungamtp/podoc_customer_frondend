@@ -94,7 +94,7 @@ export default function AboutPage(props: AboutPageProps) {
   const dispatch = useAppDispatch();
   const { productId, factoryId } = router.query;
   const { data: blueprints, isLoading: isLoading } = useGetBlueprintByProduct(
-    Number(productId)
+    productId as string
   );
   const position = useAppSelector((state) => state.blueprintsData.position);
 
@@ -105,7 +105,7 @@ export default function AboutPage(props: AboutPageProps) {
   );
 
   const { data: colors, isLoading: isLoadingColors } =
-    useGetColorsByFactoryAndProductId(Number(factoryId), Number(productId));
+    useGetColorsByFactoryAndProductId(factoryId as string, productId as string);
 
   React.useEffect(() => {
     if (blueprints)

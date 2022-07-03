@@ -97,7 +97,7 @@ export default function EditDesign(props: EditDesignProps) {
   const dispatch = useAppDispatch();
   const { designId } = router.query;
   const { data: response, isLoading: isLoading } = useGetDesignById(
-    Number(designId)
+    designId as string
   );
   const position = useAppSelector((state) => state.blueprintsData.position);
   const blueprints = response?.bluePrints;

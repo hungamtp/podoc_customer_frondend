@@ -101,8 +101,8 @@ export default function CreateDesignedProductForm(
               colors: colors,
               imagePreviews: imageList,
               bluePrintDtos: submitBlueprint,
-              factoryId: Number(factoryId),
-              productId: Number(productId),
+              factoryId: factoryId,
+              productId: productId,
             } as unknown as DesignedProductDto;
 
             addDesignedProduct(submitData);

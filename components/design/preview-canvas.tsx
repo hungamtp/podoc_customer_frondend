@@ -10,7 +10,7 @@ import * as React from "react";
 import PreviewTable from "./preview-table";
 export interface IPreviewCanvasProps {
   colors: {
-    id: number;
+    id: string;
     name: string;
     image: string;
   }[];
