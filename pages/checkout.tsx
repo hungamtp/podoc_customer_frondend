@@ -96,7 +96,7 @@ export default function Checkout({}: Props) {
   } = form;
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
-    addShippingInfo({cartId:cart.,shippingInfo:data});
+    addShippingInfo({cartId:cart.id,shippingInfo:data});
   };
 
   const handleChange = (shipping: {
