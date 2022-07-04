@@ -32,7 +32,10 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             type="text/css"
           />
-          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+          <link
+            href="https://fonts.googleapis.com/css?family=Roboto"
+            rel="stylesheet"
+          />
           <link
             href="/asset/css/tobii.min.css"
             rel="stylesheet"
@@ -85,7 +88,7 @@ export default class MyDocument extends Document {
 
           <script src="/asset/js/plugins.init.js"></script>
 
-          <script src="/asset/js/app.js"></script>
+          {/* <script src="/asset/js/app.js"></script> */}
           <script
             src="https://apis.google.com/js/platform.js"
             async

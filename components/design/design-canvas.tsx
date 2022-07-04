@@ -170,6 +170,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   const [renderPosition, setRenderPosition] = React.useState<string>(
     blueprintsData.position
   );
+
   const controlData = designControlData.controlData;
   const blueprint = blueprintsData.blueprints.filter(
     (blueprint) => blueprint.position === blueprintsData.position
@@ -194,6 +195,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       setRenderPosition(blueprintsData.position);
     }
   }, [blueprintsData]);
+
   React.useEffect(() => {
     if (canvas) {
       canvas.clear();
@@ -209,6 +211,136 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     );
     setAspectRatio(placeholderWidth / placeholderHeight);
   }, [renderPosition]);
+
+  React.useEffect(() => {
+    if (canvas && placeHolder) {
+      canvas.add(placeHolder.rect);
+      placeHolder.border.forEach((line) => {
+        canvas.add(line);
+      });
+
+      canvas.on("object:moving", function (options) {
+        const obj = options.target;
+        if (obj) {
+          if (
+            obj.height &&
+            obj.width &&
+            obj.left &&
+            obj.top &&
+            placeHolder.rect.top &&
+            placeHolder.rect.height &&
+            placeHolder.rect.left &&
+            placeHolder.rect.width
+          ) {
+            const top = obj.top;
+            const bottom = top + obj.getScaledHeight();
+            const left = obj.left;
+            const right = left + obj.getScaledWidth();
+            const topBound = placeHolder.rect.top - obj.getScaledHeight();
+            const bottomBound =
+              placeHolder.rect.top +
+              placeHolder.rect.height +
+              obj.getScaledHeight();
+            const leftBound = placeHolder.rect.left - obj.getScaledWidth();
+            const rightBound =
+              placeHolder.rect.left +
+              placeHolder.rect.width +
+              obj.getScaledWidth();
+
+            if (top <= topBound) {
+              obj.lockMovementY = true;
+              obj.set("top", top + 5);
+              canvas.renderAll();
+            }
+            if (bottom >= bottomBound) {
+              obj.lockMovementY = true;
+              obj.set("top", top - 5);
+              canvas.renderAll();
+            }
+            if (left <= leftBound) {
+              obj.lockMovementX = true;
+              obj.set("left", left + 5);
+              canvas.renderAll();
+            }
+            if (right >= rightBound) {
+              obj.lockMovementX = true;
+              obj.set("left", left - 5);
+              canvas.renderAll();
+            }
+          }
+          const tmpDesignData = calculatePoint(
+            obj.left || 200,
+            obj.top || 200,
+            obj.getScaledWidth(),
+            obj.getScaledHeight()
+          );
+          const designInfo = {
+            choosenKey: obj.name,
+            rotate: obj.angle,
+            width: tmpDesignData?.width,
+            height: tmpDesignData?.height,
+            scales: tmpDesignData?.scale,
+            leftPosition: tmpDesignData?.left,
+            topPosition: tmpDesignData?.top,
+          };
+          dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
+          dispatch(setIsEdit(true));
+        }
+      });
+
+      canvas.on("object:modified", function (options) {
+        const obj = options.target;
+        if (obj) {
+          const tmpDesignData = calculatePoint(
+            obj.left || 200,
+            obj.top || 200,
+            obj.getScaledWidth(),
+            obj.getScaledHeight()
+          );
+          const designInfo = {
+            choosenKey: obj.name,
+            rotate: obj.angle,
+            width: tmpDesignData?.width,
+            height: tmpDesignData?.height,
+            scales: tmpDesignData?.scale,
+            leftPosition: tmpDesignData?.left,
+            topPosition: tmpDesignData?.top,
+          };
+          dispatch(setValue({ ...designInfo }));
+          dispatch(setChoosenKey(obj.name));
+          dispatch(setIsEdit(true));
+        }
+      });
+
+      canvas.on("mouse:down", function (options) {
+        const obj = options.target;
+        if (obj) {
+          obj.lockMovementX = false;
+          obj.lockMovementY = false;
+          dispatch(setChoosenKey(obj.name));
+          canvas.renderAll();
+        }
+      });
+
+      const outerSize = {
+        outerWidth: defaultWidth,
+        outerHeight: pageHeight - pageHeight / 5.3,
+      };
+      // const blueprintImageUrl =
+      //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
+      const blueprintImageUrl = blueprint.tmpFrameImage;
+      // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
+      setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
+
+      if (
+        blueprint.designInfos &&
+        blueprint.designInfos.length !== 0 &&
+        blueprint.designInfos[0].key !== ""
+      )
+        reverseDesigns(blueprint);
+    }
+  }, [placeHolder]);
 
   const reverseDesigns = (blueprint: Blueprint) => {
     if (canvas && placeHolder) {
@@ -762,6 +894,7 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     if (!dataUrl && !outerSize) {
       return true;
     }
+    console.log(dataUrl, "dataUrl");
     const { outerWidth, outerHeight } = outerSize;
 
     if (canvas) {
@@ -785,136 +918,6 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
       );
     }
   };
-
-  React.useEffect(() => {
-    if (canvas && placeHolder) {
-      canvas.add(placeHolder.rect);
-      placeHolder.border.forEach((line) => {
-        canvas.add(line);
-      });
-
-      canvas.on("object:moving", function (options) {
-        const obj = options.target;
-        if (obj) {
-          if (
-            obj.height &&
-            obj.width &&
-            obj.left &&
-            obj.top &&
-            placeHolder.rect.top &&
-            placeHolder.rect.height &&
-            placeHolder.rect.left &&
-            placeHolder.rect.width
-          ) {
-            const top = obj.top;
-            const bottom = top + obj.getScaledHeight();
-            const left = obj.left;
-            const right = left + obj.getScaledWidth();
-            const topBound = placeHolder.rect.top - obj.getScaledHeight();
-            const bottomBound =
-              placeHolder.rect.top +
-              placeHolder.rect.height +
-              obj.getScaledHeight();
-            const leftBound = placeHolder.rect.left - obj.getScaledWidth();
-            const rightBound =
-              placeHolder.rect.left +
-              placeHolder.rect.width +
-              obj.getScaledWidth();
-
-            if (top <= topBound) {
-              obj.lockMovementY = true;
-              obj.set("top", top + 5);
-              canvas.renderAll();
-            }
-            if (bottom >= bottomBound) {
-              obj.lockMovementY = true;
-              obj.set("top", top - 5);
-              canvas.renderAll();
-            }
-            if (left <= leftBound) {
-              obj.lockMovementX = true;
-              obj.set("left", left + 5);
-              canvas.renderAll();
-            }
-            if (right >= rightBound) {
-              obj.lockMovementX = true;
-              obj.set("left", left - 5);
-              canvas.renderAll();
-            }
-          }
-          const tmpDesignData = calculatePoint(
-            obj.left || 200,
-            obj.top || 200,
-            obj.getScaledWidth(),
-            obj.getScaledHeight()
-          );
-          const designInfo = {
-            choosenKey: obj.name,
-            rotate: obj.angle,
-            width: tmpDesignData?.width,
-            height: tmpDesignData?.height,
-            scales: tmpDesignData?.scale,
-            leftPosition: tmpDesignData?.left,
-            topPosition: tmpDesignData?.top,
-          };
-          dispatch(setValue({ ...designInfo }));
-          dispatch(setChoosenKey(obj.name));
-          dispatch(setIsEdit(true));
-        }
-      });
-
-      canvas.on("object:modified", function (options) {
-        const obj = options.target;
-        if (obj) {
-          const tmpDesignData = calculatePoint(
-            obj.left || 200,
-            obj.top || 200,
-            obj.getScaledWidth(),
-            obj.getScaledHeight()
-          );
-          const designInfo = {
-            choosenKey: obj.name,
-            rotate: obj.angle,
-            width: tmpDesignData?.width,
-            height: tmpDesignData?.height,
-            scales: tmpDesignData?.scale,
-            leftPosition: tmpDesignData?.left,
-            topPosition: tmpDesignData?.top,
-          };
-          dispatch(setValue({ ...designInfo }));
-          dispatch(setChoosenKey(obj.name));
-          dispatch(setIsEdit(true));
-        }
-      });
-
-      canvas.on("mouse:down", function (options) {
-        const obj = options.target;
-        if (obj) {
-          obj.lockMovementX = false;
-          obj.lockMovementY = false;
-          dispatch(setChoosenKey(obj.name));
-          canvas.renderAll();
-        }
-      });
-
-      const outerSize = {
-        outerWidth: defaultWidth,
-        outerHeight: pageHeight - pageHeight / 5.3,
-      };
-      // const blueprintImageUrl =
-      //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
-      const blueprintImageUrl = blueprint.frameImage;
-      // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
-      setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
-
-      if (
-        blueprint.designInfos &&
-        blueprint.designInfos.length !== 0 &&
-        blueprint.designInfos[0].key !== ""
-      )
-        reverseDesigns(blueprint);
-    }
-  }, [placeHolder]);
 
   return (
     <div className="row h-81">

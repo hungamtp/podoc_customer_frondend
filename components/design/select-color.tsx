@@ -20,7 +20,6 @@ const MenuProps = {
 };
 export default function SelectColor(props: ISelectColorProps) {
   const router = useRouter();
-  console.log("query", router.query);
   const { productId, factoryId } = router.query;
   const { data: colors, isLoading: isLoadingColors } =
     useGetColorsByFactoryAndProductId(factoryId as string, productId as string);
