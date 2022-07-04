@@ -102,7 +102,10 @@ function activateMenu() {
           parentOfParent.classList.add("active");
         }
       } else {
-        var parentOfParent = getClosest(matchingMenuItem, ".parent-parent-menu-item");
+        var parentOfParent = getClosest(
+          matchingMenuItem,
+          ".parent-parent-menu-item"
+        );
         if (parentOfParent) {
           parentOfParent.classList.add("active");
         }
@@ -113,7 +116,9 @@ function activateMenu() {
 
 // Clickable Menu
 if (document.getElementById("navigation")) {
-  var elements = document.getElementById("navigation").getElementsByTagName("a");
+  var elements = document
+    .getElementById("navigation")
+    .getElementsByTagName("a");
   for (var i = 0, len = elements.length; i < len; i++) {
     elements[i].onClick = function (elem) {
       if (elem.target.getAttribute("href") === "javascriptvoid(0)") {
@@ -128,7 +133,10 @@ if (document.getElementById("navigation")) {
 function windowScroll() {
   const navbar = document.getElementById("topnav");
   if (navbar != null) {
-    if (document.body.scrollTop >= 50 || document.documentElement.scrollTop >= 50) {
+    if (
+      document.body.scrollTop >= 50 ||
+      document.documentElement.scrollTop >= 50
+    ) {
       navbar.classList.add("nav-sticky");
     } else {
       navbar.classList.remove("nav-sticky");
@@ -136,7 +144,7 @@ function windowScroll() {
   }
 }
 
-window.addEventListener("scroll", ev => {
+window.addEventListener("scroll", (ev) => {
   ev.preventDefault();
   windowScroll();
 });
@@ -149,7 +157,10 @@ window.onscroll = function () {
 
 function scrollFunction() {
   if (mybutton != null) {
-    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+    if (
+      document.body.scrollTop > 500 ||
+      document.documentElement.scrollTop > 500
+    ) {
       mybutton.style.display = "block";
     } else {
       mybutton.style.display = "none";
@@ -164,7 +175,9 @@ function topFunction() {
 
 //ACtive Sidebar
 (function () {
-  var current = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+  var current = location.pathname.substring(
+    location.pathname.lastIndexOf("/") + 1
+  );
   if (current === "") return;
   var menuItems = document.querySelectorAll(".sidebar-nav a");
   for (var i = 0, len = menuItems.length; i < len; i++) {
@@ -186,7 +199,9 @@ for (var i = 0, len = ddmenu.length; i < len; i++) {
 }
 
 //Tooltip
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
@@ -207,22 +222,26 @@ try {
     document.getElementById("error-msg").style.opacity = 0;
     document.getElementById("error-msg").innerHTML = "";
     if (name == "" || name == null) {
-      document.getElementById("error-msg").innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Name*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Name*</div>";
       fadeIn();
       return false;
     }
     if (email == "" || email == null) {
-      document.getElementById("error-msg").innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Email*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Email*</div>";
       fadeIn();
       return false;
     }
     if (subject == "" || subject == null) {
-      document.getElementById("error-msg").innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Subject*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Subject*</div>";
       fadeIn();
       return false;
     }
     if (comments == "" || comments == null) {
-      document.getElementById("error-msg").innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Comments*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Comments*</div>";
       fadeIn();
       return false;
     }
@@ -238,7 +257,16 @@ try {
     };
     xhttp.open("POST", "php/contact.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("name=" + name + "&email=" + email + "&subject=" + subject + "&comments=" + comments);
+    xhttp.send(
+      "name=" +
+        name +
+        "&email=" +
+        email +
+        "&subject=" +
+        subject +
+        "&comments=" +
+        comments
+    );
     return false;
   }
 

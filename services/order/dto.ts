@@ -24,6 +24,6 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
     position: string;
   }[];
   bluePrintDtos: Blueprint[];
-  factoryId: number;
-  productId: number;
+  factoryId: string;
+  productId: string;
 }

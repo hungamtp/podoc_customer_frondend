@@ -10,7 +10,7 @@ import * as React from "react";
 import PreviewTable from "./preview-table";
 export interface IPreviewCanvasProps {
   colors: {
-    id: number;
+    id: string;
     name: string;
     image: string;
   }[];
@@ -187,6 +187,7 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
     outerSize: { outerWidth: number; outerHeight: number },
     isNeedColor: boolean
   ) => {
+    console.log(dataUrl, "dataUrl");
     if (!dataUrl && !outerSize) {
       return true;
     }
@@ -196,10 +197,6 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
       fabric.Image.fromURL(
         dataUrl,
         (image: fabric.Image) => {
-          canvas.setWidth(outerWidth);
-          canvas.setHeight(outerHeight);
-
-          canvas.renderAll();
           const colorFilter = new fabric.Image.filters.BlendColor({
             color: renderColor,
             mode: "add",
@@ -214,7 +211,6 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
           image.set({ left: sizeObj.x });
           if (isNeedColor) image.filters?.push(colorFilter);
           image.applyFilters();
-          canvas.renderAll();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
           // canvas.clipPath = image;
         },
@@ -384,7 +380,7 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
         outerHeight: pageHeight - pageHeight / 5.3,
       };
 
-      const blueprintImageUrl = blueprint.frameImage;
+      const blueprintImageUrl = blueprint.tmpFrameImage;
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize, true);
 
       const designInfos = blueprint.designInfos;

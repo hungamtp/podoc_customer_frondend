@@ -8,7 +8,7 @@ export interface info {
 
 export interface IPreviewTableProps {
   colors: {
-    id: number;
+    id: string;
     name: string;
     image: string;
   }[];

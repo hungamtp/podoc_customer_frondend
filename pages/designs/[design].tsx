@@ -17,9 +17,10 @@ import * as React from "react";
 export default function DesignedProductDetail() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { design } = router.query;
+  const { design }: any = router.query;
+
   const { data: designedProduct, isLoading: isLoading } =
-    useGetOthersDesignById(Number(design));
+    useGetOthersDesignById(design);
   const {
     mutate: addToCart,
     data: cartDetailFromAPI,
@@ -61,20 +62,20 @@ export default function DesignedProductDetail() {
   };
 
   const addNewDetail = (newQuantity: number) => {
-    if(selectedColor === ""){
-      console.log("color")
-      return
+    if (selectedColor === "") {
+      console.log("color");
+      return;
     }
-    if(selectedSize === ""){
-      console.log("size")
-      return
+    if (selectedSize === "") {
+      console.log("size");
+      return;
     }
-    if(newQuantity === 0 ){
-      console.log("quantity")
-      return
+    if (newQuantity === 0) {
+      console.log("quantity");
+      return;
     }
     const newCartDetail: AddToCartDTO = {
-      designId: Number(design),
+      designId: design,
       color: selectedColor,
       size: selectedSize,
       quantity: newQuantity,
@@ -114,7 +115,7 @@ export default function DesignedProductDetail() {
     }
     return result;
   };
-  const goToProfile = (userId: number) => {
+  const goToProfile = (userId: string) => {
     console.log(userId);
   };
 

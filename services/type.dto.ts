@@ -23,13 +23,13 @@ export interface SignUpResponse extends ISuccessHttpResponse {
 }
 
 export interface ProductHomePage {
-  id: number;
+  id: string;
   name: string;
   image: string;
   designedPrice: number;
   rate: number;
   tags: Array<string>;
-  userId: number;
+  userId: string;
   username: string;
   soldCount: number;
 }
@@ -56,7 +56,7 @@ export interface PageDTO {
 }
 
 export interface ProductHomePageDTO {
-  id: number;
+  id: string;
   name: string;
   productImages: { image: string }[];
   categoryName: string;
@@ -84,7 +84,7 @@ export interface PriceByFactoryDto {
 }
 
 export interface ProductDetailDTO {
-  id: number;
+  id: string;
   name: string;
   description: string;
   lowestPrice: number;
@@ -95,7 +95,7 @@ export interface ProductDetailDTO {
   factories: FactoryDTO[];
 }
 export interface FactoryDTO {
-  id: number;
+  id: string;
   name: string;
   location: string;
   price: number;
@@ -105,15 +105,15 @@ export interface FactoryDTO {
 }
 
 export interface CategoryDTO {
-  id: number;
+  id: string;
   name: string;
   image: string;
 }
 
 export interface CartDetailDTO {
-  id: number;
-  cartId: number;
-  designedProductId: number;
+  id: string;
+  cartId: string;
+  designedProductId: string;
   designedProductName: string;
   designedImage: string;
   size: string;
@@ -124,7 +124,7 @@ export interface CartDetailDTO {
 }
 
 export interface CartNotEnoughQuantity {
-  id: number;
+  id: string;
   quantityAvailable: number;
 }
 export interface UpdateCartResponseDTO {
@@ -133,7 +133,7 @@ export interface UpdateCartResponseDTO {
 }
 
 export interface AddToCartDTO {
-  designId: number;
+  designId: string;
   size: string;
   color: string;
   quantity: number;
@@ -147,7 +147,7 @@ export interface PaymentResponse {
   deeplink: string;
   qrCodeUrl: string;
   deeplinkWebInApp: string;
-  transId: number;
+  transId: string;
   applink: string;
   partnerClientId: string;
   bindingUrl: string;

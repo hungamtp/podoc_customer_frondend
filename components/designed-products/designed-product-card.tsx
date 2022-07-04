@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function DesignedProductCard({ product }: Props) {
-  const goToProfile = (userId: number) => {
+  const goToProfile = (userId: string) => {
     console.log("first");
   };
   const router = useRouter();

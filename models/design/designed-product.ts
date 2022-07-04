@@ -1,24 +1,24 @@
 import { Blueprint } from "./blueprint";
 
 export interface DesignedProduct {
-  id: number;
+  id: string;
   name: string;
   description: string;
   publish: boolean;
   designedPrice: number;
   priceFromFactory: number;
-  colorsObj: { id: number; name: string; image: string }[];
+  colorsObj: { id: string; name: string; image: string }[];
   imagePreviews: { position: string; image: string }[];
   bluePrints: Blueprint[];
 }
 
 export interface ShownDesignedProduct {
-  id: number;
+  id: string;
   name: string;
   publish: boolean;
   price: number;
   user: {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     credentialImage: string;

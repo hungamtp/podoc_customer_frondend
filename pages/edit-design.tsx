@@ -9,7 +9,9 @@ export default function EditDesign(props: IEditDesignProps) {
   const router = useRouter();
 
   const { id } = router.query;
-  const { data: response, isLoading: isLoading } = useGetDesignById(Number(id));
+  const { data: response, isLoading: isLoading } = useGetDesignById(
+    id as string
+  );
 
   return (
     <div>

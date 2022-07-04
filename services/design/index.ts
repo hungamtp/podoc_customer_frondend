@@ -24,14 +24,14 @@ export interface GetAllDesignFilter {
   sort?: string;
 }
 
-export const getBluprintFromProduct = async (productId: number) => {
+export const getBluprintFromProduct = async (productId: string) => {
   const { data } = await API.get<GetBlueprintDto>(
     `/product/design/${productId}`
   );
   return data.data;
 };
 
-export const getBluprintFromDesign = async (designId: number) => {
+export const getBluprintFromDesign = async (designId: string) => {
   const { data } = await API.get<GetBlueprintDto>(
     `/product/design/${designId}`
   );
@@ -40,8 +40,8 @@ export const getBluprintFromDesign = async (designId: number) => {
 
 export const createDesignedProduct = async (
   designedProduct: DesignedProductDto,
-  factoryId: number,
-  productId: number
+  factoryId: string,
+  productId: string
 ) => {
   const { data } = await API.post<GetBlueprintDto>(
     `/design?productId=${productId}&factoryId=${factoryId}`,
@@ -51,8 +51,8 @@ export const createDesignedProduct = async (
 };
 
 export const getColorsByFactoryAndProductId = async (
-  factoryId: number,
-  productId: number
+  factoryId: string,
+  productId: string
 ) => {
   const { data } = await API.get<ColorDto>(
     `/product/colors?productId=${productId}&factoryId=${factoryId}`
@@ -60,12 +60,12 @@ export const getColorsByFactoryAndProductId = async (
   return data.data;
 };
 
-export const getDesignById = async (designId: number) => {
+export const getDesignById = async (designId: string) => {
   const { data } = await API.get<getDesignProductDto>(`/design/${designId}`);
   return data.data;
 };
 
-export const getOthersDesignById = async (designId: number) => {
+export const getOthersDesignById = async (designId: string) => {
   const { data } = await API.get<getOthersDesignProductDto>(
     `/design/details/${designId}`
   );
@@ -101,7 +101,7 @@ export const getAllMyDesign = async (filter: GetAllDesignFilter) => {
   return data.data;
 };
 
-export const pulishUnpublishDesign = async (publish: boolean, id: number) => {
+export const pulishUnpublishDesign = async (publish: boolean, id: string) => {
   if (publish) {
     return await API.put(`/design/publish/${id}`);
   } else {

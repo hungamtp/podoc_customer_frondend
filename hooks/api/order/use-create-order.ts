@@ -6,8 +6,8 @@ const useAddOrder = () => {
   const query = useQueryClient();
   return useMutation(
     ["updateShippingList"],
-    async (data: { cartId: number; shippingInfo: ShippingInfo }) => {
-      return await addOrder(data.shippingInfo);
+    async (data: { shippingInfo: ShippingInfo; paymentMethod: number }) => {
+      return await addOrder(data.shippingInfo, data.paymentMethod);
     },
     {
       onSuccess: () => {
