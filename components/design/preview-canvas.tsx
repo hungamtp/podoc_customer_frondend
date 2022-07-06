@@ -288,6 +288,17 @@ export default function PreviewCanvas({
   }, [renderColor]);
 
   React.useEffect(() => {
+    let keep = true;
+    const renderedColorList = previews.map((preview) => preview.color);
+    for (let index = 0; index < selectedColors.length && keep; index++) {
+      if (!renderedColorList.includes(selectedColors[index])) {
+        keep = false;
+        setRenderColor(selectedColors[index]);
+      }
+    }
+  }, [selectedColors]);
+
+  React.useEffect(() => {
     if (canvas && previews.length !== 0 && hasMorePreview) {
       canvas.clear();
       const renderedImage = previews.filter(
@@ -369,17 +380,16 @@ export default function PreviewCanvas({
       );
       if (renderCount > 0) {
         setRenderCount((count) => count - 1);
+      } else if (!!selectedColors) {
+        let keep = true;
+        const renderedColorList = previews.map((preview) => preview.color);
+        for (let index = 0; index < selectedColors.length && keep; index++) {
+          if (!renderedColorList.includes(selectedColors[index])) {
+            keep = false;
+            setRenderColor(selectedColors[index]);
+          }
+        }
       }
-      // else if (!!selectedColors) {
-      //   let keep = true;
-      //   const renderedColorList = previews.map((preview) => preview.color);
-      //   for (let index = 0; index < selectedColors.length && keep; index++) {
-      //     if (!renderedColorList.includes(selectedColors[index])) {
-      //       keep = false;
-      //       console.log(selectedColors[index], "selectedColors[index]");
-      //     }
-      //   }
-      // }
       setImgSrc("");
     }
   }, [imgSrc]);
@@ -576,6 +586,7 @@ export default function PreviewCanvas({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           fullWidth={true}
+          disableEnforceFocus
         >
           <DialogContent>
             {isEditPage ? (
@@ -583,10 +594,10 @@ export default function PreviewCanvas({
             ) : (
               <CreateDesignedProductForm
                 handleCloseDialog={handleCloseDialog}
+                loadedColors={colors}
               />
             )}
           </DialogContent>
-          <DialogActions></DialogActions>
         </Dialog>
       </div>
     </>

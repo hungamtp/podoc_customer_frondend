@@ -15,6 +15,11 @@ import SelectColor from "./select-color";
 
 export interface ICreateDesignedProductFormProps {
   handleCloseDialog: () => void;
+  loadedColors: {
+    id: string;
+    name: string;
+    image: string;
+  }[];
 }
 
 type FormAddDesignInfo = {
@@ -49,7 +54,7 @@ function b64toBlob(dataURI: string) {
 export default function CreateDesignedProductForm(
   props: ICreateDesignedProductFormProps
 ) {
-  const { handleCloseDialog } = props;
+  const { handleCloseDialog, loadedColors } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
   const router = useRouter();
@@ -201,7 +206,7 @@ export default function CreateDesignedProductForm(
                   )}
                 </div>
               </div>
-              <SelectColor />
+              <SelectColor colors={loadedColors} />
 
               <div className="d-flex justify-content-center">
                 <div className="col-sm-10 d-flex justify-content-around">
