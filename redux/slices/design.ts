@@ -142,6 +142,9 @@ export const designSlice = createSlice({
         return designInfo;
       });
     },
+    resetDesigns: () => {
+      return initialState;
+    },
   },
 });
 
@@ -154,6 +157,7 @@ export const {
   updateDesignInfos,
   updateUniqueData,
   updateTmpSrc,
+  resetDesigns,
 } = designSlice.actions;
 
 export default designSlice.reducer;

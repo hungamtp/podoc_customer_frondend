@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { setCart } from "@/redux/slices/cart";
+import { logout } from "@/redux/slices/auth";
 import { CartDetailDTO } from "@/services/type.dto";
 import Link from "next/link";
 type Props = {};
@@ -13,8 +14,9 @@ export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   const cart = useAppSelector((state) => state.carts);
   const dispatch = useAppDispatch();
-  const logout = () => {
+  const logoutFunc = () => {
     dispatch(setCart([]));
+    dispatch(logout([]));
     router.push("/login");
   };
   console.log(cart, "cart neee");
@@ -168,7 +170,7 @@ export default function Header({}: Props) {
                     Lịch sử mua hàng
                   </a>
                   <div className="dropdown-divider my-3 border-top"></div>
-                  <a className="dropdown-item text-dark" onClick={logout}>
+                  <a className="dropdown-item text-dark" onClick={logoutFunc}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
                     Đăng xuất
                   </a>

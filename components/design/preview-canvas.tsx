@@ -142,11 +142,14 @@ export default function PreviewCanvas({
 
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const auth = useAppSelector((state) => state.auth);
+
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
   const handleOpenDialog = () => {
-    setIsOpen(true);
+    if (!(auth.roleName === "USER")) router.push("/login");
+    else setIsOpen(true);
   };
 
   const defaultWidth =
@@ -154,6 +157,7 @@ export default function PreviewCanvas({
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const isEdit = useAppSelector((state) => state.isEdit);
   const selectedColors = useAppSelector((state) => state.selectedColors);
+  console.log(isEdit, "isEdit");
 
   const previews = useAppSelector((state) => state.previews);
 
@@ -206,7 +210,6 @@ export default function PreviewCanvas({
     outerSize: { outerWidth: number; outerHeight: number },
     isNeedColor: boolean
   ) => {
-    console.log(dataUrl, "dataUrl");
     if (!dataUrl && !outerSize) {
       return true;
     }
@@ -288,12 +291,14 @@ export default function PreviewCanvas({
   }, [renderColor]);
 
   React.useEffect(() => {
-    let keep = true;
-    const renderedColorList = previews.map((preview) => preview.color);
-    for (let index = 0; index < selectedColors.length && keep; index++) {
-      if (!renderedColorList.includes(selectedColors[index])) {
-        keep = false;
-        setRenderColor(selectedColors[index]);
+    if (!!selectedColors) {
+      let keep = true;
+      const renderedColorList = previews.map((preview) => preview.color);
+      for (let index = 0; index < selectedColors.length && keep; index++) {
+        if (!renderedColorList.includes(selectedColors[index])) {
+          keep = false;
+          setRenderColor(selectedColors[index]);
+        }
       }
     }
   }, [selectedColors]);
@@ -327,7 +332,7 @@ export default function PreviewCanvas({
     }
 
     if (canvas && !hasMorePreview) {
-      canvas?.clear();
+      canvas.clear();
       const renderedImage = previews.filter((preview) => {
         return (
           preview.color === renderColor && preview.position === renderedPosition

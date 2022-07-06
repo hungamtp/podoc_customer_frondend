@@ -37,10 +37,13 @@ export const designControlSlice = createSlice({
         },
       };
     },
+    resetControl: (tate) => {
+      return initialState;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setControlData } = designControlSlice.actions;
+export const { setControlData, resetControl } = designControlSlice.actions;
 
 export default designControlSlice.reducer;
