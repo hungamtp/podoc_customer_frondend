@@ -6,7 +6,13 @@ import { setColors } from "@/redux/slices/selectedColors";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { useRouter } from "next/router";
 import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
-export interface ISelectColorProps {}
+export interface ISelectColorProps {
+  colors: {
+    id: string;
+    name: string;
+    image: string;
+  }[];
+}
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,11 +24,9 @@ const MenuProps = {
     },
   },
 };
-export default function SelectColor(props: ISelectColorProps) {
+export default function SelectColor({ colors }: ISelectColorProps) {
   const router = useRouter();
-  const { productId, factoryId } = router.query;
-  const { data: colors, isLoading: isLoadingColors } =
-    useGetColorsByFactoryAndProductId(factoryId as string, productId as string);
+
   const [colorsList, setColorsList] = React.useState<string[]>([]);
   const dispatch = useAppDispatch();
   const handleChange = (event: SelectChangeEvent<typeof colorsList>) => {
