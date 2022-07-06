@@ -106,6 +106,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 onClick={() => {
                   closePreview();
                 }}
+                checked={!isPreview}
               />
               <label className="btn btn-outline-success" htmlFor="btnradio1">
                 Thiết kế
@@ -119,6 +120,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 onClick={() => {
                   openPreview();
                 }}
+                checked={isPreview}
               />
               <label className="btn btn-outline-success" htmlFor="btnradio2">
                 Bản thử

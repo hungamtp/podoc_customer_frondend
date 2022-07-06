@@ -85,9 +85,20 @@ export default function AboutPage(props: AboutPageProps) {
 
   const renderedBlueprint = blueprints;
 
+  const openPreview = () => {
+    setIsPreview(true);
+  };
+
+  const closePreview = () => {
+    setIsPreview(false);
+  };
+
   const designCanvas = renderedBlueprint ? (
     renderedBlueprint.map(
-      (blueprint) => position === blueprint.position && <DesignCanvas />
+      (blueprint) =>
+        position === blueprint.position && (
+          <DesignCanvas isEdit={false} openPreview={openPreview} />
+        )
     )
   ) : (
     <div id="preloader">
@@ -117,7 +128,6 @@ export default function AboutPage(props: AboutPageProps) {
   }, [blueprints]);
 
   React.useEffect(() => {
-    console.log(renderBlueprint, "renderBlueprint");
     if (renderBlueprint.length === blueprints?.length)
       dispatch(
         updateBlueprint({
@@ -129,14 +139,6 @@ export default function AboutPage(props: AboutPageProps) {
 
   const [isPreview, setIsPreview] = React.useState(false);
 
-  const openPreview = () => {
-    setIsPreview(true);
-  };
-
-  const closePreview = () => {
-    setIsPreview(false);
-  };
-
   return (
     <div className="container-fluid ">
       <>
@@ -146,8 +148,11 @@ export default function AboutPage(props: AboutPageProps) {
           isPreview={isPreview}
         />
 
-        {isPreview ? <PreviewCanvas colors={colors} /> : designCanvas}
-        <DesignFooterLeft isEdit={false} />
+        {isPreview ? (
+          <PreviewCanvas isEditPage={false} colors={colors} />
+        ) : (
+          designCanvas
+        )}
       </>
     </div>
   );

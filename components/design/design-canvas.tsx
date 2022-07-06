@@ -20,8 +20,12 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
+import DesignFooterLeft from "./design-footer-left";
+import DesignHeaderLeft from "./design-footer-left";
 export interface IDesignCanvasProps {
   // isPreview: boolean;
+  isEdit: boolean;
+  openPreview: () => void;
 }
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
@@ -155,7 +159,10 @@ const initPlaceHolder = (
   return { rect: rect, border };
 };
 
-export default function DesignCanvas(props: IDesignCanvasProps) {
+export default function DesignCanvas({
+  isEdit,
+  openPreview,
+}: IDesignCanvasProps) {
   const pageHeight = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0
@@ -894,7 +901,6 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
     if (!dataUrl && !outerSize) {
       return true;
     }
-    console.log(dataUrl, "dataUrl");
     const { outerWidth, outerHeight } = outerSize;
 
     if (canvas) {
@@ -920,36 +926,53 @@ export default function DesignCanvas(props: IDesignCanvasProps) {
   };
 
   return (
-    <div className="row h-81">
-      <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-        <div className="outer position-relative">
-          <canvas id="canvas" className="center-block"></canvas>
+    <>
+      <div className="row h-81">
+        <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
+          <div className="outer position-relative">
+            <canvas id="canvas" className="center-block"></canvas>
+          </div>
         </div>
-      </div>
 
-      <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
-        <div className=" d-flex flex-column">
-          <div className="p-3 ">
-            {controlData.isSetImage ||
-            controlData.isEmpty ||
-            controlData.isLoadingImage ? (
-              <EmptyTable addNewRect={addNewRect} addNewText={addNewText} />
-            ) : (
-              <Table
-                addNewRect={addNewRect}
-                deleteImage={deleteImage}
-                chooseDesign={chooseDesign}
-                cloneDesign={cloneDesign}
-                align={align}
-                setDesignLocation={setDesignLocation}
-                changeFont={changeFont}
-                changeTextColor={changeTextColor}
-                changeText={changeText}
-              />
-            )}
+        <div className="col-lg-3 d-md-none d-lg-block border-start px-0 overflow-y-scroll h-full">
+          <div className=" d-flex flex-column">
+            <div className="p-3 ">
+              {controlData.isSetImage ||
+              controlData.isEmpty ||
+              controlData.isLoadingImage ? (
+                <EmptyTable addNewRect={addNewRect} addNewText={addNewText} />
+              ) : (
+                <Table
+                  addNewRect={addNewRect}
+                  deleteImage={deleteImage}
+                  chooseDesign={chooseDesign}
+                  cloneDesign={cloneDesign}
+                  align={align}
+                  setDesignLocation={setDesignLocation}
+                  changeFont={changeFont}
+                  changeTextColor={changeTextColor}
+                  changeText={changeText}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="row h-8 ">
+        <DesignFooterLeft isEdit={isEdit} />
+        <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
+          <div className="d-flex justify-content-center border-top   py-4">
+            <div className="d-flex  w-full align-items-center px-4">
+              <button
+                className="btn btn-secondary w-full"
+                onClick={() => openPreview()}
+              >
+                Lưu lại
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

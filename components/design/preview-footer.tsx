@@ -1,22 +1,12 @@
 import { DesignState } from "@/models/design/designInfo";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { setValue, updateDesignInfos } from "@/redux/slices/design";
+import { updateDesignInfos } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import CreateDesignedProductForm from "./designed-product-info";
-import EditDesignForm from "./edit-design";
-export interface IDesignFooterLeftProps {
-  isEdit: boolean;
-}
+export interface IPreviewFooterProps {}
 
-export default function DesignFooterLeft({ isEdit }: IDesignFooterLeftProps) {
+export default function PreviewFooter({}: IPreviewFooterProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -120,7 +110,7 @@ export default function DesignFooterLeft({ isEdit }: IDesignFooterLeftProps) {
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-center  border-top  py-4">
           <div className="d-flex w-quater align-items-center px-4 btn-group group">
-            {positionArr}
+            Download
           </div>
         </div>
       </div>

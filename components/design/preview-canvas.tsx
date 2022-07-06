@@ -3,10 +3,15 @@ import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors
 import { Blueprint, DesignState } from "@/models/design";
 import { setIsEdit } from "@/redux/slices/isEdit";
 import { addPreview, clearAllPreview, Preview } from "@/redux/slices/previews";
+import { Dialog, DialogActions, DialogContent } from "@material-ui/core";
 import { nanoid } from "@reduxjs/toolkit";
 import { fabric } from "fabric";
 import { useRouter } from "next/router";
 import * as React from "react";
+import DesignHeaderLeft from "./design-header-left";
+import CreateDesignedProductForm from "./designed-product-info";
+import EditDesignForm from "./edit-design";
+import PreviewFooter from "./preview-footer";
 import PreviewTable from "./preview-table";
 export interface IPreviewCanvasProps {
   colors: {
@@ -14,6 +19,7 @@ export interface IPreviewCanvasProps {
     name: string;
     image: string;
   }[];
+  isEditPage: boolean;
 }
 const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
@@ -121,7 +127,10 @@ const initPlaceHolder = (
   return rect;
 };
 
-export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
+export default function PreviewCanvas({
+  colors,
+  isEditPage,
+}: IPreviewCanvasProps) {
   const pageHeight = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0
@@ -131,10 +140,20 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
 
   const [isDrawPreview, setIsDrawPreview] = React.useState(false);
 
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
+  const handleOpenDialog = () => {
+    setIsOpen(true);
+  };
+
   const defaultWidth =
     screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const isEdit = useAppSelector((state) => state.isEdit);
+  const selectedColors = useAppSelector((state) => state.selectedColors);
 
   const previews = useAppSelector((state) => state.previews);
 
@@ -269,14 +288,12 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
   }, [renderColor]);
 
   React.useEffect(() => {
-    console.log(hasMorePreview, "hasMorePreview");
     if (canvas && previews.length !== 0 && hasMorePreview) {
       canvas.clear();
       const renderedImage = previews.filter(
         (preview) =>
           preview.color === renderColor && preview.position === renderedPosition
       );
-      console.log(renderedImage, "renderedImage");
       const outerSize = {
         outerWidth: defaultWidth,
         outerHeight: pageHeight - pageHeight / 5.3,
@@ -353,13 +370,22 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
       if (renderCount > 0) {
         setRenderCount((count) => count - 1);
       }
+      // else if (!!selectedColors) {
+      //   let keep = true;
+      //   const renderedColorList = previews.map((preview) => preview.color);
+      //   for (let index = 0; index < selectedColors.length && keep; index++) {
+      //     if (!renderedColorList.includes(selectedColors[index])) {
+      //       keep = false;
+      //       console.log(selectedColors[index], "selectedColors[index]");
+      //     }
+      //   }
+      // }
       setImgSrc("");
     }
   }, [imgSrc]);
 
   React.useEffect(() => {
     if (canvas && placeHolder && hasMorePreview) {
-      console.log("count");
       canvas.add(placeHolder);
       let renderedBlueprint = initBlueprint;
       blueprintsData.blueprints.forEach((blueprint) => {
@@ -530,6 +556,39 @@ export default function PreviewCanvas({ colors }: IPreviewCanvasProps) {
           </div>
         </div>
       )}
+      <div className="row h-8 ">
+        <PreviewFooter />
+        <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
+          <div className="d-flex justify-content-center border-top   py-4">
+            <div className="d-flex  w-full align-items-center px-4">
+              <button
+                className="btn btn-secondary w-full"
+                onClick={() => handleOpenDialog()}
+              >
+                Lưu lại
+              </button>
+            </div>
+          </div>
+        </div>
+        <Dialog
+          open={isOpen}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth={true}
+        >
+          <DialogContent>
+            {isEditPage ? (
+              <EditDesignForm handleCloseDialog={handleCloseDialog} />
+            ) : (
+              <CreateDesignedProductForm
+                handleCloseDialog={handleCloseDialog}
+              />
+            )}
+          </DialogContent>
+          <DialogActions></DialogActions>
+        </Dialog>
+      </div>
     </>
   );
 }
