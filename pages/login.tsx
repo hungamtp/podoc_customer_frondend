@@ -62,7 +62,7 @@ export default function Login({ data }: Props) {
         onSuccess: (data) => {
           dispatch(loginAction(data));
           dispatch(setCart(responseCart));
-          router.push("/home");
+          router.back();
           // router.back();
         },
       }

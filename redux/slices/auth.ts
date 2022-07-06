@@ -28,7 +28,8 @@ export const counterSlice = createSlice({
       state.userId = action.payload.userId;
       state.roleName = action.payload.roleName;
     },
-    logout: (state) => {
+    logout: (state, action) => {
+      console.log("log out nee");
       state.isAuth = false;
       // state.token = "";
       state.userId = "";

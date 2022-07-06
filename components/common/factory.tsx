@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { FactoryDTO } from "@/services/type.dto";
 import { useAppDispatch } from "../hooks/reduxHook";
+import { setIsEdit } from "@/redux/slices/isEdit";
 
 type Props = {
   factory: FactoryDTO;
@@ -12,6 +13,8 @@ export default function Factory({ factory }: Props) {
   const productId = router.asPath.split("id=")[1];
   const dispatch = useAppDispatch();
   const startDesign = () => {
+    dispatch(setIsEdit(true)); //Không set true thì khi tạo xong mà muốn design tiếp sẽ lỗi
+
     router.push(`/design?productId=${productId}&factoryId=${factory.id}`);
     //push sẽ hủy hết lệnh và route qua trang khác
   };

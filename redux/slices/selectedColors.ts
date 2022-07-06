@@ -9,10 +9,13 @@ export const selectedColorsSlice = createSlice({
     setColors: (state, action) => {
       return action.payload;
     },
+    resetColors: () => {
+      return [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setColors } = selectedColorsSlice.actions;
+export const { setColors, resetColors } = selectedColorsSlice.actions;
 
 export default selectedColorsSlice.reducer;

@@ -1,14 +1,11 @@
 import DesignCanvas from "@/components/design/design-canvas";
-import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
 import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { nanoid } from "@reduxjs/toolkit";
 import { getBase64FromUrl } from "helper/files-utils";
-import { forEach } from "lodash";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { Blueprint } from "../models";
