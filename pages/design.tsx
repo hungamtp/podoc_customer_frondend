@@ -81,9 +81,11 @@ export default function AboutPage(props: AboutPageProps) {
     productId as string
   );
   const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
+  const [isLoadedBlueprints, setIsLoadedBlueprint] =
+    React.useState<boolean>(false);
   const position = useAppSelector((state) => state.blueprintsData.position);
 
-  const renderedBlueprint = blueprints;
+  const renderedBlueprints = blueprints;
 
   const openPreview = () => {
     setIsPreview(true);
@@ -93,23 +95,31 @@ export default function AboutPage(props: AboutPageProps) {
     setIsPreview(false);
   };
 
-  const designCanvas = renderedBlueprint ? (
-    renderedBlueprint.map(
+  React.useEffect(() => {
+    let isLoaded = true;
+    if (renderBlueprint && blueprints) {
+      renderBlueprint?.forEach((renderedBlueprint) => {
+        if (
+          !renderedBlueprint.tmpFrameImage ||
+          renderBlueprint.length < blueprints.length
+        )
+          isLoaded = false;
+      });
+
+      setIsLoadedBlueprint(isLoaded);
+    }
+  }, [renderBlueprint]);
+
+  //Để cả trang đợi 1 state, ta cần phải tạo 1 state (phụ thuộc vào state gốc) - sẽ đợi state gốc load xong thì mới cập nhật trang thái thành renderable
+
+  const designCanvas =
+    renderedBlueprints &&
+    renderedBlueprints.map(
       (blueprint) =>
         position === blueprint.position && (
           <DesignCanvas isEdit={false} openPreview={openPreview} />
         )
-    )
-  ) : (
-    <div id="preloader">
-      <div id="status">
-        <div className="spinner">
-          <div className="double-bounce1"></div>
-          <div className="double-bounce2"></div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 
   const { data: colors, isLoading: isLoadingColors } =
     useGetColorsByFactoryAndProductId(factoryId as string, productId as string);
@@ -141,19 +151,30 @@ export default function AboutPage(props: AboutPageProps) {
 
   return (
     <div className="container-fluid ">
-      <>
-        <DesignHeaderLeft
-          openPreview={openPreview}
-          closePreview={closePreview}
-          isPreview={isPreview}
-        />
+      {isLoadedBlueprints ? (
+        <>
+          <DesignHeaderLeft
+            openPreview={openPreview}
+            closePreview={closePreview}
+            isPreview={isPreview}
+          />
 
-        {isPreview ? (
-          <PreviewCanvas isEditPage={false} colors={colors} />
-        ) : (
-          designCanvas
-        )}
-      </>
+          {isPreview ? (
+            <PreviewCanvas isEditPage={false} colors={colors} />
+          ) : (
+            designCanvas
+          )}
+        </>
+      ) : (
+        <div id="preloader">
+          <div id="status">
+            <div className="spinner">
+              <div className="double-bounce1"></div>
+              <div className="double-bounce2"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
