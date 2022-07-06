@@ -77,18 +77,23 @@ export default function CreateDesignedProductForm(
     designedPrice: number;
     description: string;
   }) => {
-    const imageList = [] as { image: string; position: string }[];
+    const imageList = [] as {
+      image: string;
+      position: string;
+      color: string;
+    }[];
     previews.map((image) => {
       const file = b64toBlob(image.imageSrc);
       const imageRef = ref(
         storage,
-        `images/${data.name + "-" + image.position}`
+        `images/${data.name + "-" + image.position + "-" + image.color}`
       );
 
       uploadBytes(imageRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          const position = url.split("%2F")[1].split("-")[1].split("?")[0];
-          imageList.push({ image: url, position: position });
+          const position = url.split("%2F")[1].split("-")[1];
+          const color = url.split("%2F")[1].split("-")[2].split("?")[0];
+          imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
             if (blueprint.designInfos) return blueprint;
             return { ...blueprint, designInfos: [] };

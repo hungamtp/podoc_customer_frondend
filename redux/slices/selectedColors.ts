@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = ["white"];
+const initialState: string[] = [];
 
 export const selectedColorsSlice = createSlice({
   name: "selectedColors",
