@@ -32,6 +32,30 @@ export default function DesignedProductDetail() {
 
   const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [selectedColor, setSelectedColor] = React.useState<string>("");
+  const [sizeList, setSizeList] = React.useState<
+    { color: string; size: string }[]
+  >([]);
+  const [colorList, setColorList] = React.useState<string[]>([]);
+
+  if (designedProduct) console.log(designedProduct.colorAndSizes, "data");
+
+  React.useEffect(() => {
+    if (!!designedProduct) {
+      const colorsAndSizeList = designedProduct.colorAndSizes;
+      if (!!colorsAndSizeList) {
+        const tmpColorsList = Object.getOwnPropertyNames(colorsAndSizeList);
+        setColorList(tmpColorsList);
+      }
+    }
+  }, [designedProduct]);
+  React.useEffect(() => {
+    if (!!designedProduct) {
+      if (!!designedProduct.colorAndSizes) {
+        setSizeList(designedProduct.colorAndSizes[selectedColor]);
+      }
+    }
+  }, [selectedColor]);
+
   const [quantity, setQuantity] = React.useState(1);
 
   const { mutate: updateCart } = useUpdateCart();
@@ -220,43 +244,21 @@ export default function DesignedProductDetail() {
                         <div>
                           <div className="row mt-4 pt-2">
                             <div className="col-lg-6 col-12">
-                              <div className="d-flex align-items-center">
-                                <h6 className="mb-0">Size:</h6>
-                                <ul className="list-unstyled mb-0 ms-3">
-                                  {designedProduct.sizes.map((size) => (
-                                    <li
-                                      key={size}
-                                      className="list-inline-item ms-1"
-                                    >
-                                      <button
-                                        className={`${
-                                          size === selectedSize
-                                            ? `is-select`
-                                            : "my-button"
-                                        }`}
-                                        onClick={() => setSelectedSize(size)}
-                                      >
-                                        {size}
-                                      </button>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div className="d-flex align-items-center pt-4">
+                              <div className="d-flex align-items-center ">
                                 <h6 className="mb-0">Màu:</h6>
                                 <ul className="list-unstyled mb-0 ms-3">
-                                  {designedProduct.colors.map((color) => (
+                                  {colorList.map((color) => (
                                     <li
-                                      key={color.image}
+                                      key={color}
                                       className="list-inline-item ms-1"
                                     >
                                       <div
                                         className={` ${
-                                          color.name === selectedColor &&
+                                          color === selectedColor &&
                                           "border-blue"
                                         }`}
                                         onClick={() => {
-                                          setSelectedColor(color.name);
+                                          setSelectedColor(color);
                                         }}
                                       >
                                         <img
@@ -267,16 +269,40 @@ export default function DesignedProductDetail() {
                                             "https://images.printify.com/5853fec7ce46f30f8328200a"
                                           }
                                           style={{
-                                            backgroundColor: color.image,
+                                            backgroundColor: color,
                                             opacity: "0.8",
                                           }}
-                                          alt={color.image}
+                                          alt={color}
                                         />
                                       </div>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
+                              {sizeList && (
+                                <div className="d-flex align-items-center pt-4">
+                                  <h6 className="mb-0">Size:</h6>
+                                  <ul className="list-unstyled mb-0 ms-3">
+                                    {sizeList.map(({ size }) => (
+                                      <li
+                                        key={size}
+                                        className="list-inline-item ms-1"
+                                      >
+                                        <button
+                                          className={`${
+                                            size === selectedSize
+                                              ? `is-select`
+                                              : "my-button"
+                                          }`}
+                                          onClick={() => setSelectedSize(size)}
+                                        >
+                                          {size}
+                                        </button>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
                             </div>
                             {/*end col*/}
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">

@@ -17,7 +17,7 @@ export default function Header({}: Props) {
   const logoutFunc = () => {
     dispatch(setCart([]));
     dispatch(logout([]));
-    router.push("/login");
+    router.push("/");
   };
   console.log(cart, "cart neee");
   function toggleMenu(): void {
@@ -159,16 +159,23 @@ export default function Header({}: Props) {
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 py-3"
                   style={{ width: "200px" }}
                 >
-                  <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-user align-middle me-1"></i> Tài khoản
-                  </a>
-                  <Link className="dropdown-item text-dark" href="/mydesign">
-                    <i className="bi bi-suit-heart me-1"> Thiết kế của tôi</i>
+                  <Link href="/mydesign">
+                    <a className="dropdown-item text-dark" href="#">
+                      <i className="uil uil-user align-middle me-1"></i> Tài
+                      khoản
+                    </a>
                   </Link>
-                  <a className="dropdown-item text-dark" href="#">
-                    <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
-                    Lịch sử mua hàng
-                  </a>
+                  <Link href="/mydesign">
+                    <a className="dropdown-item text-dark">
+                      <i className="bi bi-suit-heart me-1"> Thiết kế của tôi</i>
+                    </a>
+                  </Link>
+                  <Link href="/mydesign">
+                    <a className="dropdown-item text-dark" href="#">
+                      <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
+                      Lịch sử mua hàng
+                    </a>
+                  </Link>
                   <div className="dropdown-divider my-3 border-top"></div>
                   <a className="dropdown-item text-dark" onClick={logoutFunc}>
                     <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
