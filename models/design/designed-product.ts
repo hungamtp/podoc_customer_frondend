@@ -23,6 +23,7 @@ export interface ShownDesignedProduct {
     lastName: string;
     credentialImage: string;
   };
+  colorAndSizes: any;
   imagePreviews: { position: string; image: string }[];
   rating: number;
   sold: number;
