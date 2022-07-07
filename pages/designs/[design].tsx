@@ -279,7 +279,7 @@ export default function DesignedProductDetail() {
                                   ))}
                                 </ul>
                               </div>
-                              {sizeList && (
+                              {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
                                   <ul className="list-unstyled mb-0 ms-3">

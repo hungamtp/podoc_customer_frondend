@@ -33,7 +33,7 @@ export default function Header({}: Props) {
   const router = useRouter();
   return (
     <div>
-      <div id="topnav" className="defaultscroll sticky">
+      <div id="topnav">
         <div className="container">
           <a className="logo" href="/">
             <img
