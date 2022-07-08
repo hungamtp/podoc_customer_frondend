@@ -366,7 +366,7 @@ export default function Checkout({}: Props) {
                     aria-describedby="alert-dialog-description"
                     fullWidth={true}
                   >
-                    {shippingInfos && (
+                    {shippingInfos && shippingInfos.length > 0 && (
                       <DialogContent>
                         <div className="overflow-y-scroll h-60">
                           {shippingInfosList}
