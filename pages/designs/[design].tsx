@@ -32,6 +32,7 @@ export default function DesignedProductDetail() {
 
   const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [selectedColor, setSelectedColor] = React.useState<string>("");
+  const [selectedColorSize, setSelectedColorSize] = React.useState<string>("");
   const [sizeList, setSizeList] = React.useState<
     { color: string; size: string }[]
   >([]);
@@ -48,13 +49,14 @@ export default function DesignedProductDetail() {
       }
     }
   }, [designedProduct]);
+
   React.useEffect(() => {
     if (!!designedProduct) {
       if (!!designedProduct.colorAndSizes) {
-        setSizeList(designedProduct.colorAndSizes[selectedColor]);
+        setSizeList(designedProduct.colorAndSizes[selectedColorSize]);
       }
     }
-  }, [selectedColor]);
+  }, [selectedColorSize]);
 
   const [quantity, setQuantity] = React.useState(1);
 
@@ -249,16 +251,17 @@ export default function DesignedProductDetail() {
                                 <ul className="list-unstyled mb-0 ms-3">
                                   {colorList.map((color) => (
                                     <li
-                                      key={color}
+                                      key={color.split("-")[0]}
                                       className="list-inline-item ms-1"
                                     >
                                       <div
                                         className={` ${
-                                          color === selectedColor &&
-                                          "border-blue"
+                                          color.split("-")[0] ===
+                                            selectedColor && "border-blue"
                                         }`}
                                         onClick={() => {
-                                          setSelectedColor(color);
+                                          setSelectedColorSize(color);
+                                          setSelectedColor(color.split("-")[0]);
                                         }}
                                       >
                                         <img
@@ -269,17 +272,18 @@ export default function DesignedProductDetail() {
                                             "https://images.printify.com/5853fec7ce46f30f8328200a"
                                           }
                                           style={{
-                                            backgroundColor: color,
+                                            backgroundColor:
+                                              color.split("-")[1],
                                             opacity: "0.8",
                                           }}
-                                          alt={color}
+                                          alt={color.split("-")[0]}
                                         />
                                       </div>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                              {sizeList && (
+                              {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
                                   <ul className="list-unstyled mb-0 ms-3">
