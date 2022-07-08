@@ -33,7 +33,7 @@ export default function Header({}: Props) {
   const router = useRouter();
   return (
     <div>
-      <div id="topnav">
+      <div id="topnav" className="bg-light">
         <div className="container">
           <a className="logo" href="/">
             <img
