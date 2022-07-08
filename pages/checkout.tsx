@@ -96,11 +96,13 @@ export default function Checkout({}: Props) {
     reset,
   } = form;
 
+  console.log(errors, "errorss");
+
   const submit: SubmitHandler<ShippingInfo> = (data) => {
     createOrder(
       { shippingInfo: data, paymentMethod: 0 },
       {
-        onSuccess: (data) => {
+        onSuccess: (data: any) => {
           // const qrCode = $($.parseHTML)
           // const rp = fetch(data.data.payUrl).then(response => response.json())
           // .then(data => console.log(data))
@@ -204,31 +206,40 @@ export default function Checkout({}: Props) {
               <div className="col-md-5 col-lg-4 order-md-last">
                 <div className="card rounded shadow p-4 border-0">
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="h5 mb-0">Your cart</span>
-                    <span className="badge bg-primary rounded-pill">3</span>
+                    <span className="h5 mb-0">Giỏ hàng của tôi</span>
+                    <span className="badge bg-primary rounded-pill">
+                      {cart.length}
+                    </span>
                   </div>
                   <ul className="list-group mb-3 border">
-                    <li className="d-flex justify-content-between lh-sm p-3 border-bottom">
-                      <div>
-                        <h6 className="my-0">Product name</h6>
-                        <small className="text-muted">Brief description</small>
-                      </div>
-                      <span className="text-muted">$12</span>
-                    </li>
-                    <li className="d-flex justify-content-between lh-sm p-3 border-bottom">
-                      <div>
-                        <h6 className="my-0">Second product</h6>
-                        <small className="text-muted">Brief description</small>
-                      </div>
-                      <span className="text-muted">$8</span>
-                    </li>
-                    <li className="d-flex justify-content-between lh-sm p-3 border-bottom">
-                      <div>
-                        <h6 className="my-0">Third item</h6>
-                        <small className="text-muted">Brief description</small>
-                      </div>
-                      <span className="text-muted">$5</span>
-                    </li>
+                    {cart.map((cartDetail) => (
+                      <li
+                        key={cartDetail.id}
+                        className="d-flex justify-content-between lh-sm p-3 border-bottom"
+                      >
+                        <div>
+                          <h6 className="my-0">
+                            {cartDetail.designedProductName}
+                          </h6>
+                          <div className="d-flex  justify-content-between">
+                            <small className="text-muted">
+                              {`Màu: `}
+                              {cartDetail.color}
+                            </small>
+                            <small className="text-muted">
+                              {`Kích thước: `}
+                              {cartDetail.size}
+                            </small>
+                          </div>
+                          <small className="text-muted">
+                            {`Số lượng: `}
+                            {cartDetail.quantity}
+                          </small>
+                        </div>
+                        <span className="text-muted">{cartDetail.price}</span>
+                      </li>
+                    ))}
+
                     <li className="d-flex justify-content-between bg-light p-3 border-bottom">
                       <div className="text-success">
                         <h6 className="my-0">Promo code</h6>
@@ -237,8 +248,13 @@ export default function Checkout({}: Props) {
                       <span className="text-success">−$5</span>
                     </li>
                     <li className="d-flex justify-content-between p-3">
-                      <span>Total (USD)</span>
-                      <strong>$20</strong>
+                      <span>Tổng tiền (Vnđ)</span>
+                      <strong>
+                        {cart.reduce(
+                          (totalSum, a) => totalSum + a.quantity * a.price,
+                          0
+                        )}
+                      </strong>
                     </li>
                   </ul>
                   <div className="input-group">
@@ -261,7 +277,7 @@ export default function Checkout({}: Props) {
                 >
                   <div className="d-flex justify-content-between">
                     <h4 className="mb-3">Thông tin giao hàng</h4>
-                    {shippingInfos && (
+                    {shippingInfos && shippingInfos.length > 0 && (
                       <button
                         className="btn btn-secondary"
                         onClick={() => {
@@ -293,9 +309,7 @@ export default function Checkout({}: Props) {
                         {...register("name")}
                       />
                       {errors.name && (
-                        <div className="invalid-feedback">
-                          {errors.name.message}
-                        </div>
+                        <div className="text-danger">{errors.name.message}</div>
                       )}
                     </div>
                     <div className="col-sm-6">
@@ -309,7 +323,7 @@ export default function Checkout({}: Props) {
                         {...register("phone")}
                       />
                       {errors.phone && (
-                        <div className="invalid-feedback">
+                        <div className="text-danger">
                           {errors.phone.message}
                         </div>
                       )}
@@ -325,7 +339,7 @@ export default function Checkout({}: Props) {
                         {...register("email")}
                       />
                       {errors.email && (
-                        <div className="invalid-feedback">
+                        <div className="text-danger">
                           {errors.email.message}
                         </div>
                       )}
@@ -341,7 +355,7 @@ export default function Checkout({}: Props) {
                         {...register("address")}
                       />
                       {errors.address && (
-                        <div className="invalid-feedback">
+                        <div className="text-danger">
                           {errors.address.message}
                         </div>
                       )}
@@ -375,7 +389,9 @@ export default function Checkout({}: Props) {
                     )}
                   </Dialog>
 
-                  <h4 className="mb-3 mt-4 pt-4 border-top">Payment</h4>
+                  <h4 className="mb-3 mt-4 pt-4 border-top">
+                    Phương thức thanh toán
+                  </h4>
                   <div className="checkout-button">
                     <div className="checkout-selector">
                       <input
@@ -396,7 +412,7 @@ export default function Checkout({}: Props) {
                     </div>
                   </div>
                   <button className="w-100 btn btn-primary" type="submit">
-                    Continue to checkout
+                    Tiếp tục thanh toán
                   </button>
                 </form>
               </div>

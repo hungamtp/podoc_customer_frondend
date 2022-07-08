@@ -1,29 +1,46 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
-import { MainLayout } from '@/components/layouts';
-import Cart from '@/components/common/cart';
-import { setCartNotEnough , resetCartNotEnough } from '@/redux/slices/checkCart';
-import { useAppSelector , useAppDispatch } from '@/components/hooks/reduxHook';
-import useCheckCart from '@/hooks/api/cart/use-check-cart';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import { MainLayout } from "@/components/layouts";
+import Cart from "@/components/common/cart";
+import { setCartNotEnough, resetCartNotEnough } from "@/redux/slices/checkCart";
+import { useAppSelector, useAppDispatch } from "@/components/hooks/reduxHook";
+import useCheckCart from "@/hooks/api/cart/use-check-cart";
+import { useRouter } from "next/router";
+import { Dialog, DialogContent } from "@material-ui/core";
+import Link from "next/link";
 type Props = {};
 
 export default function Carts({}: Props) {
-  const carts = useAppSelector(state => state.carts);
+  const carts = useAppSelector((state) => state.carts);
   const haveProduct = carts?.length != 0;
   const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
   const { mutate: checkCart, isLoading, error } = useCheckCart();
+
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
+  const handleOpenDialog = () => {
+    setIsOpen(true);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const handleProceed = () =>{
-  checkCart(carts , {onSuccess: (data) => {
-      dispatch(setCartNotEnough(data))
-      if(data.length == 0){
-        dispatch(setCartNotEnough([]));
-        router.push("/checkout")
-      }
-    }});
-  
-  }
+  const handleProceed = () => {
+    if (auth.isAuth)
+      checkCart(carts, {
+        onSuccess: (data) => {
+          dispatch(setCartNotEnough(data));
+          if (data.length == 0) {
+            dispatch(setCartNotEnough([]));
+            router.push("/checkout");
+          }
+        },
+      });
+    else {
+      setIsOpen(true);
+    }
+  };
   return (
     <>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -50,8 +67,15 @@ export default function Carts({}: Props) {
       </section>
       <div className="position-relative">
         <div className="shape overflow-hidden text-white">
-          <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+          <svg
+            viewBox="0 0 2880 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
+              fill="currentColor"
+            ></path>
           </svg>
         </div>
       </div>
@@ -61,35 +85,58 @@ export default function Carts({}: Props) {
             <div className="col-12">
               <div className="table-responsive bg-white shadow rounded">
                 {carts?.length == 0 ? (
-                  <h4 className='warning-cart-text'>Chưa có sản phẩm nào trong giỏ hàng</h4>
+                  <h4 className="warning-cart-text">
+                    Chưa có sản phẩm nào trong giỏ hàng
+                  </h4>
                 ) : (
                   <table className="table mb-0 table-center">
                     <thead>
                       <tr>
-                        <th className="border-bottom py-3" style={{ minWidth: '20px' }}></th>
-                        <th className="border-bottom text-start py-3" style={{ minWidth: '200px' }}>
-                          Product
+                        <th
+                          className="border-bottom py-3"
+                          style={{ minWidth: "20px" }}
+                        ></th>
+                        <th
+                          className="border-bottom text-start py-3"
+                          style={{ minWidth: "200px" }}
+                        >
+                          Sản phẩm
                         </th>
-                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
-                          Size
+                        <th
+                          className="border-bottom text-center py-3"
+                          style={{ minWidth: "50px" }}
+                        >
+                          Kích thước
                         </th>
-                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
-                          Color
+                        <th
+                          className="border-bottom text-center py-3"
+                          style={{ minWidth: "50px" }}
+                        >
+                          Màu
                         </th>
-                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
-                          Price
+                        <th
+                          className="border-bottom text-center py-3"
+                          style={{ minWidth: "50px" }}
+                        >
+                          Giá
                         </th>
-                        <th className="border-bottom text-center py-3" style={{ minWidth: '100px' }}>
-                          Quantity
+                        <th
+                          className="border-bottom text-center py-3"
+                          style={{ minWidth: "100px" }}
+                        >
+                          Số lượng
                         </th>
-                        <th className="border-bottom text-end py-3 pe-4" style={{ minWidth: '100px' }}>
-                          Total
+                        <th
+                          className="border-bottom text-end py-3 pe-4"
+                          style={{ minWidth: "100px" }}
+                        >
+                          Tổng (VND)
                         </th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {carts?.map(cart => {
+                      {carts?.map((cart) => {
                         return <Cart key={cart.id} cart={cart} />;
                       })}
                     </tbody>
@@ -99,39 +146,66 @@ export default function Carts({}: Props) {
               {haveProduct && (
                 <div className="row">
                   <div className="col-lg-8 col-md-6 mt-4 pt-2">
-                    <a href="designs" className="btn btn-primary">
-                      Shop More
-                    </a>
+                    <Link href="/designs">
+                      <a className="btn btn-primary">Tiếp tục mua hàng</a>
+                    </Link>
                   </div>
                   <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                     <div className="table-responsive bg-white rounded shadow">
                       <table className="table table-center table-padding mb-0">
                         <tbody>
                           <tr>
-                            <td className="h6 ps-4 py-3">Subtotal</td>
-                            <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
+                            <td className="h6 ps-4 py-3">Tổng </td>
+                            <td className="text-end fw-bold pe-4">
+                              {carts.reduce(
+                                (totalSum, a) =>
+                                  totalSum + a.quantity * a.price,
+                                0
+                              )}{" "}
+                              VND
+                            </td>
                           </tr>
                           <tr>
                             <td className="h6 ps-4 py-3">Coupon</td>
                             <td className="text-end fw-bold pe-4">
                               <div className="input-group">
-                                <input type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  aria-label="Recipient's username"
+                                  aria-describedby="basic-addon2"
+                                />
                                 <div className="input-group-append">
-                                  <button className="btn btn-outline-secondary" type="button">Apply</button>
+                                  <button
+                                    className="btn btn-outline-secondary"
+                                    type="button"
+                                  >
+                                    Apply
+                                  </button>
                                 </div>
                               </div>
                             </td>
                           </tr>
                           <tr className="bg-light">
-                            <td className="h6 ps-4 py-3">Total</td>
-                            <td className="text-end fw-bold pe-4">$ {carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0)}</td>
+                            <td className="h6 ps-4 py-3">Thành tiền</td>
+                            <td className="text-end fw-bold pe-4">
+                              {carts.reduce(
+                                (totalSum, a) =>
+                                  totalSum + a.quantity * a.price,
+                                0
+                              )}{" "}
+                              VND
+                            </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                     <div className="mt-4 pt-2 text-end">
-                      <button className="btn btn-primary" onClick={handleProceed}>
-                        Proceed to checkout
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleProceed}
+                      >
+                        Tiến hành thanh toán
                       </button>
                     </div>
                   </div>
@@ -140,6 +214,48 @@ export default function Carts({}: Props) {
             </div>
           </div>
         </div>
+        <Dialog
+          open={isOpen}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth={true}
+        >
+          <DialogContent>
+            <div className="col-xxl">
+              <div className="card mb-4">
+                <div className="card-body">
+                  <div className="row mb-3">
+                    <label htmlFor="basic-icon-default-fullname" className="h4">
+                      Bạn cần phải đăng nhập để có thể thanh toán, bạn có đồng ý
+                      không?
+                    </label>
+                  </div>
+
+                  <div className="d-flex justify-content-center">
+                    <div className="col-sm-10 d-flex justify-content-around">
+                      <button
+                        className="btn btn-primary"
+                        color="primary"
+                        onClick={() => router.push("/login")}
+                      >
+                        Đồng ý
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={handleCloseDialog}
+                        autoFocus
+                        type="button"
+                      >
+                        Không
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </section>
     </>
   );
