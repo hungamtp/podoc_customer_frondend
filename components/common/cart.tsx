@@ -65,7 +65,7 @@ export default function Cart({ cart }: Props) {
       </td>
       <td className="text-center mb-0 ms-3">{cart.size}</td>
       <td className="text-center">{cart.color}</td>
-      <td className="text-center">$ {cart.price}</td>
+      <td className="text-center"> {cart.price}</td>
       <td className="text-center qty-icons">
         <button
           className={`btn btn-icon btn-soft-primary minus ${
@@ -103,9 +103,7 @@ export default function Cart({ cart }: Props) {
         </div>
       </td>
       {cart.publish ? (
-        <td className="text-end fw-bold pe-4">
-          $ {cart.price * cart.quantity}
-        </td>
+        <td className="text-end fw-bold pe-4">{cart.price * cart.quantity}</td>
       ) : (
         <td style={{ width: "100px", color: "red" }}>
           Sản phẩm ngừng kinh doanh

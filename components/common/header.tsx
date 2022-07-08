@@ -13,6 +13,7 @@ type Props = {};
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   const cart = useAppSelector((state) => state.carts);
+  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const logoutFunc = () => {
     dispatch(setCart([]));
@@ -177,10 +178,22 @@ export default function Header({}: Props) {
                     </a>
                   </Link>
                   <div className="dropdown-divider my-3 border-top"></div>
-                  <a className="dropdown-item text-dark" onClick={logoutFunc}>
-                    <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                    Đăng xuất
-                  </a>
+                  {auth.isAuth ? (
+                    <a
+                      className="dropdown-item text-dark cursor-pointer"
+                      onClick={logoutFunc}
+                    >
+                      <i className="uil uil-sign-in-alt align-middle me-1"></i>{" "}
+                      Đăng xuất
+                    </a>
+                  ) : (
+                    <Link href="/login">
+                      <a className="dropdown-item text-dark">
+                        <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
+                        Đăng nhập
+                      </a>
+                    </Link>
+                  )}
                 </div>
               </div>
             </li>
