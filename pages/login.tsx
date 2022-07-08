@@ -105,7 +105,7 @@ export default function Login({ data }: Props) {
             <div className="col-lg-7 col-md-6">
               <div className="me-lg-5">
                 <img
-                  src="asset/images/user/login.svg"
+                  src="asset/images/user/login-picture.png"
                   className="img-fluid d-block mx-auto"
                   alt=""
                 />
