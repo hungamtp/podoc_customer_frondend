@@ -122,13 +122,13 @@ export default function Header({}: Props) {
                         fontStyle: "italic",
                       }}
                     >
-                      You have {cart.length} product in cart
+                      Bạn có {cart.length} sản phẩm trong giỏ hàng
                     </div>
                   </div>
 
                   <div className="  text-center">
                     <a href="/carts" className="btn btn-primary me-2">
-                      View Cart
+                      Xem giỏ hàng
                     </a>
                   </div>
                 </div>

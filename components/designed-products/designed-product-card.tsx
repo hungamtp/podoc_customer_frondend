@@ -4,6 +4,7 @@ import { Best4DesignedProduct, ProductHomePage } from "@/services/type.dto";
 import { MouseEventHandler } from "react";
 import { ShownDesignedProduct } from "@/models/design";
 import { useRouter } from "next/router";
+import { numberWithCommas } from "helper/number-util";
 type Props = {
   product: ShownDesignedProduct;
 };
@@ -114,7 +115,7 @@ export default function DesignedProductCard({ product }: Props) {
           </a>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">
-              ${product.price}
+              {numberWithCommas(product.price)} VND
             </h6>
           </div>
           <div className="design-detail">

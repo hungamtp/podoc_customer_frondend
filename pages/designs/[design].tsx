@@ -11,6 +11,7 @@ import {
 } from "@/redux/slices/cart";
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
 import { nanoid } from "@reduxjs/toolkit";
+import { numberWithCommas } from "helper/number-util";
 import { useRouter } from "next/router";
 import * as React from "react";
 
@@ -197,7 +198,7 @@ export default function DesignedProductDetail() {
                         </div>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            ${designedProduct.price}
+                            {numberWithCommas(designedProduct.price)} VND
                           </h6>
                         </div>
                         <div>
@@ -222,27 +223,7 @@ export default function DesignedProductDetail() {
                         <p className="text-muted">
                           {designedProduct.description}
                         </p>
-                        <ul className="list-unstyled text-muted">
-                          <li className="mb-1">
-                            <span className="text-primary h5 me-2">
-                              <i className="uil uil-check-circle align-middle" />
-                            </span>
-                            Digital Marketing Solutions for Tomorrow
-                          </li>
-                          <li className="mb-1">
-                            <span className="text-primary h5 me-2">
-                              <i className="uil uil-check-circle align-middle" />
-                            </span>
-                            Our Talented &amp; Experienced Marketing Agency
-                          </li>
-                          <li className="mb-1">
-                            <span className="text-primary h5 me-2">
-                              <i className="uil uil-check-circle align-middle" />
-                            </span>
-                            Create your own skin to match your brand
-                          </li>
-                        </ul>
-
+                        <hr className="my-0" />
                         <div>
                           <div className="row mt-4 pt-2">
                             <div className="col-lg-6 col-12">
@@ -311,7 +292,7 @@ export default function DesignedProductDetail() {
                             {/*end col*/}
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">
                               <div className="d-flex shop-list align-items-center">
-                                <h6 className="mb-0">Quantity:</h6>
+                                <h6 className="mb-0">Số lượng:</h6>
                                 <div className="qty-icons ms-3">
                                   <button
                                     className={`btn btn-icon btn-soft-primary minus ${
@@ -350,13 +331,13 @@ export default function DesignedProductDetail() {
                               className="btn btn-primary"
                               onClick={() => router.push("/carts")}
                             >
-                              Shop Now
+                              Mua sản phẩm
                             </button>
                             <button
                               className="btn btn-soft-primary ms-2"
                               onClick={() => updateQuantity(quantity)}
                             >
-                              Add to Cart
+                              Thêm vào giỏ hàng
                             </button>
                           </div>
                         </div>
