@@ -1,3 +1,4 @@
+import useProductDetail from "@/hooks/api/use-product-detail";
 import { DesignState } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { setControlData } from "@/redux/slices/designControl";
@@ -26,7 +27,8 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
   const dispatch = useAppDispatch();
-
+  const productId = router.asPath.split("productId=")[1].split("&")[0];
+  const { data: response, isLoading: isLoading } = useProductDetail(productId);
   const updateAllToPreview = () => {
     let pos = -1;
     let tmpDesignInfos: DesignState[] | undefined = [
@@ -81,14 +83,19 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
           <div className="d-flex">
             <p
               className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/raw-products")}
             >
+              {" "}
               Trở về trang sản phẩm
             </p>
-            <div className="d-flex flex-column justify-content-center">
-              <p className="h5 pt-2">Áo thun name</p>
-              <p className="text-secondary">Cung cấp bởi nhà in H2PD</p>
-            </div>
+            {!isLoading && response && (
+              <div className="d-flex flex-column justify-content-center">
+                <p className="h5 pt-2">{response.name}</p>
+                <p className="text-secondary">
+                  Cung cấp bởi nhà in {response.factories[0].name}
+                </p>
+              </div>
+            )}
           </div>
           <div className="d-flex justify-content-center w-quater align-items-center px-4 btn-group">
             <div

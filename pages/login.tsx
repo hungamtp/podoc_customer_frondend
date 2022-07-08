@@ -11,6 +11,8 @@ import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { login as loginAction } from "@/redux/slices/auth";
 import { setCart } from "@/redux/slices/cart";
 import useCart from "@/hooks/api/cart/use-cart";
+import { AxiosError } from "axios";
+import { ErrorHttpResponse } from "../models";
 
 type FormLogin = {
   email: string;
@@ -38,7 +40,7 @@ export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
   // const [error, setError] = React.useState(false);
-  const { mutate: login, isLoading, error } = useLogin();
+  const { mutate: login, isLoading } = useLogin();
   const dispatch = useAppDispatch();
   const defaultValues: FormLogin = {
     email: "",
@@ -54,16 +56,21 @@ export default function Login({ data }: Props) {
     resolver: yupResolver(schema),
   });
   const { data: responseCart, isLoading: isCartLoading } = useCart();
+  const [errorLogin, setErrorLogin] = useState<string>("");
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     data.email = data.email.trimStart().trimEnd();
     const res = login(
       { email: data.email, password: data.password },
       {
         onSuccess: (data) => {
+          console.log(data);
           dispatch(loginAction(data));
           dispatch(setCart(responseCart));
           router.back();
           // router.back();
+        },
+        onError: (error: any) => {
+          if (error.response) setErrorLogin(error.response?.data.errorMessage);
         },
       }
     );
@@ -111,6 +118,9 @@ export default function Login({ data }: Props) {
                   <form
                     className="login-form mt-4"
                     onSubmit={handleSubmit(onSubmit)}
+                    onChange={() => {
+                      setErrorLogin("");
+                    }}
                   >
                     <div className="row">
                       <div className="col-lg-12">
@@ -140,34 +150,36 @@ export default function Login({ data }: Props) {
 
                       <div className="col-lg-12">
                         <div className="mb-3">
-                          <label className="form-label">
-                            Mật khẩu <span className="text-danger">*</span>
-                          </label>
-                          <div className="form-icon position-relative">
-                            <i className="fea icon-sm icons"></i>
-                            <input
-                              type="password"
-                              className="form-control ps-5"
-                              placeholder="Mật khẩu"
-                              {...register("password")}
-                            />
-                          </div>
-                          {errors.password && (
-                            <span
-                              id="error-pwd-message"
-                              className="text-danger"
-                            >
-                              {errors.password.message}
-                            </span>
-                          )}
-                          {error && (
-                            <span
-                              id="error-pwd-message"
-                              className="text-danger"
-                            >
-                              {error.response?.data.errorMessage}
-                            </span>
-                          )}
+                          <>
+                            <label className="form-label">
+                              Mật khẩu <span className="text-danger">*</span>
+                            </label>
+                            <div className="form-icon position-relative">
+                              <i className="fea icon-sm icons"></i>
+                              <input
+                                type="password"
+                                className="form-control ps-5"
+                                placeholder="Mật khẩu"
+                                {...register("password")}
+                              />
+                            </div>
+                            {errors.password && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.password.message}
+                              </span>
+                            )}
+                            {errorLogin && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errorLogin}
+                              </span>
+                            )}
+                          </>
                         </div>
                       </div>
 

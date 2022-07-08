@@ -57,7 +57,7 @@ export default function DesignedProducts(props: IProductProps) {
             <div className="row mt-5 justify-content-center">
               <div className="col-lg-12 text-center">
                 <div className="pages-heading">
-                  <h4 className="title mb-0"> All Products </h4>
+                  <h4 className="title mb-0"> Tất cả sản phẩm </h4>
                 </div>
               </div>
               {/*end col*/}
@@ -132,7 +132,7 @@ export default function DesignedProducts(props: IProductProps) {
 
                     {/* Top Products */}
                     <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Top Products</h5>
+                      <h5 className="widget-title">Sản phẩm bán chạy</h5>
                       <ul className="list-unstyled mt-4 mb-0">
                         <li className="d-flex align-items-center">
                           <a href=" ">
@@ -222,12 +222,12 @@ export default function DesignedProducts(props: IProductProps) {
                     <div className="col-lg-8 col-md-7">
                       <div className="section-title">
                         <h5 className="mb-0">
-                          Showing 1–
+                          Hiển thị 1–
                           {response && response.elements < filter.pageSize
                             ? response.elements
                             : filter.pageSize}{" "}
-                          of {response.elements}
-                          &nbsp;results
+                          của {response.elements}
+                          &nbsp;kết quả
                         </h5>
                       </div>
                     </div>

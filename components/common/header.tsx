@@ -20,7 +20,6 @@ export default function Header({}: Props) {
     dispatch(logout([]));
     router.push("/");
   };
-  console.log(cart, "cart neee");
   function toggleMenu(): void {
     var isOpen = document.getElementById("navigation");
     if (isOpen) {
@@ -32,6 +31,7 @@ export default function Header({}: Props) {
     }
   }
   const router = useRouter();
+  const auth = useAppSelector((state) => state.auth);
   return (
     <div>
       <div id="topnav" className="bg-light">
@@ -123,13 +123,13 @@ export default function Header({}: Props) {
                         fontStyle: "italic",
                       }}
                     >
-                      You have {cart.length} product in cart
+                      Bạn có {cart.length} sản phẩm trong giỏ hàng
                     </div>
                   </div>
 
                   <div className="  text-center">
                     <a href="/carts" className="btn btn-primary me-2">
-                      View Cart
+                      Xem giỏ hàng
                     </a>
                   </div>
                 </div>
@@ -138,59 +138,83 @@ export default function Header({}: Props) {
             <li className="list-inline-item mb-0"> &nbsp;</li>
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
-                <button
-                  type="button"
-                  className="btn btn-icon btn-pills btn-primary dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-person"
-                    viewBox="0 0 16 16"
+                {auth.isAuth ? (
+                  <button
+                    type="button"
+                    className="btn rounded btn-icon btn-pills  dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                   >
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                  </svg>
-                </button>
+                    <img
+                      src={auth.image}
+                      alt="hihi"
+                      height={37}
+                      width={37}
+                      className="rounded-circle"
+                    />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-pills btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-person"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                    </svg>
+                  </button>
+                )}
+
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 py-3"
                   style={{ width: "200px" }}
                 >
-                  <Link href="/mydesign">
-                    <a className="dropdown-item text-dark" href="#">
-                      <i className="uil uil-user align-middle me-1"></i> Tài
-                      khoản
-                    </a>
-                  </Link>
-                  <Link href="/mydesign">
-                    <a className="dropdown-item text-dark">
-                      <i className="bi bi-suit-heart me-1"> Thiết kế của tôi</i>
-                    </a>
-                  </Link>
-                  <Link href="/mydesign">
-                    <a className="dropdown-item text-dark" href="#">
-                      <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
-                      Lịch sử mua hàng
-                    </a>
-                  </Link>
-                  <div className="dropdown-divider my-3 border-top"></div>
                   {auth.isAuth ? (
-                    <a
-                      className="dropdown-item text-dark cursor-pointer"
-                      onClick={logoutFunc}
-                    >
-                      <i className="uil uil-sign-in-alt align-middle me-1"></i>{" "}
-                      Đăng xuất
-                    </a>
+                    <div>
+                      <Link href="/mydesign">
+                        <a className="dropdown-item text-dark" href="#">
+                          <i className="uil uil-user align-middle me-1"></i> Tài
+                          khoản
+                        </a>
+                      </Link>
+                      <Link href="/mydesign">
+                        <a className="dropdown-item text-dark">
+                          <i className="bi bi-suit-heart me-1">
+                            {" "}
+                            Thiết kế của tôi
+                          </i>
+                        </a>
+                      </Link>
+                      <Link href="/mydesign">
+                        <a className="dropdown-item text-dark" href="#">
+                          <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
+                          Lịch sử mua hàng
+                        </a>
+                      </Link>
+                      <div className="dropdown-divider my-3 border-top"></div>
+                      <a
+                        className="dropdown-item text-dark"
+                        onClick={logoutFunc}
+                      >
+                        <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
+                        Đăng xuất
+                      </a>
+                    </div>
                   ) : (
                     <Link href="/login">
-                      <a className="dropdown-item text-dark">
-                        <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                        Đăng nhập
+                      <a className="dropdown-item text-dark" href="#">
+                        <i className="uil uil-user align-middle me-1"></i> Đăng
+                        nhập
                       </a>
                     </Link>
                   )}
