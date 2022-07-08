@@ -5,6 +5,7 @@ export interface CounterState {
   token: string;
   userId: string;
   roleName: string;
+  image: string;
 }
 
 const initialState: CounterState = {
@@ -12,6 +13,7 @@ const initialState: CounterState = {
   token: "",
   userId: "",
   roleName: "",
+  image: "",
 };
 
 export const counterSlice = createSlice({
@@ -27,9 +29,9 @@ export const counterSlice = createSlice({
       state.token = action.payload.token;
       state.userId = action.payload.userId;
       state.roleName = action.payload.roleName;
+      state.image = action.payload.image;
     },
     logout: (state, action) => {
-      console.log("log out nee");
       state.isAuth = false;
       // state.token = "";
       state.userId = "";

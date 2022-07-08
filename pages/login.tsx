@@ -60,6 +60,7 @@ export default function Login({ data }: Props) {
       { email: data.email, password: data.password },
       {
         onSuccess: (data) => {
+          console.log(data);
           dispatch(loginAction(data));
           dispatch(setCart(responseCart));
           router.back();

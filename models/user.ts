@@ -7,5 +7,6 @@ export interface User {
   token: string;
   phone: string;
   avatar: string;
+  image: string;
   address: string;
 }
