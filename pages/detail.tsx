@@ -8,6 +8,7 @@ import { useGetHighestRateDesignById } from "@/hooks/api/use-get-highest-rate-de
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useAppSelector } from "@/components/hooks/reduxHook";
+import { numberWithCommas } from "helper/number-util";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function ProductDetail() {
             <div className="row mt-5 justify-content-center">
               <div className="col-lg-12 text-center">
                 <div className="pages-heading">
-                  <h4 className="title mb-0"> Branded T-Shirts </h4>
+                  <h4 className="title mb-0"> {response?.name} </h4>
                 </div>
               </div>
             </div>
@@ -37,7 +38,7 @@ export default function ProductDetail() {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="/home">Landrick</a>
+                    <a href="/home">PODOC</a>
                   </li>
                   <li className="breadcrumb-item">
                     <a href="home">Shop</a>
@@ -86,8 +87,14 @@ export default function ProductDetail() {
                   <h4 className="title"> {response?.name}</h4>
                   <h5 className="text-muted">
                     {response?.lowestPrice == 0
-                      ? `from $${response?.highestPrice}`
-                      : `from $${response?.lowestPrice} to $${response?.highestPrice}`}
+                      ? `Từ ${numberWithCommas(
+                          Number(response?.highestPrice)
+                        )} VND`
+                      : `Từ ${numberWithCommas(
+                          Number(response?.lowestPrice)
+                        )} VND đến ${numberWithCommas(
+                          Number(response?.highestPrice)
+                        )} VND`}
                   </h5>
                   <ul className="list-unstyled text-warning h5 mb-0">
                     <li className="list-inline-item">
@@ -106,28 +113,9 @@ export default function ProductDetail() {
                       <i className="mdi mdi-star" />
                     </li>
                   </ul>
-                  <h5 className="mt-4 py-2">Overview :</h5>
+                  <h5 className="mt-4 py-2">Mô tả sản phẩm :</h5>
                   <p className="text-muted">{response?.description}</p>
-                  <ul className="list-unstyled text-muted">
-                    <li className="mb-1">
-                      <span className="text-primary h5 me-2">
-                        <i className="uil uil-check-circle align-middle" />
-                      </span>
-                      Digital Marketing Solutions for Tomorrow
-                    </li>
-                    <li className="mb-1">
-                      <span className="text-primary h5 me-2">
-                        <i className="uil uil-check-circle align-middle" />
-                      </span>
-                      Our Talented &amp; Experienced Marketing Agency
-                    </li>
-                    <li className="mb-1">
-                      <span className="text-primary h5 me-2">
-                        <i className="uil uil-check-circle align-middle" />
-                      </span>
-                      Create your own skin to match your brand
-                    </li>
-                  </ul>
+
                   <div className="row mt-4 pt-2">
                     <div className="col-lg-6 col-12">
                       <div className="d-flex align-items-center"></div>
@@ -157,7 +145,7 @@ export default function ProductDetail() {
           {responseGetHighestRateDesignById?.length != 0 &&
             responseGetHighestRateDesignById && (
               <Products
-                title="Highest Rate Design"
+                title="Các sản phẩm được đánh giá cao"
                 data={responseGetHighestRateDesignById}
               />
             )}

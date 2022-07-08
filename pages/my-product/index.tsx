@@ -112,7 +112,7 @@ export default function MyDesinedProduct(props: IMyDesinedProductProps) {
                                 fontWeight: "bold",
                               }}
                             >
-                              Giá tiền(vnđ)
+                              Giá tiền(VND)
                             </TableCell>
                             <TableCell
                               sx={{

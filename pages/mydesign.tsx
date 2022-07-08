@@ -22,7 +22,7 @@ export default function MyDesign({}: Props) {
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">
               <div className="pages-heading">
-                <h2 className="title mb-0">My Design</h2>
+                <h2 className="title mb-0">Thiết kế của tôi</h2>
               </div>
             </div>
           </div>
