@@ -37,7 +37,7 @@ export default function Header({}: Props) {
         <div className="container">
           <a className="logo" href="/">
             <img
-              src="asset/images/288454952_759256342094159_1245491352901845667_n.png"
+              src="/asset/images/logo_man.png"
               height="60"
               className="logo-light-mode"
               alt=""
