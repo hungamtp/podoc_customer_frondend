@@ -31,7 +31,6 @@ export default function Header({}: Props) {
     }
   }
   const router = useRouter();
-  const auth = useAppSelector((state) => state.auth);
   return (
     <div>
       <div id="topnav" className="bg-light">
