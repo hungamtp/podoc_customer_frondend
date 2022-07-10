@@ -242,11 +242,20 @@ export default function PreviewCanvas({
   };
 
   React.useEffect(() => {
-    setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "preview"));
+    const rerenderLoop = setInterval(() => {
+      const defaultWidth = document.getElementById("outer")?.clientWidth;
+      const defaultHeight = document.getElementById("outer")?.clientHeight;
+      if (defaultWidth && defaultHeight) {
+        setCanvas(initCanvas(defaultWidth, defaultHeight, "preview"));
+        clearInterval(rerenderLoop);
+      }
+    }, 200);
     if (isEdit) {
       dispatch(clearAllPreview());
     }
+
     return () => {
+      clearInterval(rerenderLoop);
       dispatch(setIsEdit(false));
       canvas?.clear();
     };
@@ -542,7 +551,7 @@ export default function PreviewCanvas({
     <>
       <div className="row h-81">
         <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-          <div className="outer position-relative">
+          <div className="outer position-relative" id="outer">
             <canvas id="preview" className="center-block"></canvas>
           </div>
         </div>
