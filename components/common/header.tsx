@@ -13,7 +13,6 @@ type Props = {};
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   const cart = useAppSelector((state) => state.carts);
-  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const logoutFunc = () => {
     dispatch(setCart([]));

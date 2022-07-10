@@ -31,46 +31,46 @@ const hightRate = 1.2337;
 const placeHolderAndOuterRate = 1.5;
 const DPI = 300;
 
-const resizer = (
-  canvasSize: { width: number; height: number },
-  imageSize: { width: number; height: number }
-) => {
-  const imageAspectRatio = imageSize.width / imageSize.height;
-  let canvasAspectRatio = canvasSize.width / canvasSize.height;
-  let renderableHeight, renderableWidth, xStart, yStart;
+// const resizer = (
+//   canvasSize: { width: number; height: number },
+//   imageSize: { width: number; height: number }
+// ) => {
+//   const imageAspectRatio = imageSize.width / imageSize.height;
+//   let canvasAspectRatio = canvasSize.width / canvasSize.height;
+//   let renderableHeight, renderableWidth, xStart, yStart;
 
-  // If image's aspect ratio is less than canvasSize's we fit on height
-  // and place the image centrally along width
-  if (imageAspectRatio < canvasAspectRatio) {
-    renderableHeight = canvasSize.height;
-    renderableWidth = imageSize.width * (renderableHeight / imageSize.height);
-    xStart = (canvasSize.width - renderableWidth) / 2;
-    yStart = 0;
-  }
+//   // If image's aspect ratio is less than canvasSize's we fit on height
+//   // and place the image centrally along width
+//   if (imageAspectRatio < canvasAspectRatio) {
+//     renderableHeight = canvasSize.height;
+//     renderableWidth = imageSize.width * (renderableHeight / imageSize.height);
+//     xStart = (canvasSize.width - renderableWidth) / 2;
+//     yStart = 0;
+//   }
 
-  // If image's aspect ratio is greater than canvas's we fit on width
-  // and place the image centrally along height
-  else if (imageAspectRatio > canvasAspectRatio) {
-    renderableWidth = canvasSize.width;
-    renderableHeight = imageSize.height * (renderableWidth / imageSize.width);
-    xStart = 0;
-    yStart = (canvasSize.height - renderableHeight) / 2;
-  }
+//   // If image's aspect ratio is greater than canvas's we fit on width
+//   // and place the image centrally along height
+//   else if (imageAspectRatio > canvasAspectRatio) {
+//     renderableWidth = canvasSize.width;
+//     renderableHeight = imageSize.height * (renderableWidth / imageSize.width);
+//     xStart = 0;
+//     yStart = (canvasSize.height - renderableHeight) / 2;
+//   }
 
-  // Happy path - keep aspect ratio
-  else {
-    renderableHeight = canvasSize.height;
-    renderableWidth = canvasSize.width;
-    xStart = 0;
-    yStart = 0;
-  }
-  return {
-    x: xStart,
-    y: yStart,
-    width: renderableWidth,
-    height: renderableHeight,
-  };
-};
+//   // Happy path - keep aspect ratio
+//   else {
+//     renderableHeight = canvasSize.height;
+//     renderableWidth = canvasSize.width;
+//     xStart = 0;
+//     yStart = 0;
+//   }
+//   return {
+//     x: xStart,
+//     y: yStart,
+//     width: renderableWidth,
+//     height: renderableHeight,
+//   };
+// };
 
 const getBase64FromUrl = async (url: string): Promise<string> => {
   const data = await fetch(url);
@@ -99,14 +99,14 @@ const initCanvas = (
 const initPlaceHolder = (
   placeHolderWidth: number,
   placeHolderHeight: number,
+  placeHolderTop: number,
   containerHeight: number,
   containerWidth: number
 ): { rect: fabric.Rect; border: fabric.Object[] } => {
-  const aspectRatio = placeHolderHeight / placeHolderWidth;
-  const newHeight = containerHeight / 2.5;
-  const newWidth = newHeight / aspectRatio;
+  const newHeight = placeHolderHeight;
+  const newWidth = placeHolderWidth;
   const left = (containerWidth - newWidth) / 2;
-  const top = (containerHeight - newHeight) / 2;
+  const top = placeHolderTop;
 
   const rect = new fabric.Rect({
     width: newWidth,
@@ -168,8 +168,6 @@ export default function DesignCanvas({
     window.innerHeight || 0
   );
 
-  const defaultWidth =
-    screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const designControlData = useAppSelector((state) => state.designControl);
@@ -183,19 +181,30 @@ export default function DesignCanvas({
     (blueprint) => blueprint.position === blueprintsData.position
   )[0];
 
-  const placeholderWidth = blueprint.placeholder.width * 30;
-  const placeholderHeight = blueprint.placeholder.height * 30;
-
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [placeHolder, setPlaceHolder] = React.useState<{
     rect: fabric.Rect;
     border: fabric.Object[];
   }>();
   const [JSONdata, setJSONdata] = React.useState<string>();
-  const [aspectRatio, setAspectRatio] = React.useState<number>(1);
+
   React.useEffect(() => {
-    setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "canvas"));
+    const rerenderLoop = setInterval(() => {
+      const defaultWidth = document.getElementById("outer")?.clientWidth;
+      const defaultHeight = document.getElementById("outer")?.clientHeight;
+      if (defaultWidth && defaultHeight) {
+        setCanvas(initCanvas(defaultWidth, defaultHeight, "canvas"));
+        clearInterval(rerenderLoop);
+      }
+    }, 200);
+
+    return () => {
+      clearInterval(rerenderLoop);
+    };
   }, []);
+  // React.useEffect(() => {
+  //   setCanvas(initCanvas(defaultWidth, pageHeight / hightRate, "canvas"));
+  // }, []);
 
   React.useEffect(() => {
     if (renderPosition !== blueprintsData.position) {
@@ -206,18 +215,18 @@ export default function DesignCanvas({
   React.useEffect(() => {
     if (canvas) {
       canvas.clear();
+      if (canvas.width && canvas.height)
+        setPlaceHolder(
+          initPlaceHolder(
+            (canvas.height / 100) * blueprint.placeholder.widthRate,
+            (canvas.height / 100) * blueprint.placeholder.heightRate,
+            (canvas.height / 100) * blueprint.placeholder.top,
+            canvas.height,
+            canvas.width
+          )
+        );
     }
-
-    setPlaceHolder(
-      initPlaceHolder(
-        placeholderWidth,
-        placeholderHeight,
-        pageHeight / placeHolderAndOuterRate,
-        defaultWidth
-      )
-    );
-    setAspectRatio(placeholderWidth / placeholderHeight);
-  }, [renderPosition]);
+  }, [canvas]);
 
   React.useEffect(() => {
     if (canvas && placeHolder) {
@@ -330,15 +339,15 @@ export default function DesignCanvas({
         }
       });
 
-      const outerSize = {
-        outerWidth: defaultWidth,
-        outerHeight: pageHeight - pageHeight / 5.3,
-      };
-      // const blueprintImageUrl =
-      //   "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117";
-      const blueprintImageUrl = blueprint.tmpFrameImage;
-      // "https://firebasestorage.googleapis.com/v0/b/store-image-b8b45.appspot.com/o/images%2F8ts20a003-sr133-s.jpg?alt=media&token=007b9995-2db9-45d6-b116-8b49d0e55f38";
-      setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
+      if (canvas.width && canvas.height) {
+        const blueprintImageUrl = blueprint.tmpFrameImage;
+
+        const outerSize = {
+          outerWidth: canvas.width,
+          outerHeight: canvas.height,
+        };
+        setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
+      }
 
       if (
         blueprint.designInfos &&
@@ -907,17 +916,9 @@ export default function DesignCanvas({
       fabric.Image.fromURL(
         dataUrl,
         (image: fabric.Image) => {
-          canvas.setWidth(outerWidth);
-          canvas.setHeight(outerHeight);
-
-          canvas.renderAll();
-          const sizeObj = resizer(
-            { width: outerWidth, height: outerHeight },
-            { width: image.width || 100, height: image.height || 150 }
-          );
-          image.scaleToHeight(sizeObj.height);
-          image.set("top", sizeObj.y);
-          image.set({ left: sizeObj.x });
+          image.scaleToHeight(outerHeight);
+          image.set("top", 0);
+          canvas.centerObject(image);
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
         },
         { crossOrigin: "anonymous" }
@@ -929,7 +930,7 @@ export default function DesignCanvas({
     <>
       <div className="row h-81">
         <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
-          <div className="outer position-relative">
+          <div className="outer position-relative" id="outer">
             <canvas id="canvas" className="center-block"></canvas>
           </div>
         </div>
