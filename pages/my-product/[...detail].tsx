@@ -1,5 +1,6 @@
 import { MainLayout } from "@/components/layouts";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
+import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -159,7 +160,8 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     data-feather="book"
                                     className="fea icon-sm icons"
                                   />
-                                  {response.priceFromFactory}
+                                  {numberWithCommas(response.priceFromFactory)}{" "}
+                                  VND
                                 </div>
                               </div>
                             </div>
@@ -171,8 +173,11 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     data-feather="book"
                                     className="fea icon-sm icons"
                                   />
-                                  {response.designedPrice +
-                                    response.priceFromFactory}
+                                  {numberWithCommas(
+                                    response.designedPrice +
+                                      response.priceFromFactory
+                                  )}{" "}
+                                  VND
                                 </div>
                               </div>
                             </div>

@@ -13,6 +13,7 @@ type Props = {};
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
   const cart = useAppSelector((state) => state.carts);
+  const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const logoutFunc = () => {
     dispatch(setCart([]));
@@ -30,7 +31,6 @@ export default function Header({}: Props) {
     }
   }
   const router = useRouter();
-  const auth = useAppSelector((state) => state.auth);
   return (
     <div>
       <div id="topnav" className="bg-light">
@@ -122,13 +122,13 @@ export default function Header({}: Props) {
                         fontStyle: "italic",
                       }}
                     >
-                      You have {cart.length} product in cart
+                      Bạn có {cart.length} sản phẩm trong giỏ hàng
                     </div>
                   </div>
 
                   <div className="  text-center">
                     <a href="/carts" className="btn btn-primary me-2">
-                      View Cart
+                      Xem giỏ hàng
                     </a>
                   </div>
                 </div>

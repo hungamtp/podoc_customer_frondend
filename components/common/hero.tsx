@@ -10,7 +10,7 @@ export default function Hero(props: IHeroProps) {
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">
               <div className="pages-heading">
-                <h4 className="title mb-0"> Branded T-Shirts </h4>
+                <h4 className="title mb-0"> Print On Demand </h4>
               </div>
             </div>
           </div>

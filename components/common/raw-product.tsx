@@ -4,6 +4,7 @@ import { ProductHomePageDTO, TAG } from "@/services/type.dto";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { setCurrentProductId } from "@/redux/slices/product";
+import { numberWithCommas } from "helper/number-util";
 type Props = {
   product: ProductHomePageDTO;
 };
@@ -92,9 +93,9 @@ export default function RawProduct({ product }: Props) {
           <a className="text-dark product-name h6">{product.name}</a>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">
-              Price from
+              Giá từ
               <span className="text-danger ms-2">
-                $ {product.priceFrom}
+                {numberWithCommas(product.priceFrom)} VND
               </span>{" "}
             </h6>
           </div>
@@ -104,13 +105,13 @@ export default function RawProduct({ product }: Props) {
             style={{ color: "#757c7e" }}
           >
             <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-              <b>{product.numberOfSize}</b>&nbsp;sizes
+              <b>{product.numberOfSize}</b>&nbsp;Kích thước
             </span>
             <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-              <b>{product.numberOfColor}</b>&nbsp;colors
+              <b>{product.numberOfColor}</b>&nbsp;Màu
             </span>
             <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-              <b>{product.numberOfFactory}</b>&nbsp;print providers
+              <b>{product.numberOfFactory}</b>&nbsp;Xưởng in
             </span>
           </p>
         </div>

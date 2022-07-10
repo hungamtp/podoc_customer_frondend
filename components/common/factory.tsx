@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FactoryDTO } from "@/services/type.dto";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { setIsEdit } from "@/redux/slices/isEdit";
+import { numberWithCommas } from "helper/number-util";
 
 type Props = {
   factory: FactoryDTO;
@@ -36,7 +37,7 @@ export default function Factory({ factory }: Props) {
                   className="btn btn-primary btn-sm"
                   onClick={() => startDesign()}
                 >
-                  Start Design
+                  Bắt đầu thiết kế
                 </button>
               </span>
             </div>
@@ -45,7 +46,7 @@ export default function Factory({ factory }: Props) {
             <div className="card-factory-body">
               <div className="card-factory-body-content">
                 <div className="small-text text-muted mb-0 card-body-title">
-                  Location
+                  Địa chỉ
                 </div>
                 <div>
                   <i className="bi bi-geo-alt-fill text-info"></i>
@@ -54,24 +55,24 @@ export default function Factory({ factory }: Props) {
               </div>
               <div className="card-factory-body-content">
                 <div className="small-text text-muted mb-0 card-body-title">
-                  Price
+                  Giá
                 </div>
-                <div>${factory.price}</div>
+                <div>{numberWithCommas(factory.price)} VND</div>
               </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">
-                  Size
+                  Kích thước
                 </div>
                 <div>{factory.sizes.join(" , ")}</div>
               </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">
-                  Area
+                  Vị trí
                 </div>
                 <div>{factory.area.join(" , ")}</div>
               </div>
               <div>
-                <div className="small-text mb-0 card-body-title">Color</div>
+                <div className="small-text mb-0 card-body-title">Màu</div>
                 <div>
                   <ul className="list-unstyled mb-0">
                     <li className="list-inline-item">
