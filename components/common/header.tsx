@@ -225,6 +225,11 @@ export default function Header({}: Props) {
           <div id="navigation">
             <ul className="navigation-menu">
               <li>
+                <Link href="/" className="sub-menu-item">
+                  Trang chủ
+                </Link>
+              </li>
+              <li>
                 <Link href="/designs" className="sub-menu-item">
                   Thiết kế có sẵn
                 </Link>
