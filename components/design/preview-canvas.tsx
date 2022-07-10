@@ -104,14 +104,14 @@ const initCanvas = (
 const initPlaceHolder = (
   placeHolderWidth: number,
   placeHolderHeight: number,
+  placeHolderTop: number,
   containerHeight: number,
   containerWidth: number
 ): fabric.Rect => {
-  const aspectRatio = placeHolderHeight / placeHolderWidth;
-  const newHeight = containerHeight / 2.5;
-  const newWidth = newHeight / aspectRatio;
+  const newHeight = placeHolderHeight;
+  const newWidth = placeHolderWidth;
   const left = (containerWidth - newWidth) / 2;
-  const top = (containerHeight - newHeight) / 2;
+  const top = placeHolderTop;
 
   const rect = new fabric.Rect({
     width: newWidth,
@@ -144,6 +144,10 @@ export default function PreviewCanvas({
 
   const auth = useAppSelector((state) => state.auth);
 
+  const preview = useAppSelector((state) => state.previews);
+
+  console.log(preview, "preview");
+
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -152,8 +156,6 @@ export default function PreviewCanvas({
     else setIsOpen(true);
   };
 
-  const defaultWidth =
-    screen.width >= 922 ? (screen.width / 12) * 9 : screen.width;
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const isEdit = useAppSelector((state) => state.isEdit);
   const selectedColors = useAppSelector((state) => state.selectedColors);
@@ -179,22 +181,13 @@ export default function PreviewCanvas({
   );
 
   const blueprint = blueprintsData.blueprints[renderCount];
-  const placeholderWidth = blueprint.placeholder.width * 30;
-  const placeholderHeight = blueprint.placeholder.height * 30;
   const dispatch = useAppDispatch();
 
   const [renderColor, setRenderColor] = React.useState(colors[0].image);
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
-  const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>(
-    initPlaceHolder(
-      placeholderWidth,
-      placeholderHeight,
-      pageHeight / placeHolderAndOuterRate,
-      defaultWidth
-    )
-  );
+  const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>();
 
   let hasMorePreview = true; //chuyển từ trang design qua trang preview
   if (previews.length > 0 && isEdit === false) {
@@ -224,13 +217,9 @@ export default function PreviewCanvas({
             mode: "add",
             alpha: 0.8,
           });
-          const sizeObj = resizer(
-            { width: outerWidth, height: outerHeight },
-            { width: image.width || 100, height: image.height || 150 }
-          );
-          image.scaleToHeight(sizeObj.height);
-          image.set("top", sizeObj.y);
-          image.set({ left: sizeObj.x });
+          image.scaleToHeight(outerHeight);
+          image.set("top", 0);
+          canvas.centerObject(image);
           if (isNeedColor) image.filters?.push(colorFilter);
           image.applyFilters();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
@@ -272,11 +261,11 @@ export default function PreviewCanvas({
       });
     }
 
-    if (renderColor) {
+    if (renderColor && canvas) {
       if (hasMorePreview) {
         setRenderCount(blueprintsData.blueprints.length - 1);
       } else {
-        canvas?.clear();
+        canvas.clear();
         let renderImage = previews[0].imageSrc;
         previews.forEach((preview) => {
           if (
@@ -287,12 +276,14 @@ export default function PreviewCanvas({
           }
         });
 
-        const outerSize = {
-          outerWidth: defaultWidth,
-          outerHeight: pageHeight - pageHeight / 5.3,
-        };
+        if (canvas.width && canvas.height) {
+          const outerSize = {
+            outerWidth: canvas.width,
+            outerHeight: canvas.height,
+          };
 
-        setBackgroundFromDataUrl(renderImage, outerSize, false);
+          setBackgroundFromDataUrl(renderImage, outerSize, false);
+        }
       }
     }
 
@@ -313,34 +304,35 @@ export default function PreviewCanvas({
   }, [selectedColors]);
 
   React.useEffect(() => {
-    if (canvas && previews.length !== 0 && hasMorePreview) {
+    if (canvas && previews.length !== 0 && canvas.width && canvas.height) {
       canvas.clear();
       const renderedImage = previews.filter(
         (preview) =>
           preview.color === renderColor && preview.position === renderedPosition
       );
       const outerSize = {
-        outerWidth: defaultWidth,
-        outerHeight: pageHeight - pageHeight / 5.3,
+        outerWidth: canvas.width,
+        outerHeight: canvas.height,
       };
       setBackgroundFromDataUrl(renderedImage[0].imageSrc, outerSize, false);
     }
   }, [renderedPosition]);
 
   React.useEffect(() => {
-    if (canvas && hasMorePreview) {
+    if (canvas && hasMorePreview && canvas.width && canvas.height) {
       canvas.clear();
       setPlaceHolder(
         initPlaceHolder(
-          placeholderWidth,
-          placeholderHeight,
-          pageHeight / placeHolderAndOuterRate,
-          defaultWidth
+          (canvas.height / 100) * blueprint.placeholder.widthRate,
+          (canvas.height / 100) * blueprint.placeholder.heightRate,
+          (canvas.height / 100) * blueprint.placeholder.top,
+          canvas.height,
+          canvas.width
         )
       );
     }
 
-    if (canvas && !hasMorePreview) {
+    if (canvas && !hasMorePreview && canvas.width && canvas.height) {
       canvas.clear();
       const renderedImage = previews.filter((preview) => {
         return (
@@ -348,8 +340,8 @@ export default function PreviewCanvas({
         );
       });
       const outerSize = {
-        outerWidth: defaultWidth,
-        outerHeight: pageHeight - pageHeight / 5.3,
+        outerWidth: canvas.width,
+        outerHeight: canvas.height,
       };
 
       setBackgroundFromDataUrl(renderedImage[0].imageSrc, outerSize, false);
@@ -424,10 +416,10 @@ export default function PreviewCanvas({
   }, [placeHolder]);
 
   const reverseDesigns = (blueprint: Blueprint) => {
-    if (canvas && placeHolder) {
+    if (canvas && placeHolder && canvas.width && canvas.height) {
       const outerSize = {
-        outerWidth: defaultWidth,
-        outerHeight: pageHeight - pageHeight / 5.3,
+        outerWidth: canvas.width,
+        outerHeight: canvas.height,
       };
 
       const blueprintImageUrl = blueprint.tmpFrameImage;
@@ -581,7 +573,10 @@ export default function PreviewCanvas({
         </div>
       )}
       <div className="row h-8 ">
-        <PreviewFooter />
+        <PreviewFooter
+          setRenderedPosition={setRenderedPosition}
+          renderedPosition={renderedPosition}
+        />
         <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
           <div className="d-flex justify-content-center border-top   py-4">
             <div className="d-flex  w-full align-items-center px-4">
