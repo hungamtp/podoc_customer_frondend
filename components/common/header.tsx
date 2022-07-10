@@ -147,8 +147,8 @@ export default function Header({}: Props) {
                     <img
                       src={auth.image}
                       alt="hihi"
-                      height={37}
-                      width={37}
+                      height={35}
+                      width={35}
                       className="rounded-circle"
                     />
                   </button>
