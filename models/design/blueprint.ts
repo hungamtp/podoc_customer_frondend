@@ -7,6 +7,9 @@ export interface Blueprint {
   placeholder: {
     width: number;
     height: number;
+    top: number;
+    widthRate: number;
+    heightRate: number;
   };
   designInfos?: DesignState[];
 }
