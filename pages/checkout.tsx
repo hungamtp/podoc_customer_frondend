@@ -10,6 +10,8 @@ import { ShippingInfo } from "@/services/order/dto";
 import useAddOrder from "@/hooks/api/order/use-create-order";
 import { useAppSelector } from "@/components/hooks/reduxHook";
 import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
+import { useRouter } from "next/router";
+import { setCart } from "@/redux/slices/cart";
 
 type Props = {};
 
@@ -95,6 +97,7 @@ export default function Checkout({}: Props) {
     formState: { errors },
     reset,
   } = form;
+  const router = useRouter();
 
   console.log(errors, "errorss");
 
@@ -106,11 +109,10 @@ export default function Checkout({}: Props) {
           // const qrCode = $($.parseHTML)
           // const rp = fetch(data.data.payUrl).then(response => response.json())
           // .then(data => console.log(data))
-          window.open(
-            data.data.payUrl,
-            "_blank",
-            "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=600,height=800"
-          );
+          window.open()
+          // set cart redux to null
+          window.location.href  = data.data.payUrl
+ 
         },
       }
     );
