@@ -17,7 +17,6 @@ const useCreatePaymentTransaction = () => {
 };
 
 export const createPaymentTransaction = async () => {
-  console.log("dcmm");
 
   const data = await API.post<PaymentResponse>(`/order`);
   return data;
