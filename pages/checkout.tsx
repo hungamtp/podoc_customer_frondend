@@ -13,6 +13,7 @@ import { useAppSelector } from "@/components/hooks/reduxHook";
 import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
 import { useRouter } from "next/router";
 import { setCart } from "@/redux/slices/cart";
+import { useDispatch } from "react-redux";
 
 type Props = {};
 
@@ -98,7 +99,7 @@ export default function Checkout({}: Props) {
     formState: { errors },
     reset,
   } = form;
-  const router = useRouter();
+  const dispatch = useDispatch();
 
   console.log(errors, "errorss");
 
@@ -107,8 +108,7 @@ export default function Checkout({}: Props) {
       { shippingInfo: data, paymentMethod: 0 },
       {
         onSuccess: (data: any) => {
-          setCart([])
-          window.open()
+          dispatch(setCart([]));
           // set cart redux to null
           window.location.href  = data.data.payUrl
  
