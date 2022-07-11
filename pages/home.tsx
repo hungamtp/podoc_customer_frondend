@@ -146,13 +146,7 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      {response && (
-        <DesignedProducts
-          title="Highest Rate Designed Products"
-          data={response}
-        />
-      )}
-      {response && <DesignedProducts title="Best Seller" data={response} />}
+      {response?.length != 0 && <DesignedProducts title="Best Seller" data={response} />}
 
       <div className="container mt-100 mt-60">
         <div className="row">
