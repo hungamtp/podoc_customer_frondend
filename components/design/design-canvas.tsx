@@ -24,7 +24,6 @@ import DesignFooterLeft from "./design-footer-left";
 import DesignHeaderLeft from "./design-footer-left";
 export interface IDesignCanvasProps {
   // isPreview: boolean;
-  isEdit: boolean;
   openPreview: () => void;
 }
 const hightRate = 1.2337;
@@ -159,10 +158,7 @@ const initPlaceHolder = (
   return { rect: rect, border };
 };
 
-export default function DesignCanvas({
-  isEdit,
-  openPreview,
-}: IDesignCanvasProps) {
+export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
   const pageHeight = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0
@@ -960,7 +956,7 @@ export default function DesignCanvas({
         </div>
       </div>
       <div className="row h-8 ">
-        <DesignFooterLeft isEdit={isEdit} />
+        <DesignFooterLeft />
         <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
           <div className="d-flex justify-content-center border-top   py-4">
             <div className="d-flex  w-full align-items-center px-4">

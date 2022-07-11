@@ -7,11 +7,14 @@ import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-pr
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { Blueprint } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { updateDesignInfos } from "@/redux/slices/design";
-import { setControlData } from "@/redux/slices/designControl";
+import { resetDesigns, updateDesignInfos } from "@/redux/slices/design";
+import { resetControl, setControlData } from "@/redux/slices/designControl";
 import { useRouter } from "next/router";
 import { nanoid } from "nanoid";
 import * as React from "react";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
+import { clearAllPreview } from "@/redux/slices/previews";
+import { resetColors } from "@/redux/slices/selectedColors";
 
 // import dynamic from 'next/dynamic';
 
@@ -107,8 +110,27 @@ export default function EditDesign(props: EditDesignProps) {
   const renderedBlueprint = blueprints || blueprintInit;
 
   const designCanvas = renderedBlueprint.map(
-    (blueprint) => position === blueprint.position && <DesignCanvas />
+    (blueprint) =>
+      position === blueprint.position && (
+        <DesignCanvas openPreview={openPreview} />
+      )
   );
+
+  React.useEffect(() => {
+    const handleRouteChange = (url: any) => {
+      dispatch(setChoosenKey(""));
+      dispatch(clearAllPreview());
+      dispatch(resetColors());
+      dispatch(resetControl());
+      dispatch(resetDesigns());
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (blueprints) {
@@ -159,8 +181,12 @@ export default function EditDesign(props: EditDesignProps) {
           isPreview={isPreview}
         />
 
-        {isPreview ? <PreviewCanvas /> : designCanvas}
-        <DesignFooterLeft isEdit={true} />
+        {isPreview ? (
+          <PreviewCanvas isEditPage={true} colors={colors} />
+        ) : (
+          designCanvas
+        )}
+        <DesignFooterLeft />
       </>
     </div>
   );

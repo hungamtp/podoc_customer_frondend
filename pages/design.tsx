@@ -5,6 +5,11 @@ import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
 import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import { updateBlueprint } from "@/redux/slices/blueprints";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
+import { resetDesigns } from "@/redux/slices/design";
+import { resetControl } from "@/redux/slices/designControl";
+import { clearAllPreview } from "@/redux/slices/previews";
+import { resetColors } from "@/redux/slices/selectedColors";
 import { getBase64FromUrl } from "helper/files-utils";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -91,6 +96,22 @@ export default function AboutPage(props: AboutPageProps) {
   const closePreview = () => {
     setIsPreview(false);
   };
+
+  React.useEffect(() => {
+    const handleRouteChange = (url: any) => {
+      dispatch(setChoosenKey(""));
+      dispatch(clearAllPreview());
+      dispatch(resetColors());
+      dispatch(resetControl());
+      dispatch(resetDesigns());
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
 
   React.useEffect(() => {
     let isLoaded = true;
