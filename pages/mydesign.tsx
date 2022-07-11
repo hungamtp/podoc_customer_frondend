@@ -4,6 +4,7 @@ import PaginationComponent from "@/components/common/mui-pagination";
 import { MainLayout } from "@/components/layouts";
 import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import { GetAllDesignFilter } from "@/services/design";
+import Link from "next/link";
 import React, { useState } from "react";
 
 type Props = {};
@@ -57,7 +58,7 @@ export default function MyDesign({}: Props) {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              {response && (
+              {response && response.content.length > 0 && (
                 <div className="table-responsive bg-white shadow rounded">
                   <table className="table mb-0 table-center">
                     <thead>
@@ -111,6 +112,17 @@ export default function MyDesign({}: Props) {
                       />
                     </div>
                   )}
+                </div>
+              )}
+              {!isLoading && response?.content.length === 0 && (
+                <div className="d-flex justify-content-center">
+                  <p className="h5">
+                    Bạn chưa có thiết kế nào, hãy{" "}
+                    <Link href="/raw-products">
+                      <a className="text-success">nhấn vào đây</a>
+                    </Link>{" "}
+                    để tiến hành thiết kế
+                  </p>
                 </div>
               )}
             </div>

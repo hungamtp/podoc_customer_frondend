@@ -38,6 +38,7 @@ export default function DesignedProductDetail() {
     { color: string; size: string }[]
   >([]);
   const [colorList, setColorList] = React.useState<string[]>([]);
+  const [isError, setIsError] = React.useState<boolean>(false);
 
   if (designedProduct) console.log(designedProduct.colorAndSizes, "data");
 
@@ -80,7 +81,10 @@ export default function DesignedProductDetail() {
       setCart(cart);
       return `${cart.color + cart.size}` === indentity;
     });
-    console.log(cartDetailExisted, "detaill");
+    if (!selectedColor || !selectedSize) setIsError(true);
+    else {
+      setIsError(false);
+    }
     if (cartDetailExisted) {
       updateCartDetailQuantity(newQuantity);
     } else {
@@ -89,14 +93,6 @@ export default function DesignedProductDetail() {
   };
 
   const addNewDetail = (newQuantity: number) => {
-    if (selectedColor === "") {
-      console.log("color");
-      return;
-    }
-    if (selectedSize === "") {
-      console.log("size");
-      return;
-    }
     if (newQuantity === 0) {
       console.log("quantity");
       return;
@@ -228,7 +224,8 @@ export default function DesignedProductDetail() {
                           <div className="row mt-4 pt-2">
                             <div className="col-lg-6 col-12">
                               <div className="d-flex align-items-center ">
-                                <h6 className="mb-0">Màu:</h6>
+                                <h6 className="mb-0">Chọn màu:</h6>
+
                                 <ul className="list-unstyled mb-0 ms-3">
                                   {colorList.map((color) => (
                                     <li
@@ -243,6 +240,7 @@ export default function DesignedProductDetail() {
                                         onClick={() => {
                                           setSelectedColorSize(color);
                                           setSelectedColor(color.split("-")[0]);
+                                          setIsError(false);
                                         }}
                                       >
                                         <img
@@ -264,6 +262,11 @@ export default function DesignedProductDetail() {
                                   ))}
                                 </ul>
                               </div>
+                              {isError && !selectedColor && (
+                                <p className="text-danger">
+                                  Vui lòng chọn màu áo
+                                </p>
+                              )}
                               {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
@@ -279,7 +282,10 @@ export default function DesignedProductDetail() {
                                               ? `is-select`
                                               : "my-button"
                                           }`}
-                                          onClick={() => setSelectedSize(size)}
+                                          onClick={() => {
+                                            setSelectedSize(size);
+                                            setIsError(false);
+                                          }}
                                         >
                                           {size}
                                         </button>
@@ -287,6 +293,11 @@ export default function DesignedProductDetail() {
                                     ))}
                                   </ul>
                                 </div>
+                              )}
+                              {isError && !selectedSize && selectedColor && (
+                                <p className="text-danger">
+                                  Vui lòng chọn size áo
+                                </p>
                               )}
                             </div>
                             {/*end col*/}
