@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { MainLayout } from "@/components/layouts";
 import React, { useEffect, useState } from "react";
 import useCreatePaymentTransaction from "@/hooks/api/order/use-create-transaction";
@@ -106,9 +107,7 @@ export default function Checkout({}: Props) {
       { shippingInfo: data, paymentMethod: 0 },
       {
         onSuccess: (data: any) => {
-          // const qrCode = $($.parseHTML)
-          // const rp = fetch(data.data.payUrl).then(response => response.json())
-          // .then(data => console.log(data))
+          setCart([])
           window.open()
           // set cart redux to null
           window.location.href  = data.data.payUrl
