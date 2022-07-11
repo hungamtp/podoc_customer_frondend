@@ -99,11 +99,13 @@ export default function AboutPage(props: AboutPageProps) {
 
   React.useEffect(() => {
     const handleRouteChange = (url: any) => {
-      dispatch(setChoosenKey(""));
-      dispatch(clearAllPreview());
-      dispatch(resetColors());
-      dispatch(resetControl());
-      dispatch(resetDesigns());
+      if (url !== "/login") {
+        dispatch(setChoosenKey(""));
+        dispatch(clearAllPreview());
+        dispatch(resetColors());
+        dispatch(resetControl());
+        dispatch(resetDesigns());
+      }
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
@@ -135,7 +137,7 @@ export default function AboutPage(props: AboutPageProps) {
     renderedBlueprints.map(
       (blueprint) =>
         position === blueprint.position && (
-          <DesignCanvas isEdit={false} openPreview={openPreview} />
+          <DesignCanvas openPreview={openPreview} />
         )
     );
 
