@@ -12,11 +12,9 @@ import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import CreateDesignedProductForm from "./designed-product-info";
 import EditDesignForm from "./edit-design";
-export interface IDesignFooterLeftProps {
-  isEdit: boolean;
-}
+export interface IDesignFooterLeftProps {}
 
-export default function DesignFooterLeft({ isEdit }: IDesignFooterLeftProps) {
+export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const [isOpen, setIsOpen] = React.useState(false);

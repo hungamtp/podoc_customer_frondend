@@ -29,7 +29,6 @@ const useCreateBlueprintByProduct = (handleCloseDialog: () => void) => {
         dispatch(resetColors());
         dispatch(resetControl());
         dispatch(resetDesigns());
-        dispatch(resetDesigns());
 
         handleCloseDialog();
         // router.back();
