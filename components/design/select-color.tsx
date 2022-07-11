@@ -27,7 +27,9 @@ const MenuProps = {
 export default function SelectColor({ colors }: ISelectColorProps) {
   const router = useRouter();
 
-  const [colorsList, setColorsList] = React.useState<string[]>([]);
+  const [colorsList, setColorsList] = React.useState<string[]>([
+    colors[0].image,
+  ]);
   const dispatch = useAppDispatch();
   const handleChange = (event: SelectChangeEvent<typeof colorsList>) => {
     const {

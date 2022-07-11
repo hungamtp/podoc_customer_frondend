@@ -159,7 +159,6 @@ export default function PreviewCanvas({
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const isEdit = useAppSelector((state) => state.isEdit);
   const selectedColors = useAppSelector((state) => state.selectedColors);
-  console.log(isEdit, "isEdit");
 
   const previews = useAppSelector((state) => state.previews);
 

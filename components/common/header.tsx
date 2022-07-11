@@ -122,14 +122,18 @@ export default function Header({}: Props) {
                         fontStyle: "italic",
                       }}
                     >
-                      Bạn có {cart.length} sản phẩm trong giỏ hàng
+                      {cart.length > 0
+                        ? `Bạn có ${cart.length} sản phẩm trong giỏ hàng`
+                        : "Giỏ hàng trống"}
                     </div>
                   </div>
 
                   <div className="  text-center">
-                    <a href="/carts" className="btn btn-primary me-2">
-                      Xem giỏ hàng
-                    </a>
+                    {cart.length > 0 && (
+                      <Link href="/carts">
+                        <a className="btn btn-primary me-2">Xem giỏ hàng</a>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -202,7 +206,7 @@ export default function Header({}: Props) {
                       </Link>
                       <div className="dropdown-divider my-3 border-top"></div>
                       <a
-                        className="dropdown-item text-dark"
+                        className="dropdown-item text-dark cursor-pointer"
                         onClick={logoutFunc}
                       >
                         <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}

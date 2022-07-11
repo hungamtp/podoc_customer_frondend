@@ -226,7 +226,7 @@ export default function Checkout({}: Props) {
                             <small className="text-muted">
                               {`Màu: `}
                               {cartDetail.color}
-                            </small>
+                            </small>{" "}
                             <small className="text-muted">
                               {`Kích thước: `}
                               {cartDetail.size}
