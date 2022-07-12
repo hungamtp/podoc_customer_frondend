@@ -33,7 +33,7 @@ export const counterSlice = createSlice({
     },
     logout: (state, action) => {
       state.isAuth = false;
-      // state.token = "";
+      state.token = "";
       state.userId = "";
       state.roleName = "";
     },
