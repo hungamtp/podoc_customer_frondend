@@ -84,11 +84,11 @@ export default function DesignedProductDetail() {
     if (!selectedColor || !selectedSize) setIsError(true);
     else {
       setIsError(false);
-    }
-    if (cartDetailExisted) {
-      updateCartDetailQuantity(newQuantity);
-    } else {
-      addNewDetail(newQuantity);
+      if (cartDetailExisted) {
+        updateCartDetailQuantity(newQuantity);
+      } else {
+        addNewDetail(newQuantity);
+      }
     }
   };
 
