@@ -382,10 +382,10 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
         100;
       const newWidth =
         (width / placeHolder.rect.getScaledWidth()) *
-        (blueprint.placeholder.width / DPI);
+        blueprint.placeholder.width;
       const newHeight =
         (height / placeHolder.rect.getScaledHeight()) *
-        (blueprint.placeholder.height / DPI);
+        blueprint.placeholder.height;
       const scale = width / placeHolder.rect.getScaledWidth();
       return {
         left: newLeft,
@@ -410,11 +410,11 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           (placeHolder.rect.left || 0);
       if (key === "width")
         data =
-          (value / (blueprint.placeholder.width / DPI)) *
+          (value / blueprint.placeholder.width) *
           placeHolder.rect.getScaledWidth();
       if (key === "height")
         data =
-          (value / (blueprint.placeholder.height / DPI)) *
+          (value / blueprint.placeholder.height) *
           placeHolder.rect.getScaledHeight();
       if (key === "scale") data = placeHolder.rect.getScaledWidth() * value;
       return data;
@@ -746,7 +746,6 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           (image: fabric.Image) => {
             const imageLeft = (canvas.getWidth() - 150) / 2;
             const imageTop = (canvas.getHeight() - 100) / 2;
-            console.log(image, "imageee");
 
             image.set("name", newName);
 
@@ -776,6 +775,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
               image.getScaledWidth(),
               image.getScaledHeight()
             );
+            console.log(image, "image");
             const imageNameFromUrl = imgUrl.split("%2F")[1].split("?")[0];
             const designInfo = {
               key: newName,

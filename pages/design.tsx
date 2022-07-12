@@ -177,6 +177,7 @@ export default function AboutPage(props: AboutPageProps) {
             openPreview={openPreview}
             closePreview={closePreview}
             isPreview={isPreview}
+            isEditPage={false}
           />
 
           {isPreview ? (

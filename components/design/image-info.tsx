@@ -78,8 +78,8 @@ const ImageInfo = (props: IImageInfoProps) => {
               <img src={designInfo.src} width="50px" height="50px"></img>
 
               <div className="ms-4">
-                <p className="h6 m-0">Tên hình</p>
-                <p className="text-warning m-0">Độ phân giải</p>
+                <p className="h6 m-0">{designInfo.name}</p>
+                <p className="text-warning m-0">{}</p>
               </div>
             </div>
             <div>
