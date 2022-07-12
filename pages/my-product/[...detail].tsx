@@ -1,9 +1,12 @@
+import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { MainLayout } from "@/components/layouts";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
+import { setHeaderInfo } from "@/redux/slices/headerInfo";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { useState } from "react";
 
 export interface MyDesignDetailProps {}
 
@@ -14,6 +17,14 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const { data: response, isLoading: isLoading } = useGetDesignById(
     detail as string
   );
+  const [renderedPosition, setRenderPosition] = useState("front");
+  const [renderedColor, setRenderColor] = useState("");
+  const dispatch = useAppDispatch();
+  console.log(renderedColor, "renderedColor");
+
+  React.useEffect(() => {
+    if (response) setRenderColor(response.colorsObj[0].image);
+  }, [response]);
 
   return (
     <div>
@@ -23,77 +34,126 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
             <div className="row mt-5 pt-4 pt-sm-0 justify-content-center">
               <div className="col-lg-12">
                 <div className="card shadow rounded border-0 mb-4">
-                  <div className="card-body">
-                    <div className="invoice-top pb-4 border-bottom">
-                      <div className="row">
-                        <div className="col-md-8">
-                          <div className="logo-invoice mb-2">
-                            Hình ảnh thiết kế
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="invoice-middle py-4">
-                      <div className="row mb-0">
-                        <div className="col-md-3 d-flex flex-column justify-content-center">
-                          <img
-                            width="150rem"
-                            src={response.imagePreviews[0].image}
-                          />
-                          <Link
-                            href={`/my-product/edit-design?designId=${detail}&designName=${response.name}`}
-                          >
-                            <a>Chỉnh sửa thiết kế</a>
-                          </Link>
-                        </div>
-                        <div className="col-md-6 order-md-2 order-1 mt-2 mt-sm-0">
-                          <div className="pb-4">
-                            <p className="h4">Chọn mặt áo</p>
-                            <div className="">
-                              <div className="row mb-0 d-flex w-half">
-                                {response.imagePreviews.map((imagePreview) => (
-                                  <>
-                                    <div
-                                      key={imagePreview.position}
-                                      className="w-half"
-                                    >
-                                      <img
-                                        height="100rem"
-                                        src={imagePreview.image}
-                                      />
-                                      <p className="text-center">
-                                        {imagePreview.position}
-                                      </p>
-                                    </div>
-                                  </>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="">
-                            <p className="h4">Chọn màu áo</p>
-                            <div className="">
-                              <div className=" mb-0 d-flex justify-content-between w-half">
-                                {response.colorsObj.map((colorObj) => (
-                                  <>
-                                    <div key={colorObj.id} className="">
-                                      <img
-                                        height="100rem"
-                                        src={response.imagePreviews[0].image}
-                                      />
-                                      <p className="text-center">
-                                        {colorObj.name}
-                                      </p>
-                                    </div>
-                                  </>
-                                ))}
-                              </div>
+                  {renderedColor && (
+                    <div className="card-body">
+                      <div className="invoice-top pb-4 border-bottom">
+                        <div className="row">
+                          <div className="col-md-8">
+                            <div className="logo-invoice mb-2">
+                              Hình ảnh thiết kế
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div className="invoice-middle py-4">
+                        <div className="row mb-0">
+                          <div className="col-md-5 d-flex flex-column justify-content-center align-items-center">
+                            <>
+                              {response.imagePreviews.map((preview) => {
+                                if (preview.position === renderedPosition) {
+                                  if (preview.color === renderedColor)
+                                    return (
+                                      <img width="500rem" src={preview.image} />
+                                    );
+                                }
+                              })}
+
+                              <button
+                                onClick={() => {
+                                  dispatch(
+                                    setHeaderInfo({
+                                      productName: response.productName,
+                                      factoryName: response.factoryName,
+                                    })
+                                  );
+                                  router.push(
+                                    `/my-product/edit-design?designId=${detail}&designName=${response.name}`
+                                  );
+                                }}
+                                className="btn btn-link text-success"
+                              >
+                                Chỉnh sửa thiết kế
+                              </button>
+                            </>
+                          </div>
+                          <div className="col-md-6 order-md-2 order-1 mt-2 mt-sm-0 ms-5">
+                            <div className="pb-4">
+                              <p className="h4">Chọn mặt áo</p>
+                              <div className="mt-4">
+                                <div className="mb-0 d-flex justify-content-between w-half">
+                                  {response.imagePreviews.map(
+                                    (imagePreview) => {
+                                      if (imagePreview.color === renderedColor)
+                                        return (
+                                          <>
+                                            <div
+                                              key={imagePreview.position}
+                                              className="cursor-pointer"
+                                              onClick={() => {
+                                                setRenderPosition(
+                                                  imagePreview.position
+                                                );
+                                              }}
+                                            >
+                                              <img
+                                                height="100rem"
+                                                src={imagePreview.image}
+                                              />
+                                              <p className="text-center">
+                                                {imagePreview.position ===
+                                                  "front" && "Trước"}
+                                                {imagePreview.position ===
+                                                  "back" && "Sau"}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                    }
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="">
+                              <p className="h4">Chọn màu áo</p>
+                              <div className="mt-4">
+                                <div className=" mb-0 d-flex justify-content-between w-half">
+                                  {response.imagePreviews.map(
+                                    (imagePreview) => {
+                                      if (
+                                        imagePreview.position ===
+                                        renderedPosition
+                                      )
+                                        return (
+                                          <>
+                                            <div
+                                              key={imagePreview.color}
+                                              className="cursor-pointer"
+                                              onClick={() => {
+                                                setRenderColor(
+                                                  imagePreview.color
+                                                );
+                                              }}
+                                            >
+                                              <img
+                                                height="100rem"
+                                                src={imagePreview.image}
+                                              />
+                                              <p className="text-center">
+                                                {imagePreview.color}
+                                              </p>
+                                            </div>
+                                          </>
+                                        );
+                                    }
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 {/*end of mockup*/}
                 <div className="card shadow rounded border-0 mb-4">

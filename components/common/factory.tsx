@@ -5,16 +5,22 @@ import { FactoryDTO } from "@/services/type.dto";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { setIsEdit } from "@/redux/slices/isEdit";
 import { numberWithCommas } from "helper/number-util";
+import { setHeaderInfo } from "@/redux/slices/headerInfo";
 
 type Props = {
   factory: FactoryDTO;
+  productName: string;
 };
-export default function Factory({ factory }: Props) {
+export default function Factory({ factory, productName }: Props) {
   const router = useRouter();
   const productId = router.asPath.split("id=")[1];
   const dispatch = useAppDispatch();
   const startDesign = () => {
     dispatch(setIsEdit(true)); //Không set true thì khi tạo xong mà muốn design tiếp sẽ lỗi
+
+    dispatch(
+      setHeaderInfo({ factoryName: factory.name, productName: productName })
+    );
 
     router.push(`/design?productId=${productId}&factoryId=${factory.id}`);
     //push sẽ hủy hết lệnh và route qua trang khác

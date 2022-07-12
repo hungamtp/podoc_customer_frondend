@@ -15,6 +15,7 @@ import * as React from "react";
 import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
+import { getBase64FromUrl } from "helper/files-utils";
 
 // import dynamic from 'next/dynamic';
 
@@ -105,16 +106,9 @@ export default function EditDesign(props: EditDesignProps) {
   const position = useAppSelector((state) => state.blueprintsData.position);
   const blueprints = response?.bluePrints;
 
-  console.log(blueprints, "blueprintss");
-
-  const renderedBlueprint = blueprints || blueprintInit;
-
-  const designCanvas = renderedBlueprint.map(
-    (blueprint) =>
-      position === blueprint.position && (
-        <DesignCanvas openPreview={openPreview} />
-      )
-  );
+  const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
+  const [isLoadedBlueprints, setIsLoadedBlueprint] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     const handleRouteChange = (url: any) => {
@@ -133,18 +127,44 @@ export default function EditDesign(props: EditDesignProps) {
   }, []);
 
   React.useEffect(() => {
-    if (blueprints) {
-      blueprints.forEach((blueprint) => {
-        blueprint.designInfos?.forEach((designInfo) => {
-          designInfo.key = nanoid();
-        });
+    let isLoaded = true;
+    if (renderBlueprint && blueprints) {
+      renderBlueprint?.forEach((renderedBlueprint) => {
+        if (
+          !renderedBlueprint.tmpFrameImage ||
+          renderBlueprint.length < blueprints.length
+        )
+          isLoaded = false;
       });
-      dispatch(
-        updateBlueprint({
-          position: blueprints[0].position,
-          blueprints: blueprints,
-        })
-      );
+
+      setIsLoadedBlueprint(isLoaded);
+    }
+  }, [renderBlueprint]);
+
+  const designCanvas =
+    blueprints &&
+    blueprints.map(
+      (blueprint) =>
+        position === blueprint.position && (
+          <DesignCanvas openPreview={openPreview} />
+        )
+    );
+
+  React.useEffect(() => {
+    if (blueprints) {
+      if (response) {
+        response.bluePrints.forEach((blueprint, index) => {
+          blueprint.designInfos?.forEach((designInfo) => {
+            designInfo.key = nanoid();
+          });
+          getBase64FromUrl(blueprint.frameImage).then((tmpImageSrc) => {
+            setRenderBlueprint((state) => [
+              ...state,
+              { ...blueprint, tmpFrameImage: tmpImageSrc },
+            ]);
+          });
+        });
+      }
 
       dispatch(
         updateDesignInfos({
@@ -162,6 +182,17 @@ export default function EditDesign(props: EditDesignProps) {
       );
     }
   }, [response]);
+
+  React.useEffect(() => {
+    if (renderBlueprint.length === blueprints?.length)
+      dispatch(
+        updateBlueprint({
+          position: renderBlueprint[0].position,
+          blueprints: renderBlueprint,
+        })
+      );
+  }, [renderBlueprint]);
+
   const [isPreview, setIsPreview] = React.useState(false);
 
   const openPreview = () => {
@@ -174,20 +205,31 @@ export default function EditDesign(props: EditDesignProps) {
 
   return (
     <div className="container-fluid ">
-      <>
-        <DesignHeaderLeft
-          openPreview={openPreview}
-          closePreview={closePreview}
-          isPreview={isPreview}
-        />
+      {isLoadedBlueprints && response ? (
+        <>
+          <DesignHeaderLeft
+            openPreview={openPreview}
+            closePreview={closePreview}
+            isPreview={isPreview}
+            isEditPage={true}
+          />
 
-        {isPreview ? (
-          <PreviewCanvas isEditPage={true} colors={colors} />
-        ) : (
-          designCanvas
-        )}
-        <DesignFooterLeft />
-      </>
+          {isPreview ? (
+            <PreviewCanvas isEditPage={true} colors={response.colorsObj} />
+          ) : (
+            designCanvas
+          )}
+        </>
+      ) : (
+        <div id="preloader">
+          <div id="status">
+            <div className="spinner">
+              <div className="double-bounce1"></div>
+              <div className="double-bounce2"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

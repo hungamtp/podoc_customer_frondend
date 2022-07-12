@@ -447,16 +447,16 @@ export default function PreviewCanvas({
           (placeHolder.left || 0);
       if (key === "width")
         data =
-          (value / (blueprint.placeholder.width / DPI)) *
-          placeHolder.getScaledWidth();
+          (value / blueprint.placeholder.width) * placeHolder.getScaledWidth();
       if (key === "height")
         data =
-          (value / (blueprint.placeholder.height / DPI)) *
+          (value / blueprint.placeholder.height) *
           placeHolder.getScaledHeight();
       if (key === "scale") data = placeHolder.getScaledWidth() * value;
       return data;
     }
   };
+
   const addRect = (design: DesignState) => {
     if (canvas && placeHolder) {
       const imageLeft = reverseData("left", design.leftPosition);
@@ -507,34 +507,6 @@ export default function PreviewCanvas({
           { crossOrigin: "anonymous" }
         );
       }
-    }
-  };
-
-  const calculatePoint = (
-    left: number,
-    top: number,
-    width: number,
-    height: number
-  ) => {
-    if (placeHolder) {
-      const newLeft =
-        ((left - (placeHolder.left || 0)) / placeHolder.getScaledWidth()) * 100;
-      const newTop =
-        ((top - (placeHolder.top || 0)) / placeHolder.getScaledHeight()) * 100;
-      const newWidth =
-        (width / placeHolder.getScaledWidth()) *
-        (blueprint.placeholder.width / DPI);
-      const newHeight =
-        (height / placeHolder.getScaledHeight()) *
-        (blueprint.placeholder.height / DPI);
-      const scale = width / placeHolder.getScaledWidth();
-      return {
-        left: newLeft,
-        top: newTop,
-        width: newWidth,
-        height: newHeight,
-        scale: scale,
-      };
     }
   };
 

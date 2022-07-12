@@ -8,8 +8,10 @@ export interface DesignedProduct {
   designedPrice: number;
   priceFromFactory: number;
   colorsObj: { id: string; name: string; image: string }[];
-  imagePreviews: { position: string; image: string }[];
+  imagePreviews: { position: string; image: string; color: string }[];
   bluePrints: Blueprint[];
+  productName: string;
+  factoryName: string;
 }
 
 export interface ShownDesignedProduct {

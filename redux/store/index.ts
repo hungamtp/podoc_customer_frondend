@@ -11,6 +11,7 @@ import selectedColorsReducer from "@/redux/slices/selectedColors";
 import cartsReducer from "@/redux/slices/cart";
 import checkCartSliceReducer from "@/redux/slices/checkCart";
 import isEditSliceReducer from "@/redux/slices/isEdit";
+import headerInfoReducer from "@/redux/slices/headerInfo";
 
 import {
   persistStore,
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
   carts: cartsReducer,
   checkCartSlice: checkCartSliceReducer,
   isEdit: isEditSliceReducer,
+  headerInfo: headerInfoReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

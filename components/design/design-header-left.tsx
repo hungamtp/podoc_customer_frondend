@@ -2,6 +2,7 @@ import useProductDetail from "@/hooks/api/use-product-detail";
 import { DesignState } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { setControlData } from "@/redux/slices/designControl";
+import { resetHeaderInfo } from "@/redux/slices/headerInfo";
 import { Audio, useLoading } from "@agney/react-loading";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -11,10 +12,11 @@ export interface IDesignHeaderLeftProps {
   closePreview: () => void;
   openPreview: () => void;
   isPreview: boolean;
+  isEditPage: boolean;
 }
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
-  const { closePreview, openPreview, isPreview } = props;
+  const { closePreview, openPreview, isPreview, isEditPage } = props;
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const choosenKey = useAppSelector((state) => state.choosenKey);
@@ -27,8 +29,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
   const dispatch = useAppDispatch();
-  const productId = router.asPath.split("productId=")[1].split("&")[0];
-  const { data: response, isLoading: isLoading } = useProductDetail(productId);
+  const headerInfo = useAppSelector((state) => state.headerInfo);
   const updateAllToPreview = () => {
     let pos = -1;
     let tmpDesignInfos: DesignState[] | undefined = [
@@ -73,6 +74,22 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   };
 
   React.useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      if (
+        !url.includes("/design?productId") &&
+        !url.includes("/my-product/edit-design?designId=")
+      )
+        dispatch(resetHeaderInfo());
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
+
+  React.useEffect(() => {
     updateAllToPreview();
   }, [isPreview]);
 
@@ -83,16 +100,19 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
           <div className="d-flex">
             <p
               className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
-              onClick={() => router.push("/raw-products")}
+              onClick={() => {
+                if (isEditPage) router.push("/mydesign");
+                else router.push("/raw-products");
+              }}
             >
               {" "}
               Trở về trang sản phẩm
             </p>
-            {!isLoading && response && (
+            {headerInfo && (
               <div className="d-flex flex-column justify-content-center">
-                <p className="h5 pt-2">{response.name}</p>
+                <p className="h5 pt-2">{headerInfo.productName}</p>
                 <p className="text-secondary">
-                  Cung cấp bởi nhà in {response.factories[0].name}
+                  Cung cấp bởi nhà in {headerInfo.factoryName}
                 </p>
               </div>
             )}
