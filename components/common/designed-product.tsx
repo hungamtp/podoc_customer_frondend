@@ -62,8 +62,9 @@ export default function DesignedProduct({ product }: Props) {
             {product.name}
           </a>
           <div className="d-flex justify-content-between mt-1">
-            <h6 className="text-dark small fst-italic mb-0 mt-1">
-              ${product.designedPrice}
+            <h6 className="text-dark small fst-italic ">
+              Giá: 
+            <span className="text-danger ">{product.designedPrice} VND</span>
             </h6>
           </div>
           <div className="design-detail">
@@ -88,10 +89,10 @@ export default function DesignedProduct({ product }: Props) {
             </span>
           </div>
           <div>
-            <span className="sold-number ">Sold: {product.soldCount}</span>
+            <span className="sold-number ">Đã bán: {product.soldCount}</span>
           </div>
           <div className="designer cursor-pointer">
-            Designed by{" "}
+            Thiết kế bởi{" "}
             <span onClick={() => goToProfile(product.userId)}>
               <b>{product.username}</b>
             </span>
