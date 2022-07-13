@@ -358,10 +358,20 @@ export default function PreviewCanvas({
             })
           ) {
             clearInterval(rerenderLoop);
-            setImgSrc(canvas.toDataURL());
+            setImgSrc(
+              canvas.toDataURL({
+                format: "png",
+                multiplier: 2,
+              })
+            );
           }
         } else {
-          setImgSrc(canvas.toDataURL());
+          setImgSrc(
+            canvas.toDataURL({
+              format: "png",
+              multiplier: 2,
+            })
+          );
           clearInterval(rerenderLoop);
         }
       } else {
