@@ -50,6 +50,8 @@ export default function Checkout({}: Props) {
   const handleOpenDialog = () => {
     setIsOpen(true);
   };
+  
+  const [paymentMethod , setPaymentMethod] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -105,13 +107,12 @@ export default function Checkout({}: Props) {
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
     createOrder(
-      { shippingInfo: data, paymentMethod: 0 },
+      { shippingInfo: data, paymentMethod: paymentMethod },
       {
         onSuccess: (data: any) => {
           dispatch(setCart([]));
           // set cart redux to null
           window.location.href  = data.data.payUrl
- 
         },
       }
     );
@@ -396,6 +397,8 @@ export default function Checkout({}: Props) {
                   <div className="checkout-button">
                     <div className="checkout-selector">
                       <input
+                                              checked={paymentMethod == 0}
+                                              onChange ={() => setPaymentMethod(0)}
                         type="radio"
                         className="btn btn-m2 btn-checkout btn-logo-inline"
                       />
@@ -410,6 +413,27 @@ export default function Checkout({}: Props) {
                         width="25"
                         alt="momo"
                       />
+                    </div>
+                  </div>
+                  <div className="checkout-button">
+                    <div className="checkout-selector">
+                      <input
+                        type="radio"
+                        checked={paymentMethod == 1}
+                        onChange ={() => setPaymentMethod(1)}
+                        className="btn btn-m2 btn-checkout btn-logo-inline"
+                      />
+                    </div>
+                    <div
+                      className="content"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <span className="checkout-title">Thanh toán bằng Zalo</span>
+                      {/* <img
+                        src="asset/images/momologo.svg"
+                        width="25"
+                        alt="momo"
+                      /> */}
                     </div>
                   </div>
                   <button className="w-100 btn btn-primary" type="submit">
