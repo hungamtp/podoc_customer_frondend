@@ -184,7 +184,7 @@ export default function Header({}: Props) {
                 >
                   {auth.isAuth ? (
                     <div>
-                      <Link href="/mydesign">
+                      <Link href="/account-setting">
                         <a className="dropdown-item text-dark" href="#">
                           <i className="uil uil-user align-middle me-1"></i> Tài
                           khoản

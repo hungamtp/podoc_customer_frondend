@@ -27,7 +27,7 @@ export const counterSlice = createSlice({
       // immutable state based off those changes
       state.isAuth = true;
       state.token = action.payload.token;
-      state.userId = action.payload.userId;
+      state.userId = action.payload.credentialId;
       state.roleName = action.payload.roleName;
       state.image = action.payload.image;
     },
