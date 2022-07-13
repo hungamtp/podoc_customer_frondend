@@ -27,6 +27,10 @@ export default function ThankYou({}: Props) {
     if(param["orderId"]){
         const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(param["orderId"][0]);
     }
+    if(param["apptransid"]){
+      const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(param["apptransid"]);
+  }
+
   return (
     <div>
     <section className="bg-home bg-light d-flex align-items-center">
