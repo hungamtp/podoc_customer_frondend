@@ -12,6 +12,19 @@ export interface AccountByIdDtos {
     image: string;
     userStatus: string;
 }
+export interface UpdateAccountDto {
+    id:string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    address: string;
+    name: string;
+}
+
+export interface UpdateAccountResponse extends ISuccessHttpResponse {
+	data: UpdateAccountDto[];
+}
+
 
 export interface getAccountByIdResponse extends ISuccessHttpResponse {
 	data: AccountByIdDtos;
