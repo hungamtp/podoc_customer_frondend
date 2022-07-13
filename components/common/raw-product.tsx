@@ -69,24 +69,6 @@ export default function RawProduct({ product }: Props) {
                 <i className="bi bi-heart"></i>
               </a>
             </li>
-            <li className="mt-2">
-              <a
-                href=" "
-                data-bs-toggle="modal"
-                data-bs-target="#productview"
-                className="btn btn-icon btn-pills btn-soft-primary"
-              >
-                <i className="bi bi-eye"></i>
-              </a>
-            </li>
-            <li className="mt-2">
-              <a
-                href="shop-cart.html"
-                className="btn btn-icon btn-pills btn-soft-warning"
-              >
-                <i className="bi bi-cart-plus"></i>
-              </a>
-            </li>
           </ul>
         </div>
         <div className="card-body content pt-4 p-2">
