@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { EmptyLayout } from "@/components/layouts";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -55,7 +55,7 @@ export default function Login({ data }: Props) {
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const { data: responseCart, isLoading: isCartLoading } = useCart();
+  const [isLoadedCart, setIsLoadedCart] = useState(false);
   const [errorLogin, setErrorLogin] = useState<string>("");
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     data.email = data.email.trimStart().trimEnd();
@@ -63,11 +63,9 @@ export default function Login({ data }: Props) {
       { email: data.email, password: data.password },
       {
         onSuccess: (data) => {
-          console.log(data);
           dispatch(loginAction(data));
-          dispatch(setCart(responseCart));
+          setIsLoadedCart(true);
           router.back();
-          // router.back();
         },
         onError: (error: any) => {
           if (error.response) setErrorLogin(error.response?.data.errorMessage);

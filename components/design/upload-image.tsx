@@ -31,6 +31,7 @@ export function UploadImage(props: ITableProps) {
       const imageRef = ref(storage, `images/${file?.name}`);
       uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
+          console.log(imageList[0], "sizeeee");
           addNewRect(url, tmpSrc);
         });
       });

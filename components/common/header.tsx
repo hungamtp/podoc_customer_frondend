@@ -2,16 +2,23 @@
 /* eslint-disable @next/next/no-img-element */
 import { Badge } from "@material-ui/core";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { setCart } from "@/redux/slices/cart";
 import { logout } from "@/redux/slices/auth";
 import { CartDetailDTO } from "@/services/type.dto";
 import Link from "next/link";
+import UseCart from "@/hooks/api/cart/use-cart";
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
+  const { data: responseCart, isLoading: isCartLoading } = UseCart();
+
+  useEffect(() => {
+    if (responseCart) dispatch(setCart(responseCart));
+  }, [responseCart]);
+
   const cart = useAppSelector((state) => state.carts);
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();

@@ -8,17 +8,20 @@ import useGetOthersDesignById from "@/hooks/api/design/use-get-others-design-by-
 import {
   updateQuantityCartDetail,
   addNewCartDetail,
+  setCart as setCartRedux,
 } from "@/redux/slices/cart";
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
 import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { string } from "yup";
 
 export default function DesignedProductDetail() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { design }: any = router.query;
+  const auth = useAppSelector((state) => state.auth);
 
   const { data: designedProduct, isLoading: isLoading } =
     useGetOthersDesignById(design);
@@ -40,8 +43,6 @@ export default function DesignedProductDetail() {
   const [colorList, setColorList] = React.useState<string[]>([]);
   const [isError, setIsError] = React.useState<boolean>(false);
 
-  if (designedProduct) console.log(designedProduct.colorAndSizes, "data");
-
   React.useEffect(() => {
     if (!!designedProduct) {
       const colorsAndSizeList = designedProduct.colorAndSizes;
@@ -62,7 +63,7 @@ export default function DesignedProductDetail() {
 
   const [quantity, setQuantity] = React.useState(1);
 
-  const { mutate: updateCart } = useUpdateCart();
+  const { mutate: updateCart, data: updateDetailFromAPI } = useUpdateCart();
 
   React.useEffect(() => {
     if (cartDetailFromAPI) {
@@ -94,7 +95,6 @@ export default function DesignedProductDetail() {
 
   const addNewDetail = (newQuantity: number) => {
     if (newQuantity === 0) {
-      console.log("quantity");
       return;
     }
     const newCartDetail: AddToCartDTO = {
@@ -103,11 +103,25 @@ export default function DesignedProductDetail() {
       size: selectedSize,
       quantity: newQuantity,
     };
-    addToCart(newCartDetail);
+    if (auth.isAuth) addToCart(newCartDetail);
+    else {
+      const reduxCartDetail = {
+        id: nanoid(),
+        cartId: nanoid(),
+        designedProductId: designedProduct?.id,
+        designedProductName: designedProduct?.name,
+        designedImage: designedProduct?.imagePreviews[0].image,
+        size: selectedSize,
+        color: selectedColor,
+        quantity: newQuantity,
+        price: designedProduct?.price,
+        publish: true,
+      };
+      dispatch(addNewCartDetail(reduxCartDetail));
+    }
   };
 
   const updateCartDetailQuantity = (newQuantity: number) => {
-    console.log(cart, "detaill");
     if (cart) {
       dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
       setQuantity(newQuantity);
@@ -118,6 +132,7 @@ export default function DesignedProductDetail() {
         }
       });
       newCart.push({ ...cart, quantity: newQuantity });
+      dispatch(setCartRedux(newCart));
       updateCart(newCart);
     }
   };
