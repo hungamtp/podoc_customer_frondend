@@ -136,7 +136,7 @@ export default function DesignedProductCard({ product }: Props) {
               })}
             </ul>
             <span className="list-unstyled text-warning  ">
-              ({product.rating})
+              ({product.rating.toFixed(2)})
             </span>
           </div>
           <div>

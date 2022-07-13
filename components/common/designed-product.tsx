@@ -84,7 +84,7 @@ export default function DesignedProduct({ product }: Props) {
               })}
             </ul>
             <span className="list-unstyled text-warning  ">
-              ({product.rate})
+              ({product.rate.toFixed(2)})
             </span>
           </div>
           <div>
