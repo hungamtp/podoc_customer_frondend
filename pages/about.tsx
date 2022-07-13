@@ -63,7 +63,7 @@ export default function About({}: Props) {
                   <strong>Let your creativity on your T-shirt</strong>”, PODOC
                   mong muốn đem đến những thiết kế không chỉ có tính thẩm mỹ
                   cao, mà còn đầy ý nghĩa, chứa đựng những kỷ niệm, kí ức đẹp,
-                  lưu giữ trên từng chiếc áo đồng phục của khách hàng.
+                  lưu giữ trên từng chiếc áo của khách hàng.
                   <br />
                   <br />
                   Chúng tôi luôn đặt chất lượng vải và chất lượng hình in lên

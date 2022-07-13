@@ -153,63 +153,6 @@ export default function DesignedProducts(props: IProductProps) {
                             </h6>
                           </div>
                         </li>
-                        <li className="d-flex align-items-center mt-2">
-                          <a href=" ">
-                            <img
-                              src="asset/images/shop/product/s1.jpg"
-                              className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: "auto" }}
-                              alt=""
-                            />
-                          </a>
-                          <div className="flex-1 content ms-3">
-                            <a href=" " className="text-dark h6">
-                              Watch
-                            </a>
-                            <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00{" "}
-                              <del className="text-danger ms-2">$22.00</del>{" "}
-                            </h6>
-                          </div>
-                        </li>
-                        <li className="d-flex align-items-center mt-2">
-                          <a href=" ">
-                            <img
-                              src="asset/images/shop/product/s1.jpg"
-                              className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: "auto" }}
-                              alt=""
-                            />
-                          </a>
-                          <div className="flex-1 content ms-3">
-                            <a href=" " className="text-dark h6">
-                              Coffee Cup
-                            </a>
-                            <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00{" "}
-                              <del className="text-danger ms-2">$22.00</del>{" "}
-                            </h6>
-                          </div>
-                        </li>
-                        <li className="d-flex align-items-center mt-2">
-                          <a href=" ">
-                            <img
-                              src="asset/images/shop/product/s1.jpg"
-                              className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: "auto" }}
-                              alt=""
-                            />
-                          </a>
-                          <div className="flex-1 content ms-3">
-                            <a href=" " className="text-dark h6">
-                              Wooden Stools
-                            </a>
-                            <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00{" "}
-                              <del className="text-danger ms-2">$22.00</del>{" "}
-                            </h6>
-                          </div>
-                        </li>
                       </ul>
                     </div>
                   </div>
