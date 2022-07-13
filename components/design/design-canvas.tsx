@@ -235,8 +235,6 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
         const obj = options.target;
         if (obj) {
           if (
-            obj.height &&
-            obj.width &&
             obj.left &&
             obj.top &&
             placeHolder.rect.top &&
@@ -280,11 +278,13 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
               canvas.renderAll();
             }
           }
+          console.log(obj.height, " obj.height");
           const tmpDesignData = calculatePoint(
             obj.left || 200,
             obj.top || 200,
             obj.getScaledWidth(),
-            obj.getScaledHeight()
+            obj.getScaledHeight(),
+            obj.height
           );
           const designInfo = {
             choosenKey: obj.name,
@@ -294,6 +294,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
             scales: tmpDesignData?.scale,
             leftPosition: tmpDesignData?.left,
             topPosition: tmpDesignData?.top,
+            DPI: tmpDesignData?.DPI,
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
@@ -308,7 +309,8 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
             obj.left || 200,
             obj.top || 200,
             obj.getScaledWidth(),
-            obj.getScaledHeight()
+            obj.getScaledHeight(),
+            obj.height
           );
           const designInfo = {
             choosenKey: obj.name,
@@ -318,6 +320,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
             scales: tmpDesignData?.scale,
             leftPosition: tmpDesignData?.left,
             topPosition: tmpDesignData?.top,
+            DPI: tmpDesignData?.DPI,
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
@@ -369,7 +372,8 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
     left: number,
     top: number,
     width: number,
-    height: number
+    height: number,
+    heightPixel?: number
   ) => {
     if (placeHolder) {
       const newLeft =
@@ -387,12 +391,14 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
         (height / placeHolder.rect.getScaledHeight()) *
         blueprint.placeholder.height;
       const scale = width / placeHolder.rect.getScaledWidth();
+      const DPI = heightPixel ? heightPixel / newHeight : heightPixel;
       return {
         left: newLeft,
         top: newTop,
         width: newWidth,
         height: newHeight,
         scale: scale,
+        DPI: DPI,
       };
     }
   };
@@ -449,7 +455,8 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
             object.left || 200,
             object.top || 200,
             object.getScaledWidth(),
-            object.getScaledHeight()
+            object.getScaledHeight(),
+            object.height
           );
 
           const designInfo = {
@@ -460,6 +467,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
             scales: tmpDesignData?.scale,
             leftPosition: tmpDesignData?.left,
             topPosition: tmpDesignData?.top,
+            DPI: tmpDesignData?.DPI,
           };
 
           dispatch(setValue({ ...designInfo }));
@@ -551,7 +559,8 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           obj.left || 200,
           obj.top || 200,
           obj.getScaledWidth(),
-          obj.getScaledHeight()
+          obj.getScaledHeight(),
+          obj.height
         );
 
         const designInfo = {
@@ -562,6 +571,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           scales: tmpDesignData?.scale,
           leftPosition: tmpDesignData?.left,
           topPosition: tmpDesignData?.top,
+          DPI: tmpDesignData?.DPI,
         };
 
         dispatch(setValue({ ...designInfo }));
@@ -767,15 +777,17 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
               mr: false, // I think you get it
             });
 
+            // canvas.getContext().getImageData().
+
             canvas.add(image);
 
             const tmpDesignData = calculatePoint(
               image.left || 200,
               image.top || 200,
               image.getScaledWidth(),
-              image.getScaledHeight()
+              image.getScaledHeight(),
+              image.height
             );
-            console.log(image, "image");
             const imageNameFromUrl = imgUrl.split("%2F")[1].split("?")[0];
             const designInfo = {
               key: newName,

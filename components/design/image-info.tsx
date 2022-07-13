@@ -73,13 +73,15 @@ const ImageInfo = (props: IImageInfoProps) => {
             if (chooseDesign) chooseDesign(designInfo.key);
           }}
         >
-          <div className="border-bottom p-3 d-flex justify-content-between">
+          <div className="border-bottom p-3 d-flex justify-content-between ">
             <div className="d-flex">
               <img src={designInfo.src} width="50px" height="50px"></img>
 
-              <div className="ms-4">
-                <p className="h6 m-0">{designInfo.name}</p>
-                <p className="text-warning m-0">{}</p>
+              <div className="ms-4 w">
+                <p className="h6 m-0  text-truncate " style={{ maxWidth: 150 }}>
+                  {designInfo.name}
+                </p>
+                <p className="text-warning  m-0">{designInfo.DPI}</p>
               </div>
             </div>
             <div>
@@ -288,8 +290,10 @@ const ImageInfo = (props: IImageInfoProps) => {
               <img src={designInfo.src} width="50px" height="50px"></img>
 
               <div className="ms-4">
-                <p className="h6 m-0">Tên hình</p>
-                <p className="text-warning m-0">Độ phân giải</p>
+                <p className="h6 m-0 text-truncate" style={{ maxWidth: 150 }}>
+                  {designInfo.name}
+                </p>
+                <p className="text-warning m-0">{designInfo.DPI}</p>
               </div>
             </div>
             <div>

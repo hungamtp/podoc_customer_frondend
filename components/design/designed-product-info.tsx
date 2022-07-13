@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import { storage } from "@/firebase/firebase";
 import useCreateBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
+import { Preview } from "@/redux/slices/previews";
 import { DesignedProductDto } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -57,6 +58,7 @@ export default function CreateDesignedProductForm(
   const { handleCloseDialog, loadedColors } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
+  const selectedColors = useAppSelector((state) => state.selectedColors);
   const router = useRouter();
   const { productId, factoryId } = router.query;
 
@@ -82,12 +84,17 @@ export default function CreateDesignedProductForm(
     designedPrice: number;
     description: string;
   }) => {
+    const submitPreviewList = previews.filter((preview) => {
+      selectedColors.forEach((selectedColor) => {
+        if (preview.color === selectedColor) return true;
+      });
+    });
     const imageList = [] as {
       image: string;
       position: string;
       color: string;
     }[];
-    previews.map((image) => {
+    submitPreviewList.map((image) => {
       const file = b64toBlob(image.imageSrc);
       const imageRef = ref(
         storage,
