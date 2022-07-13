@@ -394,7 +394,7 @@ export default function Checkout({}: Props) {
                   <h4 className="mb-3 mt-4 pt-4 border-top">
                     Phương thức thanh toán
                   </h4>
-                  <div className="checkout-button">
+                  <div className="checkout-button mt-1">
                     <div className="checkout-selector">
                       <input
                                               checked={paymentMethod == 0}
@@ -415,7 +415,7 @@ export default function Checkout({}: Props) {
                       />
                     </div>
                   </div>
-                  <div className="checkout-button">
+                  <div className="checkout-button mt-1">
                     <div className="checkout-selector">
                       <input
                         type="radio"
@@ -429,14 +429,14 @@ export default function Checkout({}: Props) {
                       style={{ display: "flex", alignItems: "center" }}
                     >
                       <span className="checkout-title">Thanh toán bằng Zalo</span>
-                      {/* <img
+                      <img
                         src="asset/images/momologo.svg"
                         width="25"
                         alt="momo"
-                      /> */}
+                      />
                     </div>
                   </div>
-                  <button className="w-100 btn btn-primary" type="submit">
+                  <button className="w-100 btn btn-primary mt-1" type="submit">
                     Tiếp tục thanh toán
                   </button>
                 </form>

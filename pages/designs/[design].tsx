@@ -204,7 +204,7 @@ export default function DesignedProductDetail() {
                             })}
                           </ul>
                           <span className="list-unstyled text-warning  ">
-                            ({designedProduct.rating})
+                            ({designedProduct.rating.toFixed(2)})
                           </span>
                         </div>
                         <div className="d-flex justify-content-between mt-1">
