@@ -151,7 +151,7 @@ export default function EditDesign(props: EditDesignProps) {
     );
 
   React.useEffect(() => {
-    if (blueprints) {
+    if (blueprints && blueprints.length > 0) {
       if (response) {
         response.bluePrints.forEach((blueprint, index) => {
           blueprint.designInfos?.forEach((designInfo) => {
@@ -166,13 +166,24 @@ export default function EditDesign(props: EditDesignProps) {
         });
       }
 
+      console.log(blueprints[0].designInfos, "blueprinttt");
+    }
+  }, [response]);
+
+  React.useEffect(() => {
+    if (renderBlueprint.length === blueprints?.length) {
+      dispatch(
+        updateBlueprint({
+          position: renderBlueprint[0].position,
+          blueprints: renderBlueprint,
+        })
+      );
       dispatch(
         updateDesignInfos({
           isEmpty: false,
-          designInfos: blueprints[0].designInfos,
+          designInfos: renderBlueprint[0].designInfos,
         })
       );
-
       dispatch(
         setControlData({
           isSetImage: false,
@@ -181,16 +192,6 @@ export default function EditDesign(props: EditDesignProps) {
         })
       );
     }
-  }, [response]);
-
-  React.useEffect(() => {
-    if (renderBlueprint.length === blueprints?.length)
-      dispatch(
-        updateBlueprint({
-          position: renderBlueprint[0].position,
-          blueprints: renderBlueprint,
-        })
-      );
   }, [renderBlueprint]);
 
   const [isPreview, setIsPreview] = React.useState(false);
