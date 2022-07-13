@@ -54,10 +54,10 @@ export default function About({}: Props) {
           <div className="row justify-content-center">
             <div className="col-lg-9">
               <div className="section-title">
-                <h4 className="title mb-4  text-center text-uppercase ">
+                <h5 className="title mb-4  text-center text-uppercase ">
                   Chất lượng của sản phẩm và độ hài lòng của khách hàng là trên
                   hết
-                </h4>
+                </h5>
                 <p className="text-wrap fs-6 mb-0">
                   Chọn cho mình slogan “
                   <strong>Let your creativity on your T-shirt</strong>”, PODOC
@@ -80,7 +80,7 @@ export default function About({}: Props) {
           </div>
         </div>
 
-        <div className="container mt-100 mt-60">
+        <div className="container mt-5 ">
           <div className="row justify-content-center">
             <div className="col-12">
               <div className="section-title text-center mb-4 pb-2">

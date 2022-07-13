@@ -146,9 +146,11 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      {response?.length != 0 && <DesignedProducts title="Best Seller" data={response} />}
+      {response?.length != 0 && (
+        <DesignedProducts title="Best Seller" data={response} />
+      )}
 
-      <div className="container mt-100 mt-60">
+      {/* <div className="container mt-100 mt-60">
         <div className="row">
           <div className="col-12">
             <h5 className="mb-0">Top Categories</h5>
@@ -270,7 +272,7 @@ export default function HomePage({}: Props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* End of season */}
     </>
   );
