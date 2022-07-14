@@ -24,13 +24,14 @@ export default function ThankYou({}: Props) {
   const router = useRouter();
   const param = router.query;
   if (param["orderId"]) {
+    console.log(param["orderId"])
     const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["orderId"][0]
+      param["orderId"]
     );
   }
   if (param["apptransid"]) {
     const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["apptransid"][0]
+      param["apptransid"]
     );
   }
 
