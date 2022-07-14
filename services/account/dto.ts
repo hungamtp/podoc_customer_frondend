@@ -21,6 +21,13 @@ export interface UpdateAccountDto {
     name: string;
 }
 
+export interface UpdatePasswordDto {
+    oldPassword: string;
+    newPassword: string;
+    
+}
+
+
 export interface UpdateAccountResponse extends ISuccessHttpResponse {
 	data: UpdateAccountDto[];
 }
