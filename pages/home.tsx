@@ -56,7 +56,7 @@ export default function HomePage({}: Props) {
                     <div className="col-lg-7 col-md-7">
                       <div className="title-heading mt-4">
                         <h1 className="display-4 title-white fw-bold mb-3">
-                          Print On Demand
+                          Print On Demand Of Customer
                         </h1>
                         <p className="para-desc text-dark title-white">
                           In theo yêu cầu là một công nghệ in và quy trình kinh
@@ -147,7 +147,10 @@ export default function HomePage({}: Props) {
       </section>
 
       {response && response.length !== 0 && (
-        <DesignedProducts title="Best Seller" data={response} />
+        <DesignedProducts
+          title="Sản phẩm có đánh giá tốt nhất"
+          data={response}
+        />
       )}
 
       {/* <div className="container mt-100 mt-60">

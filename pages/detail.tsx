@@ -10,6 +10,7 @@ import * as React from "react";
 import { useAppSelector } from "@/components/hooks/reduxHook";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
+import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -20,6 +21,10 @@ export default function ProductDetail() {
     data: responseGetHighestRateDesignById,
     isLoading: isLoadingGetHighestRateDesignById,
   } = useGetHighestRateDesignById(productId);
+  const {
+    data: responseBestSellerByProductId,
+    isLoading: isLoadingBestSellerByProductId,
+  } = useGetBestSellerByProductId(productId);
   const id = useAppSelector((state) => state.productDetail);
 
   return (
@@ -157,6 +162,14 @@ export default function ProductDetail() {
                 <Products
                   title="Các sản phẩm được đánh giá cao"
                   data={responseGetHighestRateDesignById}
+                />
+              )}
+
+            {responseBestSellerByProductId?.length != 0 &&
+              responseBestSellerByProductId && (
+                <Products
+                  title="Các sản phẩm đang bán chạy"
+                  data={responseBestSellerByProductId}
                 />
               )}
 

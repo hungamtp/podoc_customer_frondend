@@ -64,7 +64,7 @@ export default function CreateDesignedProductForm(
 
   const defaultValues: FormAddDesignInfo = {
     name: "",
-    designedPrice: 0,
+    designedPrice: 10000,
     description: "",
   };
   const {
@@ -84,9 +84,10 @@ export default function CreateDesignedProductForm(
     designedPrice: number;
     description: string;
   }) => {
-    const submitPreviewList = previews.filter((preview) => {
+    let submitPreviewList: Preview[] = [];
+    previews.forEach((preview) => {
       selectedColors.forEach((selectedColor) => {
-        if (preview.color === selectedColor) return true;
+        if (preview.color === selectedColor) submitPreviewList.push(preview);
       });
     });
     const imageList = [] as {
@@ -94,6 +95,8 @@ export default function CreateDesignedProductForm(
       position: string;
       color: string;
     }[];
+    console.log(data, "data");
+    console.log(submitPreviewList, "submitPreviewList");
     submitPreviewList.map((image) => {
       const file = b64toBlob(image.imageSrc);
       const imageRef = ref(
@@ -112,7 +115,6 @@ export default function CreateDesignedProductForm(
           });
           if (imageList.length === previews.length) {
             setIsLoading(false);
-            console.log(submitBlueprint, "blueprint ne");
             const submitData = {
               ...data,
               colors: colors,
@@ -215,10 +217,10 @@ export default function CreateDesignedProductForm(
               </div>
               <SelectColor colors={loadedColors} />
 
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-center pt-4">
                 <div className="col-sm-10 d-flex justify-content-around">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary w-30p"
                     color="primary"
                     type="submit"
                   >
@@ -232,7 +234,7 @@ export default function CreateDesignedProductForm(
                     Tạo
                   </button>
                   <button
-                    className="btn btn-secondary"
+                    className="btn btn-secondary w-30p"
                     onClick={handleCloseDialog}
                     autoFocus
                     type="button"

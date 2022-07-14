@@ -43,18 +43,27 @@ export default function ThankYou({}: Props) {
               <div className="text-center">
                 <div
                   className="icon d-flex align-items-center justify-content-center bg-soft-primary rounded-circle mx-auto"
-                  style={{ height: "90px", width: "90px" }}
+                  style={{ height: "200px", width: "200px" }}
                 >
-                  <i className="uil uil-thumbs-up align-middle h1 mb-0" />
+                  <img
+                    src="/asset/images/logo_man.png"
+                    height="200"
+                    className="logo-light-mode"
+                    alt=""
+                  />
                 </div>
-                <h1 className="my-4 fw-bold">Thank You</h1>
-                <p className="text-muted para-desc mx-auto">
-                  Launch your campaign and benefit from our expertise on
-                  designing and managing conversion centered bootstrap v5 html
-                  page.
+                <h1 className="my-4 fw-bold">Cảm ơn bạn</h1>
+                <p className="text-muted para-desc mx-auto ">
+                  {`PODOC xin chân thành cảm ơn bạn đã sử dụng dịch vụ của chúng
+                  tôi.`}
                 </p>
+                <p className="text-muted para-desc mx-auto">
+                  {`Đơn hàng đã được xác nhận thanh toán, bạn có thể theo dõi đơn hàng tại`}{" "}
+                  <span className="text-success">đây</span>
+                </p>
+
                 <Link href="/" className="btn btn-soft-primary mt-3">
-                  <a className="btn btn-soft-primary mt-3">Go To Home</a>
+                  <a className="btn btn-soft-primary mt-3">Về trang chủ</a>
                 </Link>
               </div>
             </div>

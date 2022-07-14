@@ -70,7 +70,7 @@ export default function Checkout({}: Props) {
     address: yup
       .string()
       .min(8, "Email cần ít nhất 8 kí tự")
-      .max(26, "Email tối đa 50 kí tự"),
+      .max(300, "Email tối đa 300 kí tự"),
     name: yup
       .string()
       .min(8, "Tên cần ít nhất 8 kí tự")
@@ -332,7 +332,7 @@ export default function Checkout({}: Props) {
                     </div>
                     <div className="col-12">
                       <label htmlFor="email" className="form-label">
-                        Email <span className="text-muted">(Optional)</span>
+                        Email
                       </label>
                       <input
                         id="email"

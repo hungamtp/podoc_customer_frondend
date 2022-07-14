@@ -37,6 +37,9 @@ export interface ProductHomePage {
 export interface Best4DesignedProduct {
   data: Array<ProductHomePage>;
 }
+export interface BestSeller {
+  data: Array<ProductHomePage>;
+}
 
 export interface LoginDto {
   email: string;
