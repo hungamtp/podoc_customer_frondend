@@ -18,15 +18,19 @@ export default function PreviewFooter({
   const changePos = (position: string) => {
     setRenderedPosition(position);
   };
-  const positionArr = blueprintData.blueprints.map((blueprint) => (
+  const positionList = [
+    { position: "Trước", value: "front" },
+    { position: "Sau", value: "back" },
+  ];
+  const positionArr = positionList.map((posData) => (
     <button
       className={`btn  w-half ${
-        blueprint.position === renderedPosition && "btn-success"
+        posData.value === renderedPosition && "btn-success"
       }`}
-      key={blueprint.position}
-      onClick={() => changePos(blueprint.position)}
+      key={posData.value}
+      onClick={() => changePos(posData.value)}
     >
-      {blueprint.position}
+      {posData.position}
     </button>
   ));
   const dispatch = useAppDispatch();
