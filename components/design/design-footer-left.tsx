@@ -101,15 +101,19 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
       );
     }
   };
-  const positionArr = blueprintData.blueprints.map((blueprint) => (
+  const positionList = [
+    { position: "Trước", value: "front" },
+    { position: "Sau", value: "back" },
+  ];
+  const positionArr = positionList.map((posData) => (
     <button
       className={`btn  w-half ${
-        blueprint.position === blueprintData.position && "btn-success"
+        posData.value === blueprintData.position && "btn-success"
       }`}
-      key={blueprint.position}
-      onClick={() => changePos(blueprint.position)}
+      key={posData.value}
+      onClick={() => changePos(posData.value)}
     >
-      {blueprint.position}
+      {posData.position}
     </button>
   ));
   const dispatch = useAppDispatch();
