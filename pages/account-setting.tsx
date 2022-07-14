@@ -1,15 +1,19 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import ChangePassword from "@/components/account/change-password-form";
-import { useAppSelector } from "@/components/hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { MainLayout } from "@/components/layouts";
 import useGetAccountById from "@/hooks/api/account/use-account-by-id";
 import useUpdateProfile from "@/hooks/api/account/use-update-profile";
+import UseCart from "@/hooks/api/cart/use-cart";
 import { AccountByIdDtos } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
+import { setCart } from "@/redux/slices/cart";
+import { logout } from "@/redux/slices/auth";
+import { useRouter } from "next/router";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -49,6 +53,19 @@ export default function AccountSetting(props: IAccountSettingProps) {
     useGetAccountById(credentialId);
   const [isEdit, setIsEdit] = React.useState(true);
   const { mutate: updateProfile } = useUpdateProfile();
+  const dispatch = useAppDispatch();
+  const { data: responseCart, isLoading: isCartLoading } = UseCart();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (responseCart) dispatch(setCart(responseCart));
+  }, [responseCart]);
+
+  const logoutFunc = () => {
+    dispatch(setCart([]));
+    dispatch(logout([]));
+    router.push("/");
+  };
 
   const defaultValues: AccountByIdDtos = {
     id: "",
@@ -185,7 +202,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
                           <i className="uil uil-user h5 align-middle me-2 mb-0" />{" "}
-                          Account Details
+                          Thông tin cá nhân
                         </h6>
                       </div>
                     </a>
@@ -196,13 +213,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     <a
                       className="nav-link rounded"
                       role="tab"
-                      href="auth-login.html"
+                      href="\"
+                      onClick={logoutFunc}
                       aria-selected="false"
                     >
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
                           <i className="uil uil-sign-out-alt h5 align-middle me-2 mb-0" />{" "}
-                          Logout
+                          Đăng xuất
                         </h6>
                       </div>
                     </a>
@@ -224,22 +242,22 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     <h6 className="text-muted">
                       Hello <span className="text-dark">cally_joseph</span> (not{" "}
                       <span className="text-dark">cally_joseph</span>?{" "}
-                      <a href="javascript:void(0)" className="text-danger">
+                      <a href="" className="text-danger">
                         Log out
                       </a>
                       )
                     </h6>
                     <h6 className="text-muted mb-0">
                       From your account dashboard you can view your{" "}
-                      <a href="javascript:void(0)" className="text-danger">
+                      <a href="" className="text-danger">
                         recent orders
                       </a>
                       , manage your{" "}
-                      <a href="javascript:void(0)" className="text-danger">
+                      <a href="" className="text-danger">
                         shipping and billing addresses
                       </a>
                       , and{" "}
-                      <a href="javascript:void(0)" className="text-danger">
+                      <a href="" className="text-danger">
                         edit your password and account details
                       </a>
                       .
@@ -283,10 +301,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               <span className="text-muted">for 2items</span>
                             </td>
                             <td>
-                              <a
-                                href="javascript:void(0)"
-                                className="text-primary"
-                              >
+                              <a href="" className="text-primary">
                                 View <i className="uil uil-arrow-right" />
                               </a>
                             </td>
@@ -300,10 +315,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               <span className="text-muted">for 1item</span>
                             </td>
                             <td>
-                              <a
-                                href="javascript:void(0)"
-                                className="text-primary"
-                              >
+                              <a href="" className="text-primary">
                                 View <i className="uil uil-arrow-right" />
                               </a>
                             </td>
@@ -317,10 +329,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               <span className="text-muted">for 1item</span>
                             </td>
                             <td>
-                              <a
-                                href="javascript:void(0)"
-                                className="text-primary"
-                              >
+                              <a href="" className="text-primary">
                                 View <i className="uil uil-arrow-right" />
                               </a>
                             </td>
@@ -382,7 +391,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                         <div className="d-flex align-items-center mb-4 justify-content-between">
                           <h5 className="mb-0">Billing Address:</h5>
                           <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-primary h5 mb-0"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
@@ -405,7 +414,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                         <div className="d-flex align-items-center mb-4 justify-content-between">
                           <h5 className="mb-0">Shipping Address:</h5>
                           <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-primary h5 mb-0"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
@@ -440,10 +449,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             <div className="mb-3">
                               <label className="form-label">Họ</label>
                               <div className="form-icon position-relative">
-                                <i
-                                  data-feather="user"
-                                  className="fea icon-sm icons"
-                                />
+                                <i className="bi bi-person-fill position-absolute mt-2 ms-3" />
                                 <input
                                   id="first-name"
                                   type="text"
@@ -462,10 +468,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             <div className="mb-3">
                               <label className="form-label">Tên</label>
                               <div className="form-icon position-relative">
-                                <i
-                                  data-feather="user-check"
-                                  className="fea icon-sm icons"
-                                />
+                                <i className="bi bi-person-check-fill position-absolute mt-2 ms-3" />
                                 <input
                                   id="last-name"
                                   type="text"
@@ -484,10 +487,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             <div className="mb-3">
                               <label className="form-label">Email</label>
                               <div className="form-icon position-relative">
-                                <i
-                                  data-feather="mail"
-                                  className="fea icon-sm icons"
-                                />
+                                <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
                                 <input
                                   id="email"
                                   type="email"
@@ -507,10 +507,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                 Số điện thoại
                               </label>
                               <div className="form-icon position-relative">
-                                <i
-                                  data-feather="user-check"
-                                  className="fea icon-sm icons"
-                                />
+                                <i className="bi bi-telephone-fill position-absolute mt-2 ms-3" />
                                 <input
                                   id="display-name"
                                   type="text"
@@ -526,10 +523,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             <div className="mb-3">
                               <label className="form-label">Địa chỉ</label>
                               <div className="form-icon position-relative">
-                                <i
-                                  data-feather="user-check"
-                                  className="fea icon-sm icons"
-                                />
+                                <i className="bi bi-house-fill position-absolute mt-2 ms-3" />
                                 <textarea
                                   id="display-name"
                                   rows={3}
