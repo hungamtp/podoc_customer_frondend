@@ -52,8 +52,9 @@ export default function SelectColor({ colors }: ISelectColorProps) {
       <div className="d-flex flex-column">
         <label>Màu áo</label>
         {colors && (
-          <FormControl sx={{ mb: 1, width: 400 }}>
+          <FormControl sx={{ mb: 1, width: 300 }}>
             <Select
+              className="border px-2"
               multiple
               disableUnderline
               displayEmpty

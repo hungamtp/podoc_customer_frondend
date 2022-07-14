@@ -11,6 +11,7 @@ import useRawProduct, {
   RawProductFilter,
 } from "@/hooks/api/use-get-all-product-raw";
 import search from "@/redux/slices/search";
+import Link from "next/link";
 import * as React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -135,14 +136,17 @@ export default function DesignedProducts(props: IProductProps) {
                       <h5 className="widget-title">Sản phẩm bán chạy</h5>
                       <ul className="list-unstyled mt-4 mb-0">
                         <li className="d-flex align-items-center">
-                          <a href=" ">
-                            <img
-                              src="asset/images/shop/product/s1.jpg"
-                              className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: "auto" }}
-                              alt=""
-                            />
-                          </a>
+                          <Link href=" ">
+                            <a>
+                              <img
+                                src="asset/images/shop/product/s1.jpg"
+                                className="img-fluid avatar avatar-small rounded shadow"
+                                style={{ height: "auto" }}
+                                alt=""
+                              />
+                            </a>
+                          </Link>
+
                           <div className="flex-1 content ms-3">
                             <a href=" " className="text-dark h6">
                               T-Shirt

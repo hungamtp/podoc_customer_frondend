@@ -8,7 +8,6 @@ export interface DesignState {
   rotate: number;
   leftPosition: number;
   topPosition: number;
-  pixel: number;
   src: string;
   tmpSrc: string;
   font?: string;
