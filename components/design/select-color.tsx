@@ -54,7 +54,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
         {colors && (
           <FormControl sx={{ mb: 1, width: 300 }}>
             <Select
-              className="border px-2"
+              className="border px-2 rounded"
               multiple
               disableUnderline
               displayEmpty

@@ -131,11 +131,6 @@ export default function PreviewCanvas({
   colors,
   isEditPage,
 }: IPreviewCanvasProps) {
-  const pageHeight = Math.max(
-    document.documentElement.clientHeight || 0,
-    window.innerHeight || 0
-  );
-
   const router = useRouter();
 
   const [isDrawPreview, setIsDrawPreview] = React.useState(false);
