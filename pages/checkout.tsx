@@ -50,8 +50,8 @@ export default function Checkout({}: Props) {
   const handleOpenDialog = () => {
     setIsOpen(true);
   };
-  
-  const [paymentMethod , setPaymentMethod] = useState();
+
+  const [paymentMethod, setPaymentMethod] = useState(1);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -112,7 +112,7 @@ export default function Checkout({}: Props) {
         onSuccess: (data: any) => {
           dispatch(setCart([]));
           // set cart redux to null
-          window.location.href  = data.data.payUrl
+          window.location.href = data.data.payUrl;
         },
       }
     );
@@ -397,8 +397,8 @@ export default function Checkout({}: Props) {
                   <div className="checkout-button mt-1">
                     <div className="checkout-selector">
                       <input
-                                              checked={paymentMethod == 0}
-                                              onChange ={() => setPaymentMethod(0)}
+                        checked={paymentMethod == 0}
+                        onChange={() => setPaymentMethod(0)}
                         type="radio"
                         className="btn btn-m2 btn-checkout btn-logo-inline"
                       />
@@ -420,7 +420,7 @@ export default function Checkout({}: Props) {
                       <input
                         type="radio"
                         checked={paymentMethod == 1}
-                        onChange ={() => setPaymentMethod(1)}
+                        onChange={() => setPaymentMethod(1)}
                         className="btn btn-m2 btn-checkout btn-logo-inline"
                       />
                     </div>
@@ -428,7 +428,9 @@ export default function Checkout({}: Props) {
                       className="content"
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      <span className="checkout-title">Thanh toán bằng Zalo</span>
+                      <span className="checkout-title">
+                        Thanh toán bằng Zalo
+                      </span>
                       <img
                         src="asset/images/momologo.svg"
                         width="25"

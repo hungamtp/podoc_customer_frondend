@@ -146,7 +146,7 @@ export default function HomePage({}: Props) {
         </div>
       </section>
 
-      {response?.length != 0 && (
+      {response && response.length !== 0 && (
         <DesignedProducts title="Best Seller" data={response} />
       )}
 

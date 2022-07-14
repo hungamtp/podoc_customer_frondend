@@ -171,7 +171,7 @@ export default function AboutPage(props: AboutPageProps) {
 
   return (
     <div className="container-fluid ">
-      {isLoadedBlueprints ? (
+      {isLoadedBlueprints && colors ? (
         <>
           <DesignHeaderLeft
             openPreview={openPreview}
