@@ -95,9 +95,7 @@ export default function CreateDesignedProductForm(
       position: string;
       color: string;
     }[];
-    console.log(data, "data");
-    console.log(submitPreviewList, "submitPreviewList");
-    submitPreviewList.map((image) => {
+    submitPreviewList.forEach((image) => {
       const file = b64toBlob(image.imageSrc);
       const imageRef = ref(
         storage,
@@ -110,10 +108,17 @@ export default function CreateDesignedProductForm(
           const color = url.split("%2F")[1].split("-")[2].split("?")[0];
           imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
-            if (blueprint.designInfos) return blueprint;
-            return { ...blueprint, designInfos: [] };
+            if (
+              (blueprint.designInfos && blueprint.designInfos[0].key === "") ||
+              !blueprint.designInfos
+            )
+              return { ...blueprint, designInfos: [] };
+            else return blueprint;
           });
-          if (imageList.length === previews.length) {
+          console.log(submitBlueprint, "image");
+          console.log(imageList.length, "imageList.length");
+          console.log(previews.length, "previews.length");
+          if (imageList.length === submitPreviewList.length) {
             setIsLoading(false);
             const submitData = {
               ...data,
@@ -147,6 +152,8 @@ export default function CreateDesignedProductForm(
       <div className="col-xxl">
         <div className="card mb-4">
           <div className="card-body">
+            <p className="h2 text-center pb-4">Lưu lại thiết kế</p>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row mb-3">
                 <label htmlFor="basic-icon-default-fullname">
