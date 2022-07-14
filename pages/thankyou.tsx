@@ -36,14 +36,23 @@ export default function ThankYou({}: Props) {
 
   return (
     <div>
-      <section className="bg-home bg-light d-flex align-items-center">
+      <section
+        className="bg-home bg-light d-flex align-items-center"
+        style={{
+          background: "url('/asset/images/shop/hp-3.jpg') center center ",
+          backgroundSize: "1500px 850px",
+        }}
+      >
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12">
               <div className="text-center">
                 <div
                   className="icon d-flex align-items-center justify-content-center bg-soft-primary rounded-circle mx-auto"
-                  style={{ height: "200px", width: "200px" }}
+                  style={{
+                    height: "200px",
+                    width: "200px",
+                  }}
                 >
                   <img
                     src="/asset/images/logo_man.png"
