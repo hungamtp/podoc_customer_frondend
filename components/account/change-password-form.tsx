@@ -1,9 +1,12 @@
+import useUpdatePassword from "@/hooks/api/account/use-update-password";
 import { UpdatePasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
-export interface IChangePasswordProps {}
+export interface IChangePasswordProps {
+  id: string;
+}
 
 const schema = yup.object().shape({
   oldPassword: yup
@@ -16,14 +19,18 @@ const schema = yup.object().shape({
     .min(8, "Mật khẩu cần ít nhất 8 kí tự")
     .max(30, "Mật khẩu tối đa 50 kí tự")
     .required("Mật khẩu không được để trống"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("newPassword"), null], "Mật khẩu nhập lại không đúng"),
 });
 
 export default function ChangePassword(props: IChangePasswordProps) {
-  const [password, setPassword] = React.useState("");
-
+  const { id } = props;
+  const { mutate: updatePassword } = useUpdatePassword(id);
   const defaultValues: UpdatePasswordDto = {
     oldPassword: "",
     newPassword: "",
+    passwordConfirmation: "",
   };
 
   const {
@@ -35,7 +42,9 @@ export default function ChangePassword(props: IChangePasswordProps) {
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<UpdatePasswordDto> = (data) => {};
+  const onSubmit: SubmitHandler<UpdatePasswordDto> = (data) => {
+    updatePassword(data);
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,6 +61,9 @@ export default function ChangePassword(props: IChangePasswordProps) {
                   placeholder="Mật khẩu cũ"
                   {...register("oldPassword")}
                 />
+                {errors.oldPassword && (
+                  <p className="text-danger">{errors.oldPassword.message}</p>
+                )}
               </div>
             </div>
           </div>
@@ -68,6 +80,9 @@ export default function ChangePassword(props: IChangePasswordProps) {
                   placeholder="Mật khẩu mới"
                   {...register("newPassword")}
                 />
+                {errors.newPassword && (
+                  <p className="text-danger">{errors.newPassword.message}</p>
+                )}
               </div>
             </div>
           </div>
@@ -81,7 +96,13 @@ export default function ChangePassword(props: IChangePasswordProps) {
                   type="password"
                   className="form-control ps-5"
                   placeholder="Nhập lại Mật khẩu mới"
+                  {...register("passwordConfirmation")}
                 />
+                {errors.passwordConfirmation && (
+                  <p className="text-danger">
+                    {errors.passwordConfirmation.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>

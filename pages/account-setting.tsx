@@ -558,7 +558,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       </form>
                     )}
                     <h5 className="mt-4">Đổi mật khẩu:</h5>
-                    <ChangePassword />
+                    <ChangePassword id={credentialId} />
                   </div>
                   {/*end teb pane*/}
                 </div>
