@@ -162,7 +162,7 @@ export default function Header({}: Props) {
                       alt="hihi"
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
-                        currentTarget.src="/asset/images/logo_man.png";
+                        currentTarget.src="/asset/images/default-avatar.jpg";
                       }}
                       style={{borderRadius  :"35px"}}
                       height={35}
