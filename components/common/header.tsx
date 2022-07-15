@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { Badge } from "@material-ui/core";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -8,6 +8,7 @@ import { setCart } from "@/redux/slices/cart";
 import { logout } from "@/redux/slices/auth";
 import { CartDetailDTO } from "@/services/type.dto";
 import Link from "next/link";
+import Image from "next/image";
 import UseCart from "@/hooks/api/cart/use-cart";
 type Props = {};
 
@@ -157,11 +158,14 @@ export default function Header({}: Props) {
                     aria-expanded="false"
                   >
                     <img
-                      src={auth.image}
+                      src={auth.image != null ? auth.image : ""}
                       alt="hihi"
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src="/asset/images/logo_man.png";
+                      }}
                       height={35}
                       width={35}
-                      className="rounded-circle"
                     />
                   </button>
                 ) : (
