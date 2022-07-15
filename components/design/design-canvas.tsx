@@ -20,10 +20,12 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { useState } from "react";
 import DesignFooterLeft from "./design-footer-left";
 import DesignHeaderLeft from "./design-footer-left";
 export interface IDesignCanvasProps {
-  // isPreview: boolean;
+  // isPreview: boolean;\
+  setIsEdit: (isEdit: boolean) => void;
   openPreview: () => void;
 }
 const hightRate = 1.2337;
@@ -158,7 +160,10 @@ const initPlaceHolder = (
   return { rect: rect, border };
 };
 
-export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
+export default function DesignCanvas({
+  openPreview,
+  setIsEdit,
+}: IDesignCanvasProps) {
   const pageHeight = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0
@@ -298,7 +303,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
-          dispatch(setIsEdit(true));
+          setIsEdit(true);
         }
       });
 
@@ -324,7 +329,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
           };
           dispatch(setValue({ ...designInfo }));
           dispatch(setChoosenKey(obj.name));
-          dispatch(setIsEdit(true));
+          setIsEdit(true);
         }
       });
 
@@ -348,11 +353,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
         setBackgroundFromDataUrl(blueprintImageUrl, outerSize);
       }
 
-      if (
-        blueprint.designInfos &&
-        blueprint.designInfos.length !== 0 &&
-        blueprint.designInfos[0].key !== ""
-      )
+      if (blueprint.designInfos && blueprint.designInfos.length !== 0)
         reverseDesigns(blueprint);
     }
   }, [placeHolder]);
@@ -498,7 +499,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const process_align = (position: string, activeObj: fabric.Object) => {
     if (placeHolder && activeObj) {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       if (position === "left") {
         activeObj.set({
           left: 0,
@@ -532,7 +533,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const deleteImage = (key: string, isLast: boolean) => {
     if (canvas) {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       const image = _.find(canvas._objects, function (o) {
         return o.name === key;
       });
@@ -583,7 +584,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
   };
 
   const cloneDesign = (key: string) => {
-    dispatch(setIsEdit(true));
+    setIsEdit(true);
     if (canvas && placeHolder) {
       const obj = _.find(canvas._objects, function (o) {
         return o.name === key;
@@ -605,7 +606,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const changeText = React.useCallback(
     (key: string, text: string) => {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       console.log(text, "texxtt");
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
@@ -626,7 +627,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const changeFont = React.useCallback(
     (key: string, fontName: string) => {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -662,7 +663,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const changeTextColor = React.useCallback(
     (key: string, color: string) => {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -687,7 +688,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
   const addNewText = React.useCallback(
     (text: string) => {
       if (canvas && placeHolder) {
-        dispatch(setIsEdit(true));
+        setIsEdit(true);
         const imageLeft = (canvas.getWidth() - 150) / 2;
         const imageTop = (canvas.getHeight() - 100) / 2;
         const newName = nanoid();
@@ -748,7 +749,7 @@ export default function DesignCanvas({ openPreview }: IDesignCanvasProps) {
 
   const addNewRect = React.useCallback(
     (imgUrl: string, tmpSrc: string) => {
-      dispatch(setIsEdit(true));
+      setIsEdit(true);
       if (canvas && placeHolder) {
         const newName = nanoid();
         fabric.Image.fromURL(

@@ -85,6 +85,7 @@ export default function AboutPage(props: AboutPageProps) {
   const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
   const [isLoadedBlueprints, setIsLoadedBlueprint] =
     React.useState<boolean>(false);
+  const [isEdit, setIsEdit] = React.useState(true);
   const position = useAppSelector((state) => state.blueprintsData.position);
 
   const renderedBlueprints = blueprints;
@@ -137,7 +138,7 @@ export default function AboutPage(props: AboutPageProps) {
     renderedBlueprints.map(
       (blueprint) =>
         position === blueprint.position && (
-          <DesignCanvas openPreview={openPreview} />
+          <DesignCanvas openPreview={openPreview} setIsEdit={setIsEdit} />
         )
     );
 
@@ -158,13 +159,22 @@ export default function AboutPage(props: AboutPageProps) {
   }, [blueprints]);
 
   React.useEffect(() => {
-    if (renderBlueprint.length === blueprints?.length)
+    if (renderBlueprint.length === blueprints?.length) {
+      let front = renderBlueprint[0];
+      let back = renderBlueprint[0];
+      renderBlueprint.forEach((blueprint) => {
+        if (blueprint.position === "front") front = blueprint;
+      });
+      renderBlueprint.forEach((blueprint) => {
+        if (blueprint.position === "back") back = blueprint;
+      });
       dispatch(
         updateBlueprint({
-          position: renderBlueprint[0].position,
-          blueprints: renderBlueprint,
+          position: "front",
+          blueprints: [front, back],
         })
       );
+    }
   }, [renderBlueprint]);
 
   const [isPreview, setIsPreview] = React.useState(false);
@@ -181,7 +191,12 @@ export default function AboutPage(props: AboutPageProps) {
           />
 
           {isPreview ? (
-            <PreviewCanvas isEditPage={false} colors={colors} />
+            <PreviewCanvas
+              isEditPage={false}
+              colors={colors}
+              setIsEdit={setIsEdit}
+              isEdit={isEdit}
+            />
           ) : (
             designCanvas
           )}

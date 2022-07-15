@@ -20,10 +20,9 @@ export interface IPreviewCanvasProps {
     image: string;
   }[];
   isEditPage: boolean;
+  setIsEdit: (isEdit: boolean) => void;
+  isEdit: boolean;
 }
-const hightRate = 1.2337;
-const placeHolderAndOuterRate = 1.5;
-const DPI = 300;
 
 const initBlueprint = {
   frameImage:
@@ -130,6 +129,8 @@ const initPlaceHolder = (
 export default function PreviewCanvas({
   colors,
   isEditPage,
+  setIsEdit,
+  isEdit,
 }: IPreviewCanvasProps) {
   const router = useRouter();
 
@@ -141,8 +142,6 @@ export default function PreviewCanvas({
 
   const preview = useAppSelector((state) => state.previews);
 
-  console.log(preview, "preview");
-
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -152,7 +151,6 @@ export default function PreviewCanvas({
   };
 
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
-  const isEdit = useAppSelector((state) => state.isEdit);
   const selectedColors = useAppSelector((state) => state.selectedColors);
 
   const previews = useAppSelector((state) => state.previews);
@@ -166,15 +164,15 @@ export default function PreviewCanvas({
   if (renderedPreviews.length === 0 && previews.length !== 0)
     renderedPreviews = [previews[0], previews[1]];
 
-  const [renderedPosition, setRenderedPosition] = React.useState(
-    blueprintsData.position
-  );
+  const [renderedPosition, setRenderedPosition] = React.useState("front");
 
   const [renderCount, setRenderCount] = React.useState(
     blueprintsData.blueprints.length - 1
   );
 
   const blueprint = blueprintsData.blueprints[renderCount];
+  console.log(blueprint, "blueprint");
+
   const dispatch = useAppDispatch();
 
   const [renderColor, setRenderColor] = React.useState(colors[0].image);
@@ -239,7 +237,7 @@ export default function PreviewCanvas({
 
     return () => {
       clearInterval(rerenderLoop);
-      dispatch(setIsEdit(false));
+      setIsEdit(false);
       canvas?.clear();
     };
   }, []);
@@ -344,9 +342,9 @@ export default function PreviewCanvas({
     const rerenderLoop = setInterval(() => {
       if (canvas && imgSrc === "") {
         const canvasObjs = canvas._objects || [];
-        if (blueprint.designInfos) {
+        if (blueprint.designInfos && blueprint.designInfos.length > 0) {
           if (
-            canvasObjs.length == (blueprint.designInfos.length || 0) + 1 &&
+            canvasObjs.length === blueprint.designInfos.length + 1 &&
             canvasObjs.some((design) => {
               if (blueprint.designInfos && blueprint.designInfos.length > 0)
                 return design.name === blueprint.designInfos[0].key;
@@ -388,6 +386,8 @@ export default function PreviewCanvas({
           color: renderColor,
         })
       );
+      console.log(renderCount, "renderCount");
+
       if (renderCount > 0) {
         setRenderCount((count) => count - 1);
       } else if (!!selectedColors) {
@@ -430,7 +430,7 @@ export default function PreviewCanvas({
       setBackgroundFromDataUrl(blueprintImageUrl, outerSize, true);
 
       const designInfos = blueprint.designInfos;
-      if (designInfos) {
+      if (designInfos && designInfos.length > 0) {
         designInfos.forEach((design) => {
           addRect(design);
         });
@@ -471,7 +471,7 @@ export default function PreviewCanvas({
         const newText = new fabric.Text(design.src, {
           fontFamily: design.font,
           clipPath: placeHolder,
-          name: design.name,
+          name: design.key,
           left: imageLeft,
           top: imageTop,
           angle: design.rotate,
@@ -492,6 +492,7 @@ export default function PreviewCanvas({
         canvas.add(newText);
         canvas.renderAll();
       } else {
+        console.log(design.tmpSrc, "design.tmpSrc");
         fabric.Image.fromURL(
           design.tmpSrc,
           (image: fabric.Image) => {
@@ -514,6 +515,7 @@ export default function PreviewCanvas({
       }
     }
   };
+  console.log(hasMorePreview, "hasMorePreview");
 
   return (
     <>

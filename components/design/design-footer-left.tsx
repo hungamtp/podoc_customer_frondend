@@ -32,21 +32,7 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
     console.log("change poss");
     let pos = -1;
     let isEmpty = false;
-    let tmpDesignInfos: DesignState[] = [
-      {
-        key: "",
-        name: "",
-        types: "image/jpeg",
-        height: 0,
-        width: 0,
-        leftPosition: 0,
-        rotate: 0,
-        scales: 0,
-        topPosition: 0,
-        src: "https://www.google.com/search?q=default+image&tbm=isch&source=iu&ictx=1&vet=1&fir=E__DFTIbn9J8IM%252CTx4IM-J_9YNR0M%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BdAOBLb6Mi03B7M%252CtF62HY2qabLnWM%252C_%253BdzPYWaGt8jz9-M%252CxyV8ddqOau4KMM%252C_%253B6tO2K22XfMJMrM%252CJQ2op_24QBAxAM%252C_%253BiBwkPVyfzII9PM%252CRpvxnsLrgxL3_M%252C_%253BQ6BBzp2xDdCTDM%252C5SCId8Hd97daPM%252C_%253BZUQ4hqK0eoOE9M%252CCG1CySSEUS0-DM%252C_%253BX_RNqGrs8uOLUM%252CQgac5TnVA2DlVM%252C_%253Bfzm-cB-sF1nIvM%252CYlh7sHyFI9lHtM%252C_%253BCFxypJE63mo0qM%252CCfVbZJhXslp5nM%252C_%253ByFECy8Q7jEiD6M%252CzfN5DSNirAo6lM%252C_%253BmFBeEI-GK2RjoM%252CC93Eufb1-gvCmM%252C_%253BIVgx2CC_VChlFM%252CzfN5DSNirAo6lM%252C_%253BGEbPHTiPVju47M%252CoXGuy_ozigx-hM%252C_&usg=AI4_-kRMLHt0QpXibXOVMObu4AxomAnBBA&sa=X&ved=2ahUKEwiqtJWqz7v3AhUazIsBHTxODDsQ9QF6BAgDEAE&biw=1920&bih=929&dpr=1#imgrc=E__DFTIbn9J8IM",
-        tmpSrc: "",
-      },
-    ];
+    let tmpDesignInfos: DesignState[] = [];
     const tmpBlueprints = [...blueprintData.blueprints];
     tmpBlueprints.forEach((blueprint, index) => {
       if (blueprint.position === blueprintData.position) {
@@ -58,7 +44,7 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
         if (blueprint.designInfos && blueprint.designInfos.length > 0) {
           tmpDesignInfos = blueprint.designInfos;
         }
-        if (tmpDesignInfos[0].key === "") isEmpty = true;
+        if (tmpDesignInfos.length === 0) isEmpty = true;
       }
     });
     if (pos !== -1) {

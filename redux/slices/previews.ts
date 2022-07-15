@@ -19,6 +19,9 @@ export const previews = createSlice({
     addPreview: (state, action) => {
       return [...state, action.payload];
     },
+    updatePreview: (state, action) => {
+      return [action.payload];
+    },
     clearAllPreview: () => {
       return [];
     },
@@ -26,6 +29,6 @@ export const previews = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addPreview, clearAllPreview } = previews.actions;
+export const { addPreview, clearAllPreview, updatePreview } = previews.actions;
 
 export default previews.reducer;
