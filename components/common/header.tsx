@@ -164,6 +164,7 @@ export default function Header({}: Props) {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src="/asset/images/logo_man.png";
                       }}
+                      style={{borderRadius  :"35px"}}
                       height={35}
                       width={35}
                     />
