@@ -16,6 +16,7 @@ import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
 import { getBase64FromUrl } from "helper/files-utils";
+import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 
 // import dynamic from 'next/dynamic';
 
@@ -103,7 +104,12 @@ export default function EditDesign(props: EditDesignProps) {
   const { data: response, isLoading: isLoading } = useGetDesignById(
     designId as string
   );
+  const [submitPreview, setSubmitPreview] = React.useState<Blueprint[]>();
+  // const { data: colors, isLoading: isLoadingColors } =
+  //   useGetColorsByFactoryAndProductId(response. as string, productId as string);
   const position = useAppSelector((state) => state.blueprintsData.position);
+  const [isEdit, setIsEdit] = React.useState(true);
+
   const blueprints = response?.bluePrints;
 
   const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
@@ -126,71 +132,110 @@ export default function EditDesign(props: EditDesignProps) {
     };
   }, []);
 
-  React.useEffect(() => {
-    let isLoaded = true;
-    if (renderBlueprint && blueprints) {
-      renderBlueprint?.forEach((renderedBlueprint) => {
-        if (
-          !renderedBlueprint.tmpFrameImage ||
-          renderBlueprint.length < blueprints.length
-        )
-          isLoaded = false;
-      });
-
-      setIsLoadedBlueprint(isLoaded);
-    }
-  }, [renderBlueprint]);
-
   const designCanvas =
     blueprints &&
     blueprints.map(
       (blueprint) =>
         position === blueprint.position && (
-          <DesignCanvas openPreview={openPreview} />
+          <DesignCanvas openPreview={openPreview} setIsEdit={setIsEdit} />
         )
     );
 
   React.useEffect(() => {
+    console.log(response?.bluePrints, "blueprints");
     if (blueprints && blueprints.length > 0) {
-      if (response) {
-        response.bluePrints.forEach((blueprint, index) => {
-          blueprint.designInfos?.forEach((designInfo) => {
+      const renderBlueprint = [...blueprints];
+      const allTasks: Promise<void>[] = [];
+      renderBlueprint.forEach((blueprint, index) => {
+        if (!!blueprint.designInfos && blueprint.designInfos.length !== 0) {
+          blueprint.designInfos.forEach((designInfo, index) => {
+            if (designInfo.types !== "text") {
+              const loadDesignInfo = getBase64FromUrl(designInfo.src).then(
+                (tmpSrc) => {
+                  if (blueprint.designInfos) {
+                    blueprint.designInfos[index].tmpSrc = tmpSrc;
+                  }
+                }
+              );
+              allTasks.push(loadDesignInfo);
+            }
+
             designInfo.key = nanoid();
           });
-          getBase64FromUrl(blueprint.frameImage).then((tmpImageSrc) => {
-            setRenderBlueprint((state) => [
-              ...state,
-              { ...blueprint, tmpFrameImage: tmpImageSrc },
-            ]);
-          });
-        });
-      }
+        }
 
-      console.log(blueprints[0].designInfos, "blueprinttt");
+        const loadBlueprint = getBase64FromUrl(blueprint.frameImage).then(
+          (tmpImageSrc) => {
+            blueprint.tmpFrameImage = tmpImageSrc;
+          }
+        );
+        allTasks.push(loadBlueprint);
+      });
+      Promise.all(allTasks).then((final) => {
+        let front = renderBlueprint[0];
+        let back = renderBlueprint[0];
+        renderBlueprint.forEach((blueprint) => {
+          if (blueprint.position === "front") front = blueprint;
+        });
+        renderBlueprint.forEach((blueprint) => {
+          if (blueprint.position === "back") back = blueprint;
+        });
+
+        setRenderBlueprint([front, back]);
+      });
     }
   }, [response]);
 
   React.useEffect(() => {
-    if (renderBlueprint.length === blueprints?.length) {
+    if (blueprints && renderBlueprint.length === blueprints.length) {
+      setIsLoadedBlueprint(true);
+
+      let displayBlueprint = renderBlueprint[0];
+      renderBlueprint.forEach((blueprint) => {
+        if (blueprint.position === "front") {
+          displayBlueprint = blueprint;
+        }
+      });
+
       dispatch(
         updateBlueprint({
-          position: renderBlueprint[0].position,
+          position: "front",
           blueprints: renderBlueprint,
         })
       );
-      dispatch(
-        updateDesignInfos({
-          isEmpty: false,
-          designInfos: renderBlueprint[0].designInfos,
-        })
-      );
-      dispatch(
-        setControlData({
-          isSetImage: false,
-          isChooseImage: true,
-          isEmpty: false,
-        })
-      );
+
+      if (
+        renderBlueprint[0].designInfos &&
+        renderBlueprint[0].designInfos.length > 0
+      ) {
+        dispatch(
+          setControlData({
+            isSetImage: false,
+            isChooseImage: true,
+            isEmpty: false,
+          })
+        );
+        dispatch(
+          updateDesignInfos({
+            isEmpty: false,
+            designInfos: displayBlueprint.designInfos,
+          })
+        );
+      } else {
+        dispatch(
+          setControlData({
+            isSetImage: false,
+            isChooseImage: false,
+            isEmpty: true,
+          })
+        );
+        dispatch(
+          updateDesignInfos({
+            isEmpty: true,
+            designInfos: renderBlueprint[0].designInfos,
+          })
+        );
+      }
     }
   }, [renderBlueprint]);
 
@@ -216,7 +261,12 @@ export default function EditDesign(props: EditDesignProps) {
           />
 
           {isPreview ? (
-            <PreviewCanvas isEditPage={true} colors={response.colorsObj} />
+            <PreviewCanvas
+              isEditPage={true}
+              colors={response.colorsObj}
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+            />
           ) : (
             designCanvas
           )}

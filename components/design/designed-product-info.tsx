@@ -115,9 +115,7 @@ export default function CreateDesignedProductForm(
               return { ...blueprint, designInfos: [] };
             else return blueprint;
           });
-          console.log(submitBlueprint, "image");
-          console.log(imageList.length, "imageList.length");
-          console.log(previews.length, "previews.length");
+
           if (imageList.length === submitPreviewList.length) {
             setIsLoading(false);
             const submitData = {
@@ -128,6 +126,7 @@ export default function CreateDesignedProductForm(
               factoryId: factoryId,
               productId: productId,
             } as unknown as DesignedProductDto;
+            console.log(submitData, "submitData");
 
             addDesignedProduct(submitData);
           }
