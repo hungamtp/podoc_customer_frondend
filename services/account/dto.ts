@@ -29,7 +29,9 @@ export interface UpdatePasswordDto {
 export interface ForgotPasswordDto {
     email: string
 }
-
+export interface ForgotPasswordResponse extends ISuccessHttpResponse {
+	data: ForgotPasswordDto;
+}
 
 export interface UpdatePasswordResponse extends ISuccessHttpResponse {
 	data: UpdatePasswordDto;
