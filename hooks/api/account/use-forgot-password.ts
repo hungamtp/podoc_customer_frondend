@@ -1,12 +1,20 @@
-import { useQuery } from 'react-query';
-import { forgotPassword } from '@/services/account/index';
-import { ForgotPasswordDto } from '@/services/account/dto';
+import { ForgotPasswordDto, UpdateAccountDto, UpdatePasswordDto } from '@/services/account/dto';
+import { forgotPassword, updateAccount, updatePassword } from '@/services/account/index';
+import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from 'react-query';
 
-const useForgotPassword = (email: string) => {
-	return useQuery(['useForgetPassword'],
-        async () => { 
-           return await forgotPassword(email);
-        }
+
+const useForgotPassword = () => {
+    const router = useRouter();
+	return useMutation(
+        async (data: ForgotPasswordDto) => {
+            return await forgotPassword(data.email);
+		},
+		{
+			onSuccess: (data) => {
+                router.push("forgot-password-message")
+			},
+		}
 	);
 };
 
