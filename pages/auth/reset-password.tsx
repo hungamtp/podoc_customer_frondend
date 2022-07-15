@@ -19,9 +19,8 @@ const schema = yup.object().shape({
     .required("Tài khoản không được để trống"),
 });
 
-export default function ForgotPassword({}: Props) {
+export default function ResetPassword({}: Props) {
   const { mutate: forgotPassword, isLoading: isLoading } = useForgotPassword();
-
   const defaultValues: ForgotPasswordDto = {
     email: "",
   };
@@ -125,4 +124,4 @@ export default function ForgotPassword({}: Props) {
     </>
   );
 }
-ForgotPassword.Layout = EmptyLayout;
+ResetPassword.Layout = EmptyLayout;

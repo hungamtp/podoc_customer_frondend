@@ -1,5 +1,5 @@
   import { API } from "@/api-client/axios";
-import { ForgotPasswordDto, getAccountByIdResponse, UpdateAccountDto, UpdateAccountResponse, UpdatePasswordDto, UpdatePasswordResponse } from "./dto";
+import { ForgotPasswordDto, ForgotPasswordResponse, getAccountByIdResponse, UpdateAccountDto, UpdateAccountResponse, UpdatePasswordDto, UpdatePasswordResponse } from "./dto";
 
 
   export const getAccountById = async (id: string) => {
