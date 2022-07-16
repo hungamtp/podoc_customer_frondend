@@ -34,6 +34,26 @@ export interface GetAllMyOrdersDto {
       page: number,
       element: number,
 }
+export interface GetAllOrderDetailDto {
+      data: OrderDetailDto[],
+      page: number,
+      element: number,
+}
+
+
+
+export interface OrderDetailDto{
+  id: string;
+  price: number;
+  designId:string;
+  designName: boolean;
+  designImage: string;
+  designerName: string;
+  designerId: string;
+  color: string;
+  size: string;
+  quantity: string;
+}
 
 export interface MyOrdersDto{
   orderId: string;
