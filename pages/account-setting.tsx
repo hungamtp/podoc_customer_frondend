@@ -14,6 +14,9 @@ import * as yup from "yup";
 import { setCart } from "@/redux/slices/cart";
 import { logout } from "@/redux/slices/auth";
 import { useRouter } from "next/router";
+import MyOrders from "./myorders";
+import useMyOrders from "@/hooks/api/order/use-my-orders";
+import { Filter } from "@/services/order";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -56,7 +59,12 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const dispatch = useAppDispatch();
   const { data: responseCart, isLoading: isCartLoading } = UseCart();
   const router = useRouter();
+  const [filter, setFilter] = React.useState<Filter>({
+    pageNumber: 0,
+    pageSize: 10,
+  });
 
+  const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
   React.useEffect(() => {
     if (responseCart) dispatch(setCart(responseCart));
   }, [responseCart]);
@@ -270,73 +278,12 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     role="tabpanel"
                     aria-labelledby="order-history"
                   >
-                    <div className="table-responsive bg-white shadow rounded">
-                      <table className="table mb-0 table-center table-nowrap">
-                        <thead>
-                          <tr>
-                            <th scope="col" className="border-bottom">
-                              Order no.
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Date
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Status
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Total
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Action
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">7107</th>
-                            <td>1st November 2021</td>
-                            <td className="text-success">Delivered</td>
-                            <td>
-                              $ 320{" "}
-                              <span className="text-muted">for 2items</span>
-                            </td>
-                            <td>
-                              <a href="" className="text-primary">
-                                View <i className="uil uil-arrow-right" />
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">8007</th>
-                            <td>4th November 2021</td>
-                            <td className="text-muted">Processing</td>
-                            <td>
-                              $ 800{" "}
-                              <span className="text-muted">for 1item</span>
-                            </td>
-                            <td>
-                              <a href="" className="text-primary">
-                                View <i className="uil uil-arrow-right" />
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">8008</th>
-                            <td>4th November 2021</td>
-                            <td className="text-danger">Canceled</td>
-                            <td>
-                              $ 800{" "}
-                              <span className="text-muted">for 1item</span>
-                            </td>
-                            <td>
-                              <a href="" className="text-primary">
-                                View <i className="uil uil-arrow-right" />
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    {myOrdersResponse && (
+                      <MyOrders
+                        myOrdersResponse={myOrdersResponse}
+                        isLoading={isLoading}
+                      />
+                    )}
                   </div>
                   {/*end teb pane*/}
                   <div

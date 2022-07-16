@@ -29,6 +29,17 @@ export interface UpdatePasswordDto {
 export interface ForgotPasswordDto {
     email: string
 }
+
+export interface ResetPasswordDto {
+    email: string,
+    token: string,
+    newPassword: string,
+    passwordConfirmation: string;
+}
+
+export interface ResetPasswordResponse extends ISuccessHttpResponse {
+	data: ResetPasswordDto;
+}
 export interface ForgotPasswordResponse extends ISuccessHttpResponse {
 	data: ForgotPasswordDto;
 }
