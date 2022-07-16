@@ -12,6 +12,7 @@ import cartsReducer from "@/redux/slices/cart";
 import checkCartSliceReducer from "@/redux/slices/checkCart";
 import isEditSliceReducer from "@/redux/slices/isEdit";
 import headerInfoReducer from "@/redux/slices/headerInfo";
+import designProductInfoReducer from "@/redux/slices/designProductInfo";
 
 import {
   persistStore,
@@ -41,19 +42,21 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  searchValue: searchReducer,
   infoManageData: designReducer,
   designControl: designControlReducer,
   blueprintsData: blueprintsReducer,
   choosenKey: choosenKeyReducer,
   previews: previewsReducer,
-  productDetail: productDetailReducer,
   selectedColors: selectedColorsReducer,
+  isEdit: isEditSliceReducer,
+
+  auth: authReducer,
+  searchValue: searchReducer,
+  productDetail: productDetailReducer,
   carts: cartsReducer,
   checkCartSlice: checkCartSliceReducer,
-  isEdit: isEditSliceReducer,
   headerInfo: headerInfoReducer,
+  designProductInfo: designProductInfoReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

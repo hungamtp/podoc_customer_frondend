@@ -1,17 +1,9 @@
 import { DesignState } from "@/models/design/designInfo";
 import { updateBlueprint } from "@/redux/slices/blueprints";
-import { setValue, updateDesignInfos } from "@/redux/slices/design";
+import { updateDesignInfos } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import CreateDesignedProductForm from "./designed-product-info";
-import EditDesignForm from "./edit-design";
 export interface IDesignFooterLeftProps {}
 
 export default function DesignFooterLeft(props: IDesignFooterLeftProps) {

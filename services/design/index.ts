@@ -2,7 +2,9 @@ import { API } from "@/api-client/axios";
 import { ShownDesignedProduct } from "@/models/design";
 import {
   ColorDto,
+  CreateDesignedProduct,
   DesignedProductDto,
+  EditDesignedProduct,
   getAllDesignProductDto,
   getAllSimpleDesignProductDto,
   GetBlueprintDto,
@@ -39,12 +41,23 @@ export const getBluprintFromDesign = async (designId: string) => {
 };
 
 export const createDesignedProduct = async (
-  designedProduct: DesignedProductDto,
+  designedProduct: CreateDesignedProduct,
   factoryId: string,
   productId: string
 ) => {
-  const { data } = await API.post<GetBlueprintDto>(
+  const { data } = await API.post<DesignedProductDto>(
     `/design?productId=${productId}&factoryId=${factoryId}`,
+    designedProduct
+  );
+  return data.data;
+};
+
+export const editDesignedProduct = async (
+  designedProduct: EditDesignedProduct,
+  designProductId: string
+) => {
+  const { data } = await API.post<DesignedProductDto>(
+    `design/edit/${designProductId}`,
     designedProduct
   );
   return data.data;
@@ -73,16 +86,20 @@ export const getOthersDesignById = async (designId: string) => {
 };
 
 export const getAllDesignedProducts = async (filter: GetAllDesignFilter) => {
+  console.log(filter, "filter ne");
   const pageNumber = 0;
   const pageSize = 9;
-  let search = filter.name ? `name:${filter.name},` : "";
+  let search = filter.name ? `search=name:${filter.name},` : "search=";
   if (filter.category) search = search + `category:${filter.category}`;
   const query = new URLSearchParams({
     pageNumber: filter?.pageNumber?.toString() || pageNumber.toString(),
     pageSize: filter?.pageSize?.toString() || pageSize.toString(),
   });
+  const submitQuery = search
+    ? `${query.toString()}&${search}`
+    : query.toString();
   const { data } = await API.get<getAllDesignProductDto>(
-    `/design?${query.toString()}`
+    `/design?${submitQuery}`
   );
   return data.data;
 };

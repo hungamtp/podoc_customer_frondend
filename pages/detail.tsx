@@ -10,7 +10,7 @@ import * as React from "react";
 import { useAppSelector } from "@/components/hooks/reduxHook";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
-import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller";
+import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
 
 export default function ProductDetail() {
   const router = useRouter();

@@ -12,7 +12,6 @@ import {
   updateUniqueData,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
-import { setIsEdit } from "@/redux/slices/isEdit";
 import { fabric } from "fabric";
 import FontFaceObserver from "fontfaceobserver";
 import googleFonts from "google-fonts";
@@ -20,9 +19,7 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
 import DesignFooterLeft from "./design-footer-left";
-import DesignHeaderLeft from "./design-footer-left";
 export interface IDesignCanvasProps {
   // isPreview: boolean;\
   setIsEdit: (isEdit: boolean) => void;
@@ -333,6 +330,18 @@ export default function DesignCanvas({
         }
       });
 
+      canvas.on("text:changed", function (options: any) {
+        const obj = options.target;
+        if (obj)
+          dispatch(
+            updateUniqueData({
+              choosenKey: obj.name,
+              dataKey: "src",
+              data: obj.text,
+            })
+          );
+      });
+
       canvas.on("mouse:down", function (options) {
         const obj = options.target;
         if (obj) {
@@ -607,7 +616,6 @@ export default function DesignCanvas({
   const changeText = React.useCallback(
     (key: string, text: string) => {
       setIsEdit(true);
-      console.log(text, "texxtt");
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -692,7 +700,7 @@ export default function DesignCanvas({
         const imageLeft = (canvas.getWidth() - 150) / 2;
         const imageTop = (canvas.getHeight() - 100) / 2;
         const newName = nanoid();
-        const newText = new fabric.Text(text, {
+        const newText = new fabric.IText(text, {
           fontFamily: "Roboto",
           clipPath: placeHolder.rect,
           name: newName,
