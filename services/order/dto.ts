@@ -27,3 +27,28 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
   factoryId: string;
   productId: string;
 }
+
+
+export interface GetAllMyOrdersDto {
+      data: MyOrdersDto[],
+      page: number,
+      element: number,
+}
+
+export interface MyOrdersDto{
+  orderId: string;
+  totalBill: number;
+  createdDate:string;
+  isPaid: boolean;
+  countItem: number;
+}
+
+export interface PayUnpaidOrderDto {
+  paymentMethod: number,
+  orderId: string,
+ 
+}
+
+export interface PayUnpaidOrderResponse extends ISuccessHttpResponse {
+data: PayUnpaidOrderDto;
+}
