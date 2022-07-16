@@ -12,7 +12,6 @@ import {
   updateUniqueData,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
-import { setIsEdit } from "@/redux/slices/isEdit";
 import { fabric } from "fabric";
 import FontFaceObserver from "fontfaceobserver";
 import googleFonts from "google-fonts";
@@ -20,9 +19,7 @@ import _ from "lodash";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
 import DesignFooterLeft from "./design-footer-left";
-import DesignHeaderLeft from "./design-footer-left";
 export interface IDesignCanvasProps {
   // isPreview: boolean;\
   setIsEdit: (isEdit: boolean) => void;

@@ -6,21 +6,22 @@ import { resetColors } from "@/redux/slices/selectedColors";
 import { resetControl } from "@/redux/slices/designControl";
 import { resetDesigns } from "@/redux/slices/design";
 import { setIsEdit } from "@/redux/slices/isEdit";
-import { createDesignedProduct } from "@/services/design";
+import { createDesignedProduct, editDesignedProduct } from "@/services/design";
 import {
   CreateDesignedProduct,
   DesignedProductDto,
+  EditDesignedProduct,
 } from "@/services/design/dto";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 
-const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
+const useEditDesignedProduct = (handleCloseDialog: () => void) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (data: CreateDesignedProduct) => {
-      return await createDesignedProduct(data, data.factoryId, data.productId);
+    async (data: EditDesignedProduct) => {
+      return await editDesignedProduct(data, data.designedProductId);
     },
     {
       onSuccess: (data) => {
@@ -41,4 +42,4 @@ const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
   );
 };
 
-export default useCreateDesignedProduct;
+export default useEditDesignedProduct;

@@ -577,7 +577,10 @@ export default function PreviewCanvas({
         >
           <DialogContent>
             {isEditPage ? (
-              <EditDesignForm handleCloseDialog={handleCloseDialog} />
+              <EditDesignForm
+                handleCloseDialog={handleCloseDialog}
+                loadedColors={colors}
+              />
             ) : (
               <CreateDesignedProductForm
                 handleCloseDialog={handleCloseDialog}

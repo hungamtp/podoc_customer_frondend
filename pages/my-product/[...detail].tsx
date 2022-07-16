@@ -66,6 +66,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                       factoryName: response.factoryName,
                                     })
                                   );
+
                                   router.push(
                                     `/my-product/edit-design?designId=${detail}&designName=${response.name}`
                                   );
