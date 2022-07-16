@@ -46,9 +46,10 @@ export interface MyOrdersDto{
 export interface PayUnpaidOrderDto {
   paymentMethod: number,
   orderId: string,
- 
 }
 
-export interface PayUnpaidOrderResponse extends ISuccessHttpResponse {
-data: PayUnpaidOrderDto;
+export interface PayUnpaidOrderResponse extends EventTarget {
+data: {
+  payUrl: string,
+};
 }

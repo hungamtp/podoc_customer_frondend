@@ -13,8 +13,8 @@ const usePayUnpaidOrder = () => {
             return await payUnpaidOrder(data);
 		},
 		{
-			onSuccess: (data) => {
-                
+			onSuccess: (data: any) => {
+				window.location.href = data.payUrl;
 			},
 		}
 	);
