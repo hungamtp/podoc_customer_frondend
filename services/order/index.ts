@@ -11,6 +11,9 @@ export const addOrder = async (
   shippingInfo: ShippingInfo,
   paymentethod: number
 ) => {
-  const { data } = await API.post<PaymentResponse>(`/order/${paymentethod}`, shippingInfo);
+  const { data } = await API.post<PaymentResponse>(
+    `/order/${paymentethod}`,
+    shippingInfo
+  );
   return data;
 };

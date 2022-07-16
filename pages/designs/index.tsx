@@ -10,9 +10,11 @@ import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
 import useRawProduct, {
   RawProductFilter,
 } from "@/hooks/api/use-get-all-product-raw";
+import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
 import search from "@/redux/slices/search";
 import Link from "next/link";
 import * as React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -32,19 +34,21 @@ export default function DesignedProducts(props: IProductProps) {
   const onSubmit = (data: { name: string }) => {
     const value = data.name;
     let tmpFilter = { ...filter };
-    delete filter.name;
-    if (!value) tmpFilter = { ...filter, name: value };
+    if (value) tmpFilter = { ...filter, name: value };
+    else delete tmpFilter.name;
     setFilter(tmpFilter);
   };
 
   const handleCategoryChange = (value: string) => {
-    let tmpFilter = { ...filter };
-    delete filter.category;
-    if (!value) tmpFilter = { ...filter, category: value };
+    let tmpFilter = { ...filter } as RawProductFilter;
+    if (value) tmpFilter = { ...filter, category: value };
+    else delete tmpFilter.category;
     setFilter(tmpFilter);
   };
 
   const { data: response, isLoading: isLoading } = useGetAllDesigns(filter);
+  const { data: getBestSellerResponse, isLoading: isLoadingBestSeller } =
+    useGetBestSeller();
 
   const totalPages = Math.ceil(
     (response?.elements || filter.pageSize) / filter.pageSize
@@ -135,28 +139,39 @@ export default function DesignedProducts(props: IProductProps) {
                     <div className="widget mt-4 pt-2">
                       <h5 className="widget-title">Sản phẩm bán chạy</h5>
                       <ul className="list-unstyled mt-4 mb-0">
-                        <li className="d-flex align-items-center">
-                          <Link href=" ">
-                            <a>
-                              <img
-                                src="asset/images/shop/product/s1.jpg"
-                                className="img-fluid avatar avatar-small rounded shadow"
-                                style={{ height: "auto" }}
-                                alt=""
-                              />
-                            </a>
-                          </Link>
+                        {getBestSellerResponse &&
+                          getBestSellerResponse.length !== 0 &&
+                          getBestSellerResponse.map((product) => (
+                            <li
+                              className="d-flex align-items-center"
+                              key={product.id}
+                            >
+                              <Link href={`designs/${product.id}`}>
+                                <a>
+                                  <img
+                                    src={product.image}
+                                    className="img-fluid avatar avatar-small rounded shadow"
+                                    style={{ height: "auto" }}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
 
-                          <div className="flex-1 content ms-3">
-                            <a href=" " className="text-dark h6">
-                              T-Shirt
-                            </a>
-                            <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00{" "}
-                              <del className="text-danger ms-2">$22.00</del>{" "}
-                            </h6>
-                          </div>
-                        </li>
+                              <div className="flex-1 content ms-3">
+                                <Link href={`designs/${product.id}`}>
+                                  <a className="text-dark h6">{product.name}</a>
+                                </Link>
+                                <h6 className="text-dark small fst-italic mb-0 mt-1">
+                                  {product.designedPrice} VNĐ
+                                  {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
+                                </h6>
+
+                                <p className="text-success">
+                                  {product.username}
+                                </p>
+                              </div>
+                            </li>
+                          ))}
                       </ul>
                     </div>
                   </div>
