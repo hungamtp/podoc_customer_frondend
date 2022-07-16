@@ -29,18 +29,17 @@ export default function RawProducts(props: IProductProps) {
   const onSubmit = (data: { name: string }) => {
     const value = data.name;
     let tmpFilter = { ...filter };
-    delete filter.name;
-    if (!value) tmpFilter = { ...filter, name: value };
+    if (value) tmpFilter = { ...filter, name: value };
+    else delete tmpFilter.name;
     setFilter(tmpFilter);
   };
 
   const handleCategoryChange = (value: string) => {
-    let tmpFilter = { ...filter };
-    delete filter.category;
-    if (!value) tmpFilter = { ...filter, category: value };
+    let tmpFilter = { ...filter } as RawProductFilter;
+    if (value) tmpFilter = { ...filter, category: value };
+    else delete tmpFilter.category;
     setFilter(tmpFilter);
   };
-
   const { data: response, isLoading: isLoading } = useRawProduct(filter);
   React.useEffect(() => {
     if (response) setTotalPages(Math.ceil(response.elements / filter.pageSize));
@@ -128,30 +127,6 @@ export default function RawProducts(props: IProductProps) {
                     <Categories handleCategoryChange={handleCategoryChange} />
 
                     {/* Top Products */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Sản phẩm bán chạy</h5>
-                      <ul className="list-unstyled mt-4 mb-0">
-                        <li className="d-flex align-items-center">
-                          <a href=" ">
-                            <img
-                              src="asset/images/shop/product/s1.jpg"
-                              className="img-fluid avatar avatar-small rounded shadow"
-                              style={{ height: "auto" }}
-                              alt=""
-                            />
-                          </a>
-                          <div className="flex-1 content ms-3">
-                            <a href=" " className="text-dark h6">
-                              T-Shirt
-                            </a>
-                            <h6 className="text-dark small fst-italic mb-0 mt-1">
-                              $18.00{" "}
-                              <del className="text-danger ms-2">$22.00</del>{" "}
-                            </h6>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </div>

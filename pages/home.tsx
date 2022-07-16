@@ -5,11 +5,14 @@ import { useGetHighestRateDesign } from "@/hooks/api/use-get-highest-rate-design
 import DesignedProducts from "@/components/common/designed-products";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import Link from "next/link";
+import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
 type Props = {};
 
 export default function HomePage({}: Props) {
   const { data: response, isLoading: isLoadingAccount } =
     useGetHighestRateDesign();
+  const { data: getBestSellerResponse, isLoading: isLoadingBestSeller } =
+    useGetBestSeller();
   const dispatch = useAppDispatch();
   return (
     <>
@@ -153,7 +156,12 @@ export default function HomePage({}: Props) {
         />
       )}
 
-    
+      {getBestSellerResponse && getBestSellerResponse.length !== 0 && (
+        <DesignedProducts
+          title="Sản phẩm bán chạy nhất"
+          data={getBestSellerResponse}
+        />
+      )}
     </>
   );
 }
