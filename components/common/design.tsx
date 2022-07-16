@@ -91,13 +91,10 @@ export default function Design({ product }: Props) {
             <i className="bi bi-pencil cursor-pointer fa-lg"></i>
           </button>
 
-          <div
-            className="dropdown-menu dd-menu dropdown-menu-end bg-light shadow rounded border border-primary p-3"
-            style={{ width: "120px" }}
-          >
+          <div className="dropdown-menu dd-menu dropdown-menu-end rounded border ">
             {product.publish ? (
               <div
-                className="d-flex align-items-center mt-1 cursor-pointer"
+                className="d-flex align-items-center mt-1 btn-link text-decoration-none  hoverButton btn"
                 onClick={() =>
                   mutate({ publish: false, productId: product.id })
                 }
@@ -106,14 +103,14 @@ export default function Design({ product }: Props) {
               </div>
             ) : (
               <div
-                className="d-flex align-items-center mt-1 cursor-pointer"
+                className="d-flex align-items-center mt-1 btn-link text-decoration-none  hoverButton btn"
                 onClick={() => mutate({ publish: true, productId: product.id })}
               >
                 Đăng bán
               </div>
             )}
             <div
-              className="d-flex align-items-center mt-1 cursor-pointer"
+              className="d-flex align-items-center mt-1 btn-link text-decoration-none  hoverButton btn"
               onClick={() => router.push(`/my-product/${product.id}`)}
             >
               Chi tiết
