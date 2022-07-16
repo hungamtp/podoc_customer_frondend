@@ -330,6 +330,18 @@ export default function DesignCanvas({
         }
       });
 
+      canvas.on("text:changed", function (options: any) {
+        const obj = options.target;
+        if (obj)
+          dispatch(
+            updateUniqueData({
+              choosenKey: obj.name,
+              dataKey: "src",
+              data: obj.text,
+            })
+          );
+      });
+
       canvas.on("mouse:down", function (options) {
         const obj = options.target;
         if (obj) {
@@ -604,7 +616,6 @@ export default function DesignCanvas({
   const changeText = React.useCallback(
     (key: string, text: string) => {
       setIsEdit(true);
-      console.log(text, "texxtt");
       if (canvas) {
         const obj = _.find(canvas._objects, function (o) {
           return o.name === key;
@@ -689,7 +700,7 @@ export default function DesignCanvas({
         const imageLeft = (canvas.getWidth() - 150) / 2;
         const imageTop = (canvas.getHeight() - 100) / 2;
         const newName = nanoid();
-        const newText = new fabric.Text(text, {
+        const newText = new fabric.IText(text, {
           fontFamily: "Roboto",
           clipPath: placeHolder.rect,
           name: newName,

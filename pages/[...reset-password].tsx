@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { EmptyLayout } from "@/components/layouts";
 import useForgotPassword from "@/hooks/api/account/use-forgot-password";
-import { ForgotPasswordDto } from "@/services/account/dto";
+import useResetPassword from "@/hooks/api/account/use-reset-password";
+import { ForgotPasswordDto, ResetPasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,31 +12,45 @@ import * as yup from "yup";
 type Props = {};
 
 const schema = yup.object().shape({
-  email: yup
+  newPassword: yup
     .string()
-    .email()
-    .min(8, "Tài khoản cần ít nhất 8 kí tự")
-    .max(50, "Tài khoản tối đa 50 kí tự")
-    .required("Tài khoản không được để trống"),
+    .min(8, "Mật khẩu cần ít nhất 8 kí tự")
+    .max(30, "Mật khẩu tối đa 50 kí tự")
+    .required("Mật khẩu không được để trống"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("newPassword"), null], "Mật khẩu nhập lại không đúng"),
 });
 
 export default function ResetPassword({}: Props) {
-  const { mutate: forgotPassword, isLoading: isLoading } = useForgotPassword();
-  const defaultValues: ForgotPasswordDto = {
+  const { mutate: resetPassword, isLoading: isLoading } = useResetPassword();
+  const router = useRouter();
+  const email = router.asPath.split("/")[2];
+  const token = router.asPath.split("/")[3];
+  const defaultValues: ResetPasswordDto = {
     email: "",
+    token: "",
+    newPassword: "",
+    passwordConfirmation: "",
   };
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ForgotPasswordDto>({
+  } = useForm<ResetPasswordDto>({
     defaultValues,
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<ForgotPasswordDto> = (data) => {
-    forgotPassword(data);
+  const onSubmit: SubmitHandler<ResetPasswordDto> = (data) => {
+    const tmpData = {
+      email: email,
+      token: token,
+      newPassword: data.newPassword,
+      passwordConfirmation: "",
+    };
+    resetPassword(tmpData);
   };
   return (
     <>
@@ -57,7 +72,7 @@ export default function ResetPassword({}: Props) {
             <div className="col-lg-7 col-md-6">
               <div className="me-lg-5">
                 <img
-                  src="asset/images/user/recovery.svg"
+                  src="/asset/images/user/recovery.svg"
                   className="img-fluid d-block mx-auto"
                   alt="recovery"
                 />
@@ -71,13 +86,9 @@ export default function ResetPassword({}: Props) {
                   <form className="login-form mt-4">
                     <div className="row">
                       <div className="col-lg-12">
-                        <p className="text-muted">
-                          Hãy điền địa chỉ email của bạn. Bạn sẽ nhận được một
-                          đường link để tạo mật khẩu mới thông qua email.
-                        </p>
                         <div className="mb-3">
                           <label className="form-label">
-                            Email <span className="text-danger">*</span>
+                            Mật khẩu <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
                             <i
@@ -85,11 +96,39 @@ export default function ResetPassword({}: Props) {
                               className="fea icon-sm icons"
                             ></i>
                             <input
-                              type="email"
+                              type="password"
                               className="form-control ps-5"
-                              placeholder="Nhập email của bạn"
-                              {...register("email")}
+                              placeholder="Mật khẩu mới"
+                              {...register("newPassword")}
                             />
+                            {errors.newPassword && (
+                              <p className="text-danger">
+                                {errors.newPassword.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <label className="form-label">
+                            Nhập lại mật khẩu{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="form-icon position-relative">
+                            <i
+                              data-feather="mail"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="password"
+                              className="form-control ps-5"
+                              placeholder="Nhập lại Mật khẩu mới"
+                              {...register("passwordConfirmation")}
+                            />
+                            {errors.passwordConfirmation && (
+                              <p className="text-danger">
+                                {errors.passwordConfirmation.message}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -99,19 +138,12 @@ export default function ResetPassword({}: Props) {
                             className="btn btn-primary"
                             onClick={handleSubmit(onSubmit)}
                           >
-                            Gửi
+                            Lưu
                           </button>
                         </div>
                       </div>
                       <div className="mx-auto">
-                        <p className="mb-0 mt-3">
-                          <small className="text-dark me-2">
-                            Bạn đã nhớ lại mật khẩu ?
-                          </small>{" "}
-                          <a href="login" className="text-dark fw-bold fs-7">
-                            Đăng nhập
-                          </a>
-                        </p>
+                        <p className="mb-0 mt-3"></p>
                       </div>
                     </div>
                   </form>
