@@ -10,6 +10,19 @@ export interface GetBlueprintDto extends ISuccessHttpResponse {
 }
 export interface DesignedProductDto extends ISuccessHttpResponse {
   designedPrice: number;
+  description: string;
+  colors: string[];
+  imagePreviews: {
+    image: string;
+    position: string;
+  }[];
+  bluePrintDtos: Blueprint[];
+}
+export interface CreateDesignedProduct {
+  designedPrice: number;
+  description: string;
+  name: string;
+  colors: string[];
   imagePreviews: {
     image: string;
     position: string;
@@ -17,6 +30,18 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
   bluePrintDtos: Blueprint[];
   factoryId: string;
   productId: string;
+}
+export interface EditDesignedProduct {
+  designedProductId: string;
+  designedPrice: number;
+  description: string;
+  colors: string[];
+  name: string;
+  imagePreviews: {
+    image: string;
+    position: string;
+  }[];
+  bluePrintDtos: Blueprint[];
 }
 
 export interface ColorDto extends ISuccessHttpResponse {

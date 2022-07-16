@@ -12,6 +12,8 @@ export interface DesignedProduct {
   bluePrints: Blueprint[];
   productName: string;
   factoryName: string;
+  factoryId: string;
+  productId: string;
 }
 
 export interface ShownDesignedProduct {

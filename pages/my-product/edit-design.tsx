@@ -17,6 +17,7 @@ import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
 import { getBase64FromUrl } from "helper/files-utils";
 import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
+import { setDesignedProductInfo } from "@/redux/slices/designProductInfo";
 
 // import dynamic from 'next/dynamic';
 
@@ -105,8 +106,8 @@ export default function EditDesign(props: EditDesignProps) {
     designId as string
   );
   const [submitPreview, setSubmitPreview] = React.useState<Blueprint[]>();
-  // const { data: colors, isLoading: isLoadingColors } =
-  //   useGetColorsByFactoryAndProductId(response. as string, productId as string);
+  const { data: colors, isLoading: isLoadingColors } =
+    useGetColorsByFactoryAndProductId(response?.factoryId, response?.productId);
   const position = useAppSelector((state) => state.blueprintsData.position);
   const [isEdit, setIsEdit] = React.useState(true);
 
@@ -115,6 +116,16 @@ export default function EditDesign(props: EditDesignProps) {
   const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
   const [isLoadedBlueprints, setIsLoadedBlueprint] =
     React.useState<boolean>(false);
+
+  const [isPreview, setIsPreview] = React.useState(false);
+
+  const openPreview = () => {
+    setIsPreview(true);
+  };
+
+  const closePreview = () => {
+    setIsPreview(false);
+  };
 
   React.useEffect(() => {
     const handleRouteChange = (url: any) => {
@@ -142,7 +153,16 @@ export default function EditDesign(props: EditDesignProps) {
     );
 
   React.useEffect(() => {
-    console.log(response?.bluePrints, "blueprints");
+    if (response)
+      dispatch(
+        setDesignedProductInfo({
+          id: response.id,
+          name: response.name,
+          description: response.description,
+          designedPrice: response.designedPrice,
+        })
+      );
+
     if (blueprints && blueprints.length > 0) {
       const renderBlueprint = [...blueprints];
       const allTasks: Promise<void>[] = [];
@@ -187,6 +207,8 @@ export default function EditDesign(props: EditDesignProps) {
   }, [response]);
 
   React.useEffect(() => {
+    console.log(renderBlueprint.length, "renderBlueprint");
+    console.log(blueprints?.length, "blueprints");
     if (blueprints && renderBlueprint.length === blueprints.length) {
       setIsLoadedBlueprint(true);
 
@@ -238,20 +260,13 @@ export default function EditDesign(props: EditDesignProps) {
       }
     }
   }, [renderBlueprint]);
-
-  const [isPreview, setIsPreview] = React.useState(false);
-
-  const openPreview = () => {
-    setIsPreview(true);
-  };
-
-  const closePreview = () => {
-    setIsPreview(false);
-  };
+  console.log(isLoadedBlueprints, "isLoadedBlueprints");
+  console.log(colors, "colors");
+  console.log(response, "response");
 
   return (
     <div className="container-fluid ">
-      {isLoadedBlueprints && response ? (
+      {isLoadedBlueprints && colors && response ? (
         <>
           <DesignHeaderLeft
             openPreview={openPreview}
@@ -263,7 +278,7 @@ export default function EditDesign(props: EditDesignProps) {
           {isPreview ? (
             <PreviewCanvas
               isEditPage={true}
-              colors={response.colorsObj}
+              colors={colors}
               isEdit={isEdit}
               setIsEdit={setIsEdit}
             />

@@ -16,7 +16,7 @@ const initialState: HeaderInfoData = {
 };
 
 export const headerInfo = createSlice({
-  name: "designControl",
+  name: "headerInfo",
   initialState,
   reducers: {
     setHeaderInfo: (state, action) => {

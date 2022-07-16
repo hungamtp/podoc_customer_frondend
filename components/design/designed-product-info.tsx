@@ -1,9 +1,13 @@
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-sync-scripts */
 import { storage } from "@/firebase/firebase";
+import useCreateDesignedProduct from "@/hooks/api/design/use-create-designed-product";
 import useCreateBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
 import { Preview } from "@/redux/slices/previews";
-import { DesignedProductDto } from "@/services/design/dto";
+import {
+  CreateDesignedProduct,
+  DesignedProductDto,
+} from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -76,7 +80,6 @@ export default function CreateDesignedProductForm(
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const colors = useAppSelector((state) => state.selectedColors);
 
   const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
@@ -120,12 +123,12 @@ export default function CreateDesignedProductForm(
             setIsLoading(false);
             const submitData = {
               ...data,
-              colors: colors,
+              colors: selectedColors,
               imagePreviews: imageList,
               bluePrintDtos: submitBlueprint,
               factoryId: factoryId,
               productId: productId,
-            } as unknown as DesignedProductDto;
+            } as CreateDesignedProduct;
             console.log(submitData, "submitData");
 
             addDesignedProduct(submitData);
@@ -139,7 +142,7 @@ export default function CreateDesignedProductForm(
     mutate: addDesignedProduct,
     error,
     isLoading: isLoadingSubmit,
-  } = useCreateBlueprintByProduct(handleCloseDialog);
+  } = useCreateDesignedProduct(handleCloseDialog);
 
   const onSubmit: SubmitHandler<FormAddDesignInfo> = (data) => {
     setIsLoading(true);
