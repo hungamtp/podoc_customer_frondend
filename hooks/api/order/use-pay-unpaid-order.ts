@@ -13,8 +13,13 @@ const usePayUnpaidOrder = () => {
             return await payUnpaidOrder(data);
 		},
 		{
+<<<<<<< HEAD
 			onSuccess: (data: any) => {
 				window.location.href = data.payUrl;
+=======
+			onSuccess: (data) => {
+                
+>>>>>>> 5dd2249 (update my orders)
 			},
 		}
 	);

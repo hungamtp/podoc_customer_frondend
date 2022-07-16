@@ -17,8 +17,11 @@ import { useRouter } from "next/router";
 import MyOrders from "./myorders";
 import useMyOrders from "@/hooks/api/order/use-my-orders";
 import { Filter } from "@/services/order";
+<<<<<<< HEAD
 import AllOrderDetail from "./all-order-detail";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
+=======
+>>>>>>> 5dd2249 (update my orders)
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -65,6 +68,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     pageNumber: 0,
     pageSize: 10,
   });
+<<<<<<< HEAD
   const [filterAllOrder, setFilterAllOrder] = React.useState<Filter>({
     pageNumber: 1,
     pageSize: 10,
@@ -73,6 +77,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
   const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
     useAllOrderDetail(filterAllOrder);
+=======
+
+  const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
+>>>>>>> 5dd2249 (update my orders)
   React.useEffect(() => {
     if (responseCart) dispatch(setCart(responseCart));
   }, [responseCart]);

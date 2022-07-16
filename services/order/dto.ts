@@ -34,6 +34,7 @@ export interface GetAllMyOrdersDto {
       page: number,
       element: number,
 }
+<<<<<<< HEAD
 export interface GetAllOrderDetailDto {
       data: OrderDetailDto[],
       page: number,
@@ -54,6 +55,8 @@ export interface OrderDetailDto{
   size: string;
   quantity: string;
 }
+=======
+>>>>>>> 5dd2249 (update my orders)
 
 export interface MyOrdersDto{
   orderId: string;
@@ -66,10 +69,18 @@ export interface MyOrdersDto{
 export interface PayUnpaidOrderDto {
   paymentMethod: number,
   orderId: string,
+<<<<<<< HEAD
 }
 
 export interface PayUnpaidOrderResponse extends EventTarget {
 data: {
   payUrl: string,
 };
+=======
+ 
+}
+
+export interface PayUnpaidOrderResponse extends ISuccessHttpResponse {
+data: PayUnpaidOrderDto;
+>>>>>>> 5dd2249 (update my orders)
 }
