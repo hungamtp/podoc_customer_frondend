@@ -21,8 +21,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
       paymentMethod: paymentMethod,
       orderId: orderId,
     };
-    console.log(tmpData);
-    // payOrder(tmpData);
+    payOrder(tmpData);
   };
   return (
     <>
