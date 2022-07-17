@@ -22,7 +22,7 @@ export const cartSlice = createSlice({
       return [...state, action.payload];
     },
     deleteCartDetail: (state, action) => {
-      return state.filter((cart: CartDetailDTO) => cart.id != action.payload);
+      return state.filter((cart: CartDetailDTO) => cart.id !== action.payload);
     },
     updateQuantityCartDetail: (state, action) => {
       const cartIndex = state.findIndex(

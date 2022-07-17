@@ -6,12 +6,12 @@ import { ErrorHttpResponse } from "@/models/error_http_response.interface";
 import { API } from "@/api-client/axios";
 import { useRouter } from "next/router";
 import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
-let cartDetailId: number;
+let cartDetailId: string;
 const useDeleteCartDetail = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (cartDetailIdRequest: number) => {
+    async (cartDetailIdRequest: string) => {
       cartDetailId = cartDetailIdRequest;
       return await deleteCartDetailApi(cartDetailIdRequest);
     },
@@ -24,7 +24,7 @@ const useDeleteCartDetail = () => {
   );
 };
 
-export const deleteCartDetailApi = async (cartDetail: Number) => {
+export const deleteCartDetailApi = async (cartDetail: string) => {
   const { data } = await API.delete<ISuccessHttpResponse>(
     `/cart/${cartDetail}`
   );
