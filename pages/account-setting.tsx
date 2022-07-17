@@ -20,6 +20,7 @@ import { Filter } from "@/services/order";
 import AllOrderDetail from "./all-order-detail";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 import useVerifyEmail from "@/hooks/api/account/use-verify-email";
+import MyDesign from "./mydesign";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
