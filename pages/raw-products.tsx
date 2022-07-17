@@ -11,6 +11,7 @@ import search from "@/redux/slices/search";
 import Categories from "@/components/common/categories";
 import { useForm } from "react-hook-form";
 import PaginationComponent from "@/components/common/mui-pagination";
+import Link from "next/link";
 
 export interface IProductProps {}
 
@@ -53,7 +54,7 @@ export default function RawProducts(props: IProductProps) {
             <div className="row mt-5 justify-content-center">
               <div className="col-lg-12 text-center">
                 <div className="pages-heading">
-                  <h4 className="title mb-0"> Tất cả sản phẩm </h4>
+                  <h4 className="title mb-0"> Tất cả sản phẩm thô</h4>
                 </div>
               </div>
               {/*end col*/}
@@ -63,13 +64,12 @@ export default function RawProducts(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="home">Print on demand</a>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <a href="raw-products">Shop</a>
+                    <Link href="home">
+                      <a>PODOC</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    Products
+                    Tự thiết kế
                   </li>
                 </ul>
               </nav>
@@ -182,7 +182,7 @@ export default function RawProducts(props: IProductProps) {
                   {response?.data.map((product) => {
                     return <RawProduct key={product.id} product={product} />;
                   })}
-                  {totalPages == 0 ? (
+                  {totalPages <= 1 ? (
                     <></>
                   ) : (
                     <div className="d-flex justify-content-center">

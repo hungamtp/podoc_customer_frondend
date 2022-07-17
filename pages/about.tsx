@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { MainLayout } from "@/components/layouts";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -21,13 +22,12 @@ export default function About({}: Props) {
             <nav aria-label="breadcrumb" className="d-inline-block">
               <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                 <li className="breadcrumb-item">
-                  <a href="index.html">Landrick</a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a href="home">Shop</a>
+                  <Link href="/">
+                    <a>PODOC</a>
+                  </Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  About
+                  Giới thiệu
                 </li>
               </ul>
             </nav>

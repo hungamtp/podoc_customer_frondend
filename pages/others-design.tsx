@@ -5,6 +5,7 @@ import DesignedProductCard from "@/components/designed-products/designed-product
 import { MainLayout } from "@/components/layouts";
 import useGetOthersDesignByUserId from "@/hooks/api/design/use-get-others-design-by-userId";
 import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useState } from "react";
@@ -44,13 +45,17 @@ export default function OthersDesigns(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="home">Print on demand</a>
+                    <Link href="home">
+                      <a>PODOC</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="raw-products">Shop</a>
+                    <Link href="/raw-products">
+                      <a>Cửa hàng</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    Products
+                    Sản phẩm của người khác
                   </li>
                 </ul>
               </nav>

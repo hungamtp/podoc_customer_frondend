@@ -62,7 +62,7 @@ export default function DesignedProducts(props: IProductProps) {
             <div className="row mt-5 justify-content-center">
               <div className="col-lg-12 text-center">
                 <div className="pages-heading">
-                  <h4 className="title mb-0"> Tất cả sản phẩm </h4>
+                  <h4 className="title mb-0"> Tất cả thiết kế </h4>
                 </div>
               </div>
               {/*end col*/}
@@ -72,13 +72,12 @@ export default function DesignedProducts(props: IProductProps) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="home">Print on demand</a>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <a href="raw-products">Shop</a>
+                    <Link href="home">
+                      <a>PODOC</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    Products
+                    Thiết kế có sẵn
                   </li>
                 </ul>
               </nav>
@@ -236,13 +235,15 @@ export default function DesignedProducts(props: IProductProps) {
                       );
                     })}
 
-                    <div className="d-flex justify-content-center">
-                      <PaginationComponent
-                        total={totalPages}
-                        filter={filter}
-                        setFilter={setFilter}
-                      />
-                    </div>
+                    {response.elements <= 0 && (
+                      <div className="d-flex justify-content-center">
+                        <PaginationComponent
+                          total={totalPages}
+                          filter={filter}
+                          setFilter={setFilter}
+                        />
+                      </div>
+                    )}
                   </div>
                   {/*end row*/}
                 </div>

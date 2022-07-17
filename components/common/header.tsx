@@ -162,9 +162,9 @@ export default function Header({}: Props) {
                       alt="hihi"
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
-                        currentTarget.src="/asset/images/default-avatar.jpg";
+                        currentTarget.src = "/asset/images/default-avatar.jpg";
                       }}
-                      style={{borderRadius  :"35px"}}
+                      style={{ borderRadius: "35px" }}
                       height={35}
                       width={35}
                     />
@@ -202,20 +202,7 @@ export default function Header({}: Props) {
                           khoản
                         </a>
                       </Link>
-                      <Link href="/mydesign">
-                        <a className="dropdown-item text-dark">
-                          <i className="bi bi-suit-heart me-1">
-                            {" "}
-                            Thiết kế của tôi
-                          </i>
-                        </a>
-                      </Link>
-                      <Link href="/mydesign">
-                        <a className="dropdown-item text-dark" href="#">
-                          <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
-                          Lịch sử mua hàng
-                        </a>
-                      </Link>
+
                       <div className="dropdown-divider my-3 border-top"></div>
                       <a
                         className="dropdown-item text-dark cursor-pointer"
