@@ -21,12 +21,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
       paymentMethod: paymentMethod,
       orderId: orderId,
     };
-<<<<<<< HEAD
     payOrder(tmpData);
-=======
-    console.log(tmpData);
-    // payOrder(tmpData);
->>>>>>> 5dd2249 (update my orders)
   };
   return (
     <>

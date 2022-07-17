@@ -1,10 +1,13 @@
 import { API } from "@/api-client/axios";
 import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
-<<<<<<< HEAD
-import { GetAllMyOrdersDto, GetAllOrderDetailDto, PayUnpaidOrderDto, PayUnpaidOrderResponse, ShippingInfo, ShippingInfoDto } from "./dto";
-=======
-import { GetAllMyOrdersDto, PayUnpaidOrderDto, PayUnpaidOrderResponse, ShippingInfo, ShippingInfoDto } from "./dto";
->>>>>>> 5dd2249 (update my orders)
+import {
+  GetAllMyOrdersDto,
+  GetAllOrderDetailDto,
+  PayUnpaidOrderDto,
+  PayUnpaidOrderResponse,
+  ShippingInfo,
+  ShippingInfoDto,
+} from "./dto";
 
 export interface Filter {
   pageSize: number;
@@ -39,7 +42,6 @@ export const getAllMyOrders = async (filter?: Filter) => {
   );
   return data;
 };
-<<<<<<< HEAD
 export const getAllOrderDetail = async (filter?: Filter) => {
   const pageNumber = 1;
   const pageSize = 10;
@@ -52,12 +54,10 @@ export const getAllOrderDetail = async (filter?: Filter) => {
   );
   return data;
 };
-=======
->>>>>>> 5dd2249 (update my orders)
 
 export const payUnpaidOrder = async (requestData: PayUnpaidOrderDto) => {
   const { data } = await API.put<PayUnpaidOrderResponse>(
-    `/order?paymentMethod=${requestData.paymentMethod}&orderId=${requestData.orderId}`,
+    `/order?paymentMethod=${requestData.paymentMethod}&orderId=${requestData.orderId}`
   );
   return data;
 };
