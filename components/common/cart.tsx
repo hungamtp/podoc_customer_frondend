@@ -25,7 +25,7 @@ export default function Cart({ cart }: Props) {
   );
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
-    deleteCartDetailApi(Number(cart.id));
+    deleteCartDetailApi(cart.id);
   };
 
   const updateQuantityCart = (newQuantity: number) => {

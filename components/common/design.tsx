@@ -44,21 +44,9 @@ export default function Design({ product }: Props) {
       <td className="text-center">{product.designedPrice}</td>
       <td className="text-center qty-icons">
         {product.publish ? (
-          <button
-            className="btn btn-success"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >
-            Đang đăng bán
-          </button>
+          <p className="text-success m-0">Đang đăng bán</p>
         ) : (
-          <button
-            className="btn btn-secondary"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >
-            Chỉ mình tôi
-          </button>
+          <p className="text-secondary m-0">Chỉ mình tôi</p>
         )}
         {/* 
         <button type="button" className="btn btn-light">
