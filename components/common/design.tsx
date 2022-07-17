@@ -1,12 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-product";
-import { GetAllDesignFilter } from "@/services/design";
 import { SimpleDesignProduct } from "@/services/design/dto";
-import { Link } from "@material-ui/icons";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 
 type Props = {
   product: SimpleDesignProduct;

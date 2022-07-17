@@ -2,12 +2,8 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import { storage } from "@/firebase/firebase";
 import useCreateDesignedProduct from "@/hooks/api/design/use-create-designed-product";
-import useCreateBlueprintByProduct from "@/hooks/api/design/use-create-designed-product";
 import { Preview } from "@/redux/slices/previews";
-import {
-  CreateDesignedProduct,
-  DesignedProductDto,
-} from "@/services/design/dto";
+import { CreateDesignedProduct } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";

@@ -1,32 +1,31 @@
-import { useMutation } from "react-query";
-import { AxiosError } from "axios";
-import { useAppDispatch } from "@/components/hooks/reduxHook"; 
-import {deleteCartDetail } from "@/redux/slices/cart";
+import { API } from "@/api-client/axios";
+import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { ErrorHttpResponse } from "@/models/error_http_response.interface";
 import { CartDetailDTO, CartNotEnoughQuantity } from "@/services/type.dto";
-import { API } from "@/api-client/axios";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { useMutation } from "react-query";
 
 const useCheckCart = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   return useMutation(
-    async (cart: CartDetailDTO[]) => { 
+    async (cart: CartDetailDTO[]) => {
       return await checkQuantityBefore(cart);
     },
     {
-      onSuccess: (data) => {
-      },
-      onError: (error: AxiosError<ErrorHttpResponse>) => {
-         
-      },
+      onSuccess: (data) => {},
+      onError: (error: AxiosError<ErrorHttpResponse>) => {},
     }
   );
 };
 
 export const checkQuantityBefore = async (cart: CartDetailDTO[]) => {
-    const data = await API.put<CartNotEnoughQuantity[]>(`/cart/checkQuantity` , cart);
-    return data.data;
+  const data = await API.put<CartNotEnoughQuantity[]>(
+    `/cart/checkQuantity`,
+    cart
+  );
+  return data.data;
 };
 
 export default useCheckCart;

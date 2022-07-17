@@ -1,6 +1,6 @@
+import { toPng } from "html-to-image";
+import { jsPDF } from "jspdf";
 import React from "react";
-import { jsPDF, HTMLOptionImage } from "jspdf";
-import { toPng, toCanvas } from "html-to-image";
 type props = {
   html: React.MutableRefObject<HTMLDivElement>;
   document: Document;

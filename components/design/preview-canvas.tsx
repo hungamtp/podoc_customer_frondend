@@ -1,14 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import { Blueprint, DesignState } from "@/models/design";
-import { setIsEdit } from "@/redux/slices/isEdit";
 import { addPreview, clearAllPreview, Preview } from "@/redux/slices/previews";
-import { Dialog, DialogActions, DialogContent } from "@material-ui/core";
-import { nanoid } from "@reduxjs/toolkit";
+import { Dialog, DialogContent } from "@material-ui/core";
 import { fabric } from "fabric";
 import { useRouter } from "next/router";
 import * as React from "react";
-import DesignHeaderLeft from "./design-header-left";
 import CreateDesignedProductForm from "./designed-product-info";
 import EditDesignForm from "./edit-design";
 import PreviewFooter from "./preview-footer";
