@@ -19,7 +19,7 @@ import useMyOrders from "@/hooks/api/order/use-my-orders";
 import { Filter } from "@/services/order";
 import AllOrderDetail from "./all-order-detail";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
-import MyDesign from "./mydesign";
+import useVerifyEmail from "@/hooks/api/account/use-verify-email";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -57,6 +57,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const credentialId = useAppSelector((state) => state.auth.userId);
   const { data: responseAccount, isLoading: isLoadingAccount } =
     useGetAccountById(credentialId);
+  const { mutate: verifyEmail } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(true);
   const { mutate: updateProfile } = useUpdateProfile();
   const dispatch = useAppDispatch();
@@ -95,6 +96,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     address: "",
     image: "",
     userStatus: "",
+    mailVerified: false,
   };
   const {
     register,
@@ -125,6 +127,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
       email: data.email,
     };
     updateProfile(tmpData);
+    setIsEdit(true);
   };
 
   return (
@@ -395,7 +398,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     {!isLoadingAccount && responseAccount && (
                       <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">Họ</label>
                               <div className="form-icon position-relative">
@@ -414,7 +417,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             </div>
                           </div>
                           {/*end col*/}
-                          <div className="col-md-6">
+                          <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">Tên</label>
                               <div className="form-icon position-relative">
@@ -433,9 +436,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             </div>
                           </div>
                           {/*end col*/}
-                          <div className="col-md-6">
+                          <label className="form-label ms-1 ">Email</label>
+                          <div className="col-md-5">
                             <div className="mb-3">
-                              <label className="form-label">Email</label>
                               <div className="form-icon position-relative">
                                 <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
                                 <input
@@ -446,12 +449,37 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   defaultValue={responseAccount.data.email}
                                   {...register("email")}
                                 />
+                                {responseAccount.data.mailVerified ===
+                                  false && (
+                                  <i className="bi bi-x-circle-fill icon-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
+                                )}
+                                {responseAccount.data.mailVerified === true && (
+                                  <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
+                                )}
                               </div>
+                              {responseAccount.data.mailVerified === false && (
+                                <p className="ms-1 icon-warning">
+                                  Email chưa được xác nhận
+                                </p>
+                              )}
                             </div>
                           </div>
                           {/*end col*/}
-
-                          <div className="col-md-6">
+                          {responseAccount.data.mailVerified === false && (
+                            <div className="col-md-4">
+                              <div className="mb-3">
+                                <div className="form-icon position-relative">
+                                  <button
+                                    onClick={() => verifyEmail()}
+                                    className=" btn btn-primary "
+                                  >
+                                    Xác nhận email
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">
                                 Số điện thoại
@@ -469,7 +497,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">Địa chỉ</label>
                               <div className="form-icon position-relative">

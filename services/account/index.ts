@@ -31,11 +31,23 @@ import { ForgotPasswordDto, ForgotPasswordResponse, getAccountByIdResponse, Rese
     );
     return data;
   };
+  export const verifyEmail = async () => {
+    const { data } = await API.get(
+      `/user/verify`,
+    );
+    return data;
+  };
 
   export const updatePassword = async (requestData: UpdatePasswordDto, id: string) => {
     const { data } = await API.patch<UpdatePasswordResponse>(
       `/user/password-change/${id}`,
       requestData
+    );
+    return data;
+  };
+  export const confirmEmail = async (email: string, id: string) => {
+    const { data } = await API.patch(
+      `/user/confirm/${email}/${id}`,
     );
     return data;
   };

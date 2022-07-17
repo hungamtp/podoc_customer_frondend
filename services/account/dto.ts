@@ -11,6 +11,7 @@ export interface AccountByIdDtos {
     address: string;
     image: string;
     userStatus: string;
+    mailVerified: boolean;
 }
 export interface UpdateAccountDto {
     id:string;
@@ -36,6 +37,8 @@ export interface ResetPasswordDto {
     newPassword: string,
     passwordConfirmation: string;
 }
+
+
 
 export interface ResetPasswordResponse extends ISuccessHttpResponse {
 	data: ResetPasswordDto;
