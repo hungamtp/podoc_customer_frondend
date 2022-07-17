@@ -837,7 +837,7 @@ export default function DesignCanvas({
         const imageTop = reverseData("top", design.topPosition);
         const imageWidth = reverseData("width", design.width);
         if (design.types === "text") {
-          const newText = new fabric.Text(design.src, {
+          const newText = new fabric.IText(design.src, {
             fontFamily: design.font,
             clipPath: placeHolder.rect,
             name: design.key,

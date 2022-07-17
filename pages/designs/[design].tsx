@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { PageWithHero } from "@/components/layouts/page-with-hero";
 import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
 import useUpdateCart from "@/hooks/api/cart/use-update-cart";
-import useGetOthersDesignById from "@/hooks/api/design/use-get-others-design-by-id";
+import useGetOthersDesignById from "@/hooks/api/design/use-get-other-designs-by-designId";
 import {
   updateQuantityCartDetail,
   addNewCartDetail,

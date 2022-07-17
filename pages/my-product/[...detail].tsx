@@ -20,7 +20,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const [renderedPosition, setRenderPosition] = useState("front");
   const [renderedColor, setRenderColor] = useState("");
   const dispatch = useAppDispatch();
-  console.log(renderedColor, "renderedColor");
 
   React.useEffect(() => {
     if (response) setRenderColor(response.colorsObj[0].image);

@@ -6,6 +6,7 @@ import {
   DesignedProductDto,
   EditDesignedProduct,
   getAllDesignProductDto,
+  getAllShownDesignProductDto,
   getAllSimpleDesignProductDto,
   GetBlueprintDto,
   getDesignProductDto,
@@ -85,8 +86,23 @@ export const getOthersDesignById = async (designId: string) => {
   return data.data;
 };
 
+export const getOthersDesignByUserId = async (
+  filter: GetAllDesignFilter,
+  userId: string
+) => {
+  const pageNumber = 0;
+  const pageSize = 9;
+  const query = new URLSearchParams({
+    pageNumber: filter?.pageNumber?.toString() || pageNumber.toString(),
+    pageSize: filter?.pageSize?.toString() || pageSize.toString(),
+  });
+  const { data } = await API.get<getAllShownDesignProductDto>(
+    `design/view-other/${userId}?${query}`
+  );
+  return data.data;
+};
+
 export const getAllDesignedProducts = async (filter: GetAllDesignFilter) => {
-  console.log(filter, "filter ne");
   const pageNumber = 0;
   const pageSize = 9;
   let search = filter.name ? `search=name:${filter.name},` : "search=";
