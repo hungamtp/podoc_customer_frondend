@@ -92,7 +92,7 @@ export default function OthersDesigns(props: IProductProps) {
                             height={120}
                           />
                           <div className="ms-3 mt-4">
-                            <h6 className="text-muted mb-0">Nhà thiết kế</h6>
+                            <h6 className="text-muted mb-0">Người thiết kế</h6>
                             <h5 className="mb-0">
                               {response.content[0].user.lastName}{" "}
                               {response.content[0].user.firstName}

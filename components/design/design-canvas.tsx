@@ -983,6 +983,7 @@ export default function DesignCanvas({
             <div className="d-flex  w-full align-items-center px-4">
               <button
                 className="btn btn-secondary w-full"
+                disabled={controlData.isLoadingImage}
                 onClick={() => openPreview()}
               >
                 Lưu lại

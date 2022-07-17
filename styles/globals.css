@@ -41,6 +41,8 @@ a {
   color: black;
 }
 
+
+
 .hoverButton:hover{
   background-color: #f8f9fc;
   color:green;
@@ -94,6 +96,10 @@ a {
 
 .w-30p{
   width:30%
+}
+
+.w-80p{
+  width:80%
 }
 
 .h-screen{

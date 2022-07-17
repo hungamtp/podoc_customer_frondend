@@ -117,6 +117,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 id="btnradio1"
                 autoComplete="off"
                 defaultChecked
+                disabled={controlData.isLoadingImage}
                 onClick={() => {
                   closePreview();
                 }}
@@ -131,6 +132,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 name="btnradio"
                 id="btnradio2"
                 autoComplete="off"
+                disabled={controlData.isLoadingImage}
                 onClick={() => {
                   openPreview();
                 }}

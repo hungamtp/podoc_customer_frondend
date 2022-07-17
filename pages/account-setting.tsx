@@ -129,10 +129,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
   return (
     <>
       <div>
-        <section className="section">
-          <div className="container">
+        <section className="section d-flex justify-content-center">
+          <div className="w-80p">
             <div className="row align-items-end">
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <div className="d-flex align-items-center">
                   <img
                     src={responseAccount?.data.image}
@@ -150,12 +150,12 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 </div>
               </div>
               {/*end col*/}
-              <div className="col-md-8 mt-4 mt-sm-0 pt-2 pt-sm-0"></div>
+              <div className="col-md-9 mt-4 mt-sm-0 pt-2 pt-sm-0"></div>
               {/*end col*/}
             </div>
             {/*end row*/}
             <div className="row">
-              <div className="col-md-4 mt-4 pt-2">
+              <div className="col-md-3 mt-4 pt-2">
                 <ul
                   className="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0"
                   id="pills-tab"
@@ -266,7 +266,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 {/*end nav pills*/}
               </div>
               {/*end col*/}
-              <div className="col-md-8 col-12 mt-4 pt-2">
+              <div className="col-md-9 col-12 mt-4 pt-2">
                 <div className="tab-content" id="pills-tabContent">
                   <div
                     className="tab-pane fade bg-white show active shadow rounded p-4"
