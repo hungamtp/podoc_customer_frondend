@@ -17,6 +17,8 @@ import { useRouter } from "next/router";
 import MyOrders from "./myorders";
 import useMyOrders from "@/hooks/api/order/use-my-orders";
 import { Filter } from "@/services/order";
+import AllOrderDetail from "./all-order-detail";
+import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -63,8 +65,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
     pageNumber: 0,
     pageSize: 10,
   });
+  const [filterAllOrder, setFilterAllOrder] = React.useState<Filter>({
+    pageNumber: 1,
+    pageSize: 10,
+  });
 
   const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
+  const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
+    useAllOrderDetail(filterAllOrder);
   React.useEffect(() => {
     if (responseCart) dispatch(setCart(responseCart));
   }, [responseCart]);
@@ -192,6 +200,25 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     </a>
                     {/*end nav link*/}
                   </li>
+                  <li className="nav-item mt-2">
+                    <a
+                      className="nav-link rounded"
+                      id="order-history"
+                      data-bs-toggle="pill"
+                      href="#down"
+                      role="tab"
+                      aria-controls="orders"
+                      aria-selected="false"
+                    >
+                      <div className="text-start py-1 px-3">
+                        <h6 className="mb-0">
+                          <i className="uil uil-clipboard-notes align-middle me-1"></i>{" "}
+                          Lịch sử mua hàng
+                        </h6>
+                      </div>
+                    </a>
+                    {/*end nav link*/}
+                  </li>
                   {/*end nav item*/}
 
                   {/*end nav item*/}
@@ -292,96 +319,15 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     role="tabpanel"
                     aria-labelledby="download"
                   >
-                    <div className="table-responsive bg-white shadow rounded">
-                      <table className="table mb-0 table-center table-nowrap">
-                        <thead>
-                          <tr>
-                            <th scope="col" className="border-bottom">
-                              Product Name
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Description
-                            </th>
-                            <th scope="col" className="border-bottom">
-                              Status
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">Quick heal</th>
-                            <td className="text-muted">
-                              It is said that song composers of the past <br />{" "}
-                              used dummy texts as lyrics when writing <br />{" "}
-                              melodies in order to have a {"ready-made"} <br />{" "}
-                              text to sing with the melody.
-                            </td>
-                            <td className="text-success">Downloaded</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    {allOrdersResponse && (
+                      <AllOrderDetail
+                        allOrdersResponse={allOrdersResponse}
+                        isLoading={isLoadingAllOrders}
+                      />
+                    )}
                   </div>
                   {/*end teb pane*/}
-                  <div
-                    className="tab-pane fade bg-white shadow rounded p-4"
-                    id="address"
-                    role="tabpanel"
-                    aria-labelledby="addresses"
-                  >
-                    <h6 className="text-muted mb-0">
-                      The following addresses will be used on the checkout page
-                      by default.
-                    </h6>
-                    <div className="row">
-                      <div className="col-lg-6 mt-4 pt-2">
-                        <div className="d-flex align-items-center mb-4 justify-content-between">
-                          <h5 className="mb-0">Billing Address:</h5>
-                          <a
-                            href=""
-                            className="text-primary h5 mb-0"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            data-original-title="Edit"
-                          >
-                            <i className="uil uil-edit align-middle" />
-                          </a>
-                        </div>
-                        <div className="pt-4 border-top">
-                          <p className="h6">Cally Joseph</p>
-                          <p className="h6 text-muted">
-                            C/54 Northwest Freeway,{" "}
-                          </p>
-                          <p className="h6 text-muted">Suite 558,</p>
-                          <p className="h6 text-muted">Houston, USA 485</p>
-                          <p className="h6 text-muted mb-0">+123 897 5468</p>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 mt-4 pt-2">
-                        <div className="d-flex align-items-center mb-4 justify-content-between">
-                          <h5 className="mb-0">Shipping Address:</h5>
-                          <a
-                            href=""
-                            className="text-primary h5 mb-0"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            data-original-title="Edit"
-                          >
-                            <i className="uil uil-edit align-middle" />
-                          </a>
-                        </div>
-                        <div className="pt-4 border-top">
-                          <p className="h6">Cally Joseph</p>
-                          <p className="h6 text-muted">
-                            C/54 Northwest Freeway,{" "}
-                          </p>
-                          <p className="h6 text-muted">Suite 558,</p>
-                          <p className="h6 text-muted">Houston, USA 485</p>
-                          <p className="h6 text-muted mb-0">+123 897 5468</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
                   {/*end teb pane*/}
                   <div
                     className="tab-pane fade bg-white shadow rounded p-4"

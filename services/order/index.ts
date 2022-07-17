@@ -1,6 +1,6 @@
 import { API } from "@/api-client/axios";
 import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
-import { GetAllMyOrdersDto, PayUnpaidOrderDto, PayUnpaidOrderResponse, ShippingInfo, ShippingInfoDto } from "./dto";
+import { GetAllMyOrdersDto, GetAllOrderDetailDto, PayUnpaidOrderDto, PayUnpaidOrderResponse, ShippingInfo, ShippingInfoDto } from "./dto";
 
 export interface Filter {
   pageSize: number;
@@ -32,6 +32,18 @@ export const getAllMyOrders = async (filter?: Filter) => {
   });
   const { data } = await API.get<GetAllMyOrdersDto>(
     `/order/myorder?${query.toString()}`
+  );
+  return data;
+};
+export const getAllOrderDetail = async (filter?: Filter) => {
+  const pageNumber = 1;
+  const pageSize = 10;
+  const query = new URLSearchParams({
+    page: filter?.pageNumber?.toString() || pageNumber.toString(),
+    size: filter?.pageSize?.toString() || pageSize.toString(),
+  });
+  const { data } = await API.get<GetAllOrderDetailDto>(
+    `/order/orderdetail?${query.toString()}`
   );
   return data;
 };
