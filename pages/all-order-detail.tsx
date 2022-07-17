@@ -12,7 +12,6 @@ export interface IAllOrderDetailProps {
 
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
-  console.log(allOrdersResponse);
   return (
     <>
       <div className="table-responsive bg-white shadow rounded">
