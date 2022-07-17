@@ -5,15 +5,16 @@ import { MouseEventHandler } from "react";
 import { ShownDesignedProduct } from "@/models/design";
 import { useRouter } from "next/router";
 import { numberWithCommas } from "helper/number-util";
+import Link from "next/link";
 type Props = {
   product: ShownDesignedProduct;
 };
 
 export default function DesignedProductCard({ product }: Props) {
-  const goToProfile = (userId: string) => {
-    console.log("first");
-  };
   const router = useRouter();
+  const goToProfile = (userId: string) => {
+    router.push(`others-design?userId=${userId}`);
+  };
   const getRates = (rate: number): number[] => {
     let result = [];
     rate = Math.ceil(rate);
@@ -107,12 +108,9 @@ export default function DesignedProductCard({ product }: Props) {
           </ul>
         </div>
         <div className="card-body content pt-4 p-2">
-          <a
-            href="shop-product-detail.html"
-            className="text-dark product-name h6"
-          >
-            {product.name}
-          </a>
+          <Link href={`/designs/${product.id}`}>
+            <a className="text-dark product-name h6">{product.name}</a>
+          </Link>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">
               {numberWithCommas(product.price)} VND

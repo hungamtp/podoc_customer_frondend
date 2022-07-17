@@ -76,6 +76,14 @@ export interface getAllSimpleDesignProductDto extends ISuccessHttpResponse {
     number: number;
   };
 }
+export interface getAllShownDesignProductDto extends ISuccessHttpResponse {
+  data: {
+    content: ShownDesignedProduct[];
+    totalElements: number;
+    totalPages: number;
+    number: number;
+  };
+}
 export interface getAllDesignProductDto extends ISuccessHttpResponse {
   data: {
     data: ShownDesignedProduct[];
