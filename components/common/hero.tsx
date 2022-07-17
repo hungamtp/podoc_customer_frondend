@@ -1,3 +1,4 @@
+import Link from "next/link";
 import * as React from "react";
 
 export interface IHeroProps {}
@@ -10,7 +11,7 @@ export default function Hero(props: IHeroProps) {
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">
               <div className="pages-heading">
-                <h4 className="title mb-0"> Print On Demand </h4>
+                <h4 className="title mb-0">Chi tiết sản phẩm thiết kế</h4>
               </div>
             </div>
           </div>
@@ -19,13 +20,17 @@ export default function Hero(props: IHeroProps) {
             <nav aria-label="breadcrumb" className="d-inline-block">
               <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                 <li className="breadcrumb-item">
-                  {/* <a href="/">Landrick</a> */}
+                  <Link href="/">
+                    <a>PODOC</a>
+                  </Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="home">Shop</a>
+                  <Link href="/designs">
+                    <a>Thiết kế có sẵn</a>
+                  </Link>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Product Details
+                  Chi tiết thiết kế
                 </li>
               </ul>
             </nav>

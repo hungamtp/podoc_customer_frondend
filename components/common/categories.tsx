@@ -10,7 +10,7 @@ export default function Categories({ handleCategoryChange }: Props) {
 
   return (
     <div className="widget mt-4 pt-2">
-      <h5 className="widget-title">Categories</h5>
+      <h5 className="widget-title">Thể loại</h5>
       <ul className="list-unstyled mt-4 mb-0 blog-categories">
         <li
           className={`category ${selectedCategory == "" && "category-active"}`}
@@ -20,7 +20,7 @@ export default function Categories({ handleCategoryChange }: Props) {
             handleCategoryChange("");
           }}
         >
-          <h6>All categories</h6>
+          <h6>Tất cả</h6>
         </li>
         {categories?.map((category) => {
           return (
@@ -35,7 +35,7 @@ export default function Categories({ handleCategoryChange }: Props) {
                 handleCategoryChange(category.name);
               }}
             >
-              <h6>{category.name}</h6>
+              <p className="m-0 ">{category.name}</p>
             </li>
           );
         })}
