@@ -1,6 +1,13 @@
 import { API } from "@/api-client/axios";
 import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
-import { GetAllMyOrdersDto, GetAllOrderDetailDto, PayUnpaidOrderDto, PayUnpaidOrderResponse, ShippingInfo, ShippingInfoDto } from "./dto";
+import {
+  GetAllMyOrdersDto,
+  GetAllOrderDetailDto,
+  PayUnpaidOrderDto,
+  PayUnpaidOrderResponse,
+  ShippingInfo,
+  ShippingInfoDto,
+} from "./dto";
 
 export interface Filter {
   pageSize: number;
@@ -50,7 +57,7 @@ export const getAllOrderDetail = async (filter?: Filter) => {
 
 export const payUnpaidOrder = async (requestData: PayUnpaidOrderDto) => {
   const { data } = await API.put<PayUnpaidOrderResponse>(
-    `/order?paymentMethod=${requestData.paymentMethod}&orderId=${requestData.orderId}`,
+    `/order?paymentMethod=${requestData.paymentMethod}&orderId=${requestData.orderId}`
   );
   return data;
 };

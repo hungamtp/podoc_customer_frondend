@@ -28,24 +28,21 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
   productId: string;
 }
 
-
 export interface GetAllMyOrdersDto {
-      data: MyOrdersDto[],
-      page: number,
-      element: number,
+  data: MyOrdersDto[];
+  page: number;
+  element: number;
 }
 export interface GetAllOrderDetailDto {
-      data: OrderDetailDto[],
-      page: number,
-      element: number,
+  data: OrderDetailDto[];
+  page: number;
+  element: number;
 }
 
-
-
-export interface OrderDetailDto{
+export interface OrderDetailDto {
   id: string;
   price: number;
-  designId:string;
+  designId: string;
   designName: boolean;
   designImage: string;
   designerName: string;
@@ -55,21 +52,21 @@ export interface OrderDetailDto{
   quantity: string;
 }
 
-export interface MyOrdersDto{
+export interface MyOrdersDto {
   orderId: string;
   totalBill: number;
-  createdDate:string;
+  createdDate: string;
   isPaid: boolean;
   countItem: number;
 }
 
 export interface PayUnpaidOrderDto {
-  paymentMethod: number,
-  orderId: string,
+  paymentMethod: number;
+  orderId: string;
 }
 
 export interface PayUnpaidOrderResponse extends EventTarget {
-data: {
-  payUrl: string,
-};
+  data: {
+    payUrl: string;
+  };
 }

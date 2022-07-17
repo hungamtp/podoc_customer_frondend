@@ -1,9 +1,9 @@
 import { DesignState } from "@/models/design";
 import * as React from "react";
-import AutoCompleteSelect from "./auto-complete-select";
 import { useAppSelector } from "../hooks/reduxHook";
-import SingleInput from "./single-input";
+import AutoCompleteSelect from "./auto-complete-select";
 import ColorPicker from "./color-picker";
+import SingleInput from "./single-input";
 
 export interface ITextInfoProps {
   addNewRect: (imgSrc: string, tmpSrc: string) => void;

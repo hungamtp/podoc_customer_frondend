@@ -1,7 +1,5 @@
-import * as React from "react";
 import { useAppSelector } from "../hooks/reduxHook";
 import ImageInfo from "./image-info";
-import SelectColor from "./select-color";
 import TextInfo from "./text-info";
 import { UploadImageTable } from "./upload-image-table";
 export interface ITableProps {

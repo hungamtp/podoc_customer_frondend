@@ -1,6 +1,6 @@
 import { Preview } from "@/redux/slices/previews";
 import { nanoid } from "@reduxjs/toolkit";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import { useAppSelector } from "../hooks/reduxHook";
 
 export interface info {
   angle: number;
