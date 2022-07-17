@@ -30,7 +30,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
           <thead>
             <tr>
               <th scope="col" className="border-bottom">
-                ngày tạo
+                Ngày tạo
               </th>
               <th scope="col" className="border-bottom">
                 Trạng thái

@@ -1,12 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-product";
-import { GetAllDesignFilter } from "@/services/design";
 import { SimpleDesignProduct } from "@/services/design/dto";
-import { Link } from "@material-ui/icons";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 
 type Props = {
   product: SimpleDesignProduct;
@@ -48,21 +44,9 @@ export default function Design({ product }: Props) {
       <td className="text-center">{product.designedPrice}</td>
       <td className="text-center qty-icons">
         {product.publish ? (
-          <button
-            className="btn btn-success"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >
-            Đang đăng bán
-          </button>
+          <p className="text-success m-0">Đang đăng bán</p>
         ) : (
-          <button
-            className="btn btn-secondary"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >
-            Chỉ mình tôi
-          </button>
+          <p className="text-secondary m-0">Chỉ mình tôi</p>
         )}
         {/* 
         <button type="button" className="btn btn-light">

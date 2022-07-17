@@ -1,9 +1,9 @@
 import { storage } from "@/firebase/firebase";
+import { setControlData } from "@/redux/slices/designControl";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { setControlData } from "@/redux/slices/designControl";
 
 export interface ITableProps {
   addNewRect: (imageSrc: string, tmpSrc: string) => void;

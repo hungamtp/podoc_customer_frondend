@@ -1,9 +1,5 @@
-import React from "react";
-import ImageUploading from "react-images-uploading";
-import { fabric } from "fabric";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { setControlData } from "@/redux/slices/designControl";
-import { DesignState } from "@/models/design";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface UploadImageTableProps {}
 

@@ -76,6 +76,10 @@ export default function DesignedProductDetail() {
     (state) => state.checkCartSlice
   );
 
+  const checkout = () => {
+    router.push("/carts");
+  };
+
   const updateQuantity = (newQuantity: number) => {
     const indentity = selectedColor + selectedSize;
     const cartDetailExisted = carts.some((cart) => {
@@ -355,9 +359,9 @@ export default function DesignedProductDetail() {
                           <div className="mt-4 pt-2">
                             <button
                               className="btn btn-primary"
-                              onClick={() => router.push("/carts")}
+                              onClick={checkout}
                             >
-                              Mua sản phẩm
+                              Xem giỏ hàng
                             </button>
                             <button
                               className="btn btn-soft-primary ms-2"

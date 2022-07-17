@@ -1,5 +1,4 @@
 import { setControlData } from "@/redux/slices/designControl";
-import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
 
