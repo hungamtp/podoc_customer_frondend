@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { CartDetailDTO } from "@/services/type.dto";
-import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import useDeleteCartDetail from "@/hooks/api/cart/use-delete-cartdetail";
+import useUpdateCart from "@/hooks/api/cart/use-update-cart";
 import {
   deleteCartDetail,
   updateQuantityCartDetail,
 } from "@/redux/slices/cart";
-import useDeleteCartDetail from "@/hooks/api/cart/use-delete-cartdetail";
-import useUpdateCart from "@/hooks/api/cart/use-update-cart";
-import { forEach } from "lodash";
+import { CartDetailDTO } from "@/services/type.dto";
+import { useState } from "react";
 type Props = {
   cart: CartDetailDTO;
 };

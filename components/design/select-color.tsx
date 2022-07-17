@@ -1,11 +1,10 @@
+import { setColors } from "@/redux/slices/selectedColors";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import * as React from "react";
-import { setColors } from "@/redux/slices/selectedColors";
-import { useAppDispatch } from "../hooks/reduxHook";
 import { useRouter } from "next/router";
-import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
+import * as React from "react";
+import { useAppDispatch } from "../hooks/reduxHook";
 export interface ISelectColorProps {
   colors: {
     id: string;

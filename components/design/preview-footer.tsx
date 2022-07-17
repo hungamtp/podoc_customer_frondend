@@ -1,8 +1,3 @@
-import { DesignState } from "@/models/design/designInfo";
-import { updateBlueprint } from "@/redux/slices/blueprints";
-import { updateDesignInfos } from "@/redux/slices/design";
-import { setControlData } from "@/redux/slices/designControl";
-import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 export interface IPreviewFooterProps {
   setRenderedPosition: (position: string) => void;

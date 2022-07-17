@@ -1,4 +1,3 @@
-import useProductDetail from "@/hooks/api/use-product-detail";
 import { DesignState } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { setControlData } from "@/redux/slices/designControl";

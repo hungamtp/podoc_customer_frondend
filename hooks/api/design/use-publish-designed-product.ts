@@ -1,6 +1,5 @@
 import { ErrorHttpResponse } from "@/models/error_http_response.interface";
 import { pulishUnpublishDesign } from "@/services/design";
-import { DesignedProductDto } from "@/services/design/dto";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "react-query";
