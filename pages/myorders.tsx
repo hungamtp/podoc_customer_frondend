@@ -66,7 +66,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
                         aria-haspopup="true"
                         aria-expanded="false"
                       >
-                        Mua
+                        Thanh Toán
                       </button>
 
                       <div
