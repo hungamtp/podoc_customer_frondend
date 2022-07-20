@@ -26,15 +26,15 @@ export default function MyDesign({}: Props) {
                 <tr>
                   <th
                     className="border-bottom text-start py-3"
-                    style={{ minWidth: "300px" }}
+                    style={{ minWidth: "150px" }}
                   >
                     Thiết kế
                   </th>
                   <th
                     className="border-bottom text-center py-3"
-                    style={{ minWidth: "160px" }}
+                    style={{ minWidth: "100px" }}
                   >
-                    Giá
+                    Giá(VND)
                   </th>
                   <th
                     className="border-bottom text-center py-3"
@@ -44,7 +44,7 @@ export default function MyDesign({}: Props) {
                   </th>
                   <th
                     className="border-bottom text-center py-3"
-                    style={{ minWidth: "160px" }}
+                    style={{ minWidth: "50px" }}
                   >
                     Đặt hàng
                   </th>
