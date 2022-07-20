@@ -50,6 +50,7 @@ export interface OrderDetailDto {
   color: string;
   size: string;
   quantity: string;
+  date : string;
 }
 
 export interface MyOrdersDto {

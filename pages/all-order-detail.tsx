@@ -25,13 +25,19 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                 Hình ảnh
               </th>
               <th scope="col" className="border-bottom">
-                Tổng giá
+                Size
+              </th>
+              <th scope="col" className="border-bottom">
+                Màu
+              </th>
+              <th scope="col" className="border-bottom">
+                Ngày
+              </th>
+              <th scope="col" className="border-bottom">
+                Tổng giá(VND)
               </th>
               <th scope="col" className="border-bottom">
                 Số lượng
-              </th>
-              <th scope="col" className="border-bottom">
-                Status
               </th>
             </tr>
           </thead>
@@ -49,9 +55,12 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       height={70}
                     />
                   </td>
-                  <td>{numberWithCommas(order.price)} VND</td>
-                  <td> {order.quantity} sản phấm</td>
-                  <td className="text-success">đã thanh toán</td>
+                  <td>{order.size}</td>
+                  <td>{order.color}</td>
+                  <td>{order.date}</td>
+                  <td>{numberWithCommas(order.price)}</td>
+                  <td> {order.quantity}</td>
+                  
                 </tr>
               ))}
           </tbody>

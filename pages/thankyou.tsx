@@ -30,6 +30,7 @@ export default function ThankYou({}: Props) {
     );
   }
   if (param["apptransid"]) {
+    console.log(param["apptransid"])
     const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
       param["apptransid"]
     );
