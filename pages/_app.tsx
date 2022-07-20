@@ -10,9 +10,24 @@ import { Provider } from "react-redux";
 import "../styles/globals.css";
 import "../styles/global.scss";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? EmptyLayout;
   const queryClient = new QueryClient();
+  const router = useRouter();
+
+  useEffect(() => storePathValues, [router.asPath]);
+
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage;
+    if (!storage) return;
+    // Set the previous path as the value of the current path.
+    const prevPath = storage.getItem("currentPath") || "";
+    storage.setItem("prevPath", prevPath);
+    // Set the current path value by looking at the browser's location object.
+    storage.setItem("currentPath", globalThis.location.pathname);
+  }
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
