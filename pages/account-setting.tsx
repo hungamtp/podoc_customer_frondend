@@ -484,8 +484,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               <div className="mb-3">
                                 <div className="form-icon position-relative">
                                   <button
-                                    onClick={() => setIsChangePassword(true)}
+                                    onClick={() => verifyEmail()}
                                     className=" btn btn-primary "
+                                    type="button"
                                   >
                                     Xác nhận email
                                   </button>
