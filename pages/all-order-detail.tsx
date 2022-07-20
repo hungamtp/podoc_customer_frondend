@@ -18,11 +18,11 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
         <table className="table mb-0 table-center table-nowrap">
           <thead>
             <tr>
-              <th scope="col" className="border-bottom">
-                Tên thiết kế
+            <th scope="col" className="border-bottom">
+                Hình ảnh
               </th>
               <th scope="col" className="border-bottom">
-                Hình ảnh
+                Thiết kế
               </th>
               <th scope="col" className="border-bottom">
                 Size
@@ -33,10 +33,10 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               <th scope="col" className="border-bottom">
                 Ngày
               </th>
-              <th scope="col" className="border-bottom">
+              <th scope="col" className="border-bottom" style={{ minWidth: "20px" }}>
                 Tổng giá(VND)
               </th>
-              <th scope="col" className="border-bottom">
+              <th scope="col" className="border-bottom"  style={{ minWidth: "20px" }}>
                 Số lượng
               </th>
             </tr>
@@ -46,7 +46,6 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               allOrdersResponse &&
               allOrdersResponse.data.map((order) => (
                 <tr key={order.id}>
-                  <th scope="row">{order.designName}</th>
                   <td>
                     <img
                       className="border-secondary"
@@ -55,6 +54,17 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       height={70}
                     />
                   </td>
+                  <th  >
+                    <ul style={{listStyleType:"none"}}>
+                      <li>Tên : {order.designName}</li>
+                      <li>Nhà in : {order.provider}</li>
+                      <li>
+                        <button className="btn-success me-2">Đánh giá</button>
+                        <button className="btn-success">Mua lại</button>
+                      </li>
+                    </ul>
+                    
+                    </th>
                   <td>{order.size}</td>
                   <td>{order.color}</td>
                   <td>{order.date}</td>

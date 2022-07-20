@@ -50,6 +50,7 @@ export interface OrderDetailDto {
   color: string;
   size: string;
   quantity: string;
+  provider: string;
   date : string;
 }
 
