@@ -59,9 +59,11 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const { data: responseAccount, isLoading: isLoadingAccount } =
     useGetAccountById(credentialId);
   const { mutate: verifyEmail } = useVerifyEmail();
-  const [isEdit, setIsEdit] = React.useState(true);
+  const [isEdit, setIsEdit] = React.useState(false);
+  const [isChangePassword, setIsChangePassword] = React.useState(false);
   const { mutate: updateProfile } = useUpdateProfile();
   const dispatch = useAppDispatch();
+
   const { data: responseCart, isLoading: isCartLoading } = UseCart();
   const router = useRouter();
   const [filter, setFilter] = React.useState<Filter>({
@@ -76,9 +78,19 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
   const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
     useAllOrderDetail(filterAllOrder);
+
   React.useEffect(() => {
     if (responseCart) dispatch(setCart(responseCart));
   }, [responseCart]);
+
+  React.useEffect(() => {
+    const storage = globalThis?.sessionStorage;
+    const prev = storage.getItem("prevPath");
+    console.log(prev, "prev");
+    if (prev?.includes("/design")) {
+      console.log("aduuu");
+    }
+  }, []);
 
   const logoutFunc = () => {
     dispatch(setCart([]));
@@ -109,9 +121,6 @@ export default function AccountSetting(props: IAccountSettingProps) {
     resolver: yupResolver(schema),
   });
 
-  const handleIsEdit = () => {
-    setIsEdit(!isEdit);
-  };
   React.useEffect(() => {
     reset(responseAccount?.data);
   }, [responseAccount]);
@@ -128,7 +137,11 @@ export default function AccountSetting(props: IAccountSettingProps) {
       email: data.email,
     };
     updateProfile(tmpData);
-    setIsEdit(true);
+    setIsEdit(false);
+  };
+
+  const closeChangePassword = () => {
+    setIsChangePassword(false);
   };
 
   return (
@@ -397,7 +410,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     aria-labelledby="account-details"
                   >
                     {!isLoadingAccount && responseAccount && (
-                      <form onSubmit={handleSubmit(onSubmit)}>
+                      <form>
                         <div className="row">
                           <div className="col-md-8">
                             <div className="mb-3">
@@ -408,7 +421,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   id="first-name"
                                   type="text"
                                   className="form-control ps-5"
-                                  disabled={isEdit}
+                                  disabled={!isEdit}
                                   defaultValue={
                                     responseAccount.data.userLastName
                                   }
@@ -427,7 +440,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   id="last-name"
                                   type="text"
                                   className="form-control ps-5"
-                                  disabled={isEdit}
+                                  disabled={!isEdit}
                                   defaultValue={
                                     responseAccount.data.userFirstName
                                   }
@@ -452,14 +465,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                 />
                                 {responseAccount.data.mailVerified ===
                                   false && (
-                                  <i className="bi bi-x-circle-fill icon-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
+                                  <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                                 )}
                                 {responseAccount.data.mailVerified === true && (
                                   <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                                 )}
                               </div>
                               {responseAccount.data.mailVerified === false && (
-                                <p className="ms-1 icon-warning">
+                                <p className="ms-1 text-warning">
                                   Email chưa được xác nhận
                                 </p>
                               )}
@@ -471,7 +484,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               <div className="mb-3">
                                 <div className="form-icon position-relative">
                                   <button
-                                    onClick={() => verifyEmail()}
+                                    onClick={() => setIsChangePassword(true)}
                                     className=" btn btn-primary "
                                   >
                                     Xác nhận email
@@ -480,6 +493,39 @@ export default function AccountSetting(props: IAccountSettingProps) {
                               </div>
                             </div>
                           )}
+
+                          <label className="form-label ms-1 ">Mật khẩu</label>
+                          <div className="col-md-5">
+                            <div className="mb-3">
+                              <div className="form-icon position-relative">
+                                <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
+                                <input
+                                  id="password"
+                                  type="password"
+                                  disabled
+                                  className="form-control ps-5"
+                                  defaultValue="matkhaucuahientai"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {/*end col*/}
+
+                          <div className="col-md-4">
+                            <div className="mb-3">
+                              <div className="form-icon position-relative">
+                                <button
+                                  onClick={() => {
+                                    setIsChangePassword(true);
+                                  }}
+                                  className=" btn btn-primary "
+                                  type="button"
+                                >
+                                  Đổi mật khẩu
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                           <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">
@@ -490,7 +536,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                 <input
                                   id="display-name"
                                   type="text"
-                                  disabled={isEdit}
+                                  disabled={!isEdit}
                                   className="form-control ps-5"
                                   defaultValue={responseAccount.data.phone}
                                   {...register("phone")}
@@ -506,7 +552,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                 <textarea
                                   id="display-name"
                                   rows={3}
-                                  disabled={isEdit}
+                                  disabled={!isEdit}
                                   className="form-control ps-5"
                                   defaultValue={responseAccount.data.address}
                                   {...register("address")}
@@ -516,19 +562,36 @@ export default function AccountSetting(props: IAccountSettingProps) {
                           </div>
                           {/*end col*/}
                           <div className="col-lg-12 mt-2 mb-0">
-                            <button
-                              className="btn btn-primary me-2"
-                              type="submit"
-                            >
-                              Lưu thay đổi
-                            </button>
-                            <button
-                              onClick={handleIsEdit}
-                              className="btn btn-secondary"
-                              type="button"
-                            >
-                              Edit
-                            </button>
+                            {isEdit && (
+                              <>
+                                <button
+                                  onClick={handleSubmit(onSubmit)}
+                                  className="btn btn-primary me-2"
+                                  type="submit"
+                                >
+                                  Lưu thay đổi
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsEdit(false);
+                                  }}
+                                  style={{ width: "140px" }}
+                                  className="btn btn-primary me-2"
+                                >
+                                  Hủy
+                                </button>
+                              </>
+                            )}
+                            {!isEdit && (
+                              <button
+                                onClick={() => {
+                                  setIsEdit(true);
+                                }}
+                                className="btn btn-secondary"
+                              >
+                                Chỉnh sửa
+                              </button>
+                            )}
                           </div>
 
                           {/*end col*/}
@@ -536,8 +599,19 @@ export default function AccountSetting(props: IAccountSettingProps) {
                         {/*end row*/}
                       </form>
                     )}
-                    <h5 className="mt-4">Đổi mật khẩu:</h5>
-                    <ChangePassword id={credentialId} />
+                    {
+                      <div className="">
+                        {isChangePassword && (
+                          <>
+                            <hr />
+                            <ChangePassword
+                              id={credentialId}
+                              closeChangePassword={closeChangePassword}
+                            />
+                          </>
+                        )}
+                      </div>
+                    }
                   </div>
                   {/*end teb pane*/}
                 </div>

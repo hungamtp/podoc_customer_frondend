@@ -81,10 +81,10 @@ export default function DesignedProductDetail() {
   };
 
   const updateQuantity = (newQuantity: number) => {
-    const indentity = selectedColor + selectedSize;
+    const indentity = selectedColor + selectedSize + designedProduct?.id;
     const cartDetailExisted = carts.some((cart) => {
       setCart(cart);
-      return `${cart.color + cart.size}` === indentity;
+      return `${cart.color + cart.size + cart.designedProductId}` === indentity;
     });
     if (!selectedColor || !selectedSize) setIsError(true);
     else {

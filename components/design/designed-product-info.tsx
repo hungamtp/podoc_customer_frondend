@@ -61,6 +61,7 @@ export default function CreateDesignedProductForm(
   const selectedColors = useAppSelector((state) => state.selectedColors);
   const router = useRouter();
   const { productId, factoryId } = router.query;
+  const [isEmptyColor, setIsEmptyColor] = React.useState(false);
 
   const defaultValues: FormAddDesignInfo = {
     name: "",
@@ -71,7 +72,7 @@ export default function CreateDesignedProductForm(
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<FormAddDesignInfo>({
     defaultValues,
     resolver: yupResolver(schema),
@@ -108,7 +109,7 @@ export default function CreateDesignedProductForm(
           imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
             if (
-              (blueprint.designInfos && blueprint.designInfos[0].key === "") ||
+              (blueprint.designInfos && blueprint.designInfos.length > 0) ||
               !blueprint.designInfos
             )
               return { ...blueprint, designInfos: [] };
@@ -141,8 +142,12 @@ export default function CreateDesignedProductForm(
   } = useCreateDesignedProduct(handleCloseDialog);
 
   const onSubmit: SubmitHandler<FormAddDesignInfo> = (data) => {
-    setIsLoading(true);
-    onUploadImage(data);
+    if (selectedColors.length === 0) {
+      setIsEmptyColor(true);
+    } else {
+      setIsLoading(true);
+      onUploadImage(data);
+    }
   };
 
   return (
@@ -152,7 +157,12 @@ export default function CreateDesignedProductForm(
           <div className="card-body">
             <p className="h2 text-center pb-4">Lưu lại thiết kế</p>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              onChange={() => {
+                setIsEmptyColor(false);
+              }}
+            >
               <div className="row mb-3">
                 <label htmlFor="basic-icon-default-fullname">
                   Tên thiết kế
@@ -221,6 +231,9 @@ export default function CreateDesignedProductForm(
                 </div>
               </div>
               <SelectColor colors={loadedColors} />
+              {isEmptyColor && (
+                <p className="text-danger">Vui lòng chọn màu áo để in</p>
+              )}
 
               <div className="d-flex justify-content-center pt-4">
                 <div className="col-sm-10 d-flex justify-content-around">

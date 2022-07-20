@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 export interface IChangePasswordProps {
   id: string;
+  closeChangePassword: () => void;
 }
 
 const schema = yup.object().shape({
@@ -25,7 +26,7 @@ const schema = yup.object().shape({
 });
 
 export default function ChangePassword(props: IChangePasswordProps) {
-  const { id } = props;
+  const { id, closeChangePassword } = props;
   const { mutate: updatePassword } = useUpdatePassword(id);
   const defaultValues: UpdatePasswordDto = {
     oldPassword: "",
@@ -48,6 +49,7 @@ export default function ChangePassword(props: IChangePasswordProps) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <p className="h5">Đổi mật khẩu:</p>
         <div className="row mt-3">
           <div className="col-lg-12">
             <div className="mb-3">
@@ -107,8 +109,23 @@ export default function ChangePassword(props: IChangePasswordProps) {
             </div>
           </div>
           {/*end col*/}
-          <div className="col-lg-12 mt-2 mb-0">
-            <button className="btn btn-primary">Lưu mật khẩu</button>
+          <div className="d-flex justify-content-center">
+            <div className="col-lg-6 mt-2 mb-0 d-flex justify-content-evenly">
+              <button
+                className="btn btn-success "
+                type="submit"
+                onClick={closeChangePassword}
+              >
+                Lưu mật khẩu
+              </button>
+              <button
+                className="btn btn-secondary"
+                style={{ width: "140px" }}
+                onClick={closeChangePassword}
+              >
+                Hủy
+              </button>
+            </div>
           </div>
           {/*end col*/}
         </div>
