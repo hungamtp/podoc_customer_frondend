@@ -49,7 +49,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   <th scope="row">{order.designName}</th>
                   <td>
                     <img
-                      className="border border-secondary"
+                      className="border-secondary"
                       src={order.designImage}
                       width={100}
                       height={70}

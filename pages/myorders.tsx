@@ -25,6 +25,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
   };
   return (
     <>
+    {myOrdersResponse.data.length != 0 ?
       <div className="table-responsive bg-white shadow rounded">
         <table className="table mb-0 table-center table-nowrap">
           <thead>
@@ -105,6 +106,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
           </tbody>
         </table>
       </div>
+       :<h4 style={{display :"flex"  , justifyContent :"space-around"}}>Chưa có đơn đặt hàng</h4>}
     </>
   );
 }
