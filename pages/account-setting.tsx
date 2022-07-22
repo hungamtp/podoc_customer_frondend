@@ -21,6 +21,7 @@ import AllOrderDetail from "./all-order-detail";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 import useVerifyEmail from "@/hooks/api/account/use-verify-email";
 import MyDesign from "./mydesign";
+import Link from "next/link";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -310,20 +311,21 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   </li>
                   {/*end nav item*/}
                   <li className="nav-item mt-2">
-                    <a
-                      className="nav-link rounded"
-                      role="tab"
-                      href="\"
-                      onClick={logoutFunc}
-                      aria-selected="false"
-                    >
-                      <div className="text-start py-1 px-3">
-                        <h6 className="mb-0">
-                          <i className="uil uil-sign-out-alt h5 align-middle me-2 mb-0" />{" "}
-                          Đăng xuất
-                        </h6>
-                      </div>
-                    </a>
+                    <Link href="/home">
+                      <a
+                        className="nav-link rounded"
+                        role="tab"
+                        onClick={logoutFunc}
+                        aria-selected="false"
+                      >
+                        <div className="text-start py-1 px-3">
+                          <h6 className="mb-0">
+                            <i className="uil uil-sign-out-alt h5 align-middle me-2 mb-0" />{" "}
+                            Đăng xuất
+                          </h6>
+                        </div>
+                      </a>
+                    </Link>
                     {/*end nav link*/}
                   </li>
                   {/*end nav item*/}

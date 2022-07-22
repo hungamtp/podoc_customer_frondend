@@ -68,7 +68,7 @@ export default function HomePage({}: Props) {
                           lượng đơn hoặc số lượng nhỏ..
                         </p>
                         <div className="mt-4">
-                          <Link href="\designs">
+                          <Link href="/designs">
                             <a className="btn btn-soft-primary">Mua ngay</a>
                           </Link>
                         </div>
@@ -102,7 +102,7 @@ export default function HomePage({}: Props) {
                           thiết kế đó.
                         </p>
                         <div className="mt-4">
-                          <Link href="\designs">
+                          <Link href="/designs">
                             <a className="btn btn-soft-primary">Mua ngay</a>
                           </Link>
                         </div>
@@ -135,7 +135,7 @@ export default function HomePage({}: Props) {
                           vào sản phẩm của bạn.
                         </p>
                         <div className="mt-4">
-                          <Link href="\designs">
+                          <Link href="/designs">
                             <a className="btn btn-soft-primary">Mua ngay</a>
                           </Link>
                         </div>
