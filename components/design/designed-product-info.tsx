@@ -108,8 +108,9 @@ export default function CreateDesignedProductForm(
           const color = url.split("%2F")[1].split("-")[2].split("?")[0];
           imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
+            console.log(blueprint, "blueprint");
             if (
-              (blueprint.designInfos && blueprint.designInfos.length > 0) ||
+              (blueprint.designInfos && blueprint.designInfos.length === 0) ||
               !blueprint.designInfos
             )
               return { ...blueprint, designInfos: [] };
@@ -126,7 +127,6 @@ export default function CreateDesignedProductForm(
               factoryId: factoryId,
               productId: productId,
             } as CreateDesignedProduct;
-            console.log(submitData, "submitData");
 
             addDesignedProduct(submitData);
           }
