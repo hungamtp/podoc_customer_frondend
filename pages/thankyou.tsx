@@ -24,16 +24,18 @@ export default function ThankYou({}: Props) {
   const router = useRouter();
   const param = router.query;
   if (param["orderId"]) {
-    console.log(param["orderId"])
-    const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["orderId"]
-    );
+    if(param["resultCode"] == "0"){
+      const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
+        param["orderId"]
+      );
+    }
   }
   if (param["apptransid"]) {
-    console.log(param["apptransid"])
-    const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["apptransid"]
-    );
+    if(param["status"] == "1" ){
+      const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
+        param["apptransid"]
+      );
+    }
   }
 
   return (
