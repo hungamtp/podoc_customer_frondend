@@ -59,8 +59,29 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       <li>Tên : {order.designName}</li>
                       <li>Nhà in : {order.provider}</li>
                       <li>
-                        <button className="btn-success me-2">Đánh giá</button>
-                        <button className="btn-success">Mua lại</button>
+                      <button type="button" className="btn btn-success me-2" data-toggle="modal" data-target="#exampleModal">
+                        Đánh giá
+                      </button>
+                      <div className="modal fade mt-100" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div className="modal-body">
+                                ...
+                              </div>
+                              <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button className="btn-success btn">Mua lại</button>
                       </li>
                     </ul>
                     
