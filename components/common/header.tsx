@@ -94,7 +94,7 @@ export default function Header({}: Props) {
                 >
                   <div className="pb-4">
                     {cart.length != 0 && cart &&
-                      cart?.slice(0, 3).map((cart) => {
+                      cart.slice(0, 3).map((cart) => {
                         return (
                           <a
                             key={cart.id}
