@@ -39,6 +39,7 @@ a {
 .hoverButton {
   cursor: pointer;
   color: black;
+  text-align: center;
 }
 
 

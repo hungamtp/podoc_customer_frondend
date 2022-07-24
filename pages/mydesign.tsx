@@ -20,7 +20,7 @@ export default function MyDesign({}: Props) {
     <>
       <div className="col-12">
         {response && response.content.length > 0 && (
-          <div className="table-responsive bg-white shadow rounded">
+          <div className="table bg-white shadow rounded">
             <table className="table mb-0 table-center">
               <thead>
                 <tr>
@@ -50,7 +50,7 @@ export default function MyDesign({}: Props) {
                   </th>
                   <th
                     className="border-bottom text-end py-3 pe-4"
-                    style={{ minWidth: "160px" }}
+                    style={{ minWidth: "50px" }}
                   ></th>
                 </tr>
               </thead>
@@ -77,7 +77,7 @@ export default function MyDesign({}: Props) {
         )}
         {!isLoading && response?.content.length === 0 && (
           <div className="d-flex justify-content-center">
-            <p className="h5">
+            <p className="h4">
               Bạn chưa có thiết kế nào, hãy{" "}
               <Link href="/raw-products">
                 <a className="text-success">nhấn vào đây</a>
