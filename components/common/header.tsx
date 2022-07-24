@@ -14,11 +14,7 @@ type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
-  const { data: responseCart, isLoading: isCartLoading } = UseCart();
 
-  useEffect(() => {
-    if (responseCart) dispatch(setCart(responseCart));
-  }, [responseCart]);
 
   const cart = useAppSelector((state) => state.carts);
   const auth = useAppSelector((state) => state.auth);

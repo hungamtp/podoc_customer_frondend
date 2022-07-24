@@ -14,6 +14,16 @@ export default function HomePage({}: Props) {
   const { data: getBestSellerResponse, isLoading: isLoadingBestSeller } =
     useGetBestSeller();
   const dispatch = useAppDispatch();
+
+  const sizeDefault = ["XS" , "S" , "M" , "L" , "XL" , "XXL" , "XXXL" ];
+  const selectdSize = ["XS" , "XXL" , "XXXL" , "M" ];
+  var newSize =[];
+  newSize = sizeDefault.filter((size) =>{
+    if(selectdSize.includes(size)){
+      return true;
+    }
+  })
+
   return (
     <>
       <section className="home-slider position-relative">
