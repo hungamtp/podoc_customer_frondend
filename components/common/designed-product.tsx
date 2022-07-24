@@ -3,6 +3,7 @@ import React from "react";
 import { Best4DesignedProduct, ProductHomePage } from "@/services/type.dto";
 import { MouseEventHandler } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 type Props = {
   product: ProductHomePage;
 };
@@ -10,7 +11,7 @@ type Props = {
 export default function DesignedProduct({ product }: Props) {
   const router = useRouter();
   const goToProfile = (userId: string) => {
-    console.log("first");
+    router.push(`others-design?userId=${userId}`);
   };
   const getRates = (rate: number): number[] => {
     let result = [];
@@ -48,7 +49,14 @@ export default function DesignedProduct({ product }: Props) {
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
           <a>
-            <img src={product.image} className="img-fluid" alt="productImage" />
+          <Image
+              src={product.image}
+              className="img-fluid"
+              width={1000}
+              height={1000}
+              objectFit="cover"
+              alt="productImage"
+            />
           </a>
           {/* <a className="overlay-work">
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />

@@ -13,6 +13,7 @@ import {
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
 import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { string } from "yup";
@@ -158,7 +159,7 @@ export default function DesignedProductDetail() {
     return result;
   };
   const goToProfile = (userId: string) => {
-    console.log(userId);
+    router.replace(`/others-design?userId=${userId}`);
   };
 
   return (
@@ -175,11 +176,48 @@ export default function DesignedProductDetail() {
                     <div className="col-md-5">
                       <div className="tiny-single-item">
                         <div className="tiny-slide">
-                          <img
-                            src={designedProduct.imagePreviews[0].image}
-                            className="img-fluid rounded"
-                            alt="productImage"
-                          />
+                          <div
+                            id="carouselExampleControls"
+                            className="carousel slide"
+                            data-ride="carousel"
+                          >
+                            <div className="carousel-inner">
+                              {designedProduct.imagePreviews.map((image,index) => {
+                                return (
+                                  <div
+                                    className={`carousel-item ${index==0&&'active'}`}
+                                    key={image.position}
+                                  >
+                                    {" "}
+                                    <div className="d-block"><Image
+                                      src={image.image}
+                                      width={1000}
+                                      height={1000}
+                                      objectFit="cover"
+                                      alt="productImage"
+                                    /></div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <a
+                              className="carousel-control-prev h-full w-half"
+                              href="#carouselExampleControls"
+                              role="button"
+                              data-slide="prev"
+                            >
+            
+                              
+                            </a>
+                            <a
+                              className="carousel-control-next h-full w-half"
+                              href="#carouselExampleControls"
+                              role="button"
+                              data-slide="next"
+                            >
+
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>

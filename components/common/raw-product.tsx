@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch } from "../hooks/reduxHook";
 import { setCurrentProductId } from "@/redux/slices/product";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 type Props = {
   product: ProductHomePageDTO;
 };
@@ -43,14 +44,14 @@ export default function RawProduct({ product }: Props) {
           })}
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
-          <a>
-            <img
+        <Image
               src={product.productImages[0].image}
-              style={{ height: "100%", width: "100%", objectFit: "cover" }}
-              height="450px"
-              alt=""
+              className="img-fluid"
+              width={1000}
+              height={1000}
+              objectFit="cover"
+              alt="productImage"
             />
-          </a>
           <a className="overlay-work">
             {product.productImages[0].image ? (
               <img
