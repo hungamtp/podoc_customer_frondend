@@ -128,15 +128,21 @@ export default function DesignedProductDetail() {
 
   const updateCartDetailQuantity = (newQuantity: number) => {
     if (cart) {
-      dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
-      setQuantity(newQuantity);
       const newCart: CartDetailDTO[] = [];
+      console.log(newQuantity, "newQuantity");
+      console.log(cart.quantity, "newQuantity");
+      const updatedQuantity = newQuantity + cart.quantity;
+      console.log(updatedQuantity, "newQuantity");
       carts.forEach((cartDetail) => {
         if (cartDetail.id != cart.id) {
           newCart.push(cartDetail);
         }
       });
-      newCart.push({ ...cart, quantity: newQuantity });
+      newCart.push({ ...cart, quantity: updatedQuantity });
+      setCart({ ...cart, quantity: updatedQuantity });
+      dispatch(
+        updateQuantityCartDetail({ ...cart, quantity: updatedQuantity })
+      );
       dispatch(setCartRedux(newCart));
       updateCart(newCart);
     }
@@ -182,41 +188,42 @@ export default function DesignedProductDetail() {
                             data-ride="carousel"
                           >
                             <div className="carousel-inner">
-                              {designedProduct.imagePreviews.map((image,index) => {
-                                return (
-                                  <div
-                                    className={`carousel-item ${index==0&&'active'}`}
-                                    key={image.position}
-                                  >
-                                    {" "}
-                                    <div className="d-block"><Image
-                                      src={image.image}
-                                      width={1000}
-                                      height={1000}
-                                      objectFit="cover"
-                                      alt="productImage"
-                                    /></div>
-                                  </div>
-                                );
-                              })}
+                              {designedProduct.imagePreviews.map(
+                                (image, index) => {
+                                  return (
+                                    <div
+                                      className={`carousel-item ${
+                                        index == 0 && "active"
+                                      }`}
+                                      key={image.position}
+                                    >
+                                      {" "}
+                                      <div className="d-block">
+                                        <Image
+                                          src={image.image}
+                                          width={1000}
+                                          height={1000}
+                                          objectFit="cover"
+                                          alt="productImage"
+                                        />
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              )}
                             </div>
                             <a
                               className="carousel-control-prev h-full w-half"
                               href="#carouselExampleControls"
                               role="button"
                               data-slide="prev"
-                            >
-            
-                              
-                            </a>
+                            ></a>
                             <a
                               className="carousel-control-next h-full w-half"
                               href="#carouselExampleControls"
                               role="button"
                               data-slide="next"
-                            >
-
-                            </a>
+                            ></a>
                           </div>
                         </div>
                       </div>

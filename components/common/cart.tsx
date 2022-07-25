@@ -7,6 +7,8 @@ import {
   updateQuantityCartDetail,
 } from "@/redux/slices/cart";
 import { CartDetailDTO } from "@/services/type.dto";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 import { useState } from "react";
 type Props = {
   cart: CartDetailDTO;
@@ -52,19 +54,22 @@ export default function Cart({ cart }: Props) {
         <i className="bi bi-trash"></i>
       </td>
       <td>
-        <div className="d-flex align-items-center">
-          <img
+        <div className="d-flex align-items-center ">
+          <Image
             src={cart.designedImage}
-            className="img-fluid avatar avatar-small rounded shadow"
-            style={{ height: "auto" }}
-            alt="product"
+            className="img-fluid"
+            width={1000}
+            height={1000}
+            objectFit="cover"
+            alt="productImage"
           />
+
           <h6 className="mb-0 ms-3">{cart.designedProductName}</h6>
         </div>
       </td>
       <td className="text-center mb-0 ms-3">{cart.size}</td>
       <td className="text-center">{cart.color}</td>
-      <td className="text-center"> {cart.price}</td>
+      <td className="text-center"> {numberWithCommas(cart.price)}</td>
       <td className="text-center qty-icons">
         <button
           className={`btn btn-icon btn-soft-primary minus ${
@@ -75,7 +80,7 @@ export default function Cart({ cart }: Props) {
           -
         </button>
         <input
-          className="input-quantity"
+          className="input-quantity pb-2"
           type="number"
           min={1}
           name="quantity"
@@ -102,7 +107,9 @@ export default function Cart({ cart }: Props) {
         </div>
       </td>
       {cart.publish ? (
-        <td className="text-end fw-bold pe-4">{cart.price * cart.quantity}</td>
+        <td className="text-end fw-bold pe-4">
+          {numberWithCommas(cart.price * cart.quantity)}
+        </td>
       ) : (
         <td style={{ width: "100px", color: "red" }}>
           Sản phẩm ngừng kinh doanh

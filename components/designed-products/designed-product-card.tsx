@@ -9,6 +9,10 @@ type Props = {
 };
 
 export default function DesignedProductCard({ product }: Props) {
+  let renderedImage = product.imagePreviews[0];
+  product.imagePreviews.forEach((image) => {
+    if (image.position === "front") renderedImage = image;
+  });
   const router = useRouter();
   const goToProfile = (userId: string) => {
     router.push(`others-design?userId=${userId}`);
@@ -33,8 +37,6 @@ export default function DesignedProductCard({ product }: Props) {
     <div
       className="col-lg-4 col-md-6 col-12 mt-4 pt-2"
       // onClick={() => router.push(`/design-detail?id=${product.id}`)}
-      
-      
     >
       <div className="card shop-list border-0 position-relative">
         <ul className="label list-unstyled mb-0">
@@ -49,20 +51,22 @@ export default function DesignedProductCard({ product }: Props) {
               );
             })}
         </ul>
-        <div className="shop-image position-relative overflow-hidden rounded shadow " onClick={() => router.push(`/designs/${product.id}`)} >
-            <Image
-              src={product.imagePreviews[0].image}
-              className="img-fluid"
-              width={1000}
-              height={1000}
-              objectFit="cover"
-              alt="productImage"
-            />
+        <div
+          className="shop-image position-relative overflow-hidden rounded shadow "
+          onClick={() => router.push(`/designs/${product.id}`)}
+        >
+          <Image
+            src={renderedImage.image}
+            className="img-fluid"
+            width={1000}
+            height={1000}
+            objectFit="cover"
+            alt="productImage"
+          />
           {/* <a className="overlay-work">
             <img src="asset/images/shop/product/s-13.jpg" className="img-fluid" alt="productImage" />
           </a> */}
           <ul className="list-unstyled shop-icons">
-
             <li className="mt-2">
               <a className="btn btn-icon btn-pills btn-soft-primary">
                 <svg
