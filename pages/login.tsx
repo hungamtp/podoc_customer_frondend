@@ -74,7 +74,9 @@ export default function Login({ data }: Props) {
           else router.back();
         },
         onError: (error: any) => {
-          if (error.response) setErrorLogin(error.response?.data.errorMessage);
+          // if (error.response) setErrorLogin(error.response?.data.errorMessage);
+          if (error.response)
+            setErrorLogin("Thông tin đăng nhập không chính xác");
         },
       }
     );

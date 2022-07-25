@@ -397,7 +397,7 @@ export default function Checkout({}: Props) {
                   <h4 className="mb-3 mt-4 pt-4 border-top">
                     Phương thức thanh toán
                   </h4>
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex ">
                     <div className="checkout-button-momo w-60 mt-1">
                       <div className="checkout-selector">
                         <input
@@ -420,7 +420,7 @@ export default function Checkout({}: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex ">
                     <div className="checkout-button-zalo my-3">
                       <div className="checkout-selector">
                         <input
@@ -430,7 +430,7 @@ export default function Checkout({}: Props) {
                           className="btn btn-m2 btn-checkout btn-logo-inline"
                         />
                       </div>
-                      <div className="content">
+                      <div className="checkout-content">
                         <span className="checkout-title">
                           Thanh toán bằng Zalo
                         </span>
@@ -445,7 +445,7 @@ export default function Checkout({}: Props) {
                       </div>
                     </div>
                   </div>
-                  <div className="w-100 d-flex justify-content-center">
+                  <div className="w-100 d-flex ">
                     <button className="w-50 btn btn-primary mt-1" type="submit">
                       Tiếp tục thanh toán
                     </button>
