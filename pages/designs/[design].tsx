@@ -213,17 +213,33 @@ export default function DesignedProductDetail() {
                               )}
                             </div>
                             <a
-                              className="carousel-control-prev h-full w-half"
+                              className="carousel-control-prev h-full "
                               href="#carouselExampleControls"
                               role="button"
                               data-slide="prev"
-                            ></a>
+                            >
+                              <div>
+                                <span
+                                  className="bi bi-caret-left text-secondary h4"
+                                  aria-hidden="true"
+                                />
+                                <span className="sr-only">Previous</span>
+                              </div>
+                            </a>
                             <a
-                              className="carousel-control-next h-full w-half"
+                              className="carousel-control-next h-full "
                               href="#carouselExampleControls"
                               role="button"
                               data-slide="next"
-                            ></a>
+                            >
+                              <div>
+                                <span
+                                  className="bi bi-caret-right text-secondary h4"
+                                  aria-hidden="true"
+                                />
+                                <span className="sr-only">Next</span>
+                              </div>
+                            </a>
                           </div>
                         </div>
                       </div>

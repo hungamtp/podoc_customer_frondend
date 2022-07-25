@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-product";
 import { SimpleDesignProduct } from "@/services/design/dto";
+import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -11,22 +12,28 @@ type Props = {
 
 export default function Design({ product }: Props) {
   const { mutate, isLoading } = usePublishDesignedProduct();
+  let renderImage = product.imagePreviews[0];
+  product.imagePreviews.forEach((image) => {
+    if (image.position === "front") renderImage = image;
+  });
   const router = useRouter();
 
   return (
     <tr className="">
       <td>
-        <div className="d-flex align-items-center">
-          <Image
-            src={product.imagePreviews[0].image}
-            className="img-fluid"
-            width={100}
-            height={100}
-            objectFit="cover"
-            alt="productImage"
-          />
-          <div>
-            <h6 className="mb-0 ms-3">{product.name}</h6>
+        <div className="row">
+          <div className="col-6">
+            <Image
+              src={renderImage.image}
+              className="img-fluid"
+              width={1000}
+              height={1000}
+              objectFit="cover"
+              alt="productImage"
+            />
+          </div>
+          <div className="col-6 d-flex align-items-center">
+            <h6 className="mb-0 ">{product.name}</h6>
             {/* <p
               _ngcontent-cjt-c236=""
               className="small-text mb-0 ms-3"
@@ -43,7 +50,7 @@ export default function Design({ product }: Props) {
         </div>
       </td>
       <td className="align-middle">
-        <p className="">{product.designedPrice}</p>
+        <p className="">{numberWithCommas(product.designedPrice)}</p>
       </td>
       <td className="align-middle qty-icons">
         {product.publish ? (
