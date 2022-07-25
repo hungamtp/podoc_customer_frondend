@@ -137,16 +137,17 @@ export default function PreviewCanvas({
   const auth = useAppSelector((state) => state.auth);
 
   const preview = useAppSelector((state) => state.previews);
+  const blueprintsData = useAppSelector((state) => state.blueprintsData);
 
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
   const handleOpenDialog = () => {
+    console.log(blueprintsData, "blueprintsData neee");
     if (!(auth.roleName === "USER")) router.push("/login");
     else setIsOpen(true);
   };
 
-  const blueprintsData = useAppSelector((state) => state.blueprintsData);
   const selectedColors = useAppSelector((state) => state.selectedColors);
 
   const previews = useAppSelector((state) => state.previews);
