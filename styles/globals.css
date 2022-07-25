@@ -289,12 +289,22 @@ input[type=number] {
 }
 
 
-.checkout-button {
+.checkout-button-momo {
   display: flex;
   align-items: center;
   border: 1px solid #ae2070;
   padding: 5px;
-  border-radius: 5px
+  border-radius: 5px;
+  width: 60%;
+}
+
+.checkout-button-zalo {
+  display: flex;
+  align-items: center;
+  border: 1px solid #330fd3;
+  padding: 5px;
+  border-radius: 5px;
+  width: 60%;
 }
 
 .checkout-button img {
@@ -305,6 +315,10 @@ input[type=number] {
 
 .content{
   padding-left: 15px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .content .checkout-title{
   color: #000;

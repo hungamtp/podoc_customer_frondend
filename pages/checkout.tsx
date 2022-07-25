@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { setCart } from "@/redux/slices/cart";
 import { useDispatch } from "react-redux";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 
 type Props = {};
 
@@ -396,53 +397,59 @@ export default function Checkout({}: Props) {
                   <h4 className="mb-3 mt-4 pt-4 border-top">
                     Phương thức thanh toán
                   </h4>
-                  <div className="checkout-button mt-1">
-                    <div className="checkout-selector">
-                      <input
-                        checked={paymentMethod == 0}
-                        onChange={() => setPaymentMethod(0)}
-                        type="radio"
-                        className="btn btn-m2 btn-checkout btn-logo-inline"
-                      />
-                    </div>
-                    <div
-                      className="content"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <span className="checkout-title">Thanh toán bằng</span>
-                      <img
-                        src="asset/images/momologo.svg"
-                        width="25"
-                        alt="momo"
-                      />
-                    </div>
-                  </div>
-                  <div className="checkout-button mt-1">
-                    <div className="checkout-selector">
-                      <input
-                        type="radio"
-                        checked={paymentMethod == 1}
-                        onChange={() => setPaymentMethod(1)}
-                        className="btn btn-m2 btn-checkout btn-logo-inline"
-                      />
-                    </div>
-                    <div
-                      className="content"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <span className="checkout-title">
-                        Thanh toán bằng Zalo
-                      </span>
-                      <img
-                        src="asset/images/momologo.svg"
-                        width="25"
-                        alt="momo"
-                      />
+                  <div className="d-flex justify-content-center">
+                    <div className="checkout-button-momo w-60 mt-1">
+                      <div className="checkout-selector">
+                        <input
+                          checked={paymentMethod == 0}
+                          onChange={() => setPaymentMethod(0)}
+                          type="radio"
+                          className="btn btn-m2 btn-checkout btn-logo-inline"
+                        />
+                      </div>
+                      <div className="content">
+                        <span className="checkout-title">Thanh toán bằng</span>
+                        <Image
+                          src={"/asset/images/momologo.svg"}
+                          className="img-fluid"
+                          width={50}
+                          height={50}
+                          objectFit="contain"
+                          alt="productImage"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <button className="w-100 btn btn-primary mt-1" type="submit">
-                    Tiếp tục thanh toán
-                  </button>
+                  <div className="d-flex justify-content-center">
+                    <div className="checkout-button-zalo my-3">
+                      <div className="checkout-selector">
+                        <input
+                          type="radio"
+                          checked={paymentMethod == 1}
+                          onChange={() => setPaymentMethod(1)}
+                          className="btn btn-m2 btn-checkout btn-logo-inline"
+                        />
+                      </div>
+                      <div className="content">
+                        <span className="checkout-title">
+                          Thanh toán bằng Zalo
+                        </span>
+                        <Image
+                          src={"/asset/images/zalopay.png"}
+                          className="img-fluid"
+                          width={50}
+                          height={50}
+                          objectFit="cover"
+                          alt="productImage"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-100 d-flex justify-content-center">
+                    <button className="w-50 btn btn-primary mt-1" type="submit">
+                      Tiếp tục thanh toán
+                    </button>
+                  </div>
                 </form>
               </div>
               {/*end col*/}

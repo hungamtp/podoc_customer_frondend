@@ -25,8 +25,8 @@ export default function MyDesign({}: Props) {
               <thead>
                 <tr>
                   <th
-                    className="border-bottom text-start py-3"
-                    style={{ minWidth: "150px" }}
+                    className="border-bottom text-start ps-5 py-3"
+                    style={{ minWidth: "250px", width: "300px" }}
                   >
                     Thiết kế
                   </th>
