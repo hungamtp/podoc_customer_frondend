@@ -56,6 +56,8 @@ const schema = yup.object().shape({
 });
 
 export default function AccountSetting(props: IAccountSettingProps) {
+  const storage = globalThis?.sessionStorage;
+  const prevPath = storage.getItem("prevPath");
   const credentialId = useAppSelector((state) => state.auth.userId);
   const { data: responseAccount, isLoading: isLoadingAccount } =
     useGetAccountById(credentialId);
@@ -88,7 +90,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     const storage = globalThis?.sessionStorage;
     const prev = storage.getItem("prevPath");
     console.log(prev, "prev");
-    if (prev?.includes("/design")) {
+    if (prev === "/design") {
       console.log("aduuu");
     }
   }, []);
@@ -182,7 +184,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 >
                   <li className="nav-item">
                     <a
-                      className="nav-link rounded active"
+                      className={`nav-link rounded ${
+                        !(prevPath === "/design") && "active show"
+                      }`}
                       id="dashboard"
                       data-bs-toggle="pill"
                       href="#dash"
@@ -201,7 +205,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   </li>
                   <li className="nav-item mt-2">
                     <a
-                      className="nav-link rounded"
+                      className={`nav-link rounded ${
+                        prevPath === "/design" && "active show"
+                      }`}
                       id="mydesigns-list"
                       data-bs-toggle="pill"
                       href="#mydesigns"
@@ -336,7 +342,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
               <div className="col-md-9 col-12 mt-4 pt-2">
                 <div className="tab-content" id="pills-tabContent">
                   <div
-                    className="tab-pane fade bg-white show active shadow rounded p-4"
+                    className={`tab-pane fade bg-white shadow rounded p-4 ${
+                      !(prevPath === "/design") && "active show"
+                    }`}
                     id="dash"
                     role="tabpanel"
                     aria-labelledby="dashboard"
@@ -367,7 +375,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   </div>
                   {/*end teb pane*/}
                   <div
-                    className="tab-pane fade bg-white shadow rounded p-4"
+                    className={`tab-pane fade bg-white shadow rounded p-4 ${
+                      prevPath === "/design" && "active show"
+                    }`}
                     id="mydesigns"
                     role="tabpanel"
                     aria-labelledby="order-history"

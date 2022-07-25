@@ -120,6 +120,7 @@ export default function DesignedProducts(props: IProductProps) {
                             type="text"
                             className="form-control border-0"
                             {...register("name")}
+                            placeholder="Tên sản phẩm"
                           />
                           <button
                             type="submit"
@@ -135,12 +136,11 @@ export default function DesignedProducts(props: IProductProps) {
                     <Categories handleCategoryChange={handleCategoryChange} />
 
                     {/* Top Products */}
-                    <div className="widget mt-4 pt-2">
-                      <h5 className="widget-title">Sản phẩm bán chạy</h5>
-                      <ul className="list-unstyled mt-4 mb-0">
-                        {getBestSellerResponse &&
-                          getBestSellerResponse.length !== 0 &&
-                          getBestSellerResponse.map((product) => (
+                    {getBestSellerResponse && getBestSellerResponse.length > 0 && (
+                      <div className="widget mt-4 pt-2">
+                        <h5 className="widget-title">Sản phẩm bán chạy</h5>
+                        <ul className="list-unstyled mt-4 mb-0">
+                          {getBestSellerResponse.map((product) => (
                             <li
                               className="d-flex align-items-center"
                               key={product.id}
@@ -171,8 +171,9 @@ export default function DesignedProducts(props: IProductProps) {
                               </div>
                             </li>
                           ))}
-                      </ul>
-                    </div>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
