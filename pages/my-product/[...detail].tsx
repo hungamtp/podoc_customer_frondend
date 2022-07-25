@@ -3,6 +3,7 @@ import { MainLayout } from "@/components/layouts";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { setHeaderInfo } from "@/redux/slices/headerInfo";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -52,7 +53,14 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                 if (preview.position === renderedPosition) {
                                   if (preview.color === renderedColor)
                                     return (
-                                      <img width="500rem" src={preview.image} />
+                                      <Image
+                                        src={preview.image}
+                                        className="img-fluid"
+                                        width={1000}
+                                        height={1000}
+                                        objectFit="cover"
+                                        alt="productImage"
+                                      />
                                     );
                                 }
                               })}
@@ -76,11 +84,11 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               </button>
                             </>
                           </div>
-                          <div className="col-md-6 order-md-2 order-1 mt-2 mt-sm-0 ms-5">
+                          <div className="col-md-5 order-md-2 order-1 mt-2 mt-sm-0 ms-5">
                             <div className="pb-4">
                               <p className="h4">Chọn mặt áo</p>
                               <div className="mt-4">
-                                <div className="mb-0 d-flex justify-content-between w-half">
+                                <div className="mb-0 d-flex justify-content-between ">
                                   {response.imagePreviews.map(
                                     (imagePreview) => {
                                       if (imagePreview.color === renderedColor)
@@ -95,10 +103,15 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                                 );
                                               }}
                                             >
-                                              <img
-                                                height="100rem"
+                                              <Image
                                                 src={imagePreview.image}
+                                                className="img-fluid"
+                                                width={1000}
+                                                height={1000}
+                                                objectFit="cover"
+                                                alt="productImage"
                                               />
+
                                               <p className="text-center">
                                                 {imagePreview.position ===
                                                   "front" && "Trước"}
@@ -134,9 +147,13 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                                 );
                                               }}
                                             >
-                                              <img
-                                                height="100rem"
+                                              <Image
                                                 src={imagePreview.image}
+                                                className="img-fluid"
+                                                width={1000}
+                                                height={1000}
+                                                objectFit="cover"
+                                                alt="productImage"
                                               />
                                               <p className="text-center">
                                                 {imagePreview.color}

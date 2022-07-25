@@ -12,18 +12,19 @@ type Props = {
 export default function Design({ product }: Props) {
   const { mutate, isLoading } = usePublishDesignedProduct();
   const router = useRouter();
+
   return (
     <tr className="">
-      <td className="d-flex align-items-center">
+      <td>
         <div className="d-flex align-items-center">
-        <Image
-              src={product.imagePreviews[0].image}
-              className="img-fluid"
-              width={100}
-              height={100}
-              objectFit="cover"
-              alt="productImage"
-            />
+          <Image
+            src={product.imagePreviews[0].image}
+            className="img-fluid"
+            width={100}
+            height={100}
+            objectFit="cover"
+            alt="productImage"
+          />
           <div>
             <h6 className="mb-0 ms-3">{product.name}</h6>
             {/* <p
@@ -41,21 +42,24 @@ export default function Design({ product }: Props) {
           </div>
         </div>
       </td>
-      <td><div className="d-flex align-items-center h-full"><p >{product.designedPrice}</p></div></td>
-      <td className="text-center qty-icons">
+      <td className="align-middle">
+        <p className="">{product.designedPrice}</p>
+      </td>
+      <td className="align-middle qty-icons">
         {product.publish ? (
-          <p className="text-success mt-3">Đang đăng bán</p>
+          <p className="text-success ">Đang đăng bán</p>
         ) : (
-          <p className="text-secondary mt-3">Chỉ mình tôi</p>
+          <p className="text-secondary ">Chỉ mình tôi</p>
         )}
         {/* 
         <button type="button" className="btn btn-light">
           Unpublished
         </button> */}
       </td>
-      <td className="text-center qty-icons">
+      <td className="align-middle">
         <button
-          className="btn btn-outline-success mt-3"
+          onClick={() => router.push(`/designs/${product.id}`)}
+          className="btn btn-outline-success "
           data-toggle="modal"
           data-target="#exampleModal"
         >
@@ -63,8 +67,8 @@ export default function Design({ product }: Props) {
         </button>
       </td>
 
-      <td className="text-end fw-bold pe-4">
-        <div className="dropdown mt-3">
+      <td className="align-middle">
+        <div className="dropdown">
           <button
             type="button"
             className="btn btn-icon btn-light dropdown-toggle"

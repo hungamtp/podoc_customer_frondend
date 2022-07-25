@@ -111,6 +111,7 @@ export default function RawProducts(props: IProductProps) {
                           <input
                             type="text"
                             className="form-control border-0"
+                            placeholder="Tên sản phẩm"
                             {...register("name")}
                           />
                           <button

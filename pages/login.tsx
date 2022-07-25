@@ -39,6 +39,9 @@ const schema = yup.object().shape({
 export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
+  const storage = globalThis?.sessionStorage;
+  // Set the previous path as the value of the current path.
+  const prevPath = storage.getItem("prevPath");
   // const [error, setError] = React.useState(false);
   const { mutate: login, isLoading } = useLogin();
   const dispatch = useAppDispatch();
@@ -57,6 +60,7 @@ export default function Login({ data }: Props) {
   });
   const [isLoadedCart, setIsLoadedCart] = useState(false);
   const [errorLogin, setErrorLogin] = useState<string>("");
+  console.log(prevPath, "prevPath");
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     data.email = data.email.trimStart().trimEnd();
     const res = login(
@@ -65,7 +69,9 @@ export default function Login({ data }: Props) {
         onSuccess: (data) => {
           dispatch(loginAction(data));
           setIsLoadedCart(true);
-          router.back();
+          if (prevPath === "/signup" || prevPath === "/login")
+            router.push("/home");
+          else router.back();
         },
         onError: (error: any) => {
           if (error.response) setErrorLogin(error.response?.data.errorMessage);
@@ -78,7 +84,7 @@ export default function Login({ data }: Props) {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || !prevPath ? (
         <div id="preloader">
           <div id="status">
             <div className="spinner">
