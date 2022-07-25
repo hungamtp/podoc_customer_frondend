@@ -14,6 +14,7 @@ import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor"
 import { useRouter } from "next/router";
 import { setCart } from "@/redux/slices/cart";
 import { useDispatch } from "react-redux";
+import { numberWithCommas } from "helper/number-util";
 
 type Props = {};
 
@@ -223,22 +224,21 @@ export default function Checkout({}: Props) {
                           <h6 className="my-0">
                             {cartDetail.designedProductName}
                           </h6>
-                          <div className="d-flex  justify-content-between">
+                          <div className="d-flex justify-content-between">
                             <small className="text-muted">
-                              {`Màu: `}
                               {cartDetail.color}
-                            </small>{" "}
-                            <small className="text-muted">
-                              {`Kích thước: `}
+                              {`-`}
                               {cartDetail.size}
                             </small>
+                            <small className="text-muted">
+                              {`Số lượng: `}
+                              {cartDetail.quantity}
+                            </small>
                           </div>
-                          <small className="text-muted">
-                            {`Số lượng: `}
-                            {cartDetail.quantity}
-                          </small>
                         </div>
-                        <span className="text-muted">{cartDetail.price}</span>
+                        <span className="text-muted">
+                          {numberWithCommas(cartDetail.price)}
+                        </span>
                       </li>
                     ))}
 
@@ -252,9 +252,11 @@ export default function Checkout({}: Props) {
                     <li className="d-flex justify-content-between p-3">
                       <span>Tổng tiền (Vnđ)</span>
                       <strong>
-                        {cart.reduce(
-                          (totalSum, a) => totalSum + a.quantity * a.price,
-                          0
+                        {numberWithCommas(
+                          cart.reduce(
+                            (totalSum, a) => totalSum + a.quantity * a.price,
+                            0
+                          )
                         )}
                       </strong>
                     </li>

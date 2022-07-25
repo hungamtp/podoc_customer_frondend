@@ -8,6 +8,7 @@ import useCheckCart from "@/hooks/api/cart/use-check-cart";
 import { useRouter } from "next/router";
 import { Dialog, DialogContent } from "@material-ui/core";
 import Link from "next/link";
+import { numberWithCommas } from "helper/number-util";
 type Props = {};
 
 export default function Carts({}: Props) {
@@ -99,8 +100,8 @@ export default function Carts({}: Props) {
                           style={{ minWidth: "20px" }}
                         ></th>
                         <th
-                          className="border-bottom text-start py-3"
-                          style={{ minWidth: "200px" }}
+                          className="border-bottom text-start ps-5 py-3"
+                          style={{ minWidth: "200px", width: "250px" }}
                         >
                           Sản phẩm
                         </th>
@@ -120,7 +121,7 @@ export default function Carts({}: Props) {
                           className="border-bottom text-center py-3"
                           style={{ minWidth: "50px" }}
                         >
-                          Giá
+                          Giá(VND)
                         </th>
                         <th
                           className="border-bottom text-center py-3"
@@ -159,10 +160,12 @@ export default function Carts({}: Props) {
                           <tr>
                             <td className="h6 ps-4 py-3">Tổng </td>
                             <td className="text-end fw-bold pe-4">
-                              {carts.reduce(
-                                (totalSum, a) =>
-                                  totalSum + a.quantity * a.price,
-                                0
+                              {numberWithCommas(
+                                carts.reduce(
+                                  (totalSum, a) =>
+                                    totalSum + a.quantity * a.price,
+                                  0
+                                )
                               )}{" "}
                               VND
                             </td>
@@ -191,10 +194,12 @@ export default function Carts({}: Props) {
                           <tr className="bg-light">
                             <td className="h6 ps-4 py-3">Thành tiền</td>
                             <td className="text-end fw-bold pe-4">
-                              {carts.reduce(
-                                (totalSum, a) =>
-                                  totalSum + a.quantity * a.price,
-                                0
+                              {numberWithCommas(
+                                carts.reduce(
+                                  (totalSum, a) =>
+                                    totalSum + a.quantity * a.price,
+                                  0
+                                )
                               )}{" "}
                               VND
                             </td>

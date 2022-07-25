@@ -10,11 +10,11 @@ import { CartDetailDTO } from "@/services/type.dto";
 import Link from "next/link";
 import Image from "next/image";
 import UseCart from "@/hooks/api/cart/use-cart";
+import { numberWithCommas } from "helper/number-util";
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
-
 
   const cart = useAppSelector((state) => state.carts);
   const auth = useAppSelector((state) => state.auth);
@@ -89,30 +89,36 @@ export default function Header({}: Props) {
                   style={{ width: "300px" }}
                 >
                   <div className="pb-4">
-                    {cart.length != 0 && cart &&
+                    {cart.length != 0 &&
+                      cart &&
                       cart.slice(0, 3).map((cart) => {
                         return (
                           <a
                             key={cart.id}
                             href=" "
-                            className="d-flex align-items-center"
+                            className="d-flex align-items-center "
                           >
-                            <img
-                              src={cart.designedImage}
-                              className="shadow rounded"
-                              style={{ maxHeight: "64px" }}
-                              alt=""
-                            />
+                            <div className="w-25">
+                              <Image
+                                src={cart.designedImage}
+                                className="shadow rounded"
+                                width={1000}
+                                height={1000}
+                                objectFit="cover"
+                                alt="productImage"
+                              />
+                            </div>
+
                             <div className="flex-1 text-start ms-3">
                               <h6 className="text-dark mb-0">
                                 {cart.designedProductName} ({cart.size})
                               </h6>
                               <p className="text-muted mb-0">
-                                ${cart.price} X {cart.quantity}
+                                {numberWithCommas(cart.price)} X {cart.quantity}
                               </p>
                             </div>
                             <h6 className="text-dark mb-0">
-                              ${cart.price * cart.quantity}
+                              {numberWithCommas(cart.price * cart.quantity)}
                             </h6>
                           </a>
                         );
