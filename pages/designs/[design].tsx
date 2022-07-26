@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
+import UserRating from "@/components/common/rating";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { PageWithHero } from "@/components/layouts/page-with-hero";
 import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
@@ -244,7 +245,6 @@ export default function DesignedProductDetail() {
                         </div>
                       </div>
                     </div>
-
                     <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                       <div className="section-title ms-md-4">
                         <h4 className="title"> {designedProduct.name}</h4>
@@ -441,6 +441,11 @@ export default function DesignedProductDetail() {
                       </div>
                     </div>
                   </div>
+                  <h5 className="mt-5">
+                    <strong>Đánh giá sản phẩm</strong>
+                  </h5>
+                  {/* Rating */}
+                  <UserRating id={design} />
                 </div>
 
                 {/* <>
