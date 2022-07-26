@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import * as React from "react";
 
 export interface IHeroProps {}
 
 export default function Hero(props: IHeroProps) {
+  const router = useRouter();
+  const path = router.asPath;
+  console.log(path, "path");
   return (
     <div>
       <section className="bg-half-170 bg-light d-table w-100">
@@ -24,11 +28,19 @@ export default function Hero(props: IHeroProps) {
                     <a>PODOC</a>
                   </Link>
                 </li>
-                <li className="breadcrumb-item">
-                  <Link href="/designs">
-                    <a>Thiết kế có sẵn</a>
-                  </Link>
-                </li>
+                {path.includes("/my-product/order?designId=") ? (
+                  <li className="breadcrumb-item">
+                    <Link href="/account-setting">
+                      <a>Thiết kế của tôi</a>
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="breadcrumb-item">
+                    <Link href="/designs">
+                      <a>Thiết kế có sẵn</a>
+                    </Link>
+                  </li>
+                )}
                 <li className="breadcrumb-item active" aria-current="page">
                   Chi tiết thiết kế
                 </li>
