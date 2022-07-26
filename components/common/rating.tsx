@@ -29,7 +29,7 @@ export default function UserRating(props: IUserRatingProps) {
                 <li key={ratingData.user} className="mt-4">
                   <div className="d-flex justify-content-between">
                     <div className="d-flex align-items-center">
-                      <a className="pe-3" href="#">
+                      <a className="pe-3">
                         <img
                           src={ratingData.userAvatar}
                           className="img-fluid avatar avatar-md-sm rounded-circle shadow"
@@ -38,7 +38,7 @@ export default function UserRating(props: IUserRatingProps) {
                       </a>
                       <div className="flex-1 commentor-detail">
                         <h6 className="mb-0">
-                          <a href="" className="text-dark media-heading">
+                          <a className="text-dark media-heading">
                             {ratingData.user}
                           </a>
                         </h6>

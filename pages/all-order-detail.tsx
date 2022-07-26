@@ -12,9 +12,10 @@ export interface IAllOrderDetailProps {
 
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
+  console.log(allOrdersResponse, "asdasdas");
   return (
     <>
-      {allOrdersResponse && allOrdersResponse.element > 0 ? (
+      {allOrdersResponse && allOrdersResponse.data.length > 0 ? (
         <div className="table-responsive bg-white shadow rounded">
           <table className="table mb-0 table-center table-nowrap">
             <thead>
