@@ -11,3 +11,10 @@
     page: number;
     elements: number;
   }
+
+
+  export interface CreateRatingDto {
+    ratingStar: number;
+    comment: string;
+    designId: string;
+  }

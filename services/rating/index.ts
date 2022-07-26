@@ -1,5 +1,5 @@
 import { API } from "@/api-client/axios";
-import { GetAllRatingDto } from "./dto";
+import { CreateRatingDto, GetAllRatingDto } from "./dto";
 
 export interface Filter {
     pageSize: number;
@@ -15,6 +15,14 @@ export const getAllRating = async (id: string, filter?: Filter) => {
     });
     const { data } = await API.get<GetAllRatingDto>(
       `rating/${id}?${query.toString()}`
+    );
+    return data;
+  };
+
+  export const createRating = async (requestData: CreateRatingDto) => {
+    const { data } = await API.put<CreateRatingDto>(
+      `rating`,
+      requestData
     );
     return data;
   };
