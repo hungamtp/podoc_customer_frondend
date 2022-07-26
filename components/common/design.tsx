@@ -65,7 +65,9 @@ export default function Design({ product }: Props) {
       </td>
       <td className="align-middle">
         <button
-          onClick={() => router.push(`/designs/${product.id}`)}
+          onClick={() =>
+            router.push(`/my-product/order?designId=${product.id}`)
+          }
           className="btn btn-outline-success "
           data-toggle="modal"
           data-target="#exampleModal"

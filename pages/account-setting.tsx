@@ -185,7 +185,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <li className="nav-item">
                     <a
                       className={`nav-link rounded ${
-                        !(prevPath === "/design") && "active show"
+                        !(
+                          prevPath === "/design" ||
+                          prevPath === "/my-product/order"
+                        ) && "active show"
                       }`}
                       id="dashboard"
                       data-bs-toggle="pill"
@@ -206,7 +209,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <li className="nav-item mt-2">
                     <a
                       className={`nav-link rounded ${
-                        prevPath === "/design" && "active show"
+                        prevPath === "/design" ||
+                        (prevPath === "/my-product/order" && "active show")
                       }`}
                       id="mydesigns-list"
                       data-bs-toggle="pill"
@@ -343,7 +347,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 <div className="tab-content" id="pills-tabContent">
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
-                      !(prevPath === "/design") && "active show"
+                      !(
+                        prevPath === "/design" ||
+                        prevPath === "/my-product/order"
+                      ) && "active show"
                     }`}
                     id="dash"
                     role="tabpanel"
@@ -376,7 +383,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   {/*end teb pane*/}
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
-                      prevPath === "/design" && "active show"
+                      prevPath === "/design" ||
+                      (prevPath === "/my-product/order" && "active show")
                     }`}
                     id="mydesigns"
                     role="tabpanel"
