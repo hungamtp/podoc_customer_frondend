@@ -133,7 +133,7 @@ export default function DesignedProducts(props: IProductProps) {
                       </form>
                     </div>
                     {/* SEARCH */}
-                    {/* <Categories handleCategoryChange={handleCategoryChange} /> */}
+                    <Categories handleCategoryChange={handleCategoryChange} />
 
                     {/* Top Products */}
                     {getBestSellerResponse && getBestSellerResponse.length > 0 && (
