@@ -32,7 +32,7 @@ export default function Categories({ handleCategoryChange }: Props) {
               key={category.id}
               onClick={() => {
                 setSelectedCategory(category.name);
-                handleCategoryChange(category.name);
+                handleCategoryChange(category.id);
               }}
             >
               <p className="m-0 ">{category.name}</p>
