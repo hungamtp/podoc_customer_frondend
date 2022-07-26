@@ -59,7 +59,7 @@ export default function UserRating(props: IUserRatingProps) {
                     </ul>
                   </div>
                   <div className="mt-3">
-                    <p className="text-muted fst-italic p-3 bg-light rounded">
+                    <p className="text-muted fst-italic p-2 bg-light rounded">
                       {ratingData.comment}
                     </p>
                   </div>
