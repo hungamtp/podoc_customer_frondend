@@ -104,7 +104,7 @@ export default function Footer({}: Props) {
                         </li>
 
                         <li>
-                          <Link href="\">
+                          <Link href="/">
                             <a className="text-foot">
                               <i className="uil uil-angle-right-b me-1"></i>
                               Returns
