@@ -285,6 +285,7 @@ export default function Checkout({}: Props) {
                     {shippingInfos && shippingInfos.length > 0 && (
                       <button
                         className="btn btn-secondary"
+                        type="button"
                         onClick={() => {
                           setIsOpen(true);
                         }}
