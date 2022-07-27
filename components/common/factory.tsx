@@ -69,6 +69,12 @@ export default function Factory({ factory, productName }: Props) {
                 </div>
                 <div>{numberWithCommas(factory.price)} VND</div>
               </div>
+              <div className="card-factory-body-content">
+                <div className="small-text text-muted mb-0 card-body-title">
+                  Chất liệu
+                </div>
+                <div>{factory.material}</div>
+              </div>
               <div>
                 <div className="small-text text-muted mb-0 card-body-title">
                   Kích thước

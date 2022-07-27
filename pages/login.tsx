@@ -26,9 +26,8 @@ type Props = {
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email()
-    .min(8, "Email cần ít nhất 8 kí tự")
-    .max(50, "Email tối đa 50 kí tự")
+    .email("Không đúng định dạng email")
+    .max(50, "Không đúng định dạng email")
     .required("Email không được để trống"),
   password: yup
     .string()
@@ -69,7 +68,11 @@ export default function Login({ data }: Props) {
         onSuccess: (data) => {
           dispatch(loginAction(data));
           setIsLoadedCart(true);
-          if (prevPath === "/signup" || prevPath === "/login")
+          if (
+            prevPath === "/signup" ||
+            prevPath === "/login" ||
+            prevPath === "/forgotpassword"
+          )
             router.push("/home");
           else router.back();
         },
@@ -147,7 +150,10 @@ export default function Login({ data }: Props) {
                             />
                           </div>
                           {errors.email && (
-                            <span id="error-pwd-message">
+                            <span
+                              id="error-pwd-message"
+                              className="text-danger"
+                            >
                               {errors.email.message}
                             </span>
                           )}
@@ -191,21 +197,7 @@ export default function Login({ data }: Props) {
 
                       <div className="col-lg-12">
                         <div className="d-flex justify-content-between">
-                          <div className="mb-3">
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                checked={rememberMe}
-                                onClick={() => setRememberMe(!rememberMe)}
-                                id="flexCheckDefault"
-                              />
-                              <label className="form-check-label">
-                                Lưu đăng nhập
-                              </label>
-                            </div>
-                          </div>
-                          <p className="forgot-pass mb-0">
+                          <p className="forgot-pass mt-2">
                             <a
                               href="forgotpassword"
                               className="text-dark fw-bold"
@@ -222,30 +214,6 @@ export default function Login({ data }: Props) {
                             Đăng nhập
                           </button>
                           {/* <button className={`btn btn-primary ${errors.password || errors.username ? 'disabled' : ''}`}>Sign in</button> */}
-                        </div>
-                      </div>
-
-                      <div className="col-lg-12 mt-4 text-center">
-                        <h6>Hoặc đăng nhập bằng</h6>
-                        <div className="row">
-                          <div className="col-6 mt-3">
-                            <div className="d-grid">
-                              <a href=" " className="btn btn-light">
-                                <i className="mdi mdi-facebook text-primary"></i>{" "}
-                                Facebook
-                              </a>
-                            </div>
-                          </div>
-
-                          <div className="col-6 mt-3">
-                            <div className="d-grid">
-                              <a href=" " className="btn btn-light">
-                                {/* <i className="mdi mdi-google text-danger"></i> <div className="g-signin2" data-onsuccess={onSignIn}></div> */}
-                                <i className="mdi mdi-google text-danger"></i>{" "}
-                                <div className="g-signin2"></div>
-                              </a>
-                            </div>
-                          </div>
                         </div>
                       </div>
 

@@ -1,36 +1,55 @@
 /* eslint-disable @next/next/no-img-element */
-import { EmptyLayout } from '@/components/layouts';
-import { SignUpDTO } from '@/services/type.dto';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { EmptyLayout } from "@/components/layouts";
+import { SignUpDTO } from "@/services/type.dto";
+import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import useSignup from '@/hooks/api/use-signup';
+import useSignup from "@/hooks/api/use-signup";
 
 type Props = {};
 
 export default function SignUp({}: Props) {
   const schema = yup.object().shape({
-    email: yup.string().email().min(8, 'Email cần ít nhất 8 ký tự').max(50, 'Email tối đa 50 ký tự').required('Email không được để trống'),
+    email: yup
+      .string()
+      .email("Email không đúng định dạng")
+      .max(50, "Email tối đa 50 ký tự")
+      .required("Email không được để trống"),
     password: yup
       .string()
-      .min(8, 'Mật khẩu cần ít nhất 8 ký tự')
-      .max(50, 'Mật khẩu tối đa 50 ký tự')
-      .required('Mật khẩu không được để trống'),
-    phone: yup.string().min(9).max(11).required(),
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
+      .min(8, "Mật khẩu cần ít nhất 8 ký tự")
+      .max(50, "Mật khẩu tối đa 50 ký tự")
+      .required("Mật khẩu không được để trống"),
+    phone: yup
+      .string()
+      .trim()
+      .matches(
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+        "Sai định dạng"
+      )
+      .required("Số điện thoại không được để trống"),
+    firstName: yup
+      .string()
+      .min(2, "Họ cần ít nhất 2 ký tự")
+      .max(20, "Họ tối đa 20 ký tự")
+      .required(),
+    lastName: yup
+      .string()
+      .min(2, "Tên cần ít nhất 2 ký tự")
+      .max(50, "Tên tối đa 20 ký tự")
+      .required(),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
   const [accepted, setAccepted] = useState(false);
   const defaultValues: SignUpDTO = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    phone: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phone: "",
   };
   const {
     register,
@@ -41,13 +60,17 @@ export default function SignUp({}: Props) {
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<SignUpDTO> = data => {
+  const onSubmit: SubmitHandler<SignUpDTO> = (data) => {
     if (accepted) {
-      data.firstName = data.firstName.charAt(0).toUpperCase() + data.firstName.slice(1).toLowerCase();
-      data.lastName = data.lastName.charAt(0).toUpperCase() + data.lastName.slice(1).toLowerCase();
+      data.firstName =
+        data.firstName.charAt(0).toUpperCase() +
+        data.firstName.slice(1).toLowerCase();
+      data.lastName =
+        data.lastName.charAt(0).toUpperCase() +
+        data.lastName.slice(1).toLowerCase();
       data.email = data.email.trimStart().trimEnd();
       data.phone = data.phone.trimStart().trimEnd();
-      const res = signUp(data); 
+      const res = signUp(data);
     } else {
     }
   };
@@ -63,21 +86,28 @@ export default function SignUp({}: Props) {
           </div>
         </div>
       ) : (
-        ''
+        ""
       )}
       <section className="bg-auth-home d-table w-100">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-7 col-md-6">
               <div className="me-lg-5">
-                <img src="asset/images/user/signup.svg" className="img-fluid d-block mx-auto" alt="suignup" />
+                <img
+                  src="/asset/images/user/signup.svg"
+                  className="img-fluid d-block mx-auto"
+                  alt="suignup"
+                />
               </div>
             </div>
             <div className="col-lg-5 col-md-6">
               <div className="card shadow rounded border-0">
                 <div className="card-body">
                   <h4 className="card-title text-center">Đăng ký</h4>
-                  <form className="login-form mt-4" onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    className="login-form mt-4"
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div className="row">
                       <div className="col-md-6">
                         <div className="mb-3">
@@ -85,8 +115,24 @@ export default function SignUp({}: Props) {
                             Họ <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="user" className="fea icon-sm icons"></i>
-                            <input type="text" className="form-control ps-5" placeholder="First Name" {...register('firstName')} />
+                            <i
+                              data-feather="user"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="text"
+                              className="form-control ps-5"
+                              placeholder="First Name"
+                              {...register("firstName")}
+                            />
+                            {errors.firstName && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.firstName.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -97,8 +143,24 @@ export default function SignUp({}: Props) {
                             Tên <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="user-check" className="fea icon-sm icons"></i>
-                            <input type="text" className="form-control ps-5" placeholder="Last Name" {...register('lastName')} />
+                            <i
+                              data-feather="user-check"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="text"
+                              className="form-control ps-5"
+                              placeholder="Last Name"
+                              {...register("lastName")}
+                            />
+                            {errors.lastName && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.lastName.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -109,8 +171,24 @@ export default function SignUp({}: Props) {
                             SĐT <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="mail" className="fea icon-sm icons"></i>
-                            <input type="phone" className="form-control ps-5" placeholder="Phone" {...register('phone')} />
+                            <i
+                              data-feather="mail"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="phone"
+                              className="form-control ps-5"
+                              placeholder="Phone"
+                              {...register("phone")}
+                            />
+                            {errors.phone && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.phone.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -120,8 +198,24 @@ export default function SignUp({}: Props) {
                             Email <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="mail" className="fea icon-sm icons"></i>
-                            <input type="email" className="form-control ps-5" placeholder="Email" {...register('email')} />
+                            <i
+                              data-feather="mail"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="email"
+                              className="form-control ps-5"
+                              placeholder="Email"
+                              {...register("email")}
+                            />
+                            {errors.email && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.email.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -132,8 +226,24 @@ export default function SignUp({}: Props) {
                             Mật Khẩu <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i data-feather="key" className="fea icon-sm icons"></i>
-                            <input type="password" className="form-control ps-5" placeholder="Password" {...register('password')} />
+                            <i
+                              data-feather="key"
+                              className="fea icon-sm icons"
+                            ></i>
+                            <input
+                              type="password"
+                              className="form-control ps-5"
+                              placeholder="Password"
+                              {...register("password")}
+                            />
+                            {errors.password && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {errors.password.message}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -149,7 +259,7 @@ export default function SignUp({}: Props) {
                               id="flexCheckDefault"
                             />
                             <label className="form-check-label">
-                              Tôi chấp nhận{' '}
+                              Tôi chấp nhận{" "}
                               <a href="#" className="text-primary">
                                 điều khoản và điều kiện
                               </a>
@@ -165,34 +275,21 @@ export default function SignUp({}: Props) {
 
                       <div className="col-md-12">
                         <div className="d-grid">
-                          <button className={`${!accepted ? 'disabled ' : ' '}btn btn-primary`}>Đăng ký</button>
-                        </div>
-                      </div>
-
-                      <div className="col-lg-12 mt-4 text-center">
-                        <h6>Hoặc đăng ký bằng</h6>
-                        <div className="row">
-                          <div className="col-6 mt-3">
-                            <div className="d-grid">
-                              <a href=" " className="btn btn-light">
-                                <i className="mdi mdi-facebook text-primary"></i> Facebook
-                              </a>
-                            </div>
-                          </div>
-
-                          <div className="col-6 mt-3">
-                            <div className="d-grid">
-                              <a href=" " className="btn btn-light">
-                                <i className="mdi mdi-google text-danger"></i> Google
-                              </a>
-                            </div>
-                          </div>
+                          <button
+                            className={`${
+                              !accepted ? "disabled " : " "
+                            }btn btn-primary`}
+                          >
+                            Đăng ký
+                          </button>
                         </div>
                       </div>
 
                       <div className="mx-auto">
                         <p className="mb-0 mt-3">
-                          <small className="text-dark me-2">Bạn đã có tài khoản</small>{' '}
+                          <small className="text-dark me-2">
+                            Bạn đã có tài khoản
+                          </small>{" "}
                           <a href="login" className="text-dark fw-bold">
                             Đăng nhập
                           </a>
