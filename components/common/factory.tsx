@@ -25,6 +25,10 @@ export default function Factory({ factory, productName }: Props) {
     router.push(`/design?productId=${productId}&factoryId=${factory.id}`);
     //push sẽ hủy hết lệnh và route qua trang khác
   };
+  const positionList = factory.area.map((area) => {
+    if (area === "front") return "Trước";
+    else return "Sau";
+  });
 
   return (
     <section className="factory">
@@ -75,7 +79,7 @@ export default function Factory({ factory, productName }: Props) {
                 <div className="small-text text-muted mb-0 card-body-title">
                   Vị trí
                 </div>
-                <div>{factory.area.join(" , ")}</div>
+                <div>{positionList.join(" , ")}</div>
               </div>
               <div>
                 <div className="small-text mb-0 card-body-title">Màu</div>
