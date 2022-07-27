@@ -102,6 +102,7 @@ export interface FactoryDTO {
   name: string;
   location: string;
   price: number;
+  material: string;
   sizes: string[];
   area: string[];
   colors: string[];
