@@ -49,7 +49,7 @@ export default function Carts({}: Props) {
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">
               <div className="pages-heading">
-                <h2 className="title mb-0">Cart</h2>
+                <h2 className="title mb-0">Giỏ hàng</h2>
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function Carts({}: Props) {
                     <a>PODOC</a>
                   </Link>
                 </li>
-                <li className="breadcrumb-item active">Cart</li>
+                <li className="breadcrumb-item active">Giỏ hàng</li>
               </ul>
             </nav>
           </div>
@@ -154,7 +154,7 @@ export default function Carts({}: Props) {
                     </Link>
                   </div>
                   <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
-                    <div className="table-responsive bg-white rounded shadow">
+                    {/* <div className="table-responsive bg-white rounded shadow">
                       <table className="table table-center table-padding mb-0">
                         <tbody>
                           <tr>
@@ -206,8 +206,8 @@ export default function Carts({}: Props) {
                           </tr>
                         </tbody>
                       </table>
-                    </div>
-                    <div className="mt-4 pt-2 text-end">
+                    </div> */}
+                    <div className="mt  text-end">
                       <button
                         className="btn btn-primary"
                         onClick={handleProceed}

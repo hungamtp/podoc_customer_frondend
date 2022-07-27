@@ -217,15 +217,6 @@ export default function ProductDetail() {
           </section>
         </div>
       )}
-      {isLoading ? (
-        <>
-          <div>Is loading...</div>
-        </>
-      ) : (
-        <>
-          <div>Có lỗi xảy ra trong quá trình tải dữ liệu</div>
-        </>
-      )}
     </>
   );
 }

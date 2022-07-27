@@ -50,12 +50,12 @@ export default function Factory({ factory, productName }: Props) {
           </div>
           <div className="card-body">
             <div className="card-factory-body">
-              <div className="card-factory-body-content">
+              <div className="card-factory-body-content w-25">
                 <div className="small-text text-muted mb-0 card-body-title">
                   Địa chỉ
                 </div>
                 <div>
-                  <i className="bi bi-geo-alt-fill text-info"></i>
+                  <i className="bi bi-geo-alt-fill text-info "></i>
                   <span className="mb-0">{factory.location}</span>
                 </div>
               </div>

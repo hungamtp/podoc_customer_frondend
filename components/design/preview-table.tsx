@@ -1,5 +1,6 @@
 import { Preview } from "@/redux/slices/previews";
 import { nanoid } from "@reduxjs/toolkit";
+import Image from "next/image";
 import { useAppSelector } from "../hooks/reduxHook";
 
 export interface info {
@@ -50,13 +51,17 @@ export default function PreviewTable(props: IPreviewTableProps) {
                 setIsDrawPreview(false);
               }}
             >
-              <img
+              <Image
                 src={preview.imageSrc}
-                alt="preview"
-                width="200rem"
-                height="120rem"
+                className="img-fluid"
+                width={1000}
+                height={1000}
+                objectFit="cover"
+                alt="productImage"
               />
-              <p className="text-center">{preview.position}</p>
+              <p className="text-center">
+                {preview.position === "front" ? "Trước" : "Sau"}
+              </p>
             </div>
           ))
         ) : (
