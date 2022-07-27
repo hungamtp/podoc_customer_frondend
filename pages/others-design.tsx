@@ -5,6 +5,7 @@ import DesignedProductCard from "@/components/designed-products/designed-product
 import { MainLayout } from "@/components/layouts";
 import useGetOthersDesignByUserId from "@/hooks/api/design/use-get-others-design-by-userId";
 import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -90,11 +91,13 @@ export default function OthersDesigns(props: IProductProps) {
                       {/* SEARCH */}
                       <div className="row align-items-end">
                         <div className="d-flex flex-wrap w-full">
-                          <img
+                          <Image
                             src={response.content[0].user.credentialImage}
                             className="avatar avatar rounded-circle"
-                            width={120}
-                            height={120}
+                            width={100}
+                            height={100}
+                            objectFit="cover"
+                            alt="productImage"
                           />
                           <div className="ms-3 mt-4">
                             <h6 className="text-muted mb-0">Người thiết kế</h6>

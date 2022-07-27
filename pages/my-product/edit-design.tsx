@@ -1,23 +1,21 @@
 import DesignCanvas from "@/components/design/design-canvas";
-import DesignFooterLeft from "@/components/design/design-footer-left";
 import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import useGetBlueprintByProduct from "@/hooks/api/design/use-get-blueprint-by-product";
+import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { Blueprint } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { resetDesigns, updateDesignInfos } from "@/redux/slices/design";
 import { resetControl, setControlData } from "@/redux/slices/designControl";
-import { useRouter } from "next/router";
-import { nanoid } from "nanoid";
-import * as React from "react";
-import { setChoosenKey } from "@/redux/slices/choosenKey";
+import { setDesignedProductInfo } from "@/redux/slices/designProductInfo";
 import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
 import { getBase64FromUrl } from "helper/files-utils";
-import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
-import { setDesignedProductInfo } from "@/redux/slices/designProductInfo";
+import { nanoid } from "nanoid";
+import { useRouter } from "next/router";
+import * as React from "react";
 
 // import dynamic from 'next/dynamic';
 

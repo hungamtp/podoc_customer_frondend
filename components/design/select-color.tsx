@@ -2,6 +2,7 @@ import { setColors } from "@/redux/slices/selectedColors";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useAppDispatch } from "../hooks/reduxHook";
@@ -63,11 +64,12 @@ export default function SelectColor({ colors }: ISelectColorProps) {
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return (
-                    <img
-                      key={colors[0].image}
+                    <Image
+                      className="rounded-circle border"
                       width={30}
                       height={30}
-                      className="rounded-circle border"
+                      objectFit="cover"
+                      key={colors[0].image}
                       src={
                         "https://images.printify.com/5853fec7ce46f30f8328200a"
                       }
@@ -107,14 +109,18 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                   className="d-flex justify-content-between"
                 >
                   <p className="m-0">{color.name}</p>
-                  <img
-                    key={color.name}
+                  <Image
+                    className="rounded-circle border"
                     width={30}
                     height={30}
-                    className="rounded-circle border"
+                    objectFit="cover"
+                    key={colors[0].image}
                     src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
-                    style={{ backgroundColor: color.image, opacity: "0.8" }}
-                    alt={color.name}
+                    style={{
+                      backgroundColor: colors[0].image,
+                      opacity: "0.8",
+                    }}
+                    alt={colors[0].name}
                   />
                 </MenuItem>
               ))}

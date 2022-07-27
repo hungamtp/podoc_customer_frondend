@@ -1,4 +1,5 @@
 import { setControlData } from "@/redux/slices/designControl";
+import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
 
@@ -136,8 +137,12 @@ export default function EmptyTable(props: IEmptyTableProps) {
         <>
           <div className="d-flex justify-content-center">
             <div className="w-half d-flex flex-column justify-content-center">
-              <img
+              <Image
                 src="https://printify.com/assets/gen_images/add-layer.svg"
+                className="avatar avatar rounded-circle"
+                width={1000}
+                height={1000}
+                objectFit="cover"
                 alt="Picture of the author"
               />
               <p className="h5 text-center pt-4">Chưa có thiết kế nào</p>

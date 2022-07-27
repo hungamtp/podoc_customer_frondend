@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { EmptyLayout } from "@/components/layouts";
 import useCompleteOrder from "@/hooks/api/order/use-complete-momo-order";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -24,17 +25,15 @@ export default function ThankYou({}: Props) {
   const router = useRouter();
   const param = router.query;
   if (param["orderId"]) {
-    if(param["resultCode"] == "0"){
-      const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-        param["orderId"]
-      );
+    if (param["resultCode"] == "0") {
+      const { data: categories, isLoading: isCategoryLoading } =
+        useCompleteOrder(param["orderId"]);
     }
   }
   if (param["apptransid"]) {
-    if(param["status"] == "1" ){
-      const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-        param["apptransid"]
-      );
+    if (param["status"] == "1") {
+      const { data: categories, isLoading: isCategoryLoading } =
+        useCompleteOrder(param["apptransid"]);
     }
   }
 
@@ -43,8 +42,9 @@ export default function ThankYou({}: Props) {
       <section
         className="bg-home bg-light d-flex align-items-center"
         style={{
-          background: "url('/asset/images/shop/hp-3.jpg') center center ",
+          background: "url('/asset/images/shop/hp-3.jpg') ",
           backgroundSize: "1500px 850px",
+          objectFit: "contain",
         }}
       >
         <div className="container">
@@ -58,11 +58,13 @@ export default function ThankYou({}: Props) {
                     width: "200px",
                   }}
                 >
-                  <img
+                  <Image
                     src="/asset/images/logo_man.png"
-                    height="200"
-                    className="logo-light-mode"
-                    alt=""
+                    className="avatar avatar rounded-circle"
+                    width={1000}
+                    height={1000}
+                    objectFit="cover"
+                    alt="productImage"
                   />
                 </div>
                 <h1 className="my-4 fw-bold">Cảm ơn bạn</h1>
