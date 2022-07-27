@@ -13,6 +13,7 @@ import { setCart } from "@/redux/slices/cart";
 import useCart from "@/hooks/api/cart/use-cart";
 import { AxiosError } from "axios";
 import { ErrorHttpResponse } from "../models";
+import Link from "next/link";
 
 type FormLogin = {
   email: string;
@@ -222,9 +223,9 @@ export default function Login({ data }: Props) {
                           <small className="text-dark me-2">
                             Bạn chưa có tài khoản?
                           </small>{" "}
-                          <a href="signup" className="text-dark fw-bold">
-                            Tạo tài khoản
-                          </a>
+                          <Link href="signup">
+                            <a className="text-dark fw-bold">Tạo tài khoản</a>
+                          </Link>
                         </p>
                       </div>
                     </div>
