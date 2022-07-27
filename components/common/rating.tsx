@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import * as React from "react";
-import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
 import useRating from "@/hooks/api/rating/use-rating";
 import { Filter } from "@/services/rating";
-
+import StarIcon from "@mui/icons-material/Star";
+import { Pagination, Stack } from "@mui/material";
+import Rating from "@mui/material/Rating";
+import * as React from "react";
+import PaginationComponent from "./mui-pagination";
 export interface IUserRatingProps {
   id: string;
 }
@@ -13,10 +14,13 @@ export default function UserRating(props: IUserRatingProps) {
   const { id } = props;
   const [filter, setFilter] = React.useState<Filter>({
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: 4,
   });
 
   const { data: ratingData, isLoading: isLoading } = useRating(id, filter);
+  const totalPages = Math.ceil(
+    (ratingData?.elements || filter.pageSize) / filter.pageSize
+  );
 
   return (
     <>
@@ -69,6 +73,15 @@ export default function UserRating(props: IUserRatingProps) {
         </div>
         {/*end col*/}
       </div>
+      {ratingData && ratingData.elements >= 5 && (
+        <div className="d-flex justify-content-left">
+          <PaginationComponent
+            total={totalPages}
+            filter={filter}
+            setFilter={setFilter}
+          />
+        </div>
+      )}
     </>
   );
 }
