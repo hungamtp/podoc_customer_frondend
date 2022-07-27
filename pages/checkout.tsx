@@ -16,6 +16,7 @@ import { setCart } from "@/redux/slices/cart";
 import { useDispatch } from "react-redux";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {};
 
@@ -80,8 +81,11 @@ export default function Checkout({}: Props) {
       .required("Tên không được để trống"),
     phone: yup
       .string()
-      .min(8, "Số điện thoại cần ít nhất 8 kí tự")
-      .max(26, "Số điện thoại tối đa 50 kí tự")
+      .trim()
+      .matches(
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+        "Sai định dạng"
+      )
       .required("Số điện thoại không được để trống"),
   });
   const form = useForm<ShippingInfo>({
@@ -163,7 +167,7 @@ export default function Checkout({}: Props) {
             <div className="row mt-5 justify-content-center">
               <div className="col-lg-12 text-center">
                 <div className="pages-heading">
-                  <h4 className="title mb-0"> Checkouts </h4>
+                  <h4 className="title mb-0"> Thanh toán </h4>
                 </div>
               </div>
               {/*end col*/}
@@ -173,14 +177,16 @@ export default function Checkout({}: Props) {
               <nav aria-label="breadcrumb" className="d-inline-block">
                 <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Landrick</a>
+                    <Link href="/">
+                      <a>PODOC</a>
+                    </Link>
                   </li>
-                  <li className="breadcrumb-item">
-                    <a href="home">Shop</a>
+                  <li className="breadcrumb-item active">
+                    <Link href="/carts">
+                      <a>Giỏ hàng</a>
+                    </Link>
                   </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Checkouts
-                  </li>
+                  <li className="breadcrumb-item active">Thanh toán</li>
                 </ul>
               </nav>
             </div>
@@ -225,12 +231,13 @@ export default function Checkout({}: Props) {
                           <h6 className="my-0">
                             {cartDetail.designedProductName}
                           </h6>
-                          <div className="d-flex justify-content-between">
-                            <small className="text-muted">
+                          <div className="d-flex justify-content-around">
+                            <small className="text-muted me-2">
                               {cartDetail.color}
                               {`-`}
                               {cartDetail.size}
                             </small>
+
                             <small className="text-muted">
                               {`Số lượng: `}
                               {cartDetail.quantity}
@@ -243,15 +250,15 @@ export default function Checkout({}: Props) {
                       </li>
                     ))}
 
-                    <li className="d-flex justify-content-between bg-light p-3 border-bottom">
+                    {/* <li className="d-flex justify-content-between bg-light p-3 border-bottom">
                       <div className="text-success">
                         <h6 className="my-0">Promo code</h6>
                         <small>EXAMPLECODE</small>
                       </div>
                       <span className="text-success">−$5</span>
-                    </li>
+                    </li> */}
                     <li className="d-flex justify-content-between p-3">
-                      <span>Tổng tiền (Vnđ)</span>
+                      <span>Tổng tiền (VND)</span>
                       <strong>
                         {numberWithCommas(
                           cart.reduce(
@@ -262,7 +269,7 @@ export default function Checkout({}: Props) {
                       </strong>
                     </li>
                   </ul>
-                  <div className="input-group">
+                  {/* <div className="input-group">
                     <input
                       type="text"
                       className="form-control"
@@ -271,7 +278,7 @@ export default function Checkout({}: Props) {
                     <button type="submit" className="btn btn-secondary">
                       Redeem
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {/*end col*/}
@@ -298,7 +305,7 @@ export default function Checkout({}: Props) {
                         aria-hidden="true"
                       />
                     )} */}
-                        Chọn địa chỉ khác
+                        Chọn địa chỉ có sẵn
                       </button>
                     )}
                   </div>
@@ -341,7 +348,6 @@ export default function Checkout({}: Props) {
                       <input
                         id="email"
                         className="form-control"
-                        placeholder="you@example.com"
                         {...register("email")}
                       />
                       {errors.email && (
@@ -399,7 +405,7 @@ export default function Checkout({}: Props) {
                     Phương thức thanh toán
                   </h4>
                   <div className="d-flex ">
-                    <div className="checkout-button-momo w-60 mt-1">
+                    <div className="checkout-button-momo my-3">
                       <div className="checkout-selector">
                         <input
                           checked={paymentMethod == 0}
@@ -408,7 +414,7 @@ export default function Checkout({}: Props) {
                           className="btn btn-m2 btn-checkout btn-logo-inline"
                         />
                       </div>
-                      <div className="content">
+                      <div className="checkout-content">
                         <span className="checkout-title">Thanh toán bằng</span>
                         <Image
                           src={"/asset/images/momologo.svg"}

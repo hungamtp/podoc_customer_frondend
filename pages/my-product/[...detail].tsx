@@ -155,9 +155,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                                 objectFit="cover"
                                                 alt="productImage"
                                               />
-                                              <p className="text-center">
-                                                {imagePreview.color}
-                                              </p>
                                             </div>
                                           </>
                                         );

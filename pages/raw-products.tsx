@@ -149,7 +149,7 @@ export default function RawProducts(props: IProductProps) {
                   {/*end col*/}
                   <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <div className="d-flex justify-content-md-between align-items-center">
-                      <div className="form custom-form">
+                      {/* <div className="form custom-form">
                         <div className="mb-0">
                           <select
                             className="form-select form-control"
@@ -163,8 +163,8 @@ export default function RawProducts(props: IProductProps) {
                             <option>Sort by price: high to low</option>
                           </select>
                         </div>
-                      </div>
-                      <div className="mx-2">
+                      </div> */}
+                      {/* <div className="mx-2">
                         <a href="shop-grids.html" className="h5 text-muted">
                           <i className="uil uil-apps" />
                         </a>
@@ -173,7 +173,7 @@ export default function RawProducts(props: IProductProps) {
                         <a href="shop-lists.html" className="h5 text-muted">
                           <i className="uil uil-list-ul" />
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   {/*end col*/}
