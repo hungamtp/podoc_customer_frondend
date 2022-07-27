@@ -52,6 +52,7 @@ export interface OrderDetailDto {
   quantity: string;
   provider: string;
   date : string;
+  rated: boolean;
 }
 
 export interface MyOrdersDto {

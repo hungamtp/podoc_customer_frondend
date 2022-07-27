@@ -15,8 +15,12 @@ export interface IAllOrderDetailProps {
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
-  const handleOpenDialog = () => {
+  const [designId, setDesignId] = React.useState("");
+  const [orderId, setOrderId] = React.useState("");
+  const handleOpenDialog = (designId: string, orderId: string) => {
     setIsOpenDialog(true);
+    setDesignId(designId);
+    setOrderId(orderId);
   };
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
@@ -24,6 +28,22 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
   return (
     <>
       <>
+        <Dialog
+          open={isOpenDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth={true}
+          disableEnforceFocus
+        >
+          <DialogContent>
+            <CommentProduct
+              handleCloseDialog={handleCloseDialog}
+              designId={designId}
+              orderDetailId={orderId}
+            />
+          </DialogContent>
+        </Dialog>
         {allOrdersResponse && allOrdersResponse.data.length > 0 ? (
           <div className="table-responsive bg-white shadow rounded">
             <table className="table mb-0 table-center table-nowrap">
@@ -78,30 +98,20 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                           <li>Tên : {order.designName}</li>
                           <li>Nhà in : {order.provider}</li>
                           <li>
-                            <button
-                              type="button"
-                              className="btn btn-success me-2"
-                              data-toggle="modal"
-                              data-target="#exampleModal"
-                              onClick={handleOpenDialog}
-                            >
-                              Đánh giá
-                            </button>
-                            <Dialog
-                              open={isOpenDialog}
-                              onClose={handleCloseDialog}
-                              aria-labelledby="alert-dialog-title"
-                              aria-describedby="alert-dialog-description"
-                              fullWidth={true}
-                              disableEnforceFocus
-                            >
-                              <DialogContent>
-                                <CommentProduct
-                                  handleCloseDialog={handleCloseDialog}
-                                  designId={order.designId}
-                                />
-                              </DialogContent>
-                            </Dialog>
+                            {order.rated == false && (
+                              <button
+                                type="button"
+                                className="btn btn-success me-2"
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                                onClick={() => {
+                                  handleOpenDialog(order.designId, order.id);
+                                }}
+                              >
+                                Đánh giá
+                              </button>
+                            )}
+
                             {/* <div
                               className="modal fade mt-100"
                               id="exampleModal"
