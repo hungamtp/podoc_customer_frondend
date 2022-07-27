@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 
 import useSignup from "@/hooks/api/use-signup";
+import Link from "next/link";
 
 type Props = {};
 
@@ -290,9 +291,9 @@ export default function SignUp({}: Props) {
                           <small className="text-dark me-2">
                             Bạn đã có tài khoản
                           </small>{" "}
-                          <a href="login" className="text-dark fw-bold">
-                            Đăng nhập
-                          </a>
+                          <Link href="login">
+                            <a className="text-dark fw-bold">Đăng nhập</a>
+                          </Link>
                         </p>
                       </div>
                     </div>
