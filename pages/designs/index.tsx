@@ -195,7 +195,7 @@ export default function DesignedProducts(props: IProductProps) {
                     </div>
                     {/*end col*/}
                     <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                      <div className="d-flex justify-content-md-between align-items-center">
+                      {/* <div className="d-flex justify-content-md-between align-items-center">
                         <div className="form custom-form">
                           <div className="mb-0">
                             <select
@@ -221,7 +221,7 @@ export default function DesignedProducts(props: IProductProps) {
                             <i className="uil uil-list-ul" />
                           </a>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     {/*end col*/}
                   </div>

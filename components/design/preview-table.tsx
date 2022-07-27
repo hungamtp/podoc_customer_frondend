@@ -35,8 +35,22 @@ export default function PreviewTable(props: IPreviewTableProps) {
       renderedPreviews.push(preview);
     }
   });
-  if (renderedPreviews.length === 0 && previews.length !== 0)
-    renderedPreviews = [previews[0], previews[1]];
+
+  let front = renderedPreviews[0];
+  renderedPreviews.forEach((preview) => {
+    if (preview.position === "front") {
+      front = preview;
+    }
+  });
+
+  let back = renderedPreviews[0];
+  renderedPreviews.forEach((preview) => {
+    if (preview.position === "back") {
+      back = preview;
+    }
+  });
+
+  renderedPreviews = [front, back];
 
   return (
     <div>
@@ -112,10 +126,10 @@ export default function PreviewTable(props: IPreviewTableProps) {
               setRenderColor(color.image);
             }}
           >
-            <img
+            <Image
               key={color.id}
-              width={25}
-              height={25}
+              width={40}
+              height={30}
               className="rounded-circle border"
               src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
               style={{ backgroundColor: color.image, opacity: "0.8" }}
