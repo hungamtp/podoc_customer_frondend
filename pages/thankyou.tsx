@@ -43,8 +43,8 @@ export default function ThankYou({}: Props) {
         className="bg-home bg-light d-flex align-items-center"
         style={{
           background: "url('/asset/images/shop/hp-3.jpg') ",
-          backgroundSize: "1500px 850px",
           objectFit: "contain",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div className="container">
