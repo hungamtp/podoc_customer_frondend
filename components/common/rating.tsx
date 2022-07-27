@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import useRating from "@/hooks/api/rating/use-rating";
 import { Filter } from "@/services/rating";
-import StarIcon from "@mui/icons-material/Star";
-import { Pagination, Stack } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import * as React from "react";
 import PaginationComponent from "./mui-pagination";
@@ -56,9 +54,6 @@ export default function UserRating(props: IUserRatingProps) {
                         value={ratingData.ratingStar}
                         readOnly
                         precision={0.5}
-                        emptyIcon={
-                          <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
-                        }
                       />
                     </ul>
                   </div>
