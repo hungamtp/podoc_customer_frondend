@@ -441,9 +441,6 @@ export default function DesignedProductDetail() {
                       </div>
                     </div>
                   </div>
-                  <h5 className="mt-5">
-                    <strong>Đánh giá sản phẩm</strong>
-                  </h5>
                   {/* Rating */}
                   <UserRating id={design} />
                 </div>

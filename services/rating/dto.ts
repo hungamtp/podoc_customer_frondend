@@ -17,4 +17,5 @@
     ratingStar: number;
     comment: string;
     designId: string;
+    orderDetailId: string;
   }

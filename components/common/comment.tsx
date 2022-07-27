@@ -7,6 +7,7 @@ import { CreateRatingDto } from "@/services/rating/dto";
 import useCreateRating from "@/hooks/api/rating/use-create-rating";
 export interface ICommentProductProps {
   designId: string;
+  orderDetailId: string;
   handleCloseDialog: () => void;
 }
 
@@ -18,13 +19,14 @@ const schema = yup.object().shape({
 });
 
 export default function CommentProduct(props: ICommentProductProps) {
-  const { designId, handleCloseDialog } = props;
+  const { designId, orderDetailId, handleCloseDialog } = props;
   const [value, setValue] = React.useState<number>(1);
   const { mutate: createRating } = useCreateRating(handleCloseDialog);
   const defaultValues: CreateRatingDto = {
     comment: "",
     ratingStar: 0,
     designId: "",
+    orderDetailId: "",
   };
   const {
     register,
@@ -41,6 +43,7 @@ export default function CommentProduct(props: ICommentProductProps) {
       ...data,
       ratingStar: value,
       designId: designId,
+      orderDetailId: orderDetailId,
     };
     createRating(tmpData);
     console.log(tmpData, "asdasdsa");
@@ -91,10 +94,10 @@ export default function CommentProduct(props: ICommentProductProps) {
               className="btn btn-secondary"
               onClick={handleCloseDialog}
             >
-              Close
+              Hủy
             </button>
             <button type="submit" className="btn btn-primary">
-              Save changes
+              Lưu thay đổi
             </button>
           </div>
           {/*end row*/}
