@@ -1,19 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { EmptyLayout } from "@/components/layouts";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { GetStaticPaths, GetStaticProps } from "next";
-import useLogin from "@/hooks/api/use-login";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
+import { EmptyLayout } from "@/components/layouts";
+import useLogin from "@/hooks/api/use-login";
 import { login as loginAction } from "@/redux/slices/auth";
-import { setCart } from "@/redux/slices/cart";
-import useCart from "@/hooks/api/cart/use-cart";
-import { AxiosError } from "axios";
-import { ErrorHttpResponse } from "../models";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 type FormLogin = {
   email: string;
@@ -32,8 +27,8 @@ const schema = yup.object().shape({
     .required("Email không được để trống"),
   password: yup
     .string()
-    .min(8, "Mật khẩu cần ít nhất 8 kí tự")
-    .max(26, "Mật khẩu tối đa 50 kí tự")
+    .min(8, "Mật khẩu cần ít nhất 8 chữ cái")
+    .max(26, "Mật khẩu tối đa 50 chữ cái")
     .required("Mật khẩu không được để trống"),
 });
 export default function Login({ data }: Props) {

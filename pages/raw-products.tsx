@@ -95,62 +95,61 @@ export default function RawProducts(props: IProductProps) {
         {/* Hero End */}
         {/* Start Products */}
         <section className="section">
-          {response && response.elements > 0 ? (
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-3 col-md-4 col-12">
-                  <div className="card border-0 sidebar sticky-bar">
-                    <div className="card-body p-0">
-                      {/* SEARCH */}
-                      <div className="widget">
-                        <form
-                          role="search"
-                          method="get"
-                          onSubmit={handleSubmit(onSubmit)}
-                        >
-                          <div className="input-group mb-3 border rounded">
-                            <input
-                              type="text"
-                              className="form-control border-0"
-                              placeholder="Tên sản phẩm"
-                              {...register("name")}
-                            />
-                            <button
-                              type="submit"
-                              className="input-group-text bg-white border-0"
-                              id="searchsubmit"
-                            >
-                              <i className="uil uil-search" />
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                      {/* SEARCH */}
-                      <Categories handleCategoryChange={handleCategoryChange} />
-
-                      {/* Top Products */}
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-3 col-md-4 col-12">
+                <div className="card border-0 sidebar sticky-bar">
+                  <div className="card-body p-0">
+                    {/* SEARCH */}
+                    <div className="widget">
+                      <form
+                        role="search"
+                        method="get"
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
+                        <div className="input-group mb-3 border rounded">
+                          <input
+                            type="text"
+                            className="form-control border-0"
+                            placeholder="Tên sản phẩm"
+                            {...register("name")}
+                          />
+                          <button
+                            type="submit"
+                            className="input-group-text bg-white border-0"
+                            id="searchsubmit"
+                          >
+                            <i className="uil uil-search" />
+                          </button>
+                        </div>
+                      </form>
                     </div>
+                    {/* SEARCH */}
+                    <Categories handleCategoryChange={handleCategoryChange} />
+
+                    {/* Top Products */}
                   </div>
                 </div>
-                {/*end col*/}
-                <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
-                  <div className="row align-items-center">
-                    <div className="col-lg-8 col-md-7">
-                      <div className="section-title">
-                        <h5 className="mb-0">
-                          Hiển thị 1–
-                          {response && response?.elements < filter.pageSize
-                            ? response?.elements
-                            : filter.pageSize}{" "}
-                          của {response?.elements}
-                          &nbsp;sản phẩm
-                        </h5>
-                      </div>
+              </div>
+              {/*end col*/}
+              <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
+                <div className="row align-items-center">
+                  <div className="col-lg-8 col-md-7">
+                    <div className="section-title">
+                      <h5 className="mb-0">
+                        Hiển thị 1–
+                        {response && response?.elements < filter.pageSize
+                          ? response?.elements
+                          : filter.pageSize}{" "}
+                        của {response?.elements}
+                        &nbsp;sản phẩm
+                      </h5>
                     </div>
-                    {/*end col*/}
-                    <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                      <div className="d-flex justify-content-md-between align-items-center">
-                        {/* <div className="form custom-form">
+                  </div>
+                  {/*end col*/}
+                  <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <div className="d-flex justify-content-md-between align-items-center">
+                      {/* <div className="form custom-form">
                         <div className="mb-0">
                           <select
                             className="form-select form-control"
@@ -165,7 +164,7 @@ export default function RawProducts(props: IProductProps) {
                           </select>
                         </div>
                       </div> */}
-                        {/* <div className="mx-2">
+                      {/* <div className="mx-2">
                         <a href="shop-grids.html" className="h5 text-muted">
                           <i className="uil uil-apps" />
                         </a>
@@ -175,36 +174,34 @@ export default function RawProducts(props: IProductProps) {
                           <i className="uil uil-list-ul" />
                         </a>
                       </div> */}
-                      </div>
                     </div>
-                    {/*end col*/}
                   </div>
-                  {/*end row*/}
-                  <div className="row">
-                    {response?.data.map((product) => {
-                      return <RawProduct key={product.id} product={product} />;
-                    })}
-                    {totalPages <= 1 ? (
-                      <></>
-                    ) : (
-                      <div className="d-flex justify-content-center">
-                        <PaginationComponent
-                          total={totalPages}
-                          filter={filter}
-                          setFilter={setFilter}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {/*end row*/}
+                  {/*end col*/}
                 </div>
-                {/*end col*/}
+                {/*end row*/}
+                <div className="row">
+                  {response?.data.map((product) => {
+                    return <RawProduct key={product.id} product={product} />;
+                  })}
+                  {totalPages <= 1 ? (
+                    <></>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <PaginationComponent
+                        total={totalPages}
+                        filter={filter}
+                        setFilter={setFilter}
+                      />
+                    </div>
+                  )}
+                </div>
+                {/*end row*/}
               </div>
-              {/*end row*/}
+              {/*end col*/}
             </div>
-          ) : (
-            <p className="h2 text-center">Chưa có sản phẩm thô nào</p>
-          )}
+            {/*end row*/}
+          </div>
+
           {/*end container*/}
         </section>
         {/*end section*/}
