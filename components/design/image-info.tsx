@@ -1,4 +1,5 @@
 import { DesignState } from "@/models/design";
+import Image from "next/image";
 import * as React from "react";
 import { useAppSelector } from "../hooks/reduxHook";
 import SingleInputMemo from "./single-input";
@@ -74,207 +75,200 @@ const ImageInfo = (props: IImageInfoProps) => {
           }}
         >
           <div className="border-bottom p-3 d-flex justify-content-between ">
-            <div className="d-flex">
-              <img src={designInfo.src} width="50px" height="50px"></img>
-
-              <div className="ms-4 w">
-                <p className="h6 m-0  text-truncate " style={{ maxWidth: 150 }}>
-                  {designInfo.name}
-                </p>
-                <p className="text-warning  m-0">{designInfo.DPI}</p>
-              </div>
+            <div className="w-25">
+              <Image
+                src={designInfo.src}
+                className="img-fluid "
+                width={50}
+                height={50}
+                objectFit="cover"
+                alt="productImage"
+              />
             </div>
-            <div>
-              <button
-                className="btn btn-link text-dark px-2"
-                onClick={() => {
-                  cloneDesign(designInfo.key);
-                }}
+
+            <div className="w-75">
+              <p
+                className="h6 m-0 text-truncate text-center "
+                style={{ maxWidth: 200 }}
               >
-                <i className="bi bi-file-earmark h4 "></i>
-              </button>
-              <button
-                className="btn btn-link text-dark px-2 "
-                onClick={() => {
-                  deleteImage(designInfo.key);
-                }}
-              >
-                <i className="bi bi-file-earmark-x h4 "></i>
-              </button>
+                {designInfo.name}
+              </p>
+              <p className="text-warning m-0">{designInfo.DPI}</p>
             </div>
           </div>
           <div className="p-3">
-            <table className="w-full p-5 text-gray-700">
-              <tbody>
-                <tr className="">
-                  <td></td>
-                  <td>Width</td>
-                  <td>Height</td>
-                </tr>
-                <tr className="">
-                  <td className="w-quater">Size</td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeWidth}
-                        defaultVal={get2Decimal(designInfo.width) + ""}
-                      />
-                      <span className="custom-input-tag">in</span>
-                    </div>
-                  </td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeHeight}
-                        defaultVal={get2Decimal(designInfo.height) + ""}
-                      />
-                      <span className="custom-input-tag">in</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="">
-                  <td></td>
-                  <td>
-                    <div className="mt-3">Rotate</div>
-                  </td>
-                  <td>
-                    <div className="mt-3">Scale</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Transform</td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeRotate}
-                        defaultVal={get2Decimal(designInfo.rotate) + ""}
-                      />
-                      <span className="custom-input-tag">deg</span>
-                    </div>
-                  </td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeScale}
-                        defaultVal={get2Decimal(designInfo.scales) + ""}
-                      />
-                      <span className="custom-input-tag">%</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="">
-                  <td></td>
-                  <td>
-                    <div className="mt-3">Left</div>
-                  </td>
-                  <td>
-                    {" "}
-                    <div className="mt-3">Top</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Positioning</td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeLeft}
-                        defaultVal={get2Decimal(designInfo.leftPosition) + ""}
-                      />
-                      <span className="custom-input-tag">%</span>
-                    </div>
-                  </td>
-                  <td className=" pe-4">
-                    <div className="d-flex ">
-                      <SingleInputMemo
-                        type="number"
-                        handleChange={handleChangeTop}
-                        defaultVal={get2Decimal(designInfo.topPosition) + ""}
-                      />
-                      <span className="custom-input-tag">%</span>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td className="pt-4">Algin</td>
-                  <td className="w-30p pe-4 pt-4">
-                    <div
-                      className="btn-group btn-group-sm "
-                      role="group"
-                      aria-label="Basic outlined example"
+            <div className="row">
+              <div className="w-25"></div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">Width</div>
+                <div className="w-50">Height</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="w-25">Size</div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeWidth}
+                      defaultVal={get2Decimal(designInfo.width) + ""}
+                    />
+                    <span className="custom-input-tag">in</span>
+                  </div>
+                </div>
+                <div className="w-50">
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeHeight}
+                      defaultVal={get2Decimal(designInfo.height) + ""}
+                    />
+                    <span className="custom-input-tag">in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="w-25"></div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">Rotate</div>
+                <div className="w-50">Scale</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="w-25">Transform</div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeRotate}
+                      defaultVal={get2Decimal(designInfo.rotate) + ""}
+                    />
+                    <span className="custom-input-tag">deg</span>
+                  </div>
+                </div>
+                <div className="w-50">
+                  {" "}
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeScale}
+                      defaultVal={get2Decimal(designInfo.scales) + ""}
+                    />
+                    <span className="custom-input-tag">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="w-25 "></div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">Left</div>
+                <div className="w-50">Top</div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="w-25">Positioning</div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeLeft}
+                      defaultVal={get2Decimal(designInfo.leftPosition) + ""}
+                    />
+                    <span className="custom-input-tag">%</span>
+                  </div>
+                </div>
+                <div className="w-50">
+                  <div className="d-flex ">
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeTop}
+                      defaultVal={get2Decimal(designInfo.topPosition) + ""}
+                    />
+                    <span className="custom-input-tag">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="w-25">Algin</div>
+              <div className="d-flex w-75">
+                <div className="w-50 me-5">
+                  <div
+                    className="btn-group btn-group-sm "
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("left");
+                      }}
                     >
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("left");
-                        }}
-                      >
-                        <i className="bi bi-align-start"></i>
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("center");
-                        }}
-                      >
-                        <i className="bi bi-align-center"></i>
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("right");
-                        }}
-                      >
-                        <i className="bi bi-align-end"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="w-30p pe-4 pt-4">
-                    <div
-                      className="btn-group btn-group-sm"
-                      role="group"
-                      aria-label="Basic outlined example"
+                      <i className="bi bi-align-start"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("center");
+                      }}
                     >
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("top");
-                        }}
-                      >
-                        <i className="bi bi-align-top"></i>
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("middle");
-                        }}
-                      >
-                        <i className="bi bi-align-middle"></i>
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => {
-                          align("bottom");
-                        }}
-                      >
-                        <i className="bi bi-align-bottom"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <i className="bi bi-align-center"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("right");
+                      }}
+                    >
+                      <i className="bi bi-align-end"></i>
+                    </button>
+                  </div>
+                </div>
+                <div className="w-50">
+                  <div
+                    className="btn-group btn-group-sm"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("top");
+                      }}
+                    >
+                      <i className="bi bi-align-top"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("middle");
+                      }}
+                    >
+                      <i className="bi bi-align-middle"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={() => {
+                        align("bottom");
+                      }}
+                    >
+                      <i className="bi bi-align-bottom"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -286,17 +280,27 @@ const ImageInfo = (props: IImageInfoProps) => {
               if (chooseDesign) chooseDesign(designInfo.key);
             }}
           >
-            <div className="d-flex">
-              <img src={designInfo.src} width="50px" height="50px"></img>
-
-              <div className="ms-4">
-                <p className="h6 m-0 text-truncate" style={{ maxWidth: 150 }}>
-                  {designInfo.name}
-                </p>
-                <p className="text-warning m-0">{designInfo.DPI}</p>
-              </div>
+            <div className="w-25">
+              <Image
+                src={designInfo.src}
+                className="img-fluid "
+                width={50}
+                height={50}
+                objectFit="cover"
+                alt="productImage"
+              />
             </div>
-            <div>
+
+            <div className="w-75">
+              <p
+                className="h6 m-0 text-truncate text-center "
+                style={{ maxWidth: 200 }}
+              >
+                {designInfo.name}
+              </p>
+              <p className="text-warning m-0">{designInfo.DPI}</p>
+            </div>
+            <div className="d-flex justify-content-end">
               <button
                 className="btn btn-link text-dark px-2"
                 onClick={() => {
