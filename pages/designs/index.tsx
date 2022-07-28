@@ -103,102 +103,98 @@ export default function DesignedProducts(props: IProductProps) {
         {/* Hero End */}
         {/* Start Products */}
         <section className="section">
-          {response && response.elements > 0 ? (
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-3 col-md-4 col-12">
-                  <div className="card border-0 sidebar sticky-bar">
-                    <div className="card-body p-0">
-                      {/* SEARCH */}
-                      <div className="widget">
-                        <form
-                          role="search"
-                          method="get"
-                          onSubmit={handleSubmit(onSubmit)}
-                        >
-                          <div className="input-group mb-3 border rounded">
-                            <input
-                              type="text"
-                              className="form-control border-0"
-                              {...register("name")}
-                              placeholder="Tên sản phẩm"
-                            />
-                            <button
-                              type="submit"
-                              className="input-group-text bg-white border-0"
-                              id="searchsubmit"
-                            >
-                              <i className="uil uil-search" />
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                      {/* SEARCH */}
-                      <Categories handleCategoryChange={handleCategoryChange} />
-
-                      {/* Top Products */}
-                      {getBestSellerResponse &&
-                        getBestSellerResponse.length > 0 && (
-                          <div className="widget mt-4 pt-2">
-                            <h5 className="widget-title">Sản phẩm bán chạy</h5>
-                            <ul className="list-unstyled mt-4 mb-0">
-                              {getBestSellerResponse.map((product) => (
-                                <li
-                                  className="d-flex align-items-center"
-                                  key={product.id}
-                                >
-                                  <Link href={`designs/${product.id}`}>
-                                    <a>
-                                      <img
-                                        src={product.image}
-                                        className="img-fluid avatar avatar-small rounded shadow"
-                                        style={{ height: "auto" }}
-                                        alt=""
-                                      />
-                                    </a>
-                                  </Link>
-
-                                  <div className="flex-1 content ms-3">
-                                    <Link href={`designs/${product.id}`}>
-                                      <a className="text-dark h6">
-                                        {product.name}
-                                      </a>
-                                    </Link>
-                                    <h6 className="text-dark small fst-italic mb-0 mt-1">
-                                      {product.designedPrice} VNĐ
-                                      {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
-                                    </h6>
-
-                                    <p className="text-success">
-                                      {product.username}
-                                    </p>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-3 col-md-4 col-12">
+                <div className="card border-0 sidebar sticky-bar">
+                  <div className="card-body p-0">
+                    {/* SEARCH */}
+                    <div className="widget">
+                      <form
+                        role="search"
+                        method="get"
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
+                        <div className="input-group mb-3 border rounded">
+                          <input
+                            type="text"
+                            className="form-control border-0"
+                            {...register("name")}
+                            placeholder="Tên sản phẩm"
+                          />
+                          <button
+                            type="submit"
+                            className="input-group-text bg-white border-0"
+                            id="searchsubmit"
+                          >
+                            <i className="uil uil-search" />
+                          </button>
+                        </div>
+                      </form>
                     </div>
+                    {/* SEARCH */}
+                    <Categories handleCategoryChange={handleCategoryChange} />
+
+                    {/* Top Products */}
+                    {getBestSellerResponse && getBestSellerResponse.length > 0 && (
+                      <div className="widget mt-4 pt-2">
+                        <h5 className="widget-title">Sản phẩm bán chạy</h5>
+                        <ul className="list-unstyled mt-4 mb-0">
+                          {getBestSellerResponse.map((product) => (
+                            <li
+                              className="d-flex align-items-center"
+                              key={product.id}
+                            >
+                              <Link href={`designs/${product.id}`}>
+                                <a>
+                                  <img
+                                    src={product.image}
+                                    className="img-fluid avatar avatar-small rounded shadow"
+                                    style={{ height: "auto" }}
+                                    alt=""
+                                  />
+                                </a>
+                              </Link>
+
+                              <div className="flex-1 content ms-3">
+                                <Link href={`designs/${product.id}`}>
+                                  <a className="text-dark h6">{product.name}</a>
+                                </Link>
+                                <h6 className="text-dark small fst-italic mb-0 mt-1">
+                                  {product.designedPrice} VNĐ
+                                  {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
+                                </h6>
+
+                                <p className="text-success">
+                                  {product.username}
+                                </p>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
-                {/*end col*/}
-                <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
-                  <div className="row align-items-center">
-                    <div className="col-lg-8 col-md-7">
-                      <div className="section-title">
-                        <h5 className="mb-0">
-                          Hiển thị 1–
-                          {response.elements < filter.pageSize
-                            ? response.elements
-                            : filter.pageSize}{" "}
-                          của {response.elements}
-                          &nbsp;kết quả
-                        </h5>
-                      </div>
+              </div>
+              {/*end col*/}
+              <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
+                <div className="row align-items-center">
+                  <div className="col-lg-8 col-md-7">
+                    <div className="section-title">
+                      <h5 className="mb-0">
+                        Hiển thị 1–
+                        {response && response?.elements < filter.pageSize
+                          ? response?.elements
+                          : filter.pageSize}{" "}
+                        của {response?.elements}
+                        &nbsp;sản phẩm
+                      </h5>
                     </div>
-                    {/*end col*/}
-                    <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                      {/* <div className="d-flex justify-content-md-between align-items-center">
+                  </div>
+                  {/*end col*/}
+                  <div className="col-lg-4 col-md-5 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    {/* <div className="d-flex justify-content-md-between align-items-center">
                         <div className="form custom-form">
                           <div className="mb-0">
                             <select
@@ -225,12 +221,13 @@ export default function DesignedProducts(props: IProductProps) {
                           </a>
                         </div>
                       </div> */}
-                    </div>
-                    {/*end col*/}
                   </div>
-                  {/*end row*/}
+                  {/*end col*/}
+                </div>
+                {/*end row*/}
+                {response && (
                   <div className="row">
-                    {response.data.map((product) => {
+                    {response?.data.map((product) => {
                       return (
                         <DesignedProductCard
                           key={product.id}
@@ -239,7 +236,7 @@ export default function DesignedProducts(props: IProductProps) {
                       );
                     })}
 
-                    {response.elements > 0 && (
+                    {response?.elements > 0 && (
                       <div className="d-flex justify-content-center">
                         <PaginationComponent
                           total={totalPages}
@@ -249,15 +246,14 @@ export default function DesignedProducts(props: IProductProps) {
                       </div>
                     )}
                   </div>
-                  {/*end row*/}
-                </div>
-                {/*end col*/}
+                )}
+                {/*end row*/}
               </div>
-              {/*end row*/}
+              {/*end col*/}
             </div>
-          ) : (
-            <p className="h2 text-center">Chưa có thiết kế nào</p>
-          )}
+            {/*end row*/}
+          </div>
+
           {/*end container*/}
         </section>
         {/*end section*/}

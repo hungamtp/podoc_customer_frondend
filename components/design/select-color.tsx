@@ -84,17 +84,13 @@ export default function SelectColor({ colors }: ISelectColorProps) {
 
                 return selected.map((color) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     key={color}
-                    width={30}
+                    width={40}
                     height={30}
                     className="rounded-circle border"
                     src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
-                    style={{
-                      backgroundColor: color,
-                      marginRight: "0.5rem",
-                      opacity: "0.8",
-                    }}
+                    style={{ backgroundColor: color, opacity: "0.8" }}
                     alt={color}
                   />
                 ));

@@ -67,17 +67,16 @@ export default function Checkout({}: Props) {
     email: yup
       .string()
       .email()
-      .min(8, "Email cần ít nhất 8 kí tự")
-      .max(50, "Email tối đa 50 kí tự")
+      .min(8, "Email cần ít nhất 8 chữ cái")
+      .max(50, "Email tối đa 50 chữ cái")
       .required("Email không được để trống"),
     address: yup
       .string()
-      .min(8, "Email cần ít nhất 8 kí tự")
-      .max(300, "Email tối đa 300 kí tự"),
+      .min(8, "Email cần ít nhất 8 chữ cái")
+      .max(300, "Email tối đa 300 chữ cái"),
     name: yup
       .string()
-      .min(8, "Tên cần ít nhất 8 kí tự")
-      .max(26, "Tên tối đa 50 kí tự")
+      .max(26, "Tên tối đa 50 chữ cái")
       .required("Tên không được để trống"),
     phone: yup
       .string()
