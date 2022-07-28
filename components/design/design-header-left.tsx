@@ -80,7 +80,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   }, [isPreview]);
 
   return (
-    <div className="row h-9">
+    <div className="row ">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-between border-bottom  py-0 px-0">
           <div className="d-flex">

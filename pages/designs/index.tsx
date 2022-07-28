@@ -12,6 +12,7 @@ import useRawProduct, {
 } from "@/hooks/api/use-get-all-product-raw";
 import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
 import search from "@/redux/slices/search";
+import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { useEffect } from "react";
@@ -146,12 +147,15 @@ export default function DesignedProducts(props: IProductProps) {
                               key={product.id}
                             >
                               <Link href={`designs/${product.id}`}>
-                                <a>
-                                  <img
+                                <a className="w-25">
+                                  <Image
                                     src={product.image}
                                     className="img-fluid avatar avatar-small rounded shadow"
                                     style={{ height: "auto" }}
-                                    alt=""
+                                    width={2000}
+                                    height={2000}
+                                    objectFit="cover"
+                                    alt="productImage"
                                   />
                                 </a>
                               </Link>
