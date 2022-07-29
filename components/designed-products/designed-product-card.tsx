@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ShownDesignedProduct } from "@/models/design";
+import { Rating } from "@mui/material";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,27 +94,23 @@ export default function DesignedProductCard({ product }: Props) {
               {numberWithCommas(product.price)} VND
             </h6>
           </div>
-          <div className="design-detail">
-            <ul className="list-unstyled">
-              {getRates(product.rating).map((rate) => {
-                return (
-                  <li key={rate} className="list-inline-item text-warning ">
-                    <i className="mdi mdi-star"></i>
-                  </li>
-                );
-              })}
-              {getUnRates(product.rating).map((rate) => {
-                return (
-                  <li key={rate} className="list-inline-item">
-                    <i className="mdi mdi-star"></i>
-                  </li>
-                );
-              })}
-            </ul>
+          <div className="d-flex">
             <span className="list-unstyled text-warning  ">
-              ({product.rating.toFixed(2)})
+              {product.rating.toFixed(2)}
             </span>
+
+            <Rating
+              name="half-rating"
+              value={product.rating}
+              size="small"
+              sx={{ marginY: "auto" }}
+              precision={0.5}
+              readOnly
+            />
           </div>
+          <span className="list-unstyled text-secondary">
+            (Đánh giá: {product.rateCount})
+          </span>
           <div>
             <span className="sold-number ">Đã bán {product.sold}</span>
           </div>
