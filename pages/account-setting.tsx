@@ -181,6 +181,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <li className="nav-item">
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       className={`nav-link rounded ${
                         !(
                           prevPath === "/design" ||
@@ -191,6 +192,18 @@ export default function AccountSetting(props: IAccountSettingProps) {
 =======
                       className={`nav-link rounded ${!(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
 >>>>>>> 0133c3d (add default avatar in acount setting)
+=======
+                      className={`nav-link rounded ${!(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
+=======
+                      className={`nav-link rounded ${
+                        !(
+                          prevPath === "/design" ||
+                          prevPath === "/my-product/order" ||
+                          prevPath === "/my-product/edit-design"
+                        ) && "active show"
+                      }`}
+>>>>>>> 6a59185 (fix ui, sort size)
+>>>>>>> 8c1e7d3 (fix ui, sort size)
                       id="dashboard"
                       data-bs-toggle="pill"
                       href="#dash"
@@ -209,6 +222,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <li className="nav-item mt-2">
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       className={`nav-link rounded ${
                         (prevPath === "/design" ||
                           prevPath === "/my-product/order" ||
@@ -218,6 +232,17 @@ export default function AccountSetting(props: IAccountSettingProps) {
 =======
                       className={`nav-link rounded ${(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
 >>>>>>> 0133c3d (add default avatar in acount setting)
+=======
+                      className={`nav-link rounded ${(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
+=======
+                      className={`nav-link rounded ${
+                        (prevPath === "/design" ||
+                          prevPath === "/my-product/order" ||
+                          prevPath === "/my-product/edit-design") &&
+                        "active show"
+                      }`}
+>>>>>>> 6a59185 (fix ui, sort size)
+>>>>>>> 8c1e7d3 (fix ui, sort size)
                       id="mydesigns-list"
                       data-bs-toggle="pill"
                       href="#mydesigns"
@@ -345,6 +370,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
 <<<<<<< HEAD
+<<<<<<< HEAD
                       prevPath !== "/design" &&
                       prevPath !== "/my-product/order" &&
                       prevPath !== "/my-product/edit-design" &&
@@ -352,6 +378,15 @@ export default function AccountSetting(props: IAccountSettingProps) {
 =======
                       prevPath !== '/design' && prevPath !== '/my-product/order' && 'active show'
 >>>>>>> 0133c3d (add default avatar in acount setting)
+=======
+                      prevPath !== '/design' && prevPath !== '/my-product/order' && 'active show'
+=======
+                      prevPath !== "/design" &&
+                      prevPath !== "/my-product/order" &&
+                      prevPath !== "/my-product/edit-design" &&
+                      "active show"
+>>>>>>> 6a59185 (fix ui, sort size)
+>>>>>>> 8c1e7d3 (fix ui, sort size)
                     }`}
                     id="dash"
                     role="tabpanel"
@@ -363,6 +398,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
 <<<<<<< HEAD
+<<<<<<< HEAD
                       (prevPath === "/design" ||
                         prevPath === "/my-product/order" ||
                         prevPath === "/my-product/edit-design") &&
@@ -370,6 +406,15 @@ export default function AccountSetting(props: IAccountSettingProps) {
 =======
                       (prevPath === '/design' || prevPath === '/my-product/order') && 'active show'
 >>>>>>> 0133c3d (add default avatar in acount setting)
+=======
+                      (prevPath === '/design' || prevPath === '/my-product/order') && 'active show'
+=======
+                      (prevPath === "/design" ||
+                        prevPath === "/my-product/order" ||
+                        prevPath === "/my-product/edit-design") &&
+                      "active show"
+>>>>>>> 6a59185 (fix ui, sort size)
+>>>>>>> 8c1e7d3 (fix ui, sort size)
                     }`}
                     id="mydesigns"
                     role="tabpanel"
