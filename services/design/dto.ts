@@ -51,6 +51,7 @@ export interface SimpleDesignProduct {
   id: string;
   name: string;
   publish: string;
+  soldCount: number;
   designedPrice: number;
   user: {
     id: string;
