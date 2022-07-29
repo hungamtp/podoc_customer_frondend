@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import UserRating from "@/components/common/rating";
+import ShowRating from "@/components/common/show-rating";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { PageWithHero } from "@/components/layouts/page-with-hero";
 import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
@@ -20,6 +21,66 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { string } from "yup";
 
+const quickSort = (
+  arr: { size: string; dignity: number; color: string }[]
+): { size: string; dignity: number; color: string }[] => {
+  if (arr.length < 2) return arr;
+
+  // *** lấy phần tử cuối của 'arr' làm 'pivot'
+  const pivotIndex = arr.length - 1;
+  const pivot = arr[pivotIndex];
+
+  const left = [];
+  const right = [];
+
+  let currentItem;
+  // *** 'i < pivotIndex' => chúng ta sẽ không loop qua 'pivot' nữa
+  for (let i = 0; i < pivotIndex; i++) {
+    currentItem = arr[i];
+
+    if (currentItem.dignity < pivot.dignity) {
+      left.push(currentItem);
+    } else {
+      right.push(currentItem);
+    }
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)];
+};
+
+const sizeSort = (
+  sizeList: { color: string; size: string }[]
+): { size: string; dignity: number; color: string }[] => {
+  const newList: { size: string; dignity: number; color: string }[] = [];
+  sizeList.forEach((size) => {
+    let dignity = 1;
+    for (let index = size.size.length - 1; index >= 0; index--) {
+      let isNum = false;
+      let num = 1;
+      try {
+        num = Number(size.size[index]);
+        isNum = true;
+      } catch (e) {
+        isNum = false;
+      }
+      if (size.size[index] === "x" || size.size[index] === "X") {
+        dignity = dignity * 2;
+      } else if (size.size[index] === "M" || size.size[index] === "m") {
+        dignity = dignity * 1;
+      } else if (size.size[index] === "L" || size.size[index] === "l") {
+        dignity = dignity * 2;
+      } else if (size.size[index] === "s" || size.size[index] === "S") {
+        dignity = dignity * -2;
+      } else if (isNum) {
+        dignity = dignity * num;
+      }
+    }
+    newList.push({ ...size, dignity: dignity });
+  });
+
+  return newList;
+};
+
 export default function DesignedProductDetail() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -34,6 +95,7 @@ export default function DesignedProductDetail() {
     isLoading: isLoadingAddNewCartDetail,
     error,
   } = useAddToCart();
+
   const carts = useAppSelector((state) => state.carts);
   const [cart, setCart] = React.useState<CartDetailDTO>();
 
@@ -59,7 +121,12 @@ export default function DesignedProductDetail() {
   React.useEffect(() => {
     if (!!designedProduct) {
       if (!!designedProduct.colorAndSizes) {
-        setSizeList(designedProduct.colorAndSizes[selectedColorSize]);
+        const sizeData = designedProduct.colorAndSizes[selectedColorSize] as {
+          color: string;
+          size: string;
+        }[];
+
+        setSizeList(quickSort(sizeSort(sizeData)));
       }
     }
   }, [selectedColorSize]);
@@ -254,24 +321,10 @@ export default function DesignedProductDetail() {
                             {numberWithCommas(designedProduct.price)} VND
                           </h6>
                         </div>
-                        <div className="d-flex justify-content-between w-50">
-                          <div className="d-flex">
-                            <Rating
-                              name="half-rating"
-                              value={designedProduct.rating}
-                              size="small"
-                              sx={{ marginY: "auto" }}
-                              precision={0.5}
-                              readOnly
-                            />
-                            <span className="list-unstyled text-warning  ">
-                              {designedProduct.rating.toFixed(2)}
-                            </span>
-                          </div>
-                          <span className="sold-number ">
-                            (Đánh giá: {designedProduct.rateCount})
-                          </span>
-                        </div>
+                        <ShowRating
+                          rate={designedProduct.rating}
+                          rateCount={designedProduct.rateCount}
+                        />
                         <div>
                           <span className="sold-number ">
                             Đã bán {designedProduct.sold}

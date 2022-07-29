@@ -193,7 +193,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className={`nav-link rounded ${
                         !(
                           prevPath === "/design" ||
-                          prevPath === "/my-product/order"
+                          prevPath === "/my-product/order" ||
+                          prevPath === "/my-product/edit-design"
                         ) && "active show"
                       }`}
                       id="dashboard"
@@ -216,7 +217,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     <a
                       className={`nav-link rounded ${
                         (prevPath === "/design" ||
-                          prevPath === "/my-product/order") &&
+                          prevPath === "/my-product/order" ||
+                          prevPath === "/my-product/edit-design") &&
                         "active show"
                       }`}
                       id="mydesigns-list"
@@ -356,6 +358,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
                       prevPath !== "/design" &&
                       prevPath !== "/my-product/order" &&
+                      prevPath !== "/my-product/edit-design" &&
                       "active show"
                     }`}
                     id="dash"
@@ -368,7 +371,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
                       (prevPath === "/design" ||
-                        prevPath === "/my-product/order") &&
+                        prevPath === "/my-product/order" ||
+                        prevPath === "/my-product/edit-design") &&
                       "active show"
                     }`}
                     id="mydesigns"

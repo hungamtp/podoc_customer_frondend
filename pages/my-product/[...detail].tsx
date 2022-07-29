@@ -19,12 +19,35 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
     detail as string
   );
   const [renderedPosition, setRenderPosition] = useState("front");
+  const [imageWithPosition, setImageWithPosition] = useState<
+    {
+      position: string;
+      image: string;
+      color: string;
+    }[]
+  >([]);
   const [renderedColor, setRenderColor] = useState("");
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    if (response) setRenderColor(response.colorsObj[0].image);
+    if (response) {
+      setRenderColor(response.colorsObj[0].image);
+    }
   }, [response]);
+  React.useEffect(() => {
+    if (response) {
+      if (renderedColor) {
+        const tmpList = response.imagePreviews.filter(
+          (image) => image.color === renderedColor
+        );
+        let submitImageList = [];
+        const front = tmpList.filter((image) => image.position === "front")[0];
+        const back = tmpList.filter((image) => image.position === "back")[0];
+        submitImageList = [front, back];
+        setImageWithPosition(submitImageList);
+      }
+    }
+  }, [renderedColor]);
 
   return (
     <div>
@@ -89,47 +112,42 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <p className="h4">Chọn mặt áo</p>
                               <div className="mt-4">
                                 <div className="mb-0 d-flex justify-content-between ">
-                                  {response.imagePreviews.map(
-                                    (imagePreview) => {
-                                      if (imagePreview.color === renderedColor)
-                                        return (
-                                          <>
-                                            <div
-                                              key={imagePreview.position}
-                                              className="cursor-pointer"
-                                              onClick={() => {
-                                                setRenderPosition(
-                                                  imagePreview.position
-                                                );
-                                              }}
-                                            >
-                                              <Image
-                                                src={imagePreview.image}
-                                                className="img-fluid"
-                                                width={1000}
-                                                height={1000}
-                                                objectFit="cover"
-                                                alt="productImage"
-                                              />
+                                  {imageWithPosition.map((imagePreview) => (
+                                    <>
+                                      <div
+                                        key={imagePreview.position}
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                          setRenderPosition(
+                                            imagePreview.position
+                                          );
+                                        }}
+                                      >
+                                        <Image
+                                          src={imagePreview.image}
+                                          className="img-fluid"
+                                          width={1000}
+                                          height={1000}
+                                          objectFit="cover"
+                                          alt="productImage"
+                                        />
 
-                                              <p className="text-center">
-                                                {imagePreview.position ===
-                                                  "front" && "Trước"}
-                                                {imagePreview.position ===
-                                                  "back" && "Sau"}
-                                              </p>
-                                            </div>
-                                          </>
-                                        );
-                                    }
-                                  )}
+                                        <p className="text-center">
+                                          {imagePreview.position === "front" &&
+                                            "Trước"}
+                                          {imagePreview.position === "back" &&
+                                            "Sau"}
+                                        </p>
+                                      </div>
+                                    </>
+                                  ))}
                                 </div>
                               </div>
                             </div>
                             <div className="">
                               <p className="h4">Chọn màu áo</p>
                               <div className="mt-4">
-                                <div className=" mb-0 d-flex justify-content-between w-half">
+                                <div className=" mb-0 d-flex justify-content-between ">
                                   {response.imagePreviews.map(
                                     (imagePreview) => {
                                       if (
