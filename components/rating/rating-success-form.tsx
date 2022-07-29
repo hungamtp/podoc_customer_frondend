@@ -5,19 +5,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Image from "next/image";
-export interface IRatingSuccessProps {}
+export interface IRatingSuccessProps {
+  isOpenSuccessRating: boolean;
+  setIsOpenSuccessRating: (isOpen: boolean) => void;
+}
 
-export default function RatingSuccess(props: IRatingSuccessProps) {
-  const [open, setOpen] = React.useState(true);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+const RatingSuccess = ({
+  isOpenSuccessRating,
+  setIsOpenSuccessRating,
+}: IRatingSuccessProps) => {
   return (
     <>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={isOpenSuccessRating}
+        onClose={() => setIsOpenSuccessRating(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         disableEscapeKeyDown
@@ -38,7 +39,7 @@ export default function RatingSuccess(props: IRatingSuccessProps) {
             <div className=" d-flex justify-content-center">
               <button
                 className="btn btn-primary ps-4 pe-4"
-                onClick={handleClose}
+                onClick={() => setIsOpenSuccessRating(false)}
               >
                 Đóng
               </button>
@@ -48,4 +49,6 @@ export default function RatingSuccess(props: IRatingSuccessProps) {
       </Dialog>
     </>
   );
-}
+};
+
+export default React.memo(RatingSuccess);

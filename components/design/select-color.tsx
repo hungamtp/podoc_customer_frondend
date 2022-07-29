@@ -86,7 +86,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                   // eslint-disable-next-line @next/next/no-img-element
                   <Image
                     key={color}
-                    width={40}
+                    width={30}
                     height={30}
                     className="rounded-circle border"
                     src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
@@ -110,13 +110,13 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                     width={30}
                     height={30}
                     objectFit="cover"
-                    key={colors[0].image}
+                    key={color.image}
                     src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
                     style={{
-                      backgroundColor: colors[0].image,
+                      backgroundColor: color.image,
                       opacity: "0.8",
                     }}
-                    alt={colors[0].name}
+                    alt={color.name}
                   />
                 </MenuItem>
               ))}

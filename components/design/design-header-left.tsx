@@ -82,7 +82,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   return (
     <div className="row ">
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
-        <div className="d-flex justify-content-between border-bottom  py-0 px-0">
+        <div className="d-flex justify-content-between py-0 px-0 border-bottom">
           <div className="d-flex">
             <p
               className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
@@ -145,30 +145,29 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         </div>
       </div>
 
-      <div className=" col-lg-3 d-md-none d-lg-block border-start px-0 ">
+      <div className=" col-lg-3 d-md-none d-lg-block border-start px-0 border-bottom">
         {controlData.isSetImage ? (
-          <div className="d-flex justify-content-around border-bottom  px-0">
-            <p className="h5 me-5 py-4">Thông tin chi tiết</p>
-            <div
-              className="btn h3 m-0 "
-              onClick={() => {
-                const tmpControlData = {
-                  ...controlData,
-                  isSetImage: false,
-                  isChooseImage: false,
-                };
-                dispatch(setControlData(tmpControlData));
-              }}
-            >
-              x
+          <div className="d-flex flex-column">
+            <div className="d-flex justify-content-around px-0 ">
+              <p className="h5 me-5 py-4">Thông tin chi tiết</p>
+              <div
+                className="btn h3 m-0 "
+                onClick={() => {
+                  const tmpControlData = {
+                    ...controlData,
+                    isSetImage: false,
+                    isChooseImage: false,
+                  };
+                  dispatch(setControlData(tmpControlData));
+                }}
+              >
+                x
+              </div>
             </div>
           </div>
         ) : (
-          <div className="d-flex justify-content-around border-bottom py-3point5 px-0">
-            <p className="h5 m-0 my-auto">Thêm thiết kế</p>
-            <button className="m-0 pt-2 btn btn-link text-success text-decoration-underline">
-              Giá và thông số thêm
-            </button>
+          <div className="d-flex justify-content-around  px-0">
+            <p className="h5 m-0 py-4">Thêm thiết kế</p>
           </div>
         )}
       </div>
