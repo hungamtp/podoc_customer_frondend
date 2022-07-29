@@ -1,5 +1,7 @@
+import { ErrorHttpResponse } from '@/models/error_http_response.interface';
 import { ForgotPasswordDto, UpdateAccountDto, UpdatePasswordDto } from '@/services/account/dto';
 import { forgotPassword, updateAccount, updatePassword } from '@/services/account/index';
+import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
 
@@ -13,6 +15,9 @@ const useForgotPassword = () => {
 		{
 			onSuccess: (data) => {
                 router.push("forgot-password-message")
+			},
+			onError: (error: AxiosError<ErrorHttpResponse>) => {
+				 
 			},
 		}
 	);

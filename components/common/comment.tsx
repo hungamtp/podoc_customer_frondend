@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CreateRatingDto } from "@/services/rating/dto";
 import useCreateRating from "@/hooks/api/rating/use-create-rating";
+import RatingSuccess from "../rating/rating-success-form";
 export interface ICommentProductProps {
   designId: string;
   orderDetailId: string;
@@ -21,7 +22,11 @@ const schema = yup.object().shape({
 export default function CommentProduct(props: ICommentProductProps) {
   const { designId, orderDetailId, handleCloseDialog } = props;
   const [value, setValue] = React.useState<number>(1);
-  const { mutate: createRating } = useCreateRating(handleCloseDialog);
+  const {
+    mutate: createRating,
+    isLoading: isLoadingRating,
+    isSuccess: isSuccessRating,
+  } = useCreateRating(handleCloseDialog);
   const defaultValues: CreateRatingDto = {
     comment: "",
     ratingStar: 0,
@@ -48,6 +53,11 @@ export default function CommentProduct(props: ICommentProductProps) {
     createRating(tmpData);
     console.log(tmpData, "asdasdsa");
   };
+  if (isSuccessRating === true) {
+    setTimeout(() => {
+      alert("Cảm ơn bạn đã đánh giá sản phẩm này");
+    }, 1000);
+  }
 
   return (
     <>
@@ -66,7 +76,7 @@ export default function CommentProduct(props: ICommentProductProps) {
             />
             <div className=" mt-3">
               <div className="mb-2">
-                <label className="form-label">Your Review:</label>
+                <label className="form-label">Bình luận của bạn:</label>
                 <div className="form-icon position-relative">
                   <i
                     data-feather="message-circle"
@@ -98,6 +108,13 @@ export default function CommentProduct(props: ICommentProductProps) {
             </button>
             <button type="submit" className="btn btn-primary">
               Lưu thay đổi
+              {isLoadingRating && (
+                <span
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
             </button>
           </div>
           {/*end row*/}

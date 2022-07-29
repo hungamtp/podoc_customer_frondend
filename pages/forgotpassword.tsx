@@ -13,14 +13,18 @@ type Props = {};
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email()
+    .email("không đúng định dạng Email")
     .min(8, "Tài khoản cần ít nhất 8 kí tự")
     .max(50, "Tài khoản tối đa 50 kí tự")
     .required("Tài khoản không được để trống"),
 });
 
 export default function ForgotPassword({}: Props) {
-  const { mutate: forgotPassword, isLoading: isLoading } = useForgotPassword();
+  const {
+    mutate: forgotPassword,
+    isLoading: isLoading,
+    error,
+  } = useForgotPassword();
 
   const defaultValues: ForgotPasswordDto = {
     email: "",
@@ -92,7 +96,20 @@ export default function ForgotPassword({}: Props) {
                               {...register("email")}
                             />
                           </div>
+                          {errors.email && (
+                            <span
+                              id="error-pwd-message"
+                              className="text-danger"
+                            >
+                              {errors.email.message}
+                            </span>
+                          )}
                         </div>
+                        {error && (
+                          <span id="error-pwd-message" className="text-danger">
+                            Email không tồn tại
+                          </span>
+                        )}
                       </div>
                       <div className="col-lg-12">
                         <div className="d-grid">
