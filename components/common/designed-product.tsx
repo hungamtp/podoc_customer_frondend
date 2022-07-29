@@ -4,6 +4,7 @@ import { Best4DesignedProduct, ProductHomePage } from "@/services/type.dto";
 import { MouseEventHandler } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import ShowRating from "./show-rating";
 type Props = {
   product: ProductHomePage;
 };
@@ -49,7 +50,7 @@ export default function DesignedProduct({ product }: Props) {
         </ul>
         <div className="shop-image position-relative overflow-hidden rounded shadow">
           <a>
-          <Image
+            <Image
               src={product.image}
               className="img-fluid"
               width={1000}
@@ -71,30 +72,14 @@ export default function DesignedProduct({ product }: Props) {
           </a>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic ">
-              Giá: 
-            <span className="text-danger ">{product.designedPrice} VND</span>
+              Giá:
+              <span className="text-danger ">{product.designedPrice} VND</span>
             </h6>
           </div>
           <div className="design-detail">
-            <ul className="list-unstyled">
-              {getRates(product.rate).map((rate) => {
-                return (
-                  <li key={rate} className="list-inline-item text-warning ">
-                    <i className="mdi mdi-star"></i>
-                  </li>
-                );
-              })}
-              {getUnRates(product.rate).map((rate) => {
-                return (
-                  <li key={rate} className="list-inline-item">
-                    <i className="mdi mdi-star"></i>
-                  </li>
-                );
-              })}
-            </ul>
-            <span className="list-unstyled text-warning  ">
-              ({product.rate.toFixed(2)})
-            </span>
+            {product.rateCount > 0 && (
+              <ShowRating rate={product.rate} rateCount={product.rateCount} />
+            )}
           </div>
           <div>
             <span className="sold-number ">Đã bán: {product.soldCount}</span>

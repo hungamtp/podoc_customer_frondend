@@ -37,7 +37,10 @@ export default function Factory({ factory, productName }: Props) {
           <div className="card-header card-factory-header">
             <div className="right-card-factory-header">
               <span style={{ marginRight: " 20px" }}>
-                <b className="mb-0"> {factory.name}</b>
+                <b className="mb-0"> {factory.name}</b>{" "}
+                {factory.rateCount > 0 && (
+                  <span>({factory.rate.toFixed(2) + "/" + "5"})</span>
+                )}
               </span>
             </div>
 
