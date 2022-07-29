@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { EmptyLayout } from "@/components/layouts";
 import { SignUpDTO } from "@/services/type.dto";
-import { useForm, SubmitHandler } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import useSignup from "@/hooks/api/use-signup";
 import Link from "next/link";
@@ -32,16 +32,8 @@ export default function SignUp({}: Props) {
         "Sai định dạng"
       )
       .required("Số điện thoại không được để trống"),
-    firstName: yup
-      .string()
-      .min(2, "Họ cần ít nhất 2 ký tự")
-      .max(20, "Họ tối đa 20 ký tự")
-      .required(),
-    lastName: yup
-      .string()
-      .min(2, "Tên cần ít nhất 2 ký tự")
-      .max(50, "Tên tối đa 20 ký tự")
-      .required(),
+    firstName: yup.string().max(20, "Họ tối đa 20 ký tự").required(),
+    lastName: yup.string().max(50, "Tên tối đa 20 ký tự").required(),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
   const [accepted, setAccepted] = useState(false);
@@ -217,6 +209,15 @@ export default function SignUp({}: Props) {
                                 {errors.email.message}
                               </span>
                             )}
+                            {error && (
+                              <span
+                                id="error-pwd-message"
+                                className="text-danger"
+                              >
+                                {error.response?.data.errorMessage &&
+                                  "Email đã tồn tại"}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -267,11 +268,6 @@ export default function SignUp({}: Props) {
                             </label>
                           </div>
                         </div>
-                        {error && (
-                          <span id="error-pwd-message" className="text-danger">
-                            {error.response?.data.errorMessage}
-                          </span>
-                        )}
                       </div>
 
                       <div className="col-md-12">
