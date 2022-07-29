@@ -69,7 +69,7 @@ const ImageInfo = (props: IImageInfoProps) => {
       {designInfo.key === choosenKey && (
         <div
           key={designInfo.key}
-          className="mb-6 bg-white border  cursor-pointer"
+          className="mb-6 bg-white border  cursor-pointer mt-4"
           onClick={() => {
             if (chooseDesign) chooseDesign(designInfo.key);
           }}
@@ -88,26 +88,46 @@ const ImageInfo = (props: IImageInfoProps) => {
 
             <div className="w-75">
               <p
-                className="h6 m-0 text-truncate text-center "
+                className="h6 m-0 text-truncate ps-3 "
                 style={{ maxWidth: 200 }}
               >
                 {designInfo.name}
               </p>
-              <p className="text-warning m-0">{designInfo.DPI}</p>
+              <p className="text-warning m-0 te ps-3">
+                {get2Decimal(designInfo.DPI || 0)}
+              </p>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-link text-dark px-2"
+                onClick={() => {
+                  cloneDesign(designInfo.key);
+                }}
+              >
+                <i className="bi bi-file-earmark h4 "></i>
+              </button>
+              <button
+                className="btn btn-link text-dark px-2 "
+                onClick={() => {
+                  deleteImage(designInfo.key);
+                }}
+              >
+                <i className="bi bi-file-earmark-x h4 "></i>
+              </button>
             </div>
           </div>
           <div className="p-3">
             <div className="row">
               <div className="w-25"></div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">Width</div>
+                <div className="w-50 mx-4">Width</div>
                 <div className="w-50">Height</div>
               </div>
             </div>
             <div className="row">
               <div className="w-25">Size</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -132,14 +152,14 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row mt-3">
               <div className="w-25"></div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">Rotate</div>
+                <div className="w-50 mx-4">Rotate</div>
                 <div className="w-50">Scale</div>
               </div>
             </div>
             <div className="row">
               <div className="w-25">Transform</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -165,14 +185,14 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row mt-3">
               <div className="w-25 "></div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">Left</div>
+                <div className="w-50 mx-4">Left</div>
                 <div className="w-50">Top</div>
               </div>
             </div>
             <div className="row">
               <div className="w-25">Positioning</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -197,7 +217,7 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row mt-4">
               <div className="w-25">Algin</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-3">
                   <div
                     className="btn-group btn-group-sm "
                     role="group"
@@ -275,7 +295,7 @@ const ImageInfo = (props: IImageInfoProps) => {
       {designInfo.key !== choosenKey && (
         <div>
           <div
-            className="d-flex border p-3 my-4 justify-content-between cursor-pointer"
+            className="d-flex border p-3 justify-content-between cursor-pointer mt-4"
             onClick={() => {
               if (chooseDesign) chooseDesign(designInfo.key);
             }}
@@ -293,12 +313,14 @@ const ImageInfo = (props: IImageInfoProps) => {
 
             <div className="w-75">
               <p
-                className="h6 m-0 text-truncate text-center "
+                className="h6 m-0 text-truncate ps-3 "
                 style={{ maxWidth: 200 }}
               >
                 {designInfo.name}
               </p>
-              <p className="text-warning m-0">{designInfo.DPI}</p>
+              <p className="text-warning m-0 ps-3">
+                {get2Decimal(designInfo.DPI || 0)}
+              </p>
             </div>
             <div className="d-flex justify-content-end">
               <button
