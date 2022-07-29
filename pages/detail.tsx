@@ -11,6 +11,7 @@ import { useAppSelector } from "@/components/hooks/reduxHook";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
+import { Rating } from "@mui/material";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -105,23 +106,28 @@ export default function ProductDetail() {
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    <ul className="list-unstyled text-warning h5 mb-0">
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                    </ul>
+                    <div className="d-flex">
+                      <span className="list-unstyled text-warning  ">
+                        {response?.rate.toFixed(2)}
+                      </span>
+
+                      <Rating
+                        name="half-rating"
+                        value={response?.rate}
+                        size="small"
+                        sx={{ marginY: "auto" }}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                    <span className="list-unstyled text-secondary">
+                      (Đánh giá: {response?.rateCount})
+                    </span>
+                    {/* <div>
+                      <span className="sold-number ">
+                        Đã bán {response?.sold}
+                      </span>
+                    </div> */}
                     <h5 className="mt-4 py-2">Mô tả sản phẩm :</h5>
                     <p className="text-muted">{response?.description}</p>
 

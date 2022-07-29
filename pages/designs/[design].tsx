@@ -12,6 +12,7 @@ import {
   setCart as setCartRedux,
 } from "@/redux/slices/cart";
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
+import { Rating } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
@@ -249,29 +250,22 @@ export default function DesignedProductDetail() {
                       <div className="section-title ms-md-4">
                         <h4 className="title"> {designedProduct.name}</h4>
                         <div className="d-flex">
-                          <ul className="list-unstyled">
-                            {getRates(designedProduct.rating).map((rate) => {
-                              return (
-                                <li
-                                  key={rate}
-                                  className="list-inline-item text-warning "
-                                >
-                                  <i className="mdi mdi-star"></i>
-                                </li>
-                              );
-                            })}
-                            {getUnRates(designedProduct.rating).map((rate) => {
-                              return (
-                                <li key={rate} className="list-inline-item">
-                                  <i className="mdi mdi-star"></i>
-                                </li>
-                              );
-                            })}
-                          </ul>
                           <span className="list-unstyled text-warning  ">
-                            ({designedProduct.rating.toFixed(2)})
+                            {designedProduct.rating.toFixed(2)}
                           </span>
+
+                          <Rating
+                            name="half-rating"
+                            value={designedProduct.rating}
+                            size="small"
+                            sx={{ marginY: "auto" }}
+                            precision={0.5}
+                            readOnly
+                          />
                         </div>
+                        <span className="list-unstyled text-secondary">
+                          ({designedProduct.rateCount})
+                        </span>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
                             {numberWithCommas(designedProduct.price)} VND

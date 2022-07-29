@@ -96,6 +96,9 @@ export interface ProductDetailDTO {
   categoryName: string;
   tags: string[];
   factories: FactoryDTO[];
+  rate: number;
+  rateCount: number;
+  sold: number;
 }
 export interface FactoryDTO {
   id: string;
