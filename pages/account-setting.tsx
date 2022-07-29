@@ -23,6 +23,7 @@ import useVerifyEmail from "@/hooks/api/account/use-verify-email";
 import MyDesign from "./mydesign";
 import Link from "next/link";
 import VerifieSuccess from "@/components/account/verifie-success-form";
+import Dashboard from "@/components/common/dashboard";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -361,29 +362,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     role="tabpanel"
                     aria-labelledby="dashboard"
                   >
-                    <h6 className="text-muted">
-                      Hello <span className="text-dark">cally_joseph</span> (not{" "}
-                      <span className="text-dark">cally_joseph</span>?{" "}
-                      <a href="" className="text-danger">
-                        Log out
-                      </a>
-                      )
-                    </h6>
-                    <h6 className="text-muted mb-0">
-                      From your account dashboard you can view your{" "}
-                      <a href="" className="text-danger">
-                        recent orders
-                      </a>
-                      , manage your{" "}
-                      <a href="" className="text-danger">
-                        shipping and billing addresses
-                      </a>
-                      , and{" "}
-                      <a href="" className="text-danger">
-                        edit your password and account details
-                      </a>
-                      .
-                    </h6>
+                    <Dashboard />
                   </div>
                   {/*end teb pane*/}
                   <div
