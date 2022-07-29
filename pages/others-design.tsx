@@ -92,7 +92,10 @@ export default function OthersDesigns(props: IProductProps) {
                       <div className="row align-items-end">
                         <div className="d-flex flex-wrap w-full">
                           <Image
-                            src={response.content[0].user.credentialImage}
+                            src={
+                              response.content[0].user.credentialImage ||
+                              "/asset/images/default-avatar.jpg"
+                            }
                             className="avatar avatar rounded-circle"
                             width={100}
                             height={100}

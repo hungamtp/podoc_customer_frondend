@@ -1,15 +1,17 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import Rating from "@mui/material/Rating";
-import * as React from "react";
-import * as yup from "yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateRatingDto } from "@/services/rating/dto";
 import useCreateRating from "@/hooks/api/rating/use-create-rating";
-import RatingSuccess from "../rating/rating-success-form";
+import { CreateRatingDto } from "@/services/rating/dto";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Dialog, DialogContent } from "@material-ui/core";
+import Rating from "@mui/material/Rating";
+import Image from "next/image";
+import * as React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
 export interface ICommentProductProps {
   designId: string;
   orderDetailId: string;
   handleCloseDialog: () => void;
+  setIsOpenSuccessRating: (isOpen: boolean) => void;
 }
 
 const schema = yup.object().shape({
@@ -20,7 +22,8 @@ const schema = yup.object().shape({
 });
 
 export default function CommentProduct(props: ICommentProductProps) {
-  const { designId, orderDetailId, handleCloseDialog } = props;
+  const { designId, orderDetailId, handleCloseDialog, setIsOpenSuccessRating } =
+    props;
   const [value, setValue] = React.useState<number>(1);
   const {
     mutate: createRating,
@@ -50,14 +53,12 @@ export default function CommentProduct(props: ICommentProductProps) {
       designId: designId,
       orderDetailId: orderDetailId,
     };
-    createRating(tmpData);
-    console.log(tmpData, "asdasdsa");
+    createRating(tmpData, {
+      onSuccess: () => {
+        setIsOpenSuccessRating(true);
+      },
+    });
   };
-  if (isSuccessRating === true) {
-    setTimeout(() => {
-      alert("Cảm ơn bạn đã đánh giá sản phẩm này");
-    }, 1000);
-  }
 
   return (
     <>
@@ -74,6 +75,7 @@ export default function CommentProduct(props: ICommentProductProps) {
                 setValue(Number(newValue));
               }}
             />
+
             <div className=" mt-3">
               <div className="mb-2">
                 <label className="form-label">Bình luận của bạn:</label>
@@ -119,6 +121,7 @@ export default function CommentProduct(props: ICommentProductProps) {
           </div>
           {/*end row*/}
         </form>
+
         {/*end form*/}
       </div>
     </>

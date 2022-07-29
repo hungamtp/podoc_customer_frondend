@@ -15,7 +15,7 @@ export default function DesignedProducts({ title, data }: Props) {
     <div className="container mt-100 mt-60">
       <div className="row"></div>
       <div className="col-12">
-        <h5 className="mb-0">{title}</h5>
+        <h3 className="mb-5 d-flex justify-content-center">{title}</h3>
       </div>
       <div className="row">
         {data &&

@@ -5,6 +5,7 @@ import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 import { GetAllOrderDetailDto } from "@/services/order/dto";
 import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 import * as React from "react";
 
 export interface IAllOrderDetailProps {
@@ -17,6 +18,8 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
   const [designId, setDesignId] = React.useState("");
   const [orderId, setOrderId] = React.useState("");
+  const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
+
   const handleOpenDialog = (designId: string, orderId: string) => {
     setIsOpenDialog(true);
     setDesignId(designId);
@@ -38,10 +41,42 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
         >
           <DialogContent>
             <CommentProduct
+              setIsOpenSuccessRating={setIsOpenSuccessRating}
               handleCloseDialog={handleCloseDialog}
               designId={designId}
               orderDetailId={orderId}
             />
+          </DialogContent>
+        </Dialog>
+        <Dialog
+          open={isOpenSuccessRating}
+          onClose={() => setIsOpenSuccessRating(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          disableEscapeKeyDown
+        >
+          <DialogContent className="">
+            <div className="">
+              <div className=" d-flex justify-content-center">
+                <Image
+                  src="/asset/images/logo_man.png"
+                  className="avatar avatar rounded-circle "
+                  width={150}
+                  height={150}
+                  objectFit="cover"
+                  alt="productImage"
+                />
+              </div>
+              <div>Cảm ơn vì ý kiến đánh giá của bạn.</div>
+              <div className=" d-flex justify-content-center">
+                <button
+                  className="btn btn-primary ps-4 pe-4"
+                  onClick={() => setIsOpenSuccessRating(false)}
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
         {allOrdersResponse && allOrdersResponse.data.length > 0 ? (
