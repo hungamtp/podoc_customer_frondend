@@ -4,6 +4,7 @@ import Categories from "@/components/common/categories";
 import DesignedProduct from "@/components/common/designed-product";
 import PaginationComponent from "@/components/common/mui-pagination";
 import RawProduct from "@/components/common/raw-product";
+import ShowRating from "@/components/common/show-rating";
 import DesignedProductCard from "@/components/designed-products/designed-product-card";
 import { MainLayout } from "@/components/layouts";
 import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
@@ -168,6 +169,10 @@ export default function DesignedProducts(props: IProductProps) {
                                   {product.designedPrice} VNĐ
                                   {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
                                 </h6>
+                                <ShowRating
+                                  rate={product.rate}
+                                  rateCount={product.rateCount}
+                                />
 
                                 <p className="text-success">
                                   {product.username}

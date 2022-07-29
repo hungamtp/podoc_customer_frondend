@@ -12,6 +12,7 @@ import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
 import { Rating } from "@mui/material";
+import ShowRating from "@/components/common/show-rating";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -106,23 +107,12 @@ export default function ProductDetail() {
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    <div className="d-flex">
-                      <span className="list-unstyled text-warning  ">
-                        {response?.rate.toFixed(2)}
-                      </span>
-
-                      <Rating
-                        name="half-rating"
-                        value={response?.rate}
-                        size="small"
-                        sx={{ marginY: "auto" }}
-                        precision={0.5}
-                        readOnly
+                    {response?.rate && response?.rateCount > 0 && (
+                      <ShowRating
+                        rate={response?.rate}
+                        rateCount={response?.rateCount}
                       />
-                    </div>
-                    <span className="list-unstyled text-secondary">
-                      (Đánh giá: {response?.rateCount})
-                    </span>
+                    )}
                     {/* <div>
                       <span className="sold-number ">
                         Đã bán {response?.sold}

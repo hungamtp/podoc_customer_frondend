@@ -5,6 +5,7 @@ import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import ShowRating from "../common/show-rating";
 type Props = {
   product: ShownDesignedProduct;
 };
@@ -18,22 +19,7 @@ export default function DesignedProductCard({ product }: Props) {
   const goToProfile = (userId: string) => {
     router.push(`others-design?userId=${userId}`);
   };
-  const getRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
-  const getUnRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= 5 - rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
+
   return (
     <div
       className="col-lg-4 col-md-6 col-12 mt-4 pt-2"
@@ -94,23 +80,10 @@ export default function DesignedProductCard({ product }: Props) {
               {numberWithCommas(product.price)} VND
             </h6>
           </div>
-          <div className="d-flex">
-            <span className="list-unstyled text-warning  ">
-              {product.rating.toFixed(2)}
-            </span>
+          {product.rating && product.ratingCount > 0 && (
+            <ShowRating rate={product.rating} rateCount={product.ratingCount} />
+          )}
 
-            <Rating
-              name="half-rating"
-              value={product.rating}
-              size="small"
-              sx={{ marginY: "auto" }}
-              precision={0.5}
-              readOnly
-            />
-          </div>
-          <span className="list-unstyled text-secondary">
-            (Đánh giá: {product.rateCount})
-          </span>
           <div>
             <span className="sold-number ">Đã bán {product.sold}</span>
           </div>
