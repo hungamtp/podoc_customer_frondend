@@ -145,10 +145,10 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         </div>
       </div>
 
-      <div className=" col-lg-3 d-md-none d-lg-block border-start px-0">
+      <div className=" col-lg-3 d-md-none d-lg-block border-start px-0 ">
         {controlData.isSetImage ? (
-          <div className="d-flex justify-content-around border-bottom  px-0 py-2point5">
-            <p className="h5 pt-3 me-5">Thông tin chi tiết</p>
+          <div className="d-flex justify-content-around border-bottom  px-0">
+            <p className="h5 me-5 py-4">Thông tin chi tiết</p>
             <div
               className="btn h3 m-0 "
               onClick={() => {
@@ -164,8 +164,8 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             </div>
           </div>
         ) : (
-          <div className="d-flex justify-content-around border-bottom  py-3point5 px-0">
-            <p className="h5 pt-2">Thêm thiết kế</p>
+          <div className="d-flex justify-content-around border-bottom py-3point5 px-0">
+            <p className="h5 m-0 my-auto">Thêm thiết kế</p>
             <button className="m-0 pt-2 btn btn-link text-success text-decoration-underline">
               Giá và thông số thêm
             </button>
