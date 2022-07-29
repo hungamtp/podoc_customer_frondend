@@ -22,6 +22,7 @@ import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 import useVerifyEmail from "@/hooks/api/account/use-verify-email";
 import MyDesign from "./mydesign";
 import Link from "next/link";
+import VerifieSuccess from "@/components/account/verifie-success-form";
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
@@ -61,7 +62,11 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const credentialId = useAppSelector((state) => state.auth.userId);
   const { data: responseAccount, isLoading: isLoadingAccount } =
     useGetAccountById(credentialId);
-  const { mutate: verifyEmail } = useVerifyEmail();
+  const {
+    mutate: verifyEmail,
+    isLoading: isLoadingVerifieEmail,
+    isSuccess: isSuccessVerifieEmail,
+  } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const { mutate: updateProfile } = useUpdateProfile();
@@ -509,9 +514,18 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                     className=" btn btn-primary "
                                     type="button"
                                   >
-                                    Xác nhận email
+                                    {isLoadingVerifieEmail ? (
+                                      <span
+                                        className="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                      />
+                                    ) : (
+                                      "Xác nhận email"
+                                    )}
                                   </button>
                                 </div>
+                                {isSuccessVerifieEmail && <VerifieSuccess />}
                               </div>
                             </div>
                           )}

@@ -27,7 +27,10 @@ const schema = yup.object().shape({
 
 export default function ChangePassword(props: IChangePasswordProps) {
   const { id, closeChangePassword } = props;
-  const { mutate: updatePassword } = useUpdatePassword(id);
+  const { mutate: updatePassword, error } = useUpdatePassword(
+    id,
+    closeChangePassword
+  );
   const defaultValues: UpdatePasswordDto = {
     oldPassword: "",
     newPassword: "",
@@ -106,6 +109,11 @@ export default function ChangePassword(props: IChangePasswordProps) {
                   </p>
                 )}
               </div>
+              {error && (
+                <span id="error-pwd-message" className="text-danger">
+                  Mật khẩu cũ không đúng
+                </span>
+              )}
             </div>
           </div>
           {/*end col*/}
@@ -114,7 +122,9 @@ export default function ChangePassword(props: IChangePasswordProps) {
               <button
                 className="btn btn-success "
                 type="submit"
-                onClick={closeChangePassword}
+                onClick={() => {
+                  handleSubmit(onSubmit);
+                }}
               >
                 Lưu mật khẩu
               </button>
