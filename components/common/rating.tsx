@@ -40,7 +40,7 @@ export default function UserRating(props: IUserRatingProps) {
                             src={ratingData.userAvatar != null ? ratingData.userAvatar : ''}
                             onError={({ currentTarget }) => {
                               currentTarget.onerror = null; // prevents looping
-                              currentTarget.src = '/asset/images/default-avatar.jpg';
+                              currentTarget.src = '/asset/images/avatardefault_92824.png';
                             }}
                             className="img-fluid avatar avatar-md-sm rounded-circle shadow"
                             alt="img"

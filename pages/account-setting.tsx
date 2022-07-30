@@ -156,7 +156,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     src={responseAccount?.data.image != null ? responseAccount?.data.image : ''}
                     onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = '/asset/images/default-avatar.jpg';
+                      currentTarget.src = '/asset/images/avatardefault_92824.png';
                     }}
                     className="avatar avatar rounded-circle"
                     width={120}
