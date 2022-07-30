@@ -108,8 +108,14 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       </td>
                       <th>
                         <ul style={{ listStyleType: 'none', padding: '0' }}>
-                          <li>Tên: {order.designName}</li>
-                          <li>Nhà in : {order.provider}</li>
+                          <li className="d-flex">
+                            <div style={{ fontWeight: 'normal' }}>Tên : </div>
+                            <div>{order.designName}</div>
+                          </li>
+                          <li className="d-flex">
+                            <div style={{ fontWeight: 'normal' }}>Nhà in : </div>
+                            <div>{order.provider}</div>
+                          </li>
                           <li>
                             {order.rated == false && (
                               <button
@@ -131,7 +137,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       <td>
                         <div>Size : {order.size}</div>
                         <div>Màu : {order.color}</div>
-                        <div>Số lương : {order.quantity}</div>
+                        <div>Số lượng : {order.quantity}</div>
                       </td>
                       <td>{`${new Date(order.date).getDate()}-${new Date(order.date).getMonth()}-${new Date(
                         order.date
