@@ -32,6 +32,7 @@ export interface ProductHomePage {
   userId: string;
   username: string;
   soldCount: number;
+  rateCount: number;
 }
 
 export interface Best4DesignedProduct {
@@ -96,6 +97,9 @@ export interface ProductDetailDTO {
   categoryName: string;
   tags: string[];
   factories: FactoryDTO[];
+  rate: number;
+  rateCount: number;
+  sold: number;
 }
 export interface FactoryDTO {
   id: string;
@@ -106,6 +110,8 @@ export interface FactoryDTO {
   sizes: string[];
   area: string[];
   colors: string[];
+  rate: number;
+  rateCount: number;
 }
 
 export interface CategoryDTO {

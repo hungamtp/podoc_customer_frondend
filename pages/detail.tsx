@@ -11,6 +11,8 @@ import { useAppSelector } from "@/components/hooks/reduxHook";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
+import { Rating } from "@mui/material";
+import ShowRating from "@/components/common/show-rating";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -105,23 +107,17 @@ export default function ProductDetail() {
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    <ul className="list-unstyled text-warning h5 mb-0">
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="mdi mdi-star" />
-                      </li>
-                    </ul>
+                    {response?.rate && response?.rateCount > 0 && (
+                      <ShowRating
+                        rate={response?.rate}
+                        rateCount={response?.rateCount}
+                      />
+                    )}
+                    {/* <div>
+                      <span className="sold-number ">
+                        Đã bán {response?.sold}
+                      </span>
+                    </div> */}
                     <h5 className="mt-4 py-2">Mô tả sản phẩm :</h5>
                     <p className="text-muted">{response?.description}</p>
 
