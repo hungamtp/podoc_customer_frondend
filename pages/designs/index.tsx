@@ -169,10 +169,16 @@ export default function DesignedProducts(props: IProductProps) {
                                   {product.designedPrice} VNĐ
                                   {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
                                 </h6>
-                                <ShowRating
-                                  rate={product.rate}
-                                  rateCount={product.rateCount}
-                                />
+                                {product.rateCount > 0 ? (
+                                  <ShowRating
+                                    rate={product.rate}
+                                    rateCount={product.rateCount}
+                                  />
+                                ) : (
+                                  <span className="sold-number ">
+                                    chưa có đánh giá nào
+                                  </span>
+                                )}
 
                                 <p className="text-success">
                                   {product.username}

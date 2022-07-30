@@ -258,9 +258,6 @@ export default function EditDesign(props: EditDesignProps) {
       }
     }
   }, [renderBlueprint]);
-  console.log(isLoadedBlueprints, "isLoadedBlueprints");
-  console.log(colors, "colors");
-  console.log(response, "response");
 
   return (
     <div className="container-fluid ">

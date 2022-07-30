@@ -153,10 +153,15 @@ export default function AccountSetting(props: IAccountSettingProps) {
               <div className="col-md-3">
                 <div className="d-flex align-items-center">
                   <img
-                    src={responseAccount?.data.image != null ? responseAccount?.data.image : ''}
+                    src={
+                      responseAccount?.data.image != null
+                        ? responseAccount?.data.image
+                        : ""
+                    }
                     onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = '/asset/images/avatardefault_92824.png';
+                      currentTarget.src =
+                        "/asset/images/avatardefault_92824.png";
                     }}
                     className="avatar avatar rounded-circle"
                     width={120}

@@ -87,12 +87,12 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             <p
               className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
               onClick={() => {
-                if (isEditPage) router.push("/mydesign");
+                if (isEditPage) router.back();
                 else router.push("/raw-products");
               }}
             >
               {" "}
-              Trở về trang sản phẩm
+              {isEditPage ? "Trở về trang chi tiết " : "Trở về trang sản phẩm"}
             </p>
             {headerInfo && (
               <div className="d-flex flex-column justify-content-center">
@@ -149,7 +149,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         {controlData.isSetImage ? (
           <div className="d-flex flex-column">
             <div className="d-flex justify-content-around px-0 ">
-              <p className="h5 me-5 py-4">Thông tin chi tiết</p>
+              <p className="h5 me-5 py-4">Thêm thiết kế</p>
               <div
                 className="btn h3 m-0 "
                 onClick={() => {
@@ -167,7 +167,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
           </div>
         ) : (
           <div className="d-flex justify-content-around  px-0">
-            <p className="h5 m-0 py-4">Thêm thiết kế</p>
+            <p className="h5 m-0 py-4"> Thông tin thiết kế</p>
           </div>
         )}
       </div>

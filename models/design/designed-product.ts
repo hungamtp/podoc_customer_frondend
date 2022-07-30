@@ -37,4 +37,5 @@ export interface ShownDesignedProduct {
   description: string;
   factoryName: string;
   ratingCount: number;
+  rateCount: number;
 }

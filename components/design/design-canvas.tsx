@@ -945,7 +945,7 @@ export default function DesignCanvas({
 
   return (
     <>
-      <div className="row">
+      <div className="row h-81">
         <div className="col-lg-9 col-12 px-0 d-flex flex-column ">
           <div className="outer position-relative" id="outer">
             <canvas id="canvas" className="center-block"></canvas>

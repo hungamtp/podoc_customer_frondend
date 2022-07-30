@@ -36,8 +36,18 @@ export default function DesignedProductCard({ product }: Props) {
               );
             })}
         </ul>
-        <div className="shop-image position-relative overflow-hidden rounded shadow " onClick={() => router.push(`/designs/${product.id}`)}>
-          <Image src={renderedImage.image} className="img-fluid" width={1000} height={1000} objectFit="cover" alt="productImage" />
+        <div
+          className="shop-image position-relative overflow-hidden rounded shadow "
+          onClick={() => router.push(`/designs/${product.id}`)}
+        >
+          <Image
+            src={renderedImage.image}
+            className="img-fluid"
+            width={1000}
+            height={1000}
+            objectFit="cover"
+            alt="productImage"
+          />
         </div>
         <div className="card-body content pt-4 p-2">
           <Link href={`/designs/${product.id}`}>
@@ -46,7 +56,11 @@ export default function DesignedProductCard({ product }: Props) {
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">{numberWithCommas(product.price)} VND</h6>
           </div>
-          {product.rating && product.ratingCount > 0 && <ShowRating rate={product.rating} rateCount={product.ratingCount} />}
+          {product.ratingCount > 0 ? (
+            <ShowRating rate={product.rating} rateCount={product.ratingCount} />
+          ) : (
+            <span className="sold-number ">chưa có đánh giá nào</span>
+          )}
 
           <div>
             <span className="sold-number ">Đã bán {product.sold}</span>

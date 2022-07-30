@@ -29,12 +29,6 @@ export default function EmptyTable(props: IEmptyTableProps) {
     <>
       {controlData.isChooseImage || controlData.isLoadingImage ? (
         <>
-          <div className="d-flex justify-content-start border-bottom  btn-group ">
-            <button className="p-2 btn btn-outline-success borderless">
-              Thiết kế mới
-            </button>
-            <button className="p-2 btn btn-outline-success">Từ thư viện</button>
-          </div>
           <p className="fw-bolder py-2">Thêm từ</p>
           {controlData.isLoadingImage ? (
             <>
