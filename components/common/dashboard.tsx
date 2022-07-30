@@ -3,6 +3,7 @@
 import useUserDashboard from "@/hooks/api/dashboard/use-dashboard";
 import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import { GetAllDesignFilter } from "@/services/design";
+import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,6 +18,10 @@ export default function Dashboard(props: IDashboardProps) {
   });
 
   const { data: responseDesigned, isLoading } = useGetAllMyDesign(filter);
+  let renderImage = responseDesigned?.content.map((product) => {
+    product.imagePreviews[0];
+  });
+
   return (
     <>
       {response && responseDesigned && (
@@ -130,36 +135,43 @@ export default function Dashboard(props: IDashboardProps) {
                   </span>
                 </p>
               </div>
-              {responseDesigned.content.map((data) => (
-                <div key={data.id} className="col-lg-12 mt-2">
-                  <a className="features feature-primary d-flex justify-content-between align-items-center bg-white rounded shadow p-3">
-                    <div className="d-flex align-items-center">
-                      <div>
-                        <Image
-                          src={data.imagePreviews[0].image}
-                          className="img-fluid rounded-pill"
-                          width={50}
-                          height={50}
-                          objectFit="cover"
-                          alt="productImage"
-                        />
+              {responseDesigned.content.map((data) => {
+                const image = data.imagePreviews.filter((imagePreviews) => {
+                  return imagePreviews.position === "front";
+                }) || [data.imagePreviews[0]];
+                return (
+                  <div key={data.id} className="col-lg-12 mt-2">
+                    <a className="features feature-primary d-flex justify-content-between align-items-center bg-white rounded shadow p-3">
+                      <div className="d-flex align-items-center">
+                        <div>
+                          <Image
+                            src={image[0].image}
+                            className="img-fluid rounded-pill"
+                            width={50}
+                            height={50}
+                            objectFit="cover"
+                            alt="productImage"
+                          />
+                        </div>
+                        <div className="flex-1 ms-3">
+                          <h6 className="mb-0 text-muted">{data.name}</h6>
+                          <p className="fs-6 text-dark fw-bold mb-0">
+                            <span className="counter-value">
+                              {numberWithCommas(data.designedPrice)} VND
+                            </span>
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1 ms-3">
-                        <h6 className="mb-0 text-muted">{data.name}</h6>
-                        <p className="fs-6 text-dark fw-bold mb-0">
-                          <span className="counter-value">
-                            {numberWithCommas(data.designedPrice)} VND
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <p className="fs-5 text-dark fw-bold mb-0">
-                      <span className="counter-value">{data.soldCount} </span>
-                      <span className="fs-6 fw-light text-muted">Sản phẩm</span>
-                    </p>
-                  </a>
-                </div>
-              ))}
+                      <p className="fs-5 text-dark fw-bold mb-0">
+                        <span className="counter-value">{data.soldCount} </span>
+                        <span className="fs-6 fw-light text-muted">
+                          Sản phẩm
+                        </span>
+                      </p>
+                    </a>
+                  </div>
+                );
+              })}
               {/*end col*/}
             </div>
           </div>
