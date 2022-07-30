@@ -1,73 +1,65 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import ChangePassword from "@/components/account/change-password-form";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { MainLayout } from "@/components/layouts";
-import useGetAccountById from "@/hooks/api/account/use-account-by-id";
-import useUpdateProfile from "@/hooks/api/account/use-update-profile";
-import UseCart from "@/hooks/api/cart/use-cart";
-import { AccountByIdDtos } from "@/services/account/dto";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
-import { setCart } from "@/redux/slices/cart";
-import { logout } from "@/redux/slices/auth";
-import { useRouter } from "next/router";
-import MyOrders from "./myorders";
-import useMyOrders from "@/hooks/api/order/use-my-orders";
-import { Filter } from "@/services/order";
-import AllOrderDetail from "./all-order-detail";
-import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
-import useVerifyEmail from "@/hooks/api/account/use-verify-email";
-import MyDesign from "./mydesign";
-import Link from "next/link";
-import VerifieSuccess from "@/components/account/verifie-success-form";
-import Dashboard from "@/components/common/dashboard";
+import ChangePassword from '@/components/account/change-password-form';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { MainLayout } from '@/components/layouts';
+import useGetAccountById from '@/hooks/api/account/use-account-by-id';
+import useUpdateProfile from '@/hooks/api/account/use-update-profile';
+import UseCart from '@/hooks/api/cart/use-cart';
+import { AccountByIdDtos } from '@/services/account/dto';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { setCart } from '@/redux/slices/cart';
+import { logout } from '@/redux/slices/auth';
+import { useRouter } from 'next/router';
+import MyOrders from './myorders';
+import useMyOrders from '@/hooks/api/order/use-my-orders';
+import { Filter } from '@/services/order';
+import AllOrderDetail from './all-order-detail';
+import useAllOrderDetail from '@/hooks/api/order/use-all-order-detail';
+import useVerifyEmail from '@/hooks/api/account/use-verify-email';
+import MyDesign from './mydesign';
+import Link from 'next/link';
+import VerifieSuccess from '@/components/account/verifie-success-form';
+import Dashboard from '@/components/common/dashboard';
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
   userFirstName: yup
     .string()
-    .min(1, "First Name cần ít nhất 1 kí tự")
-    .max(26, "First Name tối đa 50 kí tự")
-    .required("First Name không được để trống"),
+    .min(1, 'First Name cần ít nhất 1 kí tự')
+    .max(26, 'First Name tối đa 50 kí tự')
+    .required('First Name không được để trống'),
   userLastName: yup
     .string()
-    .min(1, "Last Name cần ít nhất 1 kí tự")
-    .max(26, "Last Name tối đa 50 kí tự")
-    .required("Last Name không được để trống"),
+    .min(1, 'Last Name cần ít nhất 1 kí tự')
+    .max(26, 'Last Name tối đa 50 kí tự')
+    .required('Last Name không được để trống'),
   email: yup
     .string()
     .email()
-    .min(8, "Tài khoản cần ít nhất 8 kí tự")
-    .max(50, "Tài khoản tối đa 50 kí tự")
-    .required("Tài khoản không được để trống"),
+    .min(8, 'Tài khoản cần ít nhất 8 kí tự')
+    .max(50, 'Tài khoản tối đa 50 kí tự')
+    .required('Tài khoản không được để trống'),
   phone: yup
     .string()
-    .matches(
-      /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
-      "Số điện thoại gồm 10 số và bắt đầu từ 0"
-    )
-    .required("Số điện thoại không được để trống"),
+    .matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/, 'Số điện thoại gồm 10 số và bắt đầu từ 0')
+    .required('Số điện thoại không được để trống'),
   address: yup
     .string()
-    .min(10, "Địa chỉ cần ít nhất 10 kí tự")
-    .max(300, "Địa chỉ tối đa 300 kí tự")
-    .required("Địa chỉ không được để trống"),
+    .min(10, 'Địa chỉ cần ít nhất 10 kí tự')
+    .max(300, 'Địa chỉ tối đa 300 kí tự')
+    .required('Địa chỉ không được để trống'),
 });
 
 export default function AccountSetting(props: IAccountSettingProps) {
   const storage = globalThis?.sessionStorage;
-  const prevPath = storage.getItem("prevPath");
-  const credentialId = useAppSelector((state) => state.auth.userId);
-  const { data: responseAccount, isLoading: isLoadingAccount } =
-    useGetAccountById(credentialId);
-  const {
-    mutate: verifyEmail,
-    isLoading: isLoadingVerifieEmail,
-    isSuccess: isSuccessVerifieEmail,
-  } = useVerifyEmail();
+  const prevPath = storage.getItem('prevPath');
+  const credentialId = useAppSelector(state => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } = useGetAccountById(credentialId);
+  const { mutate: verifyEmail, isLoading: isLoadingVerifieEmail, isSuccess: isSuccessVerifieEmail } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const { mutate: updateProfile } = useUpdateProfile();
@@ -85,8 +77,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
   });
 
   const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
-  const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
-    useAllOrderDetail(filterAllOrder);
+  const { data: allOrdersResponse, isLoading: isLoadingAllOrders } = useAllOrderDetail(filterAllOrder);
 
   React.useEffect(() => {
     if (responseCart) dispatch(setCart(responseCart));
@@ -94,30 +85,30 @@ export default function AccountSetting(props: IAccountSettingProps) {
 
   React.useEffect(() => {
     const storage = globalThis?.sessionStorage;
-    const prev = storage.getItem("prevPath");
-    console.log(prev, "prev");
-    if (prev === "/design") {
-      console.log("aduuu");
+    const prev = storage.getItem('prevPath');
+    console.log(prev, 'prev');
+    if (prev === '/design') {
+      console.log('aduuu');
     }
   }, []);
 
   const logoutFunc = () => {
     dispatch(setCart([]));
     dispatch(logout([]));
-    router.push("/");
+    router.push('/');
   };
 
   const defaultValues: AccountByIdDtos = {
-    id: "",
-    userFirstName: "",
-    userLastName: "",
-    name: "",
-    email: "",
-    roleName: "",
+    id: '',
+    userFirstName: '',
+    userLastName: '',
+    name: '',
+    email: '',
+    roleName: '',
     phone: 0,
-    address: "",
-    image: "",
-    userStatus: "",
+    address: '',
+    image: '',
+    userStatus: '',
     mailVerified: false,
   };
   const {
@@ -134,7 +125,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     reset(responseAccount?.data);
   }, [responseAccount]);
 
-  const onSubmit: SubmitHandler<AccountByIdDtos> = (data) => {
+  const onSubmit: SubmitHandler<AccountByIdDtos> = data => {
     const tmpData = {
       id: credentialId,
       firstName: data.userFirstName,
@@ -179,8 +170,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   <div className="ms-3">
                     <h6 className="text-muted mb-0">Chào bạn,</h6>
                     <h5 className="mb-0">
-                      {responseAccount?.data.userLastName}{" "}
-                      {responseAccount?.data.userFirstName}
+                      {responseAccount?.data.userLastName} {responseAccount?.data.userFirstName}
                     </h5>
                   </div>
                 </div>
@@ -192,19 +182,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
             {/*end row*/}
             <div className="row">
               <div className="col-md-3 mt-4 pt-2">
-                <ul
-                  className="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0"
-                  id="pills-tab"
-                  role="tablist"
-                >
+                <ul className="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0" id="pills-tab" role="tablist">
                   <li className="nav-item">
                     <a
-                      className={`nav-link rounded ${
-                        !(
-                          prevPath === "/design" ||
-                          prevPath === "/my-product/order"
-                        ) && "active show"
-                      }`}
+                      className={`nav-link rounded ${!(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
                       id="dashboard"
                       data-bs-toggle="pill"
                       href="#dash"
@@ -214,8 +195,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     >
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
-                          <i className="uil uil-dashboard h5 align-middle me-2 mb-0" />{" "}
-                          Dashboard
+                          <i className="uil uil-dashboard h5 align-middle me-2 mb-0" /> Dashboard
                         </h6>
                       </div>
                     </a>
@@ -223,11 +203,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   </li>
                   <li className="nav-item mt-2">
                     <a
-                      className={`nav-link rounded ${
-                        (prevPath === "/design" ||
-                          prevPath === "/my-product/order") &&
-                        "active show"
-                      }`}
+                      className={`nav-link rounded ${(prevPath === '/design' || prevPath === '/my-product/order') && 'active show'}`}
                       id="mydesigns-list"
                       data-bs-toggle="pill"
                       href="#mydesigns"
@@ -264,7 +240,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
 		"
                               />
                             </g>
-                          </svg>{" "}
+                          </svg>{' '}
                           Thiết kế của tôi
                         </h6>
                       </div>
@@ -285,8 +261,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     >
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
-                          <i className="uil uil-list-ul h5 align-middle me-2 mb-0" />{" "}
-                          Orders
+                          <i className="uil uil-list-ul h5 align-middle me-2 mb-0" /> Orders
                         </h6>
                       </div>
                     </a>
@@ -304,8 +279,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     >
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
-                          <i className="uil uil-clipboard-notes h5 align-middle me-2 mb-0"></i>{" "}
-                          Lịch sử mua hàng
+                          <i className="uil uil-clipboard-notes h5 align-middle me-2 mb-0"></i> Lịch sử mua hàng
                         </h6>
                       </div>
                     </a>
@@ -328,8 +302,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     >
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0">
-                          <i className="uil uil-user h5 align-middle me-2 mb-0" />{" "}
-                          Thông tin cá nhân
+                          <i className="uil uil-user h5 align-middle me-2 mb-0" /> Thông tin cá nhân
                         </h6>
                       </div>
                     </a>
@@ -338,16 +311,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   {/*end nav item*/}
                   <li className="nav-item mt-2">
                     <Link href="/home">
-                      <a
-                        className="nav-link rounded"
-                        role="tab"
-                        onClick={logoutFunc}
-                        aria-selected="false"
-                      >
+                      <a className="nav-link rounded" role="tab" onClick={logoutFunc} aria-selected="false">
                         <div className="text-start py-1 px-3">
                           <h6 className="mb-0">
-                            <i className="uil uil-sign-out-alt h5 align-middle me-2 mb-0" />{" "}
-                            Đăng xuất
+                            <i className="uil uil-sign-out-alt h5 align-middle me-2 mb-0" /> Đăng xuất
                           </h6>
                         </div>
                       </a>
@@ -363,9 +330,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 <div className="tab-content" id="pills-tabContent">
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
-                      prevPath !== "/design" &&
-                      prevPath !== "/my-product/order" &&
-                      "active show"
+                      prevPath !== '/design' && prevPath !== '/my-product/order' && 'active show'
                     }`}
                     id="dash"
                     role="tabpanel"
@@ -376,9 +341,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   {/*end teb pane*/}
                   <div
                     className={`tab-pane fade bg-white shadow rounded p-4 ${
-                      (prevPath === "/design" ||
-                        prevPath === "/my-product/order") &&
-                      "active show"
+                      (prevPath === '/design' || prevPath === '/my-product/order') && 'active show'
                     }`}
                     id="mydesigns"
                     role="tabpanel"
@@ -387,42 +350,17 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     <MyDesign />
                   </div>
                   {/*end teb pane*/}
-                  <div
-                    className="tab-pane fade bg-white shadow rounded p-4"
-                    id="orders"
-                    role="tabpanel"
-                    aria-labelledby="order-history"
-                  >
-                    {myOrdersResponse && (
-                      <MyOrders
-                        myOrdersResponse={myOrdersResponse}
-                        isLoading={isLoading}
-                      />
-                    )}
+                  <div className="tab-pane fade bg-white shadow rounded p-4" id="orders" role="tabpanel" aria-labelledby="order-history">
+                    {myOrdersResponse && <MyOrders myOrdersResponse={myOrdersResponse} isLoading={isLoading} />}
                   </div>
                   {/*end teb pane*/}
-                  <div
-                    className="tab-pane fade bg-white shadow rounded p-4"
-                    id="down"
-                    role="tabpanel"
-                    aria-labelledby="download"
-                  >
-                    {allOrdersResponse && (
-                      <AllOrderDetail
-                        allOrdersResponse={allOrdersResponse}
-                        isLoading={isLoadingAllOrders}
-                      />
-                    )}
+                  <div className="tab-pane fade bg-white shadow rounded p-4" id="down" role="tabpanel" aria-labelledby="download">
+                    {allOrdersResponse && <AllOrderDetail allOrdersResponse={allOrdersResponse} isLoading={isLoadingAllOrders} />}
                   </div>
                   {/*end teb pane*/}
 
                   {/*end teb pane*/}
-                  <div
-                    className="tab-pane fade bg-white shadow rounded p-4"
-                    id="account"
-                    role="tabpanel"
-                    aria-labelledby="account-details"
-                  >
+                  <div className="tab-pane fade bg-white shadow rounded p-4" id="account" role="tabpanel" aria-labelledby="account-details">
                     {!isLoadingAccount && responseAccount && (
                       <form>
                         <div className="row">
@@ -436,10 +374,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   type="text"
                                   className="form-control ps-5"
                                   disabled={!isEdit}
-                                  defaultValue={
-                                    responseAccount.data.userLastName
-                                  }
-                                  {...register("userLastName")}
+                                  defaultValue={responseAccount.data.userLastName}
+                                  {...register('userLastName')}
                                 />
                               </div>
                             </div>
@@ -455,10 +391,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   type="text"
                                   className="form-control ps-5"
                                   disabled={!isEdit}
-                                  defaultValue={
-                                    responseAccount.data.userFirstName
-                                  }
-                                  {...register("userFirstName")}
+                                  defaultValue={responseAccount.data.userFirstName}
+                                  {...register('userFirstName')}
                                 />
                               </div>
                             </div>
@@ -475,21 +409,16 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   disabled
                                   className="form-control ps-5"
                                   defaultValue={responseAccount.data.email}
-                                  {...register("email")}
+                                  {...register('email')}
                                 />
-                                {responseAccount.data.mailVerified ===
-                                  false && (
+                                {responseAccount.data.mailVerified === false && (
                                   <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                                 )}
                                 {responseAccount.data.mailVerified === true && (
                                   <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                                 )}
                               </div>
-                              {responseAccount.data.mailVerified === false && (
-                                <p className="ms-1 text-warning">
-                                  Email chưa được xác nhận
-                                </p>
-                              )}
+                              {responseAccount.data.mailVerified === false && <p className="ms-1 text-warning">Email chưa được xác nhận</p>}
                             </div>
                           </div>
                           {/*end col*/}
@@ -497,19 +426,11 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             <div className="col-md-4">
                               <div className="mb-3">
                                 <div className="form-icon position-relative">
-                                  <button
-                                    onClick={() => verifyEmail()}
-                                    className=" btn btn-primary "
-                                    type="button"
-                                  >
+                                  <button onClick={() => verifyEmail()} className=" btn btn-primary " type="button">
                                     {isLoadingVerifieEmail ? (
-                                      <span
-                                        className="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                      />
+                                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
                                     ) : (
-                                      "Xác nhận email"
+                                      'Xác nhận email'
                                     )}
                                   </button>
                                 </div>
@@ -552,9 +473,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                           </div>
                           <div className="col-md-8">
                             <div className="mb-3">
-                              <label className="form-label">
-                                Số điện thoại
-                              </label>
+                              <label className="form-label">Số điện thoại</label>
                               <div className="form-icon position-relative">
                                 <i className="bi bi-telephone-fill position-absolute mt-2 ms-3" />
                                 <input
@@ -563,7 +482,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   disabled={!isEdit}
                                   className="form-control ps-5"
                                   defaultValue={responseAccount.data.phone}
-                                  {...register("phone")}
+                                  {...register('phone')}
                                 />
                               </div>
                             </div>
@@ -579,7 +498,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                   disabled={!isEdit}
                                   className="form-control ps-5"
                                   defaultValue={responseAccount.data.address}
-                                  {...register("address")}
+                                  {...register('address')}
                                 />
                               </div>
                             </div>
@@ -588,18 +507,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                           <div className="col-lg-12 mt-2 mb-0">
                             {isEdit && (
                               <>
-                                <button
-                                  onClick={handleSubmit(onSubmit)}
-                                  className="btn btn-primary me-2"
-                                  type="submit"
-                                >
+                                <button onClick={handleSubmit(onSubmit)} className="btn btn-primary me-2" type="submit">
                                   Lưu thay đổi
                                 </button>
                                 <button
                                   onClick={() => {
                                     setIsEdit(false);
                                   }}
-                                  style={{ width: "140px" }}
+                                  style={{ width: '140px' }}
                                   className="btn btn-primary me-2"
                                 >
                                   Hủy
@@ -628,10 +543,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                         {isChangePassword && (
                           <>
                             <hr />
-                            <ChangePassword
-                              id={credentialId}
-                              closeChangePassword={closeChangePassword}
-                            />
+                            <ChangePassword id={credentialId} closeChangePassword={closeChangePassword} />
                           </>
                         )}
                       </div>
