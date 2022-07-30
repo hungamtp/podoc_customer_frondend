@@ -88,19 +88,13 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                     Thiết kế
                   </th>
                   <th scope="col" className="border-bottom">
-                    Size
-                  </th>
-                  <th scope="col" className="border-bottom">
-                    Màu
+                    Thông tin
                   </th>
                   <th scope="col" className="border-bottom">
                     Ngày
                   </th>
                   <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
                     Tổng giá(VND)
-                  </th>
-                  <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
-                    Số lượng
                   </th>
                 </tr>
               </thead>
@@ -113,8 +107,8 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                         <img className="border-secondary" src={order.designImage} width={100} height={70} />
                       </td>
                       <th>
-                        <ul style={{ listStyleType: 'none' }}>
-                          <li>Tên : {order.designName}</li>
+                        <ul style={{ listStyleType: 'none', padding: '0' }}>
+                          <li>Tên: {order.designName}</li>
                           <li>Nhà in : {order.provider}</li>
                           <li>
                             {order.rated == false && (
@@ -130,28 +124,19 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                                 Đánh giá
                               </button>
                             )}
-
-                            {/* <div
-                              className="modal fade mt-100"
-                              id="exampleModal"
-                              tabIndex={-1}
-                              role="dialog"
-                              aria-labelledby="exampleModalLabel"
-                              aria-hidden="true"
-                            >
-                              <CommentProduct designId={order.designId} />
-                            </div> */}
                             <button className="btn-success btn">Mua lại</button>
                           </li>
                         </ul>
                       </th>
-                      <td>{order.size}</td>
-                      <td>{order.color}</td>
+                      <td>
+                        <div>Size : {order.size}</div>
+                        <div>Màu : {order.color}</div>
+                        <div>Số lương : {order.quantity}</div>
+                      </td>
                       <td>{`${new Date(order.date).getDate()}-${new Date(order.date).getMonth()}-${new Date(
                         order.date
                       ).getFullYear()}`}</td>
                       <td>{numberWithCommas(order.price)}</td>
-                      <td> {order.quantity}</td>
                     </tr>
                   ))}
               </tbody>
