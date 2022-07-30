@@ -67,7 +67,7 @@ export default function DesignedProduct({ product }: Props) {
           <div className="designer cursor-pointer">
             Thiết kế bởi{' '}
             <span onClick={() => goToProfile(product.userId)}>
-              <b>{product.username}</b>
+              <b style={{ textDecoration: 'underline' }}>{product.username}</b>
             </span>
           </div>
         </div>
