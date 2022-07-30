@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useEffect } from "react";
-import { ProductHomePage } from "@/services/type.dto";
+import React, { useEffect } from 'react';
+import { ProductHomePage } from '@/services/type.dto';
 
-import DesignedProduct from "./designed-product";
+import DesignedProduct from './designed-product';
 
 type Props = {
   title: string;
@@ -12,10 +12,10 @@ type Props = {
 
 export default function DesignedProducts({ title, data }: Props) {
   return (
-    <div className="container mt-100 mt-60">
+    <div className="container" style={{ marginTop: '30px' }}>
       <div className="row"></div>
       <div className="col-12">
-        <h3 className="mb-5 d-flex justify-content-center">{title}</h3>
+        <h3 className="d-flex justify-content-center">{title}</h3>
       </div>
       <div className="row">
         {data &&
