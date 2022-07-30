@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import CommentProduct from "@/components/common/comment";
-import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
-import { GetAllOrderDetailDto } from "@/services/order/dto";
-import { Dialog, DialogContent } from "@material-ui/core";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import * as React from "react";
+import CommentProduct from '@/components/common/comment';
+import useAllOrderDetail from '@/hooks/api/order/use-all-order-detail';
+import { GetAllOrderDetailDto } from '@/services/order/dto';
+import { Dialog, DialogContent } from '@material-ui/core';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import * as React from 'react';
 
 export interface IAllOrderDetailProps {
   allOrdersResponse: GetAllOrderDetailDto;
@@ -16,8 +16,8 @@ export interface IAllOrderDetailProps {
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
-  const [designId, setDesignId] = React.useState("");
-  const [orderId, setOrderId] = React.useState("");
+  const [designId, setDesignId] = React.useState('');
+  const [orderId, setOrderId] = React.useState('');
   const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
 
   const handleOpenDialog = (designId: string, orderId: string) => {
@@ -69,10 +69,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               </div>
               <div>Cảm ơn vì ý kiến đánh giá của bạn.</div>
               <div className=" d-flex justify-content-center">
-                <button
-                  className="btn btn-primary ps-4 pe-4"
-                  onClick={() => setIsOpenSuccessRating(false)}
-                >
+                <button className="btn btn-primary ps-4 pe-4" onClick={() => setIsOpenSuccessRating(false)}>
                   Đóng
                 </button>
               </div>
@@ -99,18 +96,10 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   <th scope="col" className="border-bottom">
                     Ngày
                   </th>
-                  <th
-                    scope="col"
-                    className="border-bottom"
-                    style={{ minWidth: "20px" }}
-                  >
+                  <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
                     Tổng giá(VND)
                   </th>
-                  <th
-                    scope="col"
-                    className="border-bottom"
-                    style={{ minWidth: "20px" }}
-                  >
+                  <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
                     Số lượng
                   </th>
                 </tr>
@@ -118,18 +107,13 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               <tbody>
                 {!isLoading &&
                   allOrdersResponse &&
-                  allOrdersResponse.data.map((order) => (
+                  allOrdersResponse.data.map(order => (
                     <tr key={order.id}>
                       <td>
-                        <img
-                          className="border-secondary"
-                          src={order.designImage}
-                          width={100}
-                          height={70}
-                        />
+                        <img className="border-secondary" src={order.designImage} width={100} height={70} />
                       </td>
                       <th>
-                        <ul style={{ listStyleType: "none" }}>
+                        <ul style={{ listStyleType: 'none' }}>
                           <li>Tên : {order.designName}</li>
                           <li>Nhà in : {order.provider}</li>
                           <li>
@@ -163,7 +147,9 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       </th>
                       <td>{order.size}</td>
                       <td>{order.color}</td>
-                      <td>{order.date}</td>
+                      <td>{`${new Date(order.date).getDate()}-${new Date(order.date).getMonth()}-${new Date(
+                        order.date
+                      ).getFullYear()}`}</td>
                       <td>{numberWithCommas(order.price)}</td>
                       <td> {order.quantity}</td>
                     </tr>
@@ -172,9 +158,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
             </table>
           </div>
         ) : (
-          <h4 style={{ display: "flex", justifyContent: "space-around" }}>
-            Chưa có đơn đặt hàng
-          </h4>
+          <h4 style={{ display: 'flex', justifyContent: 'space-around' }}>Chưa có đơn đặt hàng</h4>
         )}
       </>
     </>
