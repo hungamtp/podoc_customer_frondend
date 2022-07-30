@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
-import { Best4DesignedProduct, ProductHomePage } from '@/services/type.dto';
+import { Best4DesignedProduct, ProductHomePage, TAG } from '@/services/type.dto';
 import { MouseEventHandler } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -23,7 +23,7 @@ export default function DesignedProduct({ product }: Props) {
             product.tags.map((tag: String, index: number) => {
               return (
                 <li key={index}>
-                  <span className="badge badge-link rounded-pill bg-primary p-1">{tag}</span>
+                  <span className={`badge badge-link rounded-pill p-2 ${tag == TAG.BÁN_CHẠY && 'bg-danger'}`}>{tag}</span>
                 </li>
               );
             })}
