@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import PaginationComponent from "@/components/common/mui-pagination";
-import DesignedProductCard from "@/components/designed-products/designed-product-card";
-import { MainLayout } from "@/components/layouts";
-import useGetOthersDesignByUserId from "@/hooks/api/design/use-get-others-design-by-userId";
-import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { useState } from "react";
+import PaginationComponent from '@/components/common/mui-pagination';
+import DesignedProductCard from '@/components/designed-products/designed-product-card';
+import { MainLayout } from '@/components/layouts';
+import useGetOthersDesignByUserId from '@/hooks/api/design/use-get-others-design-by-userId';
+import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useState } from 'react';
 
 export interface IProductProps {}
 
@@ -17,16 +17,13 @@ export default function OthersDesigns(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
     pageSize: 9,
-    sort: "",
+    sort: '',
   });
   const [totalPages, setTotalPages] = React.useState(0);
   const router = useRouter();
   const { userId } = router.query;
 
-  const { data: response, isLoading: isLoading } = useGetOthersDesignByUserId(
-    filter,
-    userId as string
-  );
+  const { data: response, isLoading: isLoading } = useGetOthersDesignByUserId(filter, userId as string);
 
   return (
     <>
@@ -61,21 +58,14 @@ export default function OthersDesigns(props: IProductProps) {
                 </ul>
               </nav>
             </div>
-          </div>{" "}
+          </div>{' '}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg
-              viewBox="0 0 2880 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                fill="currentColor"
-              />
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
             </svg>
           </div>
         </div>
@@ -92,10 +82,7 @@ export default function OthersDesigns(props: IProductProps) {
                       <div className="row align-items-end">
                         <div className="d-flex flex-wrap w-full">
                           <Image
-                            src={
-                              response.content[0].user.credentialImage ||
-                              "/asset/images/default-avatar.jpg"
-                            }
+                            src={response.content[0].user.credentialImage || '/asset/images/avatardefault_92824.png'}
                             className="avatar avatar rounded-circle"
                             width={100}
                             height={100}
@@ -105,8 +92,7 @@ export default function OthersDesigns(props: IProductProps) {
                           <div className="ms-3 mt-4">
                             <h6 className="text-muted mb-0">Người thiết kế</h6>
                             <h5 className="mb-0">
-                              {response.content[0].user.lastName}{" "}
-                              {response.content[0].user.firstName}
+                              {response.content[0].user.lastName} {response.content[0].user.firstName}
                             </h5>
                           </div>
                         </div>
@@ -125,10 +111,7 @@ export default function OthersDesigns(props: IProductProps) {
                       <div className="section-title">
                         <h5 className="mb-0">
                           Hiển thị 1–
-                          {response.totalElements < filter.pageSize
-                            ? response.totalElements
-                            : filter.pageSize}{" "}
-                          của {response.totalElements}
+                          {response.totalElements < filter.pageSize ? response.totalElements : filter.pageSize} của {response.totalElements}
                           &nbsp;sản phẩm
                         </h5>
                       </div>
@@ -167,23 +150,14 @@ export default function OthersDesigns(props: IProductProps) {
                   </div>
                   {/*end row*/}
                   <div className="row">
-                    {response.content.map((product) => {
-                      return (
-                        <DesignedProductCard
-                          key={product.id}
-                          product={product}
-                        />
-                      );
+                    {response.content.map(product => {
+                      return <DesignedProductCard key={product.id} product={product} />;
                     })}
                     {totalPages == 0 ? (
                       <></>
                     ) : (
                       <div className="d-flex justify-content-center">
-                        <PaginationComponent
-                          total={totalPages}
-                          filter={filter}
-                          setFilter={setFilter}
-                        />
+                        <PaginationComponent total={totalPages} filter={filter} setFilter={setFilter} />
                       </div>
                     )}
                   </div>
