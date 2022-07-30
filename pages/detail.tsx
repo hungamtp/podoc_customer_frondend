@@ -97,7 +97,7 @@ export default function ProductDetail() {
                   <div className="section-title ms-md-4">
                     <h4 className="title"> {response?.name}</h4>
                     <h5 className="text-muted">
-                      {response?.lowestPrice == 0
+                      {response?.lowestPrice === 0
                         ? `Từ ${numberWithCommas(
                             Number(response?.highestPrice)
                           )} VND`
@@ -107,11 +107,13 @@ export default function ProductDetail() {
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    {response?.rate && response?.rateCount > 0 && (
+                    {response?.rateCount > 0 ? (
                       <ShowRating
                         rate={response?.rate}
                         rateCount={response?.rateCount}
                       />
+                    ) : (
+                      <span className="sold-number ">chưa có đánh giá nào</span>
                     )}
                     {/* <div>
                       <span className="sold-number ">

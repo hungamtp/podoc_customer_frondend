@@ -46,7 +46,15 @@ export default function DesignedProductCard({ product }: Props) {
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">{numberWithCommas(product.price)} VND</h6>
           </div>
+<<<<<<< HEAD
           {product.rating && product.ratingCount > 0 && <ShowRating rate={product.rating} rateCount={product.ratingCount} />}
+=======
+          {product.ratingCount > 0 ? (
+            <ShowRating rate={product.rating} rateCount={product.ratingCount} />
+          ) : (
+            <span className="sold-number ">chưa có đánh giá nào</span>
+          )}
+>>>>>>> 1b28e3c (fix rating)
 
           <div>
             <span className="sold-number ">Đã bán {product.sold}</span>

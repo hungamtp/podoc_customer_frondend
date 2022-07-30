@@ -14,22 +14,7 @@ export default function DesignedProduct({ product }: Props) {
   const goToProfile = (userId: string) => {
     router.push(`others-design?userId=${userId}`);
   };
-  const getRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
-  const getUnRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= 5 - rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
+
   return (
     <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2 cursor-pointer" onClick={() => router.push(`/designs/${product.id}`)}>
       <div className="card shop-list border-0 position-relative">
@@ -60,7 +45,17 @@ export default function DesignedProduct({ product }: Props) {
               Giá : <span className="text-danger ">{product.designedPrice} VND</span>
             </h6>
           </div>
+<<<<<<< HEAD
           <div className="design-detail">{product.rateCount > 0 && <ShowRating rate={product.rate} rateCount={product.rateCount} />}</div>
+=======
+          <div className="design-detail">
+            {product.rateCount > 0 ? (
+              <ShowRating rate={product.rate} rateCount={product.rateCount} />
+            ) : (
+              <span className="sold-number ">Chưa có đánh giá nào</span>
+            )}
+          </div>
+>>>>>>> 1b28e3c (fix rating)
           <div>
             <span className="sold-number ">Đã bán: {product.soldCount}</span>
           </div>
