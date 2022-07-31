@@ -166,7 +166,6 @@ export default function PreviewCanvas({
   const [renderCount, setRenderCount] = React.useState(
     isEdit ? blueprintsData.blueprints.length - 1 : 0
   );
-  console.log(renderCount, "renderCount");
 
   const blueprint = blueprintsData.blueprints[renderCount];
 
@@ -283,6 +282,7 @@ export default function PreviewCanvas({
 
           setBackgroundFromDataUrl(renderImage, outerSize, false);
         }
+        setIsDrawImageDone(true);
       }
     }
 
@@ -329,6 +329,8 @@ export default function PreviewCanvas({
         }
       });
     }
+    console.log(previews.length, "previews.length");
+    console.log(previewsCount.current, "previewsCount.current");
     if (previews.length === previewsCount.current && renderCount === 0) {
       setIsDrawImageDone(true);
     }

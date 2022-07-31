@@ -139,7 +139,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 autoComplete="off"
                 disabled={controlData.isLoadingImage}
                 onClick={() => {
-                  // setIsDrawImageDone(false);
+                  setIsDrawImageDone(false);
                   openPreview();
                 }}
                 checked={isPreview}
