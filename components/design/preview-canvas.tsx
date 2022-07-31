@@ -18,6 +18,7 @@ export interface IPreviewCanvasProps {
   isEditPage: boolean;
   setIsEdit: (isEdit: boolean) => void;
   isEdit: boolean;
+  setIsDrawImageDone: (isDone: boolean) => void;
 }
 
 const initBlueprint = {
@@ -127,6 +128,7 @@ export default function PreviewCanvas({
   isEditPage,
   setIsEdit,
   isEdit,
+  setIsDrawImageDone,
 }: IPreviewCanvasProps) {
   const router = useRouter();
 
@@ -136,14 +138,12 @@ export default function PreviewCanvas({
 
   const auth = useAppSelector((state) => state.auth);
 
-  const preview = useAppSelector((state) => state.previews);
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
 
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
   const handleOpenDialog = () => {
-    console.log(blueprintsData, "blueprintsData neee");
     if (!(auth.roleName === "USER")) router.push("/login");
     else setIsOpen(true);
   };
@@ -164,15 +164,16 @@ export default function PreviewCanvas({
   const [renderedPosition, setRenderedPosition] = React.useState("front");
 
   const [renderCount, setRenderCount] = React.useState(
-    blueprintsData.blueprints.length - 1
+    isEdit ? blueprintsData.blueprints.length - 1 : 0
   );
+  console.log(renderCount, "renderCount");
 
   const blueprint = blueprintsData.blueprints[renderCount];
-  console.log(blueprint, "blueprint");
 
   const dispatch = useAppDispatch();
 
   const [renderColor, setRenderColor] = React.useState(colors[0].image);
+  const previewsCount = React.useRef<number>(isEdit ? 0 : previews.length);
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
@@ -238,6 +239,15 @@ export default function PreviewCanvas({
       canvas?.clear();
     };
   }, []);
+
+  React.useEffect(() => {
+    console.log(previews.length, "previews.length");
+    console.log(previewsCount.current, "previewsCount.current");
+    if (previews.length === previewsCount.current + 2) {
+      setIsDrawImageDone(true);
+      previewsCount.current = previews.length;
+    }
+  }, [previews]);
 
   React.useEffect(() => {
     let hasMorePreview = true;
@@ -308,6 +318,21 @@ export default function PreviewCanvas({
   }, [renderedPosition]);
 
   React.useEffect(() => {
+    let hasMorePreview = true;
+    let count = 0;
+
+    if (previews.length > 0 && !isEdit) {
+      previews.forEach((preview) => {
+        if (preview.color === renderColor) {
+          count++;
+          if (count === 2) hasMorePreview = false;
+        }
+      });
+    }
+    if (previews.length === previewsCount.current && renderCount === 0) {
+      setIsDrawImageDone(true);
+    }
+
     if (canvas && hasMorePreview && canvas.width && canvas.height) {
       canvas.clear();
       setPlaceHolder(
@@ -375,6 +400,17 @@ export default function PreviewCanvas({
   }, [renderCount, canvas]);
 
   React.useEffect(() => {
+    let hasMorePreview = true;
+    let count = 0;
+
+    if (previews.length > 0 && !isEdit) {
+      previews.forEach((preview) => {
+        if (preview.color === renderColor) {
+          count++;
+          if (count === 2) hasMorePreview = false;
+        }
+      });
+    }
     if (canvas && imgSrc !== "" && hasMorePreview) {
       dispatch(
         addPreview({
@@ -383,7 +419,6 @@ export default function PreviewCanvas({
           color: renderColor,
         })
       );
-      console.log(renderCount, "renderCount");
 
       if (renderCount > 0) {
         setRenderCount((count) => count - 1);
@@ -402,6 +437,17 @@ export default function PreviewCanvas({
   }, [imgSrc]);
 
   React.useEffect(() => {
+    let hasMorePreview = true;
+    let count = 0;
+
+    if (previews.length > 0 && !isEdit) {
+      previews.forEach((preview) => {
+        if (preview.color === renderColor) {
+          count++;
+          if (count === 2) hasMorePreview = false;
+        }
+      });
+    }
     if (canvas && placeHolder && hasMorePreview) {
       canvas.add(placeHolder);
       let renderedBlueprint = initBlueprint;
@@ -476,20 +522,16 @@ export default function PreviewCanvas({
           centeredScaling: true,
           transparentCorners: true,
           fill: design.textColor,
-        })
-          .setControlsVisibility({
-            mt: false, // middle top disable
-            mb: false, // midle bottom
-            ml: false, // middle left
-            mr: false, // I think you get it
-          })
-          .scaleToWidth(150)
-          .scaleToHeight(100);
-        newText.scaleToWidth(imageWidth || 150);
+        }).setControlsVisibility({
+          mt: false, // middle top disable
+          mb: false, // midle bottom
+          ml: false, // middle left
+          mr: false, // I think you get it
+        });
+
         canvas.add(newText);
         canvas.renderAll();
       } else {
-        console.log(design.tmpSrc, "design.tmpSrc");
         fabric.Image.fromURL(
           design.tmpSrc,
           (image: fabric.Image) => {
@@ -512,7 +554,6 @@ export default function PreviewCanvas({
       }
     }
   };
-  console.log(hasMorePreview, "hasMorePreview");
 
   return (
     <>
@@ -531,6 +572,7 @@ export default function PreviewCanvas({
                 setRenderColor={setRenderColor}
                 setRenderedPosition={setRenderedPosition}
                 setIsDrawPreview={setIsDrawPreview}
+                setIsDrawImageDone={setIsDrawImageDone}
                 colors={colors}
               />
             </div>

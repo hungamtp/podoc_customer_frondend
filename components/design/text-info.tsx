@@ -171,10 +171,17 @@ const TextInfo = (props: ITextInfoProps) => {
           </div>
 
           <div className="p-3">
+            <div className="row mt-3">
+              <div className="w-25"></div>
+              <div className="d-flex w-75">
+                <div className="w-50 mx-4">Rotate</div>
+                <div className="w-50">Scale</div>
+              </div>
+            </div>
             <div className="row">
               <div className="w-25">Transform</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -200,14 +207,14 @@ const TextInfo = (props: ITextInfoProps) => {
             <div className="row mt-3">
               <div className="w-25 "></div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">Left</div>
+                <div className="w-50 mx-4">Left</div>
                 <div className="w-50">Top</div>
               </div>
             </div>
             <div className="row">
               <div className="w-25">Positioning</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-5">
+                <div className="w-50 mx-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -232,7 +239,7 @@ const TextInfo = (props: ITextInfoProps) => {
             <div className="row mt-4">
               <div className="w-25">Algin</div>
               <div className="d-flex w-75">
-                <div className="w-50 me-4">
+                <div className="w-50 mx-3">
                   <div
                     className="btn-group btn-group-sm "
                     role="group"

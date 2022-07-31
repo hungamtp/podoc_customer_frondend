@@ -280,7 +280,6 @@ export default function DesignCanvas({
               canvas.renderAll();
             }
           }
-          console.log(obj.height, " obj.height");
           const tmpDesignData = calculatePoint(
             obj.left || 200,
             obj.top || 200,
@@ -299,7 +298,7 @@ export default function DesignCanvas({
             DPI: tmpDesignData?.DPI,
           };
           dispatch(setValue({ ...designInfo }));
-          dispatch(setChoosenKey(obj.name));
+          if (obj.name) dispatch(setChoosenKey(obj.name));
           setIsEdit(true);
         }
       });
@@ -325,7 +324,7 @@ export default function DesignCanvas({
             DPI: tmpDesignData?.DPI,
           };
           dispatch(setValue({ ...designInfo }));
-          dispatch(setChoosenKey(obj.name));
+          if (obj.name) dispatch(setChoosenKey(obj.name));
           setIsEdit(true);
         }
       });
@@ -347,7 +346,7 @@ export default function DesignCanvas({
         if (obj) {
           obj.lockMovementX = false;
           obj.lockMovementY = false;
-          dispatch(setChoosenKey(obj.name));
+          if (obj.name) dispatch(setChoosenKey(obj.name));
           canvas.renderAll();
         }
       });
@@ -414,6 +413,7 @@ export default function DesignCanvas({
   };
 
   const reverseData = (key: string, value: number) => {
+    if (key === "width") console.log(value, "number");
     let data = 0;
     if (placeHolder) {
       if (key === "top")
@@ -481,7 +481,7 @@ export default function DesignCanvas({
           };
 
           dispatch(setValue({ ...designInfo }));
-          dispatch(setChoosenKey(object.name));
+          if (object.name) dispatch(setChoosenKey(object.name));
           canvas.renderAll();
         }
       }
@@ -585,7 +585,7 @@ export default function DesignCanvas({
         };
 
         dispatch(setValue({ ...designInfo }));
-        dispatch(setChoosenKey(obj.name));
+        if (obj.name) dispatch(setChoosenKey(obj.name));
         canvas.setActiveObject(obj);
         canvas.renderAll();
       }
@@ -738,6 +738,7 @@ export default function DesignCanvas({
           src: text,
           font: "Roboto",
           textColor: "white",
+          objectCaching: false,
         };
 
         dispatch(addDesignInfo({ ...designInfo }));
@@ -847,15 +848,12 @@ export default function DesignCanvas({
             centeredScaling: true,
             transparentCorners: true,
             fill: design.textColor,
-          })
-            .setControlsVisibility({
-              mt: false, // middle top disable
-              mb: false, // midle bottom
-              ml: false, // middle left
-              mr: false, // I think you get it
-            })
-            .scaleToWidth(150)
-            .scaleToHeight(100);
+          }).setControlsVisibility({
+            mt: false, // middle top disable
+            mb: false, // midle bottom
+            ml: false, // middle left
+            mr: false, // I think you get it
+          });
           newText.scaleToWidth(imageWidth || 150);
           canvas.add(newText);
           canvas.renderAll();
