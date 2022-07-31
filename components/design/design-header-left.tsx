@@ -10,19 +10,25 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 export interface IDesignHeaderLeftProps {
   closePreview: () => void;
   openPreview: () => void;
+  setIsDrawImageDone: (isDone: boolean) => void;
   isPreview: boolean;
   isEditPage: boolean;
+  isDrawImageDone: boolean;
 }
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
-  const { closePreview, openPreview, isPreview, isEditPage } = props;
+  const {
+    closePreview,
+    openPreview,
+    isPreview,
+    isEditPage,
+    setIsDrawImageDone,
+    isDrawImageDone,
+  } = props;
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
-  const choosenKey = useAppSelector((state) => state.choosenKey);
-  const { containerProps, indicatorEl } = useLoading({
-    loading: true,
-    indicator: <Audio width="50" />,
-  });
+  const previews = useAppSelector((state) => state.previews);
+
   const router = useRouter();
 
   const designControl = useAppSelector((state) => state.designControl);
@@ -116,7 +122,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 id="btnradio1"
                 autoComplete="off"
                 defaultChecked
-                disabled={controlData.isLoadingImage}
+                disabled={controlData.isLoadingImage || !isDrawImageDone}
                 onClick={() => {
                   closePreview();
                 }}
@@ -133,6 +139,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 autoComplete="off"
                 disabled={controlData.isLoadingImage}
                 onClick={() => {
+                  // setIsDrawImageDone(false);
                   openPreview();
                 }}
                 checked={isPreview}

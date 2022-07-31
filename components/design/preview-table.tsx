@@ -17,6 +17,7 @@ export interface IPreviewTableProps {
   setRenderColor: (color: string) => void;
   setRenderedPosition: (position: string) => void;
   setIsDrawPreview: (isDraw: boolean) => void;
+  setIsDrawImageDone: (isDone: boolean) => void;
 }
 
 export default function PreviewTable(props: IPreviewTableProps) {
@@ -26,6 +27,7 @@ export default function PreviewTable(props: IPreviewTableProps) {
     setRenderColor,
     setRenderedPosition,
     setIsDrawPreview,
+    setIsDrawImageDone,
   } = props;
 
   const previews = useAppSelector((state) => state.previews);
@@ -124,6 +126,7 @@ export default function PreviewTable(props: IPreviewTableProps) {
             style={{ border: "none" }}
             onClick={() => {
               setRenderColor(color.image);
+              setIsDrawImageDone(false);
             }}
           >
             <Image
