@@ -105,6 +105,7 @@ export default function CreateDesignedProductForm(
           image.position +
           "-" +
           image.color +
+          "-" +
           new Date().getTime()
         }`
       );
