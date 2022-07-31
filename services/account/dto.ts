@@ -31,6 +31,11 @@ export interface ForgotPasswordDto {
     email: string
 }
 
+export interface UpdateImageAccountDto {
+    id:string;
+    image: string
+}
+
 export interface ResetPasswordDto {
     email: string,
     token: string,

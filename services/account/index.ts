@@ -1,5 +1,5 @@
   import { API } from "@/api-client/axios";
-import { ForgotPasswordDto, ForgotPasswordResponse, getAccountByIdResponse, ResetPasswordDto, ResetPasswordResponse, UpdateAccountDto, UpdateAccountResponse, UpdatePasswordDto, UpdatePasswordResponse } from "./dto";
+import { ForgotPasswordDto, ForgotPasswordResponse, getAccountByIdResponse, ResetPasswordDto, ResetPasswordResponse, UpdateAccountDto, UpdateAccountResponse, UpdateImageAccountDto, UpdatePasswordDto, UpdatePasswordResponse } from "./dto";
 
 
   export const getAccountById = async (id: string) => {
@@ -51,3 +51,10 @@ import { ForgotPasswordDto, ForgotPasswordResponse, getAccountByIdResponse, Rese
     );
     return data;
   };
+
+  export const updateImageAccount = async (requestData: UpdateImageAccountDto ) => {
+    await API.patch(
+     `/user/avatar/${requestData.id}`,
+     requestData
+   );
+ };

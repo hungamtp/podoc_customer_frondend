@@ -154,7 +154,7 @@ export default function Carts({}: Props) {
                     </Link>
                   </div>
                   <div className="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
-                    {/* <div className="table-responsive bg-white rounded shadow">
+                    <div className="table-responsive bg-white rounded shadow">
                       <table className="table table-center table-padding mb-0">
                         <tbody>
                           <tr>
@@ -170,28 +170,8 @@ export default function Carts({}: Props) {
                               VND
                             </td>
                           </tr>
-                          <tr>
-                            <td className="h6 ps-4 py-3">Coupon</td>
-                            <td className="text-end fw-bold pe-4">
-                              <div className="input-group">
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  aria-label="Recipient's username"
-                                  aria-describedby="basic-addon2"
-                                />
-                                <div className="input-group-append">
-                                  <button
-                                    className="btn btn-outline-secondary"
-                                    type="button"
-                                  >
-                                    Apply
-                                  </button>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="bg-light">
+
+                          {/* <tr className="bg-light">
                             <td className="h6 ps-4 py-3">Thành tiền</td>
                             <td className="text-end fw-bold pe-4">
                               {numberWithCommas(
@@ -203,11 +183,11 @@ export default function Carts({}: Props) {
                               )}{" "}
                               VND
                             </td>
-                          </tr>
+                          </tr> */}
                         </tbody>
                       </table>
-                    </div> */}
-                    <div className="mt  text-end">
+                    </div>
+                    <div className="mt-3  text-end">
                       <button
                         className="btn btn-primary"
                         onClick={handleProceed}
