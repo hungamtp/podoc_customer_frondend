@@ -25,88 +25,98 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
   };
   return (
     <>
-    {myOrdersResponse.data.length != 0 ?
-      <div className="table-responsive bg-white shadow rounded">
-        <table className="table mb-0 table-center table-nowrap">
-          <thead>
-            <tr>
-              <th scope="col" className="border-bottom">
-                Ngày tạo
-              </th>
-              <th scope="col" className="border-bottom">
-                Trạng thái
-              </th>
-              <th scope="col" className="border-bottom">
-                Tổng giá
-              </th>
-              <th scope="col" className="border-bottom">
-                Số lượng
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {!isLoading &&
-              myOrdersResponse &&
-              myOrdersResponse.data.map((orders) => (
-                <tr key={orders.orderId}>
-                  <td>{orders.createdDate}</td>
-                  <td className="text-danger">
-                    {orders.isPaid === false && "chưa thanh toán"}
-                  </td>
-                  <td>{numberWithCommas(orders.totalBill)} VND</td>
-                  <td>
-                    {" "}
-                    {orders.countItem} {"sản phẩm"}
-                  </td>
-                  <td>
-                    <div className="dropdown">
-                      <button
-                        type="button"
-                        className="btn btn-primary  dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        Thanh Toán
-                      </button>
+      {myOrdersResponse.data.length != 0 ? (
+        <div className="table-responsive bg-white shadow rounded">
+          <table className="table mb-0 table-center table-nowrap">
+            <thead>
+              <tr>
+                <th scope="col" className="border-bottom">
+                  Ngày tạo
+                </th>
+                <th scope="col" className="border-bottom">
+                  Trạng thái
+                </th>
+                <th scope="col" className="border-bottom">
+                  Tổng giá (VND)
+                </th>
+                <th scope="col" className="border-bottom">
+                  Số lượng
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {!isLoading &&
+                myOrdersResponse &&
+                myOrdersResponse.data.map((orders) => (
+                  <tr key={orders.orderId}>
+                    <td>{`${new Date(orders.createdDate).getDate()}-${new Date(
+                      orders.createdDate
+                    ).getMonth()}-${new Date(
+                      orders.createdDate
+                    ).getFullYear()}`}</td>
+                    <td className="">
+                      <div className="badge badge-danger">
+                        {orders.isPaid === false && "chưa thanh toán"}
+                      </div>
+                    </td>
+                    <td>{numberWithCommas(orders.totalBill)} </td>
+                    <td>
+                      {" "}
+                      {orders.countItem} {"sản phẩm"}
+                    </td>
+                    <td>
+                      <div className="dropdown">
+                        <button
+                          type="button"
+                          className="btn btn-primary  dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          Thanh Toán
+                        </button>
 
-                      <div
-                        className="dropdown-menu dd-menu dropdown-menu-end bg-light shadow rounded border border-primary p-3"
-                        style={{ width: "120px" }}
-                      >
                         <div
-                          onClick={() => handleSubmit(0, orders.orderId)}
-                          className="d-flex align-items-center mt-1 cursor-pointer"
+                          className="dropdown-menu dd-menu dropdown-menu-end bg-light shadow rounded border border-primary p-3"
+                          style={{ width: "120px" }}
                         >
-                          <img
-                            className="me-1 rounded"
-                            src="asset/images/momologo.svg"
-                            width="25"
-                            alt="momo"
-                          />
-                          MOMO
-                        </div>
-                        <div
-                          onClick={() => handleSubmit(1, orders.orderId)}
-                          className="d-flex align-items-center mt-1 cursor-pointer"
-                        >
-                          <img
-                            className="me-1 rounded"
-                            src="asset/images/zalopay.png"
-                            width="25"
-                            alt="momo"
-                          />
-                          Zalo
+                          <div
+                            onClick={() => handleSubmit(0, orders.orderId)}
+                            className="d-flex align-items-center mt-1 cursor-pointer"
+                          >
+                            <img
+                              className="me-1 rounded"
+                              src="asset/images/momologo.svg"
+                              width="25"
+                              alt="momo"
+                            />
+                            MOMO
+                          </div>
+                          <div
+                            onClick={() => handleSubmit(1, orders.orderId)}
+                            className="d-flex align-items-center mt-1 cursor-pointer"
+                          >
+                            <img
+                              className="me-1 rounded"
+                              src="asset/images/zalopay.png"
+                              width="25"
+                              alt="momo"
+                            />
+                            Zalo
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
-       :<h4 style={{display :"flex"  , justifyContent :"space-around"}}>Chưa có đơn đặt hàng</h4>}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <h4 style={{ display: "flex", justifyContent: "space-around" }}>
+          Chưa có đơn đặt hàng
+        </h4>
+      )}
     </>
   );
 }

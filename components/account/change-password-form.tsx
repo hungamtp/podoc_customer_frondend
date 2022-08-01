@@ -37,10 +37,15 @@ export default function ChangePassword(props: IChangePasswordProps) {
     passwordConfirmation: "",
   };
 
+  React.useEffect(() => {
+    setFocus("oldPassword");
+  }, []);
+
   const {
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors },
   } = useForm({
     defaultValues,

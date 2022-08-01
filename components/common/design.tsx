@@ -52,11 +52,11 @@ export default function Design({ product }: Props) {
       <td className="align-middle">
         <p className="">{numberWithCommas(product.designedPrice)}</p>
       </td>
-      <td className="align-middle qty-icons">
+      <td className="align-middle">
         {product.publish ? (
-          <p className="text-success ">Đang đăng bán</p>
+          <div className="badge badge-success mb-3 p-1">Đang đăng bán</div>
         ) : (
-          <p className="text-secondary ">Chỉ mình tôi</p>
+          <div className="badge badge-secondary mb-3 p-1">Chỉ mình tôi</div>
         )}
         {/* 
         <button type="button" className="btn btn-light">
@@ -65,9 +65,7 @@ export default function Design({ product }: Props) {
       </td>
       <td className="align-middle">
         <button
-          onClick={() =>
-            router.push(`/my-product/order?designId=${product.id}`)
-          }
+          onClick={() => router.push(`/designs/${product.id}`)}
           className="btn btn-outline-success "
           data-toggle="modal"
           data-target="#exampleModal"
