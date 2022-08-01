@@ -197,14 +197,18 @@ export default function DesignedProducts(props: IProductProps) {
                 <div className="row align-items-center">
                   <div className="col-lg-8 col-md-7">
                     <div className="section-title">
-                      <h5 className="mb-0">
-                        Hiển thị 1–
-                        {response && response?.elements < filter.pageSize
-                          ? response?.elements
-                          : filter.pageSize}{" "}
-                        của {response?.elements}
-                        &nbsp;sản phẩm
-                      </h5>
+                      {response && response.elements > 0 ? (
+                        <h5 className="mb-0">
+                          Hiển thị 1–
+                          {response && response?.elements < filter.pageSize
+                            ? response?.elements
+                            : filter.pageSize}{" "}
+                          của {response?.elements}
+                          &nbsp;sản phẩm
+                        </h5>
+                      ) : (
+                        <h5 className="">Không tìm thấy sản phẩm nào</h5>
+                      )}
                     </div>
                   </div>
                   {/*end col*/}

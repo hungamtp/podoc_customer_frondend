@@ -100,6 +100,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
     useAllOrderDetail(filterAllOrder);
   const [isImageChange, setIsImageChange] = React.useState(false);
+
   const {
     mutate: updateAvatarImage,
     isSuccess,

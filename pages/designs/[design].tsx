@@ -217,22 +217,6 @@ export default function DesignedProductDetail() {
     }
   };
 
-  const getRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
-  const getUnRates = (rate: number): number[] => {
-    let result = [];
-    rate = Math.ceil(rate);
-    for (var i = 1; i <= 5 - rate; i++) {
-      result.push(i);
-    }
-    return result;
-  };
   const goToProfile = (userId: string) => {
     router.replace(`/others-design?userId=${userId}`);
   };
@@ -321,10 +305,16 @@ export default function DesignedProductDetail() {
                             {numberWithCommas(designedProduct.price)} VND
                           </h6>
                         </div>
-                        <ShowRating
-                          rate={designedProduct.rating}
-                          rateCount={designedProduct.rateCount}
-                        />
+                        {designedProduct.rateCount > 0 ? (
+                          <ShowRating
+                            rate={designedProduct.rating}
+                            rateCount={designedProduct.rateCount}
+                          />
+                        ) : (
+                          <span className="sold-number ">
+                            chưa có đánh giá nào
+                          </span>
+                        )}
                         <div>
                           <span className="sold-number ">
                             Đã bán {designedProduct.sold}
