@@ -15,6 +15,14 @@ export interface IEmptyTableProps {
 export default function EmptyTable(props: IEmptyTableProps) {
   const { addNewRect, addNewText } = props;
   const designControlData = useAppSelector((state) => state.designControl);
+  const blueprintData = useAppSelector((state) => state.blueprintsData);
+  let renderBlueprint = blueprintData.blueprints[0];
+  blueprintData.blueprints.forEach((blueprint) => {
+    if (blueprint.position === blueprintData.position) {
+      renderBlueprint = blueprint;
+    }
+  });
+  const placeHolder = renderBlueprint.placeholder;
   const controlData = designControlData.controlData;
   const dispatch = useAppDispatch();
 
@@ -129,18 +137,20 @@ export default function EmptyTable(props: IEmptyTableProps) {
         </>
       ) : (
         <>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center ">
             <div className="w-half d-flex flex-column justify-content-center">
               <Image
                 src="https://printify.com/assets/gen_images/add-layer.svg"
                 className="avatar avatar rounded-circle"
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 objectFit="cover"
                 alt="Picture of the author"
               />
-              <p className="h5 text-center pt-4">Chưa có thiết kế nào</p>
-              <p className="text-center">Chỉ hỗ trợ file PNG hoặc JPG</p>
+              <p className="h5 text-center pt-4 ">Chưa có thiết kế nào</p>
+              <p className="text-center">
+                Thêm văn bản hoặc hình ảnh vào sản phẩm của bạn
+              </p>
               <button
                 type="button"
                 className="btn btn-success"
@@ -166,7 +176,10 @@ export default function EmptyTable(props: IEmptyTableProps) {
           <ul>
             <li>Hỗ trợ JPG và PNG</li>
             <li>Kích cỡ file tối đa 50MB</li>
-            <li>Vùng in 2362 × 2894 px (300 DPI)</li>
+            <li>
+              Vùng in {placeHolder.width * 300} × {placeHolder.height * 300} px
+              (300 DPI)
+            </li>
             <li>Độ phân giải tối đa 23000 x 23000 px</li>
           </ul>
         </div>

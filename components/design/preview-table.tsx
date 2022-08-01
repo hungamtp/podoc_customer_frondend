@@ -1,7 +1,8 @@
+import { setControlData } from "@/redux/slices/designControl";
 import { Preview } from "@/redux/slices/previews";
 import { nanoid } from "@reduxjs/toolkit";
 import Image from "next/image";
-import { useAppSelector } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface info {
   angle: number;
@@ -17,7 +18,6 @@ export interface IPreviewTableProps {
   setRenderColor: (color: string) => void;
   setRenderedPosition: (position: string) => void;
   setIsDrawPreview: (isDraw: boolean) => void;
-  setIsDrawImageDone: (isDone: boolean) => void;
 }
 
 export default function PreviewTable(props: IPreviewTableProps) {
@@ -27,9 +27,11 @@ export default function PreviewTable(props: IPreviewTableProps) {
     setRenderColor,
     setRenderedPosition,
     setIsDrawPreview,
-    setIsDrawImageDone,
   } = props;
 
+  const dispatch = useAppDispatch();
+  const designControl = useAppSelector((state) => state.designControl);
+  const controlData = designControl.controlData;
   const previews = useAppSelector((state) => state.previews);
   let renderedPreviews: Preview[] = [];
   previews.forEach((preview) => {
@@ -125,8 +127,14 @@ export default function PreviewTable(props: IPreviewTableProps) {
             }`}
             style={{ border: "none" }}
             onClick={() => {
-              setRenderColor(color.image);
-              setIsDrawImageDone(false);
+              if (renderColor !== color.image) {
+                setRenderColor(color.image);
+                const tmpControlData = {
+                  ...controlData,
+                  isLoadingImage: true,
+                };
+                dispatch(setControlData(tmpControlData));
+              }
             }}
           >
             <Image

@@ -10,21 +10,13 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 export interface IDesignHeaderLeftProps {
   closePreview: () => void;
   openPreview: () => void;
-  setIsDrawImageDone: (isDone: boolean) => void;
   isPreview: boolean;
   isEditPage: boolean;
-  isDrawImageDone: boolean;
 }
 
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
-  const {
-    closePreview,
-    openPreview,
-    isPreview,
-    isEditPage,
-    setIsDrawImageDone,
-    isDrawImageDone,
-  } = props;
+  const { closePreview, openPreview, isPreview, isEditPage } = props;
+
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
   const previews = useAppSelector((state) => state.previews);
@@ -63,6 +55,40 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
         blueprints: tmpBlueprints,
       })
     );
+  };
+
+  const handleClosePreview = () => {
+    let pos = -1;
+    let isEmpty = false;
+    let tmpDesignInfos: DesignState[] = [];
+    const tmpBlueprints = [...blueprintData.blueprints];
+    tmpBlueprints.forEach((blueprint, index) => {
+      if (blueprint.position === blueprintData.position) {
+        pos = index; //Lấy blurprint hiện tại
+      }
+      console.log(blueprint.designInfos, "infoo");
+      //lấy design info để load lên
+      if (blueprint.designInfos && blueprint.designInfos.length > 0) {
+        tmpDesignInfos = blueprint.designInfos;
+      }
+      if (tmpDesignInfos.length === 0) isEmpty = true;
+    });
+    const tmpControlData = {
+      ...controlData,
+      isLoadingImage: false,
+      isEmpty: isEmpty,
+    };
+    dispatch(setControlData(tmpControlData));
+    closePreview();
+  };
+
+  const handleOpenPreview = () => {
+    const tmpControlData = {
+      ...controlData,
+      isLoadingImage: true,
+    };
+    dispatch(setControlData(tmpControlData));
+    openPreview();
   };
 
   React.useEffect(() => {
@@ -122,9 +148,9 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 id="btnradio1"
                 autoComplete="off"
                 defaultChecked
-                disabled={controlData.isLoadingImage || !isDrawImageDone}
+                disabled={controlData.isLoadingImage}
                 onClick={() => {
-                  closePreview();
+                  handleClosePreview();
                 }}
                 checked={!isPreview}
               />
@@ -139,8 +165,7 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 autoComplete="off"
                 disabled={controlData.isLoadingImage}
                 onClick={() => {
-                  setIsDrawImageDone(false);
-                  openPreview();
+                  handleOpenPreview();
                 }}
                 checked={isPreview}
               />
