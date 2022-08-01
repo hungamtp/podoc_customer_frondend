@@ -103,6 +103,13 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   >
                     Tổng giá(VND)
                   </th>
+                  <th
+                    scope="col"
+                    className="border-bottom"
+                    style={{ minWidth: "20px" }}
+                  >
+                    Trạng thái đơn hàng
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -157,6 +164,17 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                         order.date
                       ).getMonth()}-${new Date(order.date).getFullYear()}`}</td>
                       <td>{numberWithCommas(order.price)}</td>
+                      <td>
+                        {order.status === "DONE" ? (
+                          <div className="badge bg-success mb-3 p-1">
+                            {order.status}
+                          </div>
+                        ) : (
+                          <div className="badge bg-warning mb-3 p-1">
+                            {order.status}
+                          </div>
+                        )}
+                      </td>
                     </tr>
                   ))}
               </tbody>

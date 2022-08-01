@@ -53,6 +53,7 @@ export interface OrderDetailDto {
   provider: string;
   date : string;
   rated: boolean;
+  status: string;
 }
 
 export interface MyOrdersDto {
