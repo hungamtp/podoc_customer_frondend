@@ -9,7 +9,7 @@ export default function PreviewFooter({
   renderedPosition,
 }: IPreviewFooterProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
-
+  const controlData = useAppSelector((state) => state.designControl);
   const changePos = (position: string) => {
     setRenderedPosition(position);
   };
@@ -24,6 +24,7 @@ export default function PreviewFooter({
       }`}
       key={posData.value}
       onClick={() => changePos(posData.value)}
+      disabled={controlData.controlData.isLoadingImage}
     >
       {posData.position}
     </button>

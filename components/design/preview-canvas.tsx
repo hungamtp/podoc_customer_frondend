@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { Blueprint, DesignState } from "@/models/design";
+import { setControlData } from "@/redux/slices/designControl";
 import { addPreview, clearAllPreview, Preview } from "@/redux/slices/previews";
 import { Dialog, DialogContent } from "@material-ui/core";
 import { fabric } from "fabric";
@@ -18,7 +19,6 @@ export interface IPreviewCanvasProps {
   isEditPage: boolean;
   setIsEdit: (isEdit: boolean) => void;
   isEdit: boolean;
-  setIsDrawImageDone: (isDone: boolean) => void;
 }
 
 const initBlueprint = {
@@ -128,9 +128,13 @@ export default function PreviewCanvas({
   isEditPage,
   setIsEdit,
   isEdit,
-  setIsDrawImageDone,
 }: IPreviewCanvasProps) {
   const router = useRouter();
+  const controlData = useAppSelector((state) => state.designControl);
+
+  // React.useEffect(() => {
+  //   console.log(controlData.controlData.isLoadingImage, "loaddinngg imageeee");
+  // }, [controlData]);
 
   const [isDrawPreview, setIsDrawPreview] = React.useState(false);
 
@@ -177,15 +181,6 @@ export default function PreviewCanvas({
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
   const [imgSrc, setImgSrc] = React.useState<string>("");
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>();
-
-  let hasMorePreview = true; //chuyển từ trang design qua trang preview
-  if (previews.length > 0 && isEdit === false) {
-    previews.forEach((preview) => {
-      if (preview.color === renderColor) {
-        hasMorePreview = false;
-      }
-    });
-  }
 
   const setBackgroundFromDataUrl = (
     dataUrl: string,
@@ -240,10 +235,19 @@ export default function PreviewCanvas({
   }, []);
 
   React.useEffect(() => {
-    console.log(previews.length, "previews.length");
-    console.log(previewsCount.current, "previewsCount.current");
-    if (previews.length === previewsCount.current + 2) {
-      setIsDrawImageDone(true);
+    if (previews.length === previewsCount.current + 2 && renderCount === 0) {
+      //tim if se tao ra action => de check xem condition da dung chua
+      console.log(previews.length, "previews.length");
+      console.log(previewsCount.current, "previewsCount.current");
+      console.log(
+        controlData.controlData.isLoadingImage,
+        "loaddinngg imageeee"
+      );
+      const tmpControlData = {
+        ...controlData,
+        isLoadingImage: false,
+      };
+      dispatch(setControlData(tmpControlData));
       previewsCount.current = previews.length;
     }
   }, [previews]);
@@ -282,7 +286,11 @@ export default function PreviewCanvas({
 
           setBackgroundFromDataUrl(renderImage, outerSize, false);
         }
-        setIsDrawImageDone(true);
+        const tmpControlData = {
+          ...controlData,
+          isLoadingImage: false,
+        };
+        dispatch(setControlData(tmpControlData));
       }
     }
 
@@ -297,6 +305,11 @@ export default function PreviewCanvas({
         if (!renderedColorList.includes(selectedColors[index])) {
           keep = false;
           setRenderColor(selectedColors[index]);
+          const tmpControlData = {
+            ...controlData,
+            isLoadingImage: true,
+          };
+          dispatch(setControlData(tmpControlData));
         }
       }
     }
@@ -329,10 +342,12 @@ export default function PreviewCanvas({
         }
       });
     }
-    console.log(previews.length, "previews.length");
-    console.log(previewsCount.current, "previewsCount.current");
     if (previews.length === previewsCount.current && renderCount === 0) {
-      setIsDrawImageDone(true);
+      const tmpControlData = {
+        ...controlData,
+        isLoadingImage: false,
+      };
+      dispatch(setControlData(tmpControlData));
     }
 
     if (canvas && hasMorePreview && canvas.width && canvas.height) {
@@ -574,7 +589,6 @@ export default function PreviewCanvas({
                 setRenderColor={setRenderColor}
                 setRenderedPosition={setRenderedPosition}
                 setIsDrawPreview={setIsDrawPreview}
-                setIsDrawImageDone={setIsDrawImageDone}
                 colors={colors}
               />
             </div>
@@ -601,6 +615,7 @@ export default function PreviewCanvas({
             <div className="d-flex  w-full align-items-center px-4">
               <button
                 className="btn btn-secondary w-full"
+                disabled={controlData.controlData.isLoadingImage}
                 onClick={() => handleOpenDialog()}
               >
                 Lưu lại

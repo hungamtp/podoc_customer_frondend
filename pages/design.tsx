@@ -32,7 +32,6 @@ export default function AboutPage(props: AboutPageProps) {
   const prev = storage.getItem("prevPath");
 
   const [renderBlueprint, setRenderBlueprint] = React.useState<Blueprint[]>([]);
-  const [isDrawImageDone, setIsDrawImageDone] = React.useState(true);
   const [isLoadedBlueprints, setIsLoadedBlueprint] =
     React.useState<boolean>(false);
   const [isEdit, setIsEdit] = React.useState(true);
@@ -142,8 +141,6 @@ export default function AboutPage(props: AboutPageProps) {
             closePreview={closePreview}
             isPreview={isPreview}
             isEditPage={false}
-            setIsDrawImageDone={setIsDrawImageDone}
-            isDrawImageDone={isDrawImageDone}
           />
 
           {isPreview ? (
@@ -152,7 +149,6 @@ export default function AboutPage(props: AboutPageProps) {
               colors={colors}
               setIsEdit={setIsEdit}
               isEdit={isEdit}
-              setIsDrawImageDone={setIsDrawImageDone}
             />
           ) : (
             designCanvas
