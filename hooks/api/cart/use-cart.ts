@@ -6,18 +6,22 @@ import { setCart } from "@/redux/slices/cart";
 
 const UseCart = () => {
   const dispatch = useAppDispatch();
-  return useQuery(["Cart"], async () => {
-    return await getCart();
-  } , 
-  {
-    onSuccess :(data) =>{
-      dispatch(setCart(data))
+  return useQuery(
+    ["Cart"],
+    async () => {
+      return await getCart();
     },
-    onError: (error: any) => {
-      console.log("error cart")
-       dispatch(setCart([]))
-    },
-  });
+    {
+      onSuccess: (data) => {
+        if (data) dispatch(setCart(data));
+        else dispatch(setCart([]));
+      },
+      onError: (error: any) => {
+        console.log("error cart");
+        dispatch(setCart([]));
+      },
+    }
+  );
 };
 
 export const getCart = async () => {
