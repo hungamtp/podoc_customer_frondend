@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import Link from "next/link";
+import useGetAccountById from "@/hooks/api/account/use-account-by-id";
 
 type Props = {};
 
@@ -47,6 +48,9 @@ export default function Checkout({}: Props) {
     useGetAllShippingInfo();
   const cart = useAppSelector((state) => state.carts);
 
+  const credentialId = useAppSelector((state) => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } =
+    useGetAccountById(credentialId);
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -108,7 +112,19 @@ export default function Checkout({}: Props) {
   } = form;
   const dispatch = useDispatch();
 
-  console.log(errors, "errorss");
+  useEffect(() => {
+    if (responseAccount) {
+      reset({
+        name:
+          responseAccount.data.userFirstName +
+          " " +
+          responseAccount.data.userLastName,
+        email: responseAccount.data.email,
+        address: responseAccount.data.address,
+        phone: responseAccount.data.phone + "",
+      });
+    }
+  }, [responseAccount]);
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
     createOrder(
