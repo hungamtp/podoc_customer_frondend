@@ -55,7 +55,7 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
                       orders.createdDate
                     ).getFullYear()}`}</td>
                     <td className="">
-                      <div className="badge badge-danger">
+                      <div className="badge badge-warning p-1 text-white">
                         {orders.isPaid === false && "chưa thanh toán"}
                       </div>
                     </td>
