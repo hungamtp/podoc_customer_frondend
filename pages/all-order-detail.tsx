@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import CommentProduct from '@/components/common/comment';
-import useAllOrderDetail from '@/hooks/api/order/use-all-order-detail';
-import { GetAllOrderDetailDto } from '@/services/order/dto';
-import { Dialog, DialogContent } from '@material-ui/core';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import * as React from 'react';
+import CommentProduct from "@/components/common/comment";
+import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
+import { GetAllOrderDetailDto } from "@/services/order/dto";
+import { Dialog, DialogContent } from "@material-ui/core";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import * as React from "react";
 
 export interface IAllOrderDetailProps {
   allOrdersResponse: GetAllOrderDetailDto;
@@ -16,9 +17,10 @@ export interface IAllOrderDetailProps {
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
-  const [designId, setDesignId] = React.useState('');
-  const [orderId, setOrderId] = React.useState('');
+  const [designId, setDesignId] = React.useState("");
+  const [orderId, setOrderId] = React.useState("");
   const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
+  const router = useRouter();
 
   const handleOpenDialog = (designId: string, orderId: string) => {
     setIsOpenDialog(true);
@@ -69,7 +71,10 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               </div>
               <div>Cảm ơn vì ý kiến đánh giá của bạn.</div>
               <div className=" d-flex justify-content-center">
-                <button className="btn btn-primary ps-4 pe-4" onClick={() => setIsOpenSuccessRating(false)}>
+                <button
+                  className="btn btn-primary ps-4 pe-4"
+                  onClick={() => setIsOpenSuccessRating(false)}
+                >
                   Đóng
                 </button>
               </div>
@@ -93,10 +98,18 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   <th scope="col" className="border-bottom">
                     Ngày tạo
                   </th>
-                  <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
+                  <th
+                    scope="col"
+                    className="border-bottom"
+                    style={{ minWidth: "20px" }}
+                  >
                     Tổng giá(VND)
                   </th>
-                  <th scope="col" className="border-bottom" style={{ minWidth: '20px' }}>
+                  <th
+                    scope="col"
+                    className="border-bottom"
+                    style={{ minWidth: "20px" }}
+                  >
                     Trạng thái
                   </th>
                 </tr>
@@ -104,36 +117,27 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               <tbody>
                 {!isLoading &&
                   allOrdersResponse &&
-                  allOrdersResponse.data.map(order => (
+                  allOrdersResponse.data.map((order) => (
                     <tr key={order.id}>
                       <td>
-                        <img className="border-secondary" src={order.designImage} width={100} height={70} />
+                        <img
+                          className="border-secondary"
+                          src={order.designImage}
+                          width={100}
+                          height={70}
+                        />
                       </td>
                       <th>
-                        <ul style={{ listStyleType: 'none', padding: '0' }}>
+                        <ul style={{ listStyleType: "none", padding: "0" }}>
                           <li className="d-flex">
-                            <div style={{ fontWeight: 'normal' }}>Tên : </div>
+                            <div style={{ fontWeight: "normal" }}>Tên : </div>
                             <div>{order.designName}</div>
                           </li>
                           <li className="d-flex">
-                            <div style={{ fontWeight: 'normal' }}>Nhà in : </div>
+                            <div style={{ fontWeight: "normal" }}>
+                              Nhà in :{" "}
+                            </div>
                             <div>{order.provider}</div>
-                          </li>
-                          <li>
-                            {order.rated == false && (
-                              <button
-                                type="button"
-                                className="btn btn-success me-2"
-                                data-toggle="modal"
-                                data-target="#exampleModal"
-                                onClick={() => {
-                                  handleOpenDialog(order.designId, order.id);
-                                }}
-                              >
-                                Đánh giá
-                              </button>
-                            )}
-                            <button className="btn-success btn">Mua lại</button>
                           </li>
                         </ul>
                       </th>
@@ -142,16 +146,54 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                         <div>Màu : {order.color}</div>
                         <div>Số lượng : {order.quantity}</div>
                       </td>
-                      <td>{`${new Date(order.date).getDate()}-${new Date(order.date).getMonth()}-${new Date(
+                      <td>{`${new Date(order.date).getDate()}-${new Date(
                         order.date
-                      ).getFullYear()}`}</td>
+                      ).getMonth()}-${new Date(order.date).getFullYear()}`}</td>
                       <td>{numberWithCommas(order.price)}</td>
                       <td>
-                        {order.status === 'DONE' ? (
-                          <div className="badge bg-success mb-3 p-1">{order.status}</div>
+                        {order.status === "DONE" ? (
+                          <div className="badge bg-success mb-3 p-1">
+                            {order.status}
+                          </div>
                         ) : (
-                          <div className="badge bg-warning mb-3 p-1">{order.status}</div>
+                          <div className="badge bg-warning mb-3 p-1">
+                            {order.status}
+                          </div>
                         )}
+                      </td>
+                      <td className="align-middle">
+                        <div className="dropdown">
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-light dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i className="bi bi-three-dots cursor-pointer fa-lg"></i>
+                          </button>
+
+                          <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
+                            {order.rated == false && (
+                              <div
+                                className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                                onClick={() => {
+                                  handleOpenDialog(order.designId, order.id);
+                                }}
+                              >
+                                Đánh giá
+                              </div>
+                            )}
+                            <div
+                              className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                              onClick={() =>
+                                router.push(`/designs/${order.designId}`)
+                              }
+                            >
+                              Mua lại
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -159,7 +201,9 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
             </table>
           </div>
         ) : (
-          <h4 style={{ display: 'flex', justifyContent: 'space-around' }}>Chưa có đơn đặt hàng</h4>
+          <h4 style={{ display: "flex", justifyContent: "space-around" }}>
+            Chưa có đơn đặt hàng
+          </h4>
         )}
       </>
     </>
