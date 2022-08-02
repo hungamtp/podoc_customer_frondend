@@ -14,6 +14,24 @@ export interface IAllOrderDetailProps {
   isLoading: boolean;
 }
 
+const convertStatus = (status: string) => {
+  let tmpOrderStatusData = "";
+  if (status === "PENDING") {
+    tmpOrderStatusData = "Chờ xác nhận";
+  } else if (status === "PRINTING") {
+    tmpOrderStatusData = "Đang xử lí";
+  } else if (status === "PACKAGING") {
+    tmpOrderStatusData = "Đang đóng gói";
+  } else if (status === "DELIVERING") {
+    tmpOrderStatusData = "Đang giao hàng";
+  } else if (status === "DELIVERED") {
+    tmpOrderStatusData = "Đã giao";
+  } else if (status === "DONE") {
+    tmpOrderStatusData = "Hoàn thành";
+  }
+  return tmpOrderStatusData;
+};
+
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const { allOrdersResponse, isLoading } = props;
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
@@ -30,6 +48,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
   };
+
   return (
     <>
       <>
@@ -157,7 +176,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                           </div>
                         ) : (
                           <div className="badge bg-warning mb-3 p-1">
-                            {order.status}
+                            {convertStatus(order.status)}
                           </div>
                         )}
                       </td>
