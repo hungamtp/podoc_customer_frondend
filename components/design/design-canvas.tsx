@@ -928,16 +928,11 @@ export default function DesignCanvas({
     const { outerWidth, outerHeight } = outerSize;
 
     if (canvas) {
-      const brightFilter = new fabric.Image.filters.Brightness({
-        brightness: 0.15,
-      });
-
       fabric.Image.fromURL(
         dataUrl,
         (image: fabric.Image) => {
           image.scaleToHeight(outerHeight);
           image.set("top", 0);
-          image.filters?.push(brightFilter);
           image.applyFilters();
           canvas.centerObject(image);
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));

@@ -199,16 +199,12 @@ export default function PreviewCanvas({
           const colorFilter = new fabric.Image.filters.BlendColor({
             color: renderColor,
             mode: "add",
-            alpha: 0.55,
-          });
-          const brightFilter = new fabric.Image.filters.Brightness({
-            brightness: 0.15,
+            alpha: 0.75,
           });
           image.scaleToHeight(outerHeight);
           image.set("top", 0);
           canvas.centerObject(image);
           if (isNeedColor) image.filters?.push(colorFilter);
-          if (isNeedColor) image.filters?.push(brightFilter);
           image.applyFilters();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
           // canvas.clipPath = image;
