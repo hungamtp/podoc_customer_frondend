@@ -538,7 +538,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   >
                     {!isLoadingAccount && responseAccount && (
                       <form>
-                        <div className="row">
+                        <div className="row d-flex justify-content-center">
                           <div className="col-md-8">
                             <div className="mb-3">
                               <label className="form-label">Họ</label>
@@ -577,89 +577,96 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             </div>
                           </div>
                           {/*end col*/}
-                          <label className="form-label ms-1 ">Email</label>
-                          <div className="col-md-5">
-                            <div className="mb-3">
-                              <div className="form-icon position-relative">
-                                <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
-                                <input
-                                  id="email"
-                                  type="email"
-                                  disabled
-                                  className="form-control ps-5"
-                                  defaultValue={responseAccount.data.email}
-                                  {...register("email")}
-                                />
-                                {responseAccount.data.mailVerified ===
-                                  false && (
-                                  <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
-                                )}
-                                {responseAccount.data.mailVerified === true && (
-                                  <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
-                                )}
-                              </div>
-                              {responseAccount.data.mailVerified === false && (
-                                <p className="ms-1 text-warning">
-                                  Email chưa được xác nhận
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                          {/*end col*/}
-                          {responseAccount.data.mailVerified === false && (
-                            <div className="col-md-4">
+                          <div className="col-md-8 row">
+                            <label className="form-label p-0">Email</label>
+                            <div className="col-md-5 p-0">
                               <div className="mb-3">
                                 <div className="form-icon position-relative">
+                                  <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
+                                  <input
+                                    id="email"
+                                    type="email"
+                                    disabled
+                                    className="form-control ps-5"
+                                    defaultValue={responseAccount.data.email}
+                                    {...register("email")}
+                                  />
+                                  {responseAccount.data.mailVerified ===
+                                    false && (
+                                    <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
+                                  )}
+                                  {responseAccount.data.mailVerified ===
+                                    true && (
+                                    <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
+                                  )}
+                                </div>
+                                {responseAccount.data.mailVerified ===
+                                  false && (
+                                  <p className="ms-1 text-warning">
+                                    Email chưa được xác nhận
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            {/*end col*/}
+                            {responseAccount.data.mailVerified === false && (
+                              <div className="col-md-4">
+                                <div className="mb-3">
+                                  <div className="form-icon position-relative d-flex justify-content-end">
+                                    <button
+                                      onClick={() => verifyEmail()}
+                                      className=" btn btn-primary "
+                                      type="button"
+                                    >
+                                      {isLoadingVerifieEmail ? (
+                                        <span
+                                          className="spinner-border spinner-border-sm"
+                                          role="status"
+                                          aria-hidden="true"
+                                        />
+                                      ) : (
+                                        "Xác nhận email"
+                                      )}
+                                    </button>
+                                  </div>
+                                  {isSuccessVerifieEmail && <VerifieSuccess />}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-md-8 row">
+                            <label className="form-label ms-1 p-0">
+                              Mật khẩu
+                            </label>
+                            <div className="col-md-5 p-0">
+                              <div className="mb-3">
+                                <div className="form-icon position-relative">
+                                  <i className="bi bi-lock-fill position-absolute mt-2 ms-3" />
+                                  <input
+                                    id="password"
+                                    type="password"
+                                    disabled
+                                    className="form-control ps-5"
+                                    defaultValue="matkhaucuahientai"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            {/*end col*/}
+
+                            <div className="col-md-4">
+                              <div className="mb-3">
+                                <div className="form-icon position-relative d-flex justify-content-end">
                                   <button
-                                    onClick={() => verifyEmail()}
+                                    onClick={() => {
+                                      setIsChangePassword(true);
+                                    }}
                                     className=" btn btn-primary "
                                     type="button"
                                   >
-                                    {isLoadingVerifieEmail ? (
-                                      <span
-                                        className="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                      />
-                                    ) : (
-                                      "Xác nhận email"
-                                    )}
+                                    Đổi mật khẩu
                                   </button>
                                 </div>
-                                {isSuccessVerifieEmail && <VerifieSuccess />}
-                              </div>
-                            </div>
-                          )}
-
-                          <label className="form-label ms-1 ">Mật khẩu</label>
-                          <div className="col-md-5">
-                            <div className="mb-3">
-                              <div className="form-icon position-relative">
-                                <i className="bi bi-envelope-fill position-absolute mt-2 ms-3" />
-                                <input
-                                  id="password"
-                                  type="password"
-                                  disabled
-                                  className="form-control ps-5"
-                                  defaultValue="matkhaucuahientai"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          {/*end col*/}
-
-                          <div className="col-md-4">
-                            <div className="mb-3">
-                              <div className="form-icon position-relative">
-                                <button
-                                  onClick={() => {
-                                    setIsChangePassword(true);
-                                  }}
-                                  className=" btn btn-primary "
-                                  type="button"
-                                >
-                                  Đổi mật khẩu
-                                </button>
                               </div>
                             </div>
                           </div>
@@ -698,7 +705,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                             </div>
                           </div>
                           {/*end col*/}
-                          <div className="col-lg-12 mt-2 mb-0">
+                          <div className="col-lg-8 mt-2 mb-0">
                             {isEdit && (
                               <>
                                 <button
@@ -724,7 +731,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                                 onClick={() => {
                                   setIsEdit(true);
                                 }}
-                                className="btn btn-secondary"
+                                className="btn btn-secondary "
                               >
                                 Chỉnh sửa
                               </button>

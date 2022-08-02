@@ -85,29 +85,26 @@ export default function Footer({}: Props) {
                     <div className="col-lg-4 col-md-4 col-12 mt-2 mt-sm-0">
                       <ul className="list-unstyled footer-list">
                         <li>
-                          <a href="#" className="text-foot">
-                            <i className="uil uil-angle-right-b me-1"></i>Tài
-                            khoản{" "}
-                          </a>
+                          <Link href="/account-setting" className="text-foot">
+                            <a>
+                              <i className="uil uil-angle-right-b me-1"></i>Tài
+                              khoản{" "}
+                            </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#" className="text-foot">
-                            <i className="uil uil-angle-right-b me-1"></i>
-                            Lịch sử mua hàng{" "}
-                          </a>
+                          <Link href="/account-setting" className="text-foot">
+                            <a>
+                              <i className="uil uil-angle-right-b me-1"></i>Lịch
+                              sử mua hàng{" "}
+                            </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#" className="text-foot">
-                            <i className="uil uil-angle-right-b me-1"></i>
-                            Thiết kế của tôi{" "}
-                          </a>
-                        </li>
-
-                        <li>
-                          <Link href="/">
-                            <a className="text-foot">
+                          <Link href="/account-setting" className="text-foot">
+                            <a>
                               <i className="uil uil-angle-right-b me-1"></i>
-                              Returns
+                              Thiết kế của tôi{" "}
                             </a>
                           </Link>
                         </li>
@@ -130,7 +127,7 @@ export default function Footer({}: Props) {
                             <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i className="bi bi-envelope"></i>
+                            <i className="bi bi-envelope position-absolute mt-2 ms-2"></i>
                             <input
                               type="email"
                               name="email"
