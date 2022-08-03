@@ -20,6 +20,12 @@ export default function Carts({}: Props) {
   }, []);
   const carts = useAppSelector((state) => state.carts);
   const haveProduct = carts?.length != 0;
+  let haveUnpublish = false;
+  carts?.forEach((cart) => {
+    if (!cart.publish) {
+      haveUnpublish = true;
+    }
+  });
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
   const { mutate: checkCart, isLoading, error } = useCheckCart();
@@ -197,6 +203,7 @@ export default function Carts({}: Props) {
                       <button
                         className="btn btn-primary"
                         onClick={handleProceed}
+                        disabled={haveUnpublish}
                       >
                         Tiến hành thanh toán
                       </button>

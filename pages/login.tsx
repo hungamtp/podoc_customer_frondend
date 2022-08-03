@@ -86,7 +86,7 @@ export default function Login({ data }: Props) {
 
   return (
     <>
-      {isLoading || !prevPath ? (
+      {isLoading ? (
         <div id="preloader">
           <div id="status">
             <div className="spinner">
