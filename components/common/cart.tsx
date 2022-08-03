@@ -25,6 +25,7 @@ export default function Cart({ cart }: Props) {
   const productDontHaveEnoughQuatity = useAppSelector(
     (state) => state.checkCartSlice
   );
+  console.log(productDontHaveEnoughQuatity, "productDontHaveEnoughQuatity");
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);

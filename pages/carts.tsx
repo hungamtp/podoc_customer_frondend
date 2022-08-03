@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MainLayout } from "@/components/layouts";
 import Cart from "@/components/common/cart";
 import { setCartNotEnough, resetCartNotEnough } from "@/redux/slices/checkCart";
@@ -9,9 +9,15 @@ import { useRouter } from "next/router";
 import { Dialog, DialogContent } from "@material-ui/core";
 import Link from "next/link";
 import { numberWithCommas } from "helper/number-util";
+import UseCart from "@/hooks/api/cart/use-cart";
+import { setCart } from "@/redux/slices/cart";
 type Props = {};
 
 export default function Carts({}: Props) {
+  const { mutate: responseCart, isLoading: isCartLoading } = UseCart();
+  useEffect(() => {
+    responseCart("");
+  }, []);
   const carts = useAppSelector((state) => state.carts);
   const haveProduct = carts?.length != 0;
   const dispatch = useAppDispatch();
@@ -31,11 +37,11 @@ export default function Carts({}: Props) {
     if (auth.isAuth)
       checkCart(carts, {
         onSuccess: (data) => {
+          dispatch(setCartNotEnough([data]));
+          router.push("/checkout");
+        },
+        onError: (data) => {
           dispatch(setCartNotEnough(data));
-          if (data.length == 0) {
-            dispatch(setCartNotEnough([]));
-            router.push("/checkout");
-          }
         },
       });
     else {
