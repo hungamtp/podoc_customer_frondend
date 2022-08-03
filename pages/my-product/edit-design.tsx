@@ -11,7 +11,7 @@ import { resetDesigns, updateDesignInfos } from "@/redux/slices/design";
 import { resetControl, setControlData } from "@/redux/slices/designControl";
 import { setDesignedProductInfo } from "@/redux/slices/designProductInfo";
 import { clearAllPreview } from "@/redux/slices/previews";
-import { resetColors } from "@/redux/slices/selectedColors";
+import { resetColors, setColors } from "@/redux/slices/selectedColors";
 import { getBase64FromUrl } from "helper/files-utils";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
@@ -151,7 +151,7 @@ export default function EditDesign(props: EditDesignProps) {
     );
 
   React.useEffect(() => {
-    if (response)
+    if (response) {
       dispatch(
         setDesignedProductInfo({
           id: response.id,
@@ -160,6 +160,9 @@ export default function EditDesign(props: EditDesignProps) {
           designedPrice: response.designedPrice,
         })
       );
+      const colorsList = response.colorsObj.map((color) => color.image);
+      dispatch(setColors(colorsList));
+    }
 
     if (blueprints && blueprints.length > 0) {
       const renderBlueprint = [...blueprints];
@@ -205,8 +208,6 @@ export default function EditDesign(props: EditDesignProps) {
   }, [response]);
 
   React.useEffect(() => {
-    console.log(renderBlueprint.length, "renderBlueprint");
-    console.log(blueprints?.length, "blueprints");
     if (blueprints && renderBlueprint.length === blueprints.length) {
       setIsLoadedBlueprint(true);
 
