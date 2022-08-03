@@ -143,12 +143,12 @@ export default function Dashboard(props: IDashboardProps) {
                   <div key={data.id} className="col-lg-12 mt-2">
                     <a className="features feature-primary d-flex justify-content-between align-items-center bg-white rounded shadow p-3">
                       <div className="d-flex align-items-center">
-                        <div>
+                        <div className="w-25">
                           <Image
                             src={image[0].image}
                             className="img-fluid rounded-pill"
-                            width={50}
-                            height={50}
+                            width={200}
+                            height={200}
                             objectFit="cover"
                             alt="productImage"
                           />

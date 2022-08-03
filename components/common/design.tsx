@@ -4,6 +4,7 @@ import usePublishDesignedProduct from "@/hooks/api/design/use-publish-designed-p
 import { SimpleDesignProduct } from "@/services/design/dto";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -33,7 +34,9 @@ export default function Design({ product }: Props) {
             />
           </div>
           <div className="col-6 d-flex align-items-center">
-            <h6 className="mb-0 ">{product.name}</h6>
+            <Link href={`/my-product/${product.id}`} className="mb-0 ">
+              <a>{product.name}</a>
+            </Link>
             {/* <p
               _ngcontent-cjt-c236=""
               className="small-text mb-0 ms-3"
@@ -86,7 +89,7 @@ export default function Design({ product }: Props) {
             <i className="bi bi-pencil cursor-pointer fa-lg"></i>
           </button>
 
-          <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
+          <div className="dropdown-menu dd-menu dropdown-menu-end rounded border ">
             {product.publish ? (
               <div
                 className="d-flex align-items-center mt-1  hoverButton text-center p-2"

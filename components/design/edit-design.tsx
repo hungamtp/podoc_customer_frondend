@@ -5,15 +5,21 @@ import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product
 import { Preview } from "@/redux/slices/previews";
 import { EditDesignedProduct } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { ErrorHttpResponse } from "@/models/error_http_response.interface";
+import { setChoosenKey } from "@/redux/slices/choosenKey";
+import { resetDesigns } from "@/redux/slices/design";
+import { resetControl } from "@/redux/slices/designControl";
+import { clearAllPreview } from "@/redux/slices/previews";
+import { resetColors } from "@/redux/slices/selectedColors";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { b64toBlob } from "helper/files-utils";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useAppSelector } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import SelectColor from "./select-color";
+import { AxiosError } from "axios";
 
 export interface EditDesignFormProps {
   handleCloseDialog: () => void;
@@ -46,6 +52,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
   const { handleCloseDialog, loadedColors } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const { designName } = router.query;
 
@@ -104,9 +111,26 @@ export default function EditDesignForm(props: EditDesignFormProps) {
               imagePreviews: imageList,
               bluePrintDtos: blueprints,
             } as EditDesignedProduct;
+
             console.log(submitData, "submitData");
 
-            editDesignProduct(submitData);
+            editDesignProduct(submitData, {
+              onSuccess: (data) => {
+                //because data:any
+
+                dispatch(setChoosenKey(""));
+                dispatch(clearAllPreview());
+                dispatch(resetColors());
+                dispatch(resetControl());
+                dispatch(resetDesigns());
+
+                handleCloseDialog();
+                router.back();
+              },
+              onError: (error: any) => {
+                console.log(error, "edit error");
+              },
+            });
           }
         });
       });

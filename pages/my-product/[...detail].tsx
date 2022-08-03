@@ -1,23 +1,46 @@
 import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { MainLayout } from "@/components/layouts";
+import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { setHeaderInfo } from "@/redux/slices/headerInfo";
+import { EditDesignedProduct } from "@/services/design/dto";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
 
 export interface MyDesignDetailProps {}
+
+interface DesignProductInfo {
+  designedPrice: number;
+  description: string;
+  name: string;
+}
 
 export default function MyDesignDetail(props: MyDesignDetailProps) {
   const router = useRouter();
 
   const { detail } = router.query;
-  const { data: response, isLoading: isLoading } = useGetDesignById(
+  const { data: response, isLoading: isLoadingDesign } = useGetDesignById(
     detail as string
   );
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
+      .max(26, "Tên thiết kế tối đa 50 kí tự")
+      .required("Tên thiết kế không được để trống"),
+    designedPrice: yup
+      .number()
+      .min(0, "Giá thiết kế tối thiểu 0 đồng")
+      .required("Giá của mẫu thiết kế không được để trống"),
+    description: yup.string().max(100, "Description tối đa 100 kí tự"),
+  });
   const [renderedPosition, setRenderPosition] = useState("front");
   const [imageWithPosition, setImageWithPosition] = useState<
     {
@@ -27,7 +50,76 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
     }[]
   >([]);
   const [renderedColor, setRenderColor] = useState("");
+  const form = useForm<DesignProductInfo>({
+    defaultValues: {
+      designedPrice: 10000,
+      description: "",
+      name: "",
+    },
+    resolver: yupResolver(schema),
+  });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = form;
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
+  const handleOpenDialog = () => {
+    setIsOpen(true);
+  };
+  React.useEffect(() => {
+    if (response) {
+      reset({
+        designedPrice: response.designedPrice,
+        description: response.description,
+        name: response.name,
+      });
+    }
+  }, [response]);
+  const [isLoading, setIsLoading] = React.useState(false);
   const dispatch = useAppDispatch();
+  const handleConfirm = () => {
+    setIsLoading(true);
+  };
+  const {
+    mutate: editDesignProduct,
+    error,
+    isLoading: isLoadingSubmit,
+  } = useEditDesignedProduct(handleCloseDialog);
+  const designedPrice = watch("designedPrice", 10000);
+  const submit: SubmitHandler<DesignProductInfo> = (data) => {
+    if (response) {
+      const colorsList = response.colorsObj.map((color) => color.image);
+      const submitData = {
+        designedProductId: response.id,
+        designedPrice: data.designedPrice,
+        description: data.description,
+        colors: colorsList,
+        name: data.name,
+        imagePreviews: response.imagePreviews,
+        bluePrintDtos: response.bluePrints,
+      } as EditDesignedProduct;
+      setIsLoading(true);
+      editDesignProduct(submitData, {
+        onSuccess: (data) => {
+          //because data:any
+          setIsLoading(false);
+          setIsEdit(false);
+          handleCloseDialog();
+        },
+        onError: (error: any) => {
+          console.log(error, "edit error");
+        },
+      });
+    }
+  };
 
   React.useEffect(() => {
     if (response) {
@@ -158,7 +250,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                           <>
                                             <div
                                               key={imagePreview.color}
-                                              className="cursor-pointer"
+                                              className="cursor-pointer w-50"
                                               onClick={() => {
                                                 setRenderColor(
                                                   imagePreview.color
@@ -215,10 +307,10 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     className="fea icon-sm icons"
                                   />
                                   <input
-                                    name="subject"
                                     id="subject"
                                     className="form-control ps-5"
-                                    placeholder="Your subject :"
+                                    {...register("name")}
+                                    disabled={!isEdit}
                                   />
                                 </div>
                               </div>
@@ -234,10 +326,10 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     className="fea icon-sm icons"
                                   />
                                   <input
-                                    name="subject"
                                     id="subject"
                                     className="form-control ps-5"
-                                    placeholder="Your subject :"
+                                    {...register("designedPrice")}
+                                    disabled={!isEdit}
                                   />
                                 </div>
                               </div>
@@ -266,7 +358,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     className="fea icon-sm icons"
                                   />
                                   {numberWithCommas(
-                                    response.designedPrice +
+                                    Number(designedPrice) +
                                       response.priceFromFactory
                                   )}{" "}
                                   VND
@@ -283,32 +375,100 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     className="fea icon-sm icons"
                                   />
                                   <textarea
-                                    name="comments"
                                     id="comments"
                                     rows={4}
                                     className="form-control ps-5"
-                                    placeholder="Your Message :"
-                                    defaultValue={""}
+                                    {...register("description")}
+                                    disabled={!isEdit}
                                   />
                                 </div>
                               </div>
                             </div>
                           </div>
                           {/*end row*/}
-                          <div className="row">
-                            <div className="col-sm-12">
-                              <input
-                                type="submit"
-                                id="submit"
-                                name="send"
-                                className="btn btn-primary"
-                                defaultValue="Send Message"
-                              />
-                            </div>
-                            {/*end col*/}
-                          </div>
+
+                          <Dialog
+                            open={isOpen}
+                            onClose={handleCloseDialog}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                            fullWidth={true}
+                            disableEnforceFocus
+                          >
+                            <DialogContent>
+                              <div className="col-xxl">
+                                <div className="card mb-4">
+                                  <div className="card-body">
+                                    <div className="row mb-3">
+                                      <label
+                                        htmlFor="basic-icon-default-fullname"
+                                        className="h4"
+                                      >
+                                        Bạn muốn lại thông tin thay đổi?
+                                      </label>
+                                    </div>
+
+                                    <div className="d-flex justify-content-center">
+                                      <div className="col-sm-10 d-flex justify-content-around">
+                                        <button
+                                          className="btn btn-primary"
+                                          color="primary"
+                                          onClick={handleSubmit(submit)}
+                                        >
+                                          {(isLoading || isLoadingSubmit) && (
+                                            <span
+                                              className="spinner-border spinner-border-sm"
+                                              role="status"
+                                              aria-hidden="true"
+                                            />
+                                          )}
+                                          Xác nhận
+                                        </button>
+                                        <button
+                                          className="btn btn-secondary"
+                                          onClick={handleCloseDialog}
+                                          autoFocus
+                                          type="button"
+                                        >
+                                          Hủy
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
                           {/*end row*/}
                         </form>
+                        <div className="row">
+                          <div className="col-sm-12">
+                            {isEdit ? (
+                              <div className="d-flex justify-content-between w-25">
+                                <button
+                                  className="btn btn-success w-50 me-4"
+                                  onClick={() => handleOpenDialog()}
+                                >
+                                  Lưu
+                                </button>
+                                <button
+                                  className="btn btn-secondary w-50"
+                                  onClick={() => setIsEdit(false)}
+                                >
+                                  Hủy
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => setIsEdit(true)}
+                              >
+                                Chỉnh sửa
+                              </button>
+                            )}
+                          </div>
+                          {/*end col*/}
+                        </div>
                         {/*end form*/}
                       </div>
                     </div>

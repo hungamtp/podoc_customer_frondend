@@ -237,12 +237,6 @@ export default function PreviewCanvas({
   React.useEffect(() => {
     if (previews.length === previewsCount.current + 2 && renderCount === 0) {
       //tim if se tao ra action => de check xem condition da dung chua
-      console.log(previews.length, "previews.length");
-      console.log(previewsCount.current, "previewsCount.current");
-      console.log(
-        controlData.controlData.isLoadingImage,
-        "loaddinngg imageeee"
-      );
       const tmpControlData = {
         ...controlData,
         isLoadingImage: false,
