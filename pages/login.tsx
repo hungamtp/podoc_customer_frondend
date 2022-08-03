@@ -1,12 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { EmptyLayout } from "@/components/layouts";
+import UseCart from "@/hooks/api/cart/use-cart";
 import useLogin from "@/hooks/api/use-login";
 import { login as loginAction } from "@/redux/slices/auth";
+import { setCart } from "@/redux/slices/cart";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -53,9 +55,8 @@ export default function Login({ data }: Props) {
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const [isLoadedCart, setIsLoadedCart] = useState(false);
+  const { mutate: responseCart, isLoading: isCartLoading } = UseCart();
   const [errorLogin, setErrorLogin] = useState<string>("");
-  console.log(prevPath, "prevPath");
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     data.email = data.email.trimStart().trimEnd();
     const res = login(
@@ -63,7 +64,7 @@ export default function Login({ data }: Props) {
       {
         onSuccess: (data) => {
           dispatch(loginAction(data));
-          setIsLoadedCart(true);
+          responseCart("");
           if (
             prevPath === "/signup" ||
             prevPath === "/login" ||

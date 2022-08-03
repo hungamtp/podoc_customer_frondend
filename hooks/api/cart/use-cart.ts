@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { CartDetailDTO } from "@/services/type.dto";
 import { API } from "@/api-client/axios";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
@@ -6,9 +6,9 @@ import { setCart } from "@/redux/slices/cart";
 
 const UseCart = () => {
   const dispatch = useAppDispatch();
-  return useQuery(
+  return useMutation(
     ["Cart"],
-    async () => {
+    async (hieu: string) => {
       return await getCart();
     },
     {

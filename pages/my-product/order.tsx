@@ -3,21 +3,21 @@
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { PageWithHero } from "@/components/layouts/page-with-hero";
 import useAddMyOwnToCart from "@/hooks/api/cart/use-add-my-own-to-cart";
-import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
+import UseCart from "@/hooks/api/cart/use-cart";
 import useUpdateCart from "@/hooks/api/cart/use-update-cart";
 import useGetOthersDesignById from "@/hooks/api/design/use-get-other-designs-by-designId";
 import {
-  updateQuantityCartDetail,
   addNewCartDetail,
   setCart as setCartRedux,
+  updateQuantityCartDetail,
 } from "@/redux/slices/cart";
+import { setCartNotEnough } from "@/redux/slices/checkCart";
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
 import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { string } from "yup";
 
 export default function OrderMyProduct() {
   const router = useRouter();

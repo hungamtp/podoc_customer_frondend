@@ -85,7 +85,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
   const [images, setImages] = React.useState<ImageListType>([
     { data_url: responseAccount?.data.image },
   ]);
-  const { data: responseCart, isLoading: isCartLoading } = UseCart();
+
   const router = useRouter();
   const [filter, setFilter] = React.useState<Filter>({
     pageNumber: 0,
@@ -106,9 +106,6 @@ export default function AccountSetting(props: IAccountSettingProps) {
     isSuccess,
     isLoading: isLoadingUpdateImage,
   } = useUpdateImageAccount();
-  React.useEffect(() => {
-    if (responseCart) dispatch(setCart(responseCart));
-  }, [responseCart]);
 
   React.useEffect(() => {
     const storage = globalThis?.sessionStorage;
