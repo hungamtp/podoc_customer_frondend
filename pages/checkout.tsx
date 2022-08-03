@@ -61,6 +61,7 @@ export default function Checkout({}: Props) {
   const [paymentMethod, setPaymentMethod] = useState(1);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const {
     mutate: createPaymentTransaction,
@@ -123,6 +124,11 @@ export default function Checkout({}: Props) {
         address: responseAccount.data.address,
         phone: responseAccount.data.phone + "",
       });
+      if (responseAccount.data.id) {
+        setIsEdit(false);
+      } else {
+        setIsEdit(true);
+      }
     }
   }, [responseAccount]);
 
@@ -304,7 +310,7 @@ export default function Checkout({}: Props) {
                 >
                   <div className="d-flex justify-content-between">
                     <h4 className="mb-3">Thông tin giao hàng</h4>
-                    {shippingInfos && shippingInfos.length > 0 && (
+                    {shippingInfos && shippingInfos.length > 0 && isEdit && (
                       <button
                         className="btn btn-secondary"
                         type="button"
@@ -334,6 +340,7 @@ export default function Checkout({}: Props) {
                         id="name"
                         type="text"
                         className="form-control"
+                        disabled={!isEdit}
                         {...register("name")}
                       />
                       {errors.name && (
@@ -348,6 +355,7 @@ export default function Checkout({}: Props) {
                         id="phone"
                         type="text"
                         className="form-control"
+                        disabled={!isEdit}
                         {...register("phone")}
                       />
                       {errors.phone && (
@@ -363,6 +371,7 @@ export default function Checkout({}: Props) {
                       <input
                         id="email"
                         className="form-control"
+                        disabled={!isEdit}
                         {...register("email")}
                       />
                       {errors.email && (
@@ -379,6 +388,7 @@ export default function Checkout({}: Props) {
                         type="text"
                         id="address"
                         className="form-control"
+                        disabled={!isEdit}
                         {...register("address")}
                       />
                       {errors.address && (
@@ -388,17 +398,29 @@ export default function Checkout({}: Props) {
                       )}
                     </div>
                   </div>
-                  <div className="form-check mt-4 pt-4 border-top">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="same-address"
-                      {...register("shouldSave")}
-                    />
-                    <label className="form-check-label" htmlFor="same-address">
-                      Lưu lại địa chỉ giao hàng
-                    </label>
-                  </div>
+                  {isEdit ? (
+                    <div className="form-check mt-4 pt-4 border-top">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="same-address"
+                        {...register("shouldSave")}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="same-address"
+                      >
+                        Lưu lại địa chỉ giao hàng
+                      </label>
+                    </div>
+                  ) : (
+                    <div
+                      className="btn btn-primary"
+                      onClick={() => setIsEdit(true)}
+                    >
+                      Chọn địa chỉ khác
+                    </div>
+                  )}
 
                   <Dialog
                     open={isOpen}

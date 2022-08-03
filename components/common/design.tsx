@@ -96,10 +96,10 @@ export default function Design({ product }: Props) {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="bi bi-pencil cursor-pointer fa-lg"></i>
+              <i className="bi bi-three-dots cursor-pointer fa-lg"></i>
             </button>
 
-            <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
+            <div className="dropdown-menu dd-menu dropdown-menu-end rounded border ">
               {product.publish ? (
                 <div
                   className="d-flex align-items-center mt-1  hoverButton text-center p-2"
