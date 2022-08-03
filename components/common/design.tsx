@@ -53,66 +53,79 @@ export default function Design({ product }: Props) {
         <p className="">{numberWithCommas(product.designedPrice)}</p>
       </td>
       <td className="align-middle">
-        {product.publish ? (
+        {product.publish && product.productOfDesignDeleted === false && (
           <div className="badge badge-success mb-3 p-1">Đang đăng bán</div>
-        ) : (
-          <div className="badge badge-secondary mb-3 p-1">Chỉ mình tôi</div>
+        )}
+        {product.publish === false &&
+          product.productOfDesignDeleted === false && (
+            <div className="badge badge-secondary mb-3 p-1">Chỉ mình tôi</div>
+          )}
+        {product.productOfDesignDeleted === true && (
+          <div className="badge badge-danger mb-3 p-1">
+            Sản phẩm ngừng sản xuất
+          </div>
         )}
         {/* 
         <button type="button" className="btn btn-light">
           Unpublished
         </button> */}
       </td>
-      <td className="align-middle">
-        <button
-          onClick={() => router.push(`/designs/${product.id}`)}
-          className="btn btn-outline-success "
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          <i className="bi bi-cart" />
-        </button>
-      </td>
-
-      <td className="align-middle">
-        <div className="dropdown">
+      {product.productOfDesignDeleted === false && (
+        <td className="align-middle">
           <button
-            type="button"
-            className="btn btn-icon btn-light dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
+            onClick={() => router.push(`/designs/${product.id}`)}
+            className="btn btn-outline-success "
+            data-toggle="modal"
+            data-target="#exampleModal"
           >
-            <i className="bi bi-pencil cursor-pointer fa-lg"></i>
+            <i className="bi bi-cart" />
           </button>
+        </td>
+      )}
 
-          <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
-            {product.publish ? (
-              <div
-                className="d-flex align-items-center mt-1  hoverButton text-center p-2"
-                onClick={() =>
-                  mutate({ publish: false, productId: product.id })
-                }
-              >
-                Gỡ xuống
-              </div>
-            ) : (
-              <div
-                className="d-flex align-items-center mt-1  hoverButton text-center p-2"
-                onClick={() => mutate({ publish: true, productId: product.id })}
-              >
-                Đăng bán
-              </div>
-            )}
-            <div
-              className="d-flex align-items-center mt-1  hoverButton text-center p-2"
-              onClick={() => router.push(`/my-product/${product.id}`)}
+      {product.productOfDesignDeleted === false && (
+        <td className="align-middle">
+          <div className="dropdown">
+            <button
+              type="button"
+              className="btn btn-icon btn-light dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-              Chi tiết
+              <i className="bi bi-pencil cursor-pointer fa-lg"></i>
+            </button>
+
+            <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
+              {product.publish ? (
+                <div
+                  className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                  onClick={() =>
+                    mutate({ publish: false, productId: product.id })
+                  }
+                >
+                  Gỡ xuống
+                </div>
+              ) : (
+                <div
+                  className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                  onClick={() =>
+                    mutate({ publish: true, productId: product.id })
+                  }
+                >
+                  Đăng bán
+                </div>
+              )}
+              <div
+                className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                onClick={() => router.push(`/my-product/${product.id}`)}
+              >
+                Chi tiết
+              </div>
             </div>
           </div>
-        </div>
-      </td>
+        </td>
+      )}
     </tr>
   );
 }
