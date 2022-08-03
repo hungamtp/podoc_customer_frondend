@@ -259,6 +259,11 @@ export default function PreviewCanvas({
 
     if (renderColor && canvas) {
       if (hasMorePreview) {
+        const tmpControlData = {
+          ...controlData,
+          isLoadingImage: true,
+        };
+        dispatch(setControlData(tmpControlData));
         setRenderCount(blueprintsData.blueprints.length - 1);
       } else {
         canvas.clear();

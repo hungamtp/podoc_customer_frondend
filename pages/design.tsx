@@ -1,3 +1,4 @@
+import LoadingPrompt from "@/components/common/loadingPrompt";
 import DesignCanvas from "@/components/design/design-canvas";
 import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
@@ -35,6 +36,11 @@ export default function AboutPage(props: AboutPageProps) {
   const [isLoadedBlueprints, setIsLoadedBlueprint] =
     React.useState<boolean>(false);
   const [isEdit, setIsEdit] = React.useState(true);
+
+  React.useEffect(() => {
+    console.log(isEdit, "isEdit");
+    if (isEdit === true) dispatch(resetColors());
+  }, [isEdit]);
   const position = useAppSelector((state) => state.blueprintsData.position);
 
   const renderedBlueprints = blueprints;
@@ -155,14 +161,7 @@ export default function AboutPage(props: AboutPageProps) {
           )}
         </>
       ) : (
-        <div id="preloader">
-          <div id="status">
-            <div className="spinner">
-              <div className="double-bounce1"></div>
-              <div className="double-bounce2"></div>
-            </div>
-          </div>
-        </div>
+        <LoadingPrompt />
       )}
     </div>
   );
