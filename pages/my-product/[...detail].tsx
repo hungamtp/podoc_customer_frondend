@@ -32,14 +32,18 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
-      .max(26, "Tên thiết kế tối đa 50 kí tự")
+      .min(5, "Tên thiết kế cần ít nhất 5 kí tự")
+      .max(50, "Tên thiết kế tối đa 50 kí tự")
       .required("Tên thiết kế không được để trống"),
     designedPrice: yup
       .number()
       .min(0, "Giá thiết kế tối thiểu 0 đồng")
       .required("Giá của mẫu thiết kế không được để trống"),
-    description: yup.string().max(100, "Description tối đa 100 kí tự"),
+    description: yup
+      .string()
+      .min(5, "Tên thiết kế cần ít nhất  kí tự")
+      .max(255, "Description tối đa 255 kí tự")
+      .required("Thông tin mô tả không được để trống"),
   });
   const [renderedPosition, setRenderPosition] = useState("front");
   const [imageWithPosition, setImageWithPosition] = useState<
@@ -208,7 +212,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     <>
                                       <div
                                         key={imagePreview.position}
-                                        className="cursor-pointer"
+                                        className="cursor-pointer position-relative"
                                         onClick={() => {
                                           setRenderPosition(
                                             imagePreview.position
@@ -224,7 +228,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                           alt="productImage"
                                         />
 
-                                        <p className="text-center">
+                                        <p className="text-center position-absolute bottom-2">
                                           {imagePreview.position === "front" &&
                                             "Trước"}
                                           {imagePreview.position === "back" &&
@@ -239,7 +243,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                             <div className="">
                               <p className="h4">Chọn màu áo</p>
                               <div className="mt-4">
-                                <div className=" mb-0 d-flex justify-content-between ">
+                                <div className=" mb-0 d-flex justify-content-between ms-4 p-4 w-50">
                                   {response.imagePreviews.map(
                                     (imagePreview) => {
                                       if (
@@ -250,7 +254,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                           <>
                                             <div
                                               key={imagePreview.color}
-                                              className="cursor-pointer w-50"
+                                              className="cursor-pointer"
                                               onClick={() => {
                                                 setRenderColor(
                                                   imagePreview.color
@@ -258,12 +262,20 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                               }}
                                             >
                                               <Image
-                                                src={imagePreview.image}
-                                                className="img-fluid"
-                                                width={1000}
-                                                height={1000}
+                                                className="rounded-circle border"
+                                                width={50}
+                                                height={50}
                                                 objectFit="cover"
-                                                alt="productImage"
+                                                key={imagePreview.color}
+                                                src={
+                                                  "https://images.printify.com/5853fec7ce46f30f8328200a"
+                                                }
+                                                style={{
+                                                  backgroundColor:
+                                                    imagePreview.color,
+                                                  opacity: "0.8",
+                                                }}
+                                                alt={imagePreview.color}
                                               />
                                             </div>
                                           </>

@@ -91,7 +91,15 @@ export default function EditDesignForm(props: EditDesignFormProps) {
       const file = b64toBlob(image.imageSrc);
       const imageRef = ref(
         storage,
-        `images/${designedInfo.name + "-" + image.position + "-" + image.color}`
+        `images/${
+          designedInfo.name +
+          "-" +
+          image.position +
+          "-" +
+          image.color +
+          "-" +
+          new Date().getTime()
+        }`
       );
 
       uploadBytes(imageRef, file).then((snapshot) => {

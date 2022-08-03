@@ -2,6 +2,8 @@ import { setControlData } from "@/redux/slices/designControl";
 import { Preview } from "@/redux/slices/previews";
 import { nanoid } from "@reduxjs/toolkit";
 import Image from "next/image";
+import { useEffect } from "react";
+import LoadingPrompt from "../common/loadingPrompt";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface info {
@@ -117,6 +119,7 @@ export default function PreviewTable(props: IPreviewTableProps) {
         )}
       </div>
 
+      {controlData.isLoadingImage && <LoadingPrompt />}
       <div className="p-2">
         <label className="h4">Màu áo</label>
         {colors?.map((color) => (
@@ -129,11 +132,11 @@ export default function PreviewTable(props: IPreviewTableProps) {
             onClick={() => {
               if (renderColor !== color.image) {
                 setRenderColor(color.image);
-                const tmpControlData = {
-                  ...controlData,
-                  isLoadingImage: true,
-                };
-                dispatch(setControlData(tmpControlData));
+                // const tmpControlData = {
+                //   ...controlData,
+                //   isLoadingImage: true,
+                // };
+                // dispatch(setControlData(tmpControlData));
               }
             }}
           >

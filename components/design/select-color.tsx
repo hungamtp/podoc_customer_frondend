@@ -30,10 +30,11 @@ export default function SelectColor({ colors }: ISelectColorProps) {
   React.useEffect(() => {
     dispatch(setColors([colors[0].image]));
   }, [colors]);
+  const selectedColorsRedux = useAppSelector((state) => state.selectedColors);
 
-  const [colorsList, setColorsList] = React.useState<string[]>([
-    colors[0].image,
-  ]);
+  const [colorsList, setColorsList] = React.useState<string[]>(
+    selectedColorsRedux.length > 0 ? selectedColorsRedux : [colors[0].image]
+  );
   const dispatch = useAppDispatch();
   const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;

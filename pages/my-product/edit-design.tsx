@@ -108,6 +108,9 @@ export default function EditDesign(props: EditDesignProps) {
     useGetColorsByFactoryAndProductId(response?.factoryId, response?.productId);
   const position = useAppSelector((state) => state.blueprintsData.position);
   const [isEdit, setIsEdit] = React.useState(true);
+  React.useEffect(() => {
+    if (isEdit === true) dispatch(resetColors());
+  }, [isEdit]);
 
   const blueprints = response?.bluePrints;
 
