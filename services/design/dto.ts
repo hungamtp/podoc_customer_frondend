@@ -50,9 +50,10 @@ export interface ColorDto extends ISuccessHttpResponse {
 export interface SimpleDesignProduct {
   id: string;
   name: string;
-  publish: string;
+  publish: boolean;
   soldCount: number;
   designedPrice: number;
+  productOfDesignDeleted: boolean;
   user: {
     id: string;
     firstName: string;
