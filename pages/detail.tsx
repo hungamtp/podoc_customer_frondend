@@ -107,14 +107,11 @@ export default function ProductDetail() {
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    {response?.rateCount > 0 ? (
-                      <ShowRating
-                        rate={response?.rate}
-                        rateCount={response?.rateCount}
-                      />
-                    ) : (
-                      <span className="sold-number ">chưa có đánh giá nào</span>
-                    )}
+                    <ShowRating
+                      rate={response?.rate}
+                      rateCount={response?.rateCount}
+                    />
+
                     {/* <div>
                       <span className="sold-number ">
                         Đã bán {response?.sold}

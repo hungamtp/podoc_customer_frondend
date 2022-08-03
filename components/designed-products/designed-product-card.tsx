@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { ShownDesignedProduct } from '@/models/design';
-import { Rating } from '@mui/material';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import ShowRating from '../common/show-rating';
+import { ShownDesignedProduct } from "@/models/design";
+import { Rating } from "@mui/material";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import ShowRating from "../common/show-rating";
 type Props = {
   product: ShownDesignedProduct;
 };
 
 export default function DesignedProductCard({ product }: Props) {
   let renderedImage = product.imagePreviews[0];
-  product.imagePreviews.forEach(image => {
-    if (image.position === 'front') renderedImage = image;
+  product.imagePreviews.forEach((image) => {
+    if (image.position === "front") renderedImage = image;
   });
   const router = useRouter();
   const goToProfile = (userId: string) => {
@@ -31,7 +31,9 @@ export default function DesignedProductCard({ product }: Props) {
             product.tagName.map((tag: String, index: number) => {
               return (
                 <li key={index}>
-                  <span className="badge badge-link rounded-pill bg-primary p-1">{tag}</span>
+                  <span className="badge badge-link rounded-pill bg-primary p-1">
+                    {tag}
+                  </span>
                 </li>
               );
             })}
@@ -54,21 +56,19 @@ export default function DesignedProductCard({ product }: Props) {
             <a className="text-dark product-name h6">{product.name}</a>
           </Link>
           <div className="d-flex justify-content-between mt-1">
-            <h6 className="text-dark small fst-italic mb-0 mt-1">{numberWithCommas(product.price)} VND</h6>
+            <h6 className="text-dark small fst-italic mb-0 mt-1">
+              {numberWithCommas(product.price)} VND
+            </h6>
           </div>
-          {product.ratingCount > 0 ? (
-            <ShowRating rate={product.rating} rateCount={product.ratingCount} />
-          ) : (
-            <span className="sold-number ">chưa có đánh giá nào</span>
-          )}
+          <ShowRating rate={product.rating} rateCount={product.ratingCount} />
 
           <div>
             <span className="sold-number ">Đã bán {product.sold}</span>
           </div>
           <div className="designer cursor-pointer">
-            Thiết kế bởi{' '}
+            Thiết kế bởi{" "}
             <span onClick={() => goToProfile(product.user.id)}>
-              <b>{product.user.firstName + ' ' + product.user.lastName}</b>
+              <b>{product.user.firstName + " " + product.user.lastName}</b>
             </span>
           </div>
         </div>
