@@ -89,6 +89,24 @@ export default function DesignedProductDetail() {
 
   const { data: designedProduct, isLoading: isLoading } =
     useGetOthersDesignById(design);
+
+  React.useEffect(() => {
+    if (designedProduct) {
+      for (
+        let index = 0;
+        index < designedProduct.imagePreviews.length;
+        index++
+      ) {
+        if (designedProduct.imagePreviews[index].position === "front") {
+          const tmp = designedProduct.imagePreviews[index];
+          designedProduct.imagePreviews[0] = tmp;
+          designedProduct.imagePreviews[index] = tmp;
+          break;
+        }
+      }
+    }
+  }, [designedProduct]);
+
   const {
     mutate: addToCart,
     data: cartDetailFromAPI,
@@ -305,16 +323,11 @@ export default function DesignedProductDetail() {
                             {numberWithCommas(designedProduct.price)} VND
                           </h6>
                         </div>
-                        {designedProduct.rateCount > 0 ? (
-                          <ShowRating
-                            rate={designedProduct.rating}
-                            rateCount={designedProduct.rateCount}
-                          />
-                        ) : (
-                          <span className="sold-number ">
-                            chưa có đánh giá nào
-                          </span>
-                        )}
+                        <ShowRating
+                          rate={designedProduct.rating}
+                          rateCount={designedProduct.rateCount}
+                        />
+
                         <div>
                           <span className="sold-number ">
                             Đã bán {designedProduct.sold}

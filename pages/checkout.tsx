@@ -415,7 +415,7 @@ export default function Checkout({}: Props) {
                     </div>
                   ) : (
                     <div
-                      className="btn btn-primary"
+                      className="btn btn-primary mt-4 w-25"
                       onClick={() => setIsEdit(true)}
                     >
                       Chọn địa chỉ khác
