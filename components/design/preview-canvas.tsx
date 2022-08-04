@@ -509,9 +509,11 @@ export default function PreviewCanvas({
         data =
           (value / 100) * placeHolder.getScaledWidth() +
           (placeHolder.left || 0);
-      if (key === "width")
+      if (key === "width") {
         data =
           (value / blueprint.placeholder.width) * placeHolder.getScaledWidth();
+      }
+
       if (key === "height")
         data =
           (value / blueprint.placeholder.height) *
@@ -526,6 +528,7 @@ export default function PreviewCanvas({
       const imageLeft = reverseData("left", design.leftPosition);
       const imageTop = reverseData("top", design.topPosition);
       const imageWidth = reverseData("width", design.width);
+      const imageHeight = reverseData("height", design.height);
       if (design.types === "text") {
         const newText = new fabric.Text(design.src, {
           fontFamily: design.font,
@@ -533,7 +536,6 @@ export default function PreviewCanvas({
           name: design.key,
           left: imageLeft,
           top: imageTop,
-          angle: design.rotate,
           selectable: false,
           centeredScaling: true,
           transparentCorners: true,
@@ -544,6 +546,8 @@ export default function PreviewCanvas({
           ml: false, // middle left
           mr: false, // I think you get it
         });
+        newText.scaleToWidth(imageWidth || 150);
+        newText.set("angle", design.rotate);
 
         canvas.add(newText);
         canvas.renderAll();
@@ -554,15 +558,14 @@ export default function PreviewCanvas({
             image.set("name", design.key);
             image.set("left", imageLeft);
             image.set("top", imageTop);
-            image.set("angle", design.rotate);
+
             image.set("opacity", 100);
             image.set("noScaleCache", true);
-            image.scaleToWidth(imageWidth || 150);
             image.set("clipPath", placeHolder);
             image.set("selectable", false);
-
+            image.scaleToWidth(imageWidth || 150);
+            image.set("angle", design.rotate);
             canvas.add(image);
-
             canvas.renderAll();
           },
           { crossOrigin: "anonymous" }
