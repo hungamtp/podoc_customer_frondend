@@ -137,7 +137,7 @@ export default function Login({ data }: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="user"
-                              className="fea icon-sm icons"
+                              className="bi bi-envelope position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="text"
@@ -163,8 +163,8 @@ export default function Login({ data }: Props) {
                             <label className="form-label">
                               Mật khẩu <span className="text-danger">*</span>
                             </label>
-                            <div className="form-icon position-relative">
-                              <i className="fea icon-sm icons"></i>
+                            <div className="position-relative">
+                              <i className="bi bi-key position-absolute mt-2 ms-3"></i>
                               <input
                                 type="password"
                                 className="form-control ps-5"

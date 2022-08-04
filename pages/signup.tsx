@@ -110,7 +110,7 @@ export default function SignUp({}: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="user"
-                              className="fea icon-sm icons"
+                              className="bi bi-person position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="text"
@@ -138,7 +138,7 @@ export default function SignUp({}: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="user-check"
-                              className="fea icon-sm icons"
+                              className="bi bi-person-check position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="text"
@@ -166,7 +166,7 @@ export default function SignUp({}: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="mail"
-                              className="fea icon-sm icons"
+                              className="bi bi-telephone position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="phone"
@@ -193,7 +193,7 @@ export default function SignUp({}: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="mail"
-                              className="fea icon-sm icons"
+                              className="bi bi-envelope position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="email"
@@ -230,7 +230,7 @@ export default function SignUp({}: Props) {
                           <div className="form-icon position-relative">
                             <i
                               data-feather="key"
-                              className="fea icon-sm icons"
+                              className="bi bi-key position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="password"
