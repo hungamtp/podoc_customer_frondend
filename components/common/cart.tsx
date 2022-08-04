@@ -81,7 +81,7 @@ export default function Cart({ cart }: Props) {
           -
         </button>
         <input
-          className="input-quantity pb-2"
+          className="input-quantity input-lg pb-2 "
           type="number"
           min={1}
           name="quantity"
