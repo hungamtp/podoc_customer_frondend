@@ -18,7 +18,6 @@ const UseCart = () => {
       },
       onError: (error: any) => {
         console.log("error cart");
-        dispatch(setCart([]));
       },
     }
   );
