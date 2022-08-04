@@ -126,11 +126,6 @@ export default function DesignedProductDetail() {
 
   React.useEffect(() => {
     if (designedProduct && selectedColorImage) {
-      console.log(selectedColorImage, "selectedColorImage");
-      console.log(
-        designedProduct.imagePreviews,
-        "designedProduct.imagePreviews"
-      );
       const filterColorImages = designedProduct.imagePreviews.filter(
         (image) => image.color === selectedColorImage
       );
@@ -363,7 +358,11 @@ export default function DesignedProductDetail() {
                                   ))}
                                 </ul>
                               </div>
-                              {isError && !selectedColor && <p className="text-danger">Vui lòng chọn màu áo</p>}
+                              {isError && !selectedColor && (
+                                <p className="text-warning">
+                                  Vui lòng chọn màu áo
+                                </p>
+                              )}
                               {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
@@ -384,7 +383,11 @@ export default function DesignedProductDetail() {
                                   </ul>
                                 </div>
                               )}
-                              {isError && !selectedSize && selectedColor && <p className="text-danger">Vui lòng chọn size áo</p>}
+                              {isError && !selectedSize && selectedColor && (
+                                <p className="text-warning">
+                                  Vui lòng chọn size áo
+                                </p>
+                              )}
                             </div>
                             {/*end col*/}
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">
