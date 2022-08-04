@@ -71,7 +71,7 @@ export default function Cart({ cart }: Props) {
       <td className="text-center mb-0 ms-3">{cart.size}</td>
       <td className="text-center">{cart.color}</td>
       <td className="text-center"> {numberWithCommas(cart.price)}</td>
-      <td className="text-center qty-icons">
+      <td className="text-center qty-icons d-flex">
         <button
           className={`btn btn-icon btn-soft-primary minus ${
             quantity == 1 && "disabled"
@@ -81,7 +81,7 @@ export default function Cart({ cart }: Props) {
           -
         </button>
         <input
-          className="input-quantity input-lg pb-2 "
+          className="input-quantity pb-2 mt-0"
           type="number"
           min={1}
           name="quantity"

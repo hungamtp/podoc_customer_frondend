@@ -58,7 +58,7 @@ export default function Checkout({}: Props) {
     setIsOpen(true);
   };
 
-  const [paymentMethod, setPaymentMethod] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState(0);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -77,8 +77,8 @@ export default function Checkout({}: Props) {
       .required("Email không được để trống"),
     address: yup
       .string()
-      .min(8, "Email cần ít nhất 8 chữ cái")
-      .max(300, "Email tối đa 300 chữ cái"),
+      .min(8, "Địa chỉ cần ít nhất 8 chữ cái")
+      .max(300, "Địa chỉ tối đa 300 chữ cái"),
     name: yup
       .string()
       .max(26, "Tên tối đa 50 chữ cái")
@@ -441,54 +441,62 @@ export default function Checkout({}: Props) {
                   <h4 className="mb-3 mt-4 pt-4 border-top">
                     Phương thức thanh toán
                   </h4>
-                  <div className="d-flex ">
-                    <div className="checkout-button-momo my-3">
-                      <div className="checkout-selector">
-                        <input
-                          checked={paymentMethod == 0}
-                          onChange={() => setPaymentMethod(0)}
-                          type="radio"
-                          className="btn btn-m2 btn-checkout btn-logo-inline"
-                        />
-                      </div>
-                      <div className="checkout-content">
-                        <span className="checkout-title">Thanh toán bằng</span>
-                        <Image
-                          src={"/asset/images/momologo.svg"}
-                          className="img-fluid"
-                          width={50}
-                          height={50}
-                          objectFit="contain"
-                          alt="productImage"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex ">
-                    <div className="checkout-button-zalo my-3">
-                      <div className="checkout-selector">
-                        <input
-                          type="radio"
-                          checked={paymentMethod == 1}
-                          onChange={() => setPaymentMethod(1)}
-                          className="btn btn-m2 btn-checkout btn-logo-inline"
-                        />
-                      </div>
-                      <div className="checkout-content">
-                        <span className="checkout-title">
-                          Thanh toán bằng Zalo
-                        </span>
-                        <Image
-                          src={"/asset/images/zalopay.png"}
-                          className="img-fluid"
-                          width={50}
-                          height={50}
-                          objectFit="cover"
-                          alt="productImage"
-                        />
+                  <label htmlFor="btn-check-momo">
+                    <div className="d-flex ">
+                      <div className="checkout-button-momo my-3">
+                        <div className="checkout-selector">
+                          <input
+                            id="btn-check-momo"
+                            checked={paymentMethod == 0}
+                            onChange={() => setPaymentMethod(0)}
+                            type="radio"
+                            className="btn btn-m2 btn-checkout btn-logo-inline"
+                          />
+                        </div>
+                        <div className="checkout-content">
+                          <span className="checkout-title">
+                            Thanh toán bằng
+                          </span>
+                          <Image
+                            src={"/asset/images/momologo.svg"}
+                            className="img-fluid"
+                            width={50}
+                            height={50}
+                            objectFit="contain"
+                            alt="productImage"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </label>
+                  <label htmlFor="btn-check-zalo">
+                    <div className="d-flex ">
+                      <div className="checkout-button-zalo my-3">
+                        <div className="checkout-selector">
+                          <input
+                            type="radio"
+                            id="btn-check-zalo"
+                            checked={paymentMethod == 1}
+                            onChange={() => setPaymentMethod(1)}
+                            className="btn btn-m2 btn-checkout btn-logo-inline"
+                          />
+                        </div>
+                        <div className="checkout-content">
+                          <span className="checkout-title">
+                            Thanh toán bằng Zalo
+                          </span>
+                          <Image
+                            src={"/asset/images/zalopay.png"}
+                            className="img-fluid"
+                            width={50}
+                            height={50}
+                            objectFit="cover"
+                            alt="productImage"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </label>
                   <div className="w-100 d-flex ">
                     <button className="w-50 btn btn-primary mt-1" type="submit">
                       Tiếp tục thanh toán
