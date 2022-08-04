@@ -284,6 +284,7 @@ input[type=number] {
 
 .input-quantity{
   width: 40px;
+  height: 36px;
   border: 1px solid #eceffc;
   border-radius: 1px;
   text-align: center;

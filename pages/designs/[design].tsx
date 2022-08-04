@@ -119,7 +119,12 @@ export default function DesignedProductDetail() {
 
   const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [selectedColor, setSelectedColor] = React.useState<string>("");
+  const [selectedColorImage, setSelectedColorImage] =
+    React.useState<string>("");
   const [selectedColorSize, setSelectedColorSize] = React.useState<string>("");
+  const [renderedImagesList, setRenderedImagesList] = React.useState<
+    { color: string; image: string; position: string }[]
+  >([]);
   const [sizeList, setSizeList] = React.useState<
     { color: string; size: string }[]
   >([]);
@@ -132,9 +137,37 @@ export default function DesignedProductDetail() {
       if (!!colorsAndSizeList) {
         const tmpColorsList = Object.getOwnPropertyNames(colorsAndSizeList);
         setColorList(tmpColorsList);
+        setSelectedColorImage(tmpColorsList[0].split("-")[1]);
       }
     }
   }, [designedProduct]);
+
+  React.useEffect(() => {
+    if (designedProduct && selectedColorImage) {
+      console.log(selectedColorImage, "selectedColorImage");
+      console.log(
+        designedProduct.imagePreviews,
+        "designedProduct.imagePreviews"
+      );
+      const filterColorImages = designedProduct.imagePreviews.filter(
+        (image) => image.color === selectedColorImage
+      );
+      console.log(filterColorImages, "filterColorImages");
+
+      if (filterColorImages.length > 0) {
+        for (let index = 0; index < filterColorImages.length; index++) {
+          if (filterColorImages[index].position === "front") {
+            const tmp = filterColorImages[0];
+            filterColorImages[0] = filterColorImages[index];
+            filterColorImages[index] = tmp;
+            break;
+          }
+        }
+
+        setRenderedImagesList(filterColorImages);
+      }
+    }
+  }, [designedProduct, selectedColorImage]);
 
   React.useEffect(() => {
     if (!!designedProduct) {
@@ -259,29 +292,27 @@ export default function DesignedProductDetail() {
                             data-ride="carousel"
                           >
                             <div className="carousel-inner">
-                              {designedProduct.imagePreviews.map(
-                                (image, index) => {
-                                  return (
-                                    <div
-                                      className={`carousel-item ${
-                                        index == 0 && "active"
-                                      }`}
-                                      key={image.position}
-                                    >
-                                      {" "}
-                                      <div className="d-block">
-                                        <Image
-                                          src={image.image}
-                                          width={1000}
-                                          height={1000}
-                                          objectFit="cover"
-                                          alt="productImage"
-                                        />
-                                      </div>
+                              {renderedImagesList.map((image, index) => {
+                                return (
+                                  <div
+                                    className={`carousel-item ${
+                                      index == 0 && "active"
+                                    }`}
+                                    key={image.position}
+                                  >
+                                    {" "}
+                                    <div className="d-block">
+                                      <Image
+                                        src={image.image}
+                                        width={1000}
+                                        height={1000}
+                                        objectFit="cover"
+                                        alt="productImage"
+                                      />
                                     </div>
-                                  );
-                                }
-                              )}
+                                  </div>
+                                );
+                              })}
                             </div>
                             <a
                               className="carousel-control-prev h-full "
@@ -371,6 +402,9 @@ export default function DesignedProductDetail() {
                                         onClick={() => {
                                           setSelectedColorSize(color);
                                           setSelectedColor(color.split("-")[0]);
+                                          setSelectedColorImage(
+                                            color.split("-")[1]
+                                          );
                                           setIsError(false);
                                         }}
                                       >
@@ -435,7 +469,7 @@ export default function DesignedProductDetail() {
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">
                               <div className="d-flex shop-list align-items-center">
                                 <h6 className="mb-0">Số lượng:</h6>
-                                <div className="qty-icons ms-3">
+                                <div className="qty-icons ms-3 d-flex">
                                   <button
                                     className={`btn btn-icon btn-soft-primary minus ${
                                       quantity == 1 && "disabled"
@@ -452,7 +486,7 @@ export default function DesignedProductDetail() {
                                     onChange={(e: any) =>
                                       setQuantity(Number(e.target.value))
                                     }
-                                    className="btn btn-icon btn-soft-primary qty-btn quantity"
+                                    className="input-quantity mt-0"
                                   />
                                   <button
                                     className={`btn btn-icon btn-soft-primary plus  ${

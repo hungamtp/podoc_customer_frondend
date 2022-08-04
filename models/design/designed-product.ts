@@ -28,7 +28,7 @@ export interface ShownDesignedProduct {
     credentialImage: string;
   };
   colorAndSizes: any;
-  imagePreviews: { position: string; image: string }[];
+  imagePreviews: { position: string; image: string; color: string }[];
   rating: number;
   sold: number;
   tagName: string[];
