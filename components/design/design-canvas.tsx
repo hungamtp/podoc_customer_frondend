@@ -313,6 +313,7 @@ export default function DesignCanvas({
             obj.getScaledHeight(),
             obj.height
           );
+
           const designInfo = {
             choosenKey: obj.name,
             rotate: obj.angle,
@@ -771,7 +772,6 @@ export default function DesignCanvas({
 
             image.set("left", imageLeft);
             image.set("top", imageTop);
-            image.set("angle", 0);
             image.set("opacity", 1000);
             image.set("noScaleCache", true);
             image.transparentCorners = true;
@@ -844,7 +844,6 @@ export default function DesignCanvas({
             name: design.key,
             left: imageLeft,
             top: imageTop,
-            angle: design.rotate,
             centeredScaling: true,
             transparentCorners: true,
             fill: design.textColor,
@@ -854,7 +853,8 @@ export default function DesignCanvas({
             ml: false, // middle left
             mr: false, // I think you get it
           });
-          newText.scaleToWidth(imageWidth || 150);
+          newText.scaleToWidth(imageWidth || 50);
+          newText.set("angle", design.rotate);
           canvas.add(newText);
           canvas.renderAll();
         } else {
@@ -866,12 +866,12 @@ export default function DesignCanvas({
                   image.set("name", design.key);
                   image.set("left", imageLeft);
                   image.set("top", imageTop);
+                  image.scaleToWidth(imageWidth || 150);
                   image.set("angle", design.rotate);
                   image.set("opacity", 100);
                   image.set("noScaleCache", true);
                   image.transparentCorners = false;
                   image.centeredScaling = true;
-                  image.scaleToWidth(imageWidth || 150);
                   image.set("clipPath", placeHolder.rect);
                   image.setControlsVisibility({
                     mt: false, // middle top disable
@@ -893,12 +893,12 @@ export default function DesignCanvas({
                 image.set("name", design.key);
                 image.set("left", imageLeft);
                 image.set("top", imageTop);
-                image.set("angle", design.rotate);
                 image.set("opacity", 100);
                 image.set("noScaleCache", true);
                 image.transparentCorners = false;
                 image.centeredScaling = true;
                 image.scaleToWidth(imageWidth || 150);
+                image.set("angle", design.rotate);
                 image.set("clipPath", placeHolder.rect);
                 image.setControlsVisibility({
                   mt: false, // middle top disable
@@ -926,6 +926,14 @@ export default function DesignCanvas({
       return true;
     }
     const { outerWidth, outerHeight } = outerSize;
+    // const colorFilter = new fabric.Image.filters.BlendColor({
+    //   color: "#013220",
+    //   mode: "add",
+    //   alpha: 0.8,
+    // });
+    // const brightFilter = new fabric.Image.filters.Brightness({
+    //   brightness: -0.1,
+    // });
 
     if (canvas) {
       fabric.Image.fromURL(
@@ -933,7 +941,9 @@ export default function DesignCanvas({
         (image: fabric.Image) => {
           image.scaleToHeight(outerHeight);
           image.set("top", 0);
-          image.applyFilters();
+          // image.filters?.push(colorFilter);
+          // image.filters?.push(brightFilter);
+          // image.applyFilters();
           canvas.centerObject(image);
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
         },
