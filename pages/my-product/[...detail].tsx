@@ -212,7 +212,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     <>
                                       <div
                                         key={imagePreview.position}
-                                        className="cursor-pointer position-relative"
+                                        className="cursor-pointer"
                                         onClick={() => {
                                           setRenderPosition(
                                             imagePreview.position
@@ -228,7 +228,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                           alt="productImage"
                                         />
 
-                                        <p className="text-center position-absolute bottom-2">
+                                        <p className="text-center position-relative bottom-2 bottom-line">
                                           {imagePreview.position === "front" &&
                                             "Trước"}
                                           {imagePreview.position === "back" &&
