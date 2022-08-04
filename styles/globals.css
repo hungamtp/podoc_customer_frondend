@@ -42,7 +42,10 @@ a {
   text-align: center;
 }
 
-
+.bottom-line {
+  z-index: 1080;
+  bottom:5%;
+}
 
 .hoverButton:hover{
   background-color: #f8f9fc;
