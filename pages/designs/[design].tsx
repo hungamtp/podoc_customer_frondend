@@ -1,29 +1,23 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import UserRating from "@/components/common/rating";
-import ShowRating from "@/components/common/show-rating";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { PageWithHero } from "@/components/layouts/page-with-hero";
-import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
-import useUpdateCart from "@/hooks/api/cart/use-update-cart";
-import useGetOthersDesignById from "@/hooks/api/design/use-get-other-designs-by-designId";
-import {
-  updateQuantityCartDetail,
-  addNewCartDetail,
-  setCart as setCartRedux,
-} from "@/redux/slices/cart";
-import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
-import { Rating } from "@mui/material";
-import { nanoid } from "@reduxjs/toolkit";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { string } from "yup";
+import UserRating from '@/components/common/rating';
+import ShowRating from '@/components/common/show-rating';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { PageWithHero } from '@/components/layouts/page-with-hero';
+import useAddToCart from '@/hooks/api/cart/use-add-to-cart';
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
+import useGetOthersDesignById from '@/hooks/api/design/use-get-other-designs-by-designId';
+import { updateQuantityCartDetail, addNewCartDetail, setCart as setCartRedux } from '@/redux/slices/cart';
+import { AddToCartDTO, CartDetailDTO } from '@/services/type.dto';
+import { Rating } from '@mui/material';
+import { nanoid } from '@reduxjs/toolkit';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { string } from 'yup';
 
-const quickSort = (
-  arr: { size: string; dignity: number; color: string }[]
-): { size: string; dignity: number; color: string }[] => {
+const quickSort = (arr: { size: string; dignity: number; color: string }[]): { size: string; dignity: number; color: string }[] => {
   if (arr.length < 2) return arr;
 
   // *** lấy phần tử cuối của 'arr' làm 'pivot'
@@ -48,11 +42,9 @@ const quickSort = (
   return [...quickSort(left), pivot, ...quickSort(right)];
 };
 
-const sizeSort = (
-  sizeList: { color: string; size: string }[]
-): { size: string; dignity: number; color: string }[] => {
+const sizeSort = (sizeList: { color: string; size: string }[]): { size: string; dignity: number; color: string }[] => {
   const newList: { size: string; dignity: number; color: string }[] = [];
-  sizeList.forEach((size) => {
+  sizeList.forEach(size => {
     let dignity = 1;
     for (let index = size.size.length - 1; index >= 0; index--) {
       let isNum = false;
@@ -63,13 +55,13 @@ const sizeSort = (
       } catch (e) {
         isNum = false;
       }
-      if (size.size[index] === "x" || size.size[index] === "X") {
+      if (size.size[index] === 'x' || size.size[index] === 'X') {
         dignity = dignity * 2;
-      } else if (size.size[index] === "M" || size.size[index] === "m") {
+      } else if (size.size[index] === 'M' || size.size[index] === 'm') {
         dignity = dignity * 1;
-      } else if (size.size[index] === "L" || size.size[index] === "l") {
+      } else if (size.size[index] === 'L' || size.size[index] === 'l') {
         dignity = dignity * 2;
-      } else if (size.size[index] === "s" || size.size[index] === "S") {
+      } else if (size.size[index] === 's' || size.size[index] === 'S') {
         dignity = dignity * -2;
       } else if (isNum) {
         dignity = dignity * num;
@@ -85,19 +77,14 @@ export default function DesignedProductDetail() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { design }: any = router.query;
-  const auth = useAppSelector((state) => state.auth);
+  const auth = useAppSelector(state => state.auth);
 
-  const { data: designedProduct, isLoading: isLoading } =
-    useGetOthersDesignById(design);
+  const { data: designedProduct, isLoading: isLoading } = useGetOthersDesignById(design);
 
   React.useEffect(() => {
     if (designedProduct) {
-      for (
-        let index = 0;
-        index < designedProduct.imagePreviews.length;
-        index++
-      ) {
-        if (designedProduct.imagePreviews[index].position === "front") {
+      for (let index = 0; index < designedProduct.imagePreviews.length; index++) {
+        if (designedProduct.imagePreviews[index].position === 'front') {
           const tmp = designedProduct.imagePreviews[index];
           designedProduct.imagePreviews[0] = tmp;
           designedProduct.imagePreviews[index] = tmp;
@@ -107,14 +94,9 @@ export default function DesignedProductDetail() {
     }
   }, [designedProduct]);
 
-  const {
-    mutate: addToCart,
-    data: cartDetailFromAPI,
-    isLoading: isLoadingAddNewCartDetail,
-    error,
-  } = useAddToCart();
+  const { mutate: addToCart, data: cartDetailFromAPI, isLoading: isLoadingAddNewCartDetail, error } = useAddToCart();
 
-  const carts = useAppSelector((state) => state.carts);
+  const carts = useAppSelector(state => state.carts);
   const [cart, setCart] = React.useState<CartDetailDTO>();
 
   const [selectedSize, setSelectedSize] = React.useState<string>("");
@@ -193,17 +175,15 @@ export default function DesignedProductDetail() {
     }
   }, [cartDetailFromAPI]);
 
-  const productDontHaveEnoughQuatity = useAppSelector(
-    (state) => state.checkCartSlice
-  );
+  const productDontHaveEnoughQuatity = useAppSelector(state => state.checkCartSlice);
 
   const checkout = () => {
-    router.push("/carts");
+    router.push('/carts');
   };
 
   const updateQuantity = (newQuantity: number) => {
     const indentity = selectedColor + selectedSize + designedProduct?.id;
-    const cartDetailExisted = carts.some((cart) => {
+    const cartDetailExisted = carts.some(cart => {
       setCart(cart);
       return `${cart.color + cart.size + cart.designedProductId}` === indentity;
     });
@@ -249,20 +229,18 @@ export default function DesignedProductDetail() {
   const updateCartDetailQuantity = (newQuantity: number) => {
     if (cart) {
       const newCart: CartDetailDTO[] = [];
-      console.log(newQuantity, "newQuantity");
-      console.log(cart.quantity, "newQuantity");
+      console.log(newQuantity, 'newQuantity');
+      console.log(cart.quantity, 'newQuantity');
       const updatedQuantity = newQuantity + cart.quantity;
-      console.log(updatedQuantity, "newQuantity");
-      carts.forEach((cartDetail) => {
+      console.log(updatedQuantity, 'newQuantity');
+      carts.forEach(cartDetail => {
         if (cartDetail.id != cart.id) {
           newCart.push(cartDetail);
         }
       });
       newCart.push({ ...cart, quantity: updatedQuantity });
       setCart({ ...cart, quantity: updatedQuantity });
-      dispatch(
-        updateQuantityCartDetail({ ...cart, quantity: updatedQuantity })
-      );
+      dispatch(updateQuantityCartDetail({ ...cart, quantity: updatedQuantity }));
       dispatch(setCartRedux(newCart));
       updateCart(newCart);
     }
@@ -286,11 +264,7 @@ export default function DesignedProductDetail() {
                     <div className="col-md-5">
                       <div className="tiny-single-item">
                         <div className="tiny-slide">
-                          <div
-                            id="carouselExampleControls"
-                            className="carousel slide"
-                            data-ride="carousel"
-                          >
+                          <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
                               {renderedImagesList.map((image, index) => {
                                 return (
@@ -314,31 +288,15 @@ export default function DesignedProductDetail() {
                                 );
                               })}
                             </div>
-                            <a
-                              className="carousel-control-prev h-full "
-                              href="#carouselExampleControls"
-                              role="button"
-                              data-slide="prev"
-                            >
+                            <a className="carousel-control-prev h-full " href="#carouselExampleControls" role="button" data-slide="prev">
                               <div>
-                                <span
-                                  className="bi bi-caret-left text-secondary h4"
-                                  aria-hidden="true"
-                                />
+                                <span className="bi bi-caret-left text-secondary h4" aria-hidden="true" />
                                 <span className="sr-only">Previous</span>
                               </div>
                             </a>
-                            <a
-                              className="carousel-control-next h-full "
-                              href="#carouselExampleControls"
-                              role="button"
-                              data-slide="next"
-                            >
+                            <a className="carousel-control-next h-full " href="#carouselExampleControls" role="button" data-slide="next">
                               <div>
-                                <span
-                                  className="bi bi-caret-right text-secondary h4"
-                                  aria-hidden="true"
-                                />
+                                <span className="bi bi-caret-right text-secondary h4" aria-hidden="true" />
                                 <span className="sr-only">Next</span>
                               </div>
                             </a>
@@ -350,37 +308,24 @@ export default function DesignedProductDetail() {
                       <div className="section-title ms-md-4">
                         <h4 className="title"> {designedProduct.name}</h4>
                         <div className="d-flex justify-content-between mt-1">
-                          <h6 className="text-dark small fst-italic mb-0 mt-1">
-                            {numberWithCommas(designedProduct.price)} VND
-                          </h6>
+                          <h6 className="text-dark small fst-italic mb-0 mt-1">{numberWithCommas(designedProduct.price)} VND</h6>
                         </div>
-                        <ShowRating
-                          rate={designedProduct.rating}
-                          rateCount={designedProduct.rateCount}
-                        />
+                        <ShowRating rate={designedProduct.rating} rateCount={designedProduct.rateCount} />
 
                         <div>
-                          <span className="sold-number ">
-                            Đã bán {designedProduct.sold}
-                          </span>
+                          <span className="sold-number ">Đã bán {designedProduct.sold}</span>
                         </div>
                         <div className="designer cursor-pointer">
-                          Thiết kế bởi{" "}
-                          <span
-                            onClick={() => goToProfile(designedProduct.user.id)}
-                          >
-                            <b>
-                              {designedProduct.user.firstName +
-                                " " +
-                                designedProduct.user.lastName}
+                          Thiết kế bởi{' '}
+                          <span onClick={() => goToProfile(designedProduct.user.id)}>
+                            <b style={{ textDecoration: 'underline' }}>
+                              {designedProduct.user.firstName + ' ' + designedProduct.user.lastName}
                             </b>
                           </span>
                         </div>
 
                         <h5 className="mt-4 py-2">Mô tả chi tiết:</h5>
-                        <p className="text-muted">
-                          {designedProduct.description}
-                        </p>
+                        <p className="text-muted">{designedProduct.description}</p>
                         <hr className="my-0" />
                         <div>
                           <div className="row mt-4 pt-2">
@@ -389,16 +334,10 @@ export default function DesignedProductDetail() {
                                 <h6 className="mb-0">Chọn màu:</h6>
 
                                 <ul className="list-unstyled mb-0 ms-3">
-                                  {colorList.map((color) => (
-                                    <li
-                                      key={color.split("-")[0]}
-                                      className="list-inline-item ms-1"
-                                    >
+                                  {colorList.map(color => (
+                                    <li key={color.split('-')[0]} className="list-inline-item ms-1">
                                       <div
-                                        className={` ${
-                                          color.split("-")[0] ===
-                                            selectedColor && "border-blue"
-                                        }`}
+                                        className={` ${color.split('-')[0] === selectedColor && 'border-blue'}`}
                                         onClick={() => {
                                           setSelectedColorSize(color);
                                           setSelectedColor(color.split("-")[0]);
@@ -412,41 +351,27 @@ export default function DesignedProductDetail() {
                                           width={30}
                                           height={30}
                                           className="rounded-circle border"
-                                          src={
-                                            "https://images.printify.com/5853fec7ce46f30f8328200a"
-                                          }
+                                          src={'https://images.printify.com/5853fec7ce46f30f8328200a'}
                                           style={{
-                                            backgroundColor:
-                                              color.split("-")[1],
-                                            opacity: "0.8",
+                                            backgroundColor: color.split('-')[1],
+                                            opacity: '0.8',
                                           }}
-                                          alt={color.split("-")[0]}
+                                          alt={color.split('-')[0]}
                                         />
                                       </div>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                              {isError && !selectedColor && (
-                                <p className="text-danger">
-                                  Vui lòng chọn màu áo
-                                </p>
-                              )}
+                              {isError && !selectedColor && <p className="text-danger">Vui lòng chọn màu áo</p>}
                               {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
                                   <ul className="list-unstyled mb-0 ms-3">
                                     {sizeList.map(({ size }) => (
-                                      <li
-                                        key={size}
-                                        className="list-inline-item ms-1"
-                                      >
+                                      <li key={size} className="list-inline-item ms-1">
                                         <button
-                                          className={`${
-                                            size === selectedSize
-                                              ? `is-select`
-                                              : "my-button"
-                                          }`}
+                                          className={`${size === selectedSize ? `is-select` : 'my-button'}`}
                                           onClick={() => {
                                             setSelectedSize(size);
                                             setIsError(false);
@@ -459,11 +384,7 @@ export default function DesignedProductDetail() {
                                   </ul>
                                 </div>
                               )}
-                              {isError && !selectedSize && selectedColor && (
-                                <p className="text-danger">
-                                  Vui lòng chọn size áo
-                                </p>
-                              )}
+                              {isError && !selectedSize && selectedColor && <p className="text-danger">Vui lòng chọn size áo</p>}
                             </div>
                             {/*end col*/}
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">
@@ -471,9 +392,9 @@ export default function DesignedProductDetail() {
                                 <h6 className="mb-0">Số lượng:</h6>
                                 <div className="qty-icons ms-3 d-flex">
                                   <button
-                                    className={`btn btn-icon btn-soft-primary minus ${
-                                      quantity == 1 && "disabled"
-                                    } ${cart && !cart.publish && " disabled"}`}
+                                    className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'} ${
+                                      cart && !cart.publish && ' disabled'
+                                    }`}
                                     onClick={() => setQuantity(quantity - 1)}
                                   >
                                     -
@@ -489,9 +410,7 @@ export default function DesignedProductDetail() {
                                     className="input-quantity mt-0"
                                   />
                                   <button
-                                    className={`btn btn-icon btn-soft-primary plus  ${
-                                      cart && !cart.publish && " disabled"
-                                    }`}
+                                    className={`btn btn-icon btn-soft-primary plus  ${cart && !cart.publish && ' disabled'}`}
                                     onClick={() => setQuantity(quantity + 1)}
                                   >
                                     +
@@ -503,16 +422,10 @@ export default function DesignedProductDetail() {
                           </div>
                           {/*end row*/}
                           <div className="mt-4 pt-2">
-                            <button
-                              className="btn btn-primary"
-                              onClick={checkout}
-                            >
+                            <button className="btn btn-primary" onClick={checkout}>
                               Xem giỏ hàng
                             </button>
-                            <button
-                              className="btn btn-soft-primary ms-2"
-                              onClick={() => updateQuantity(quantity)}
-                            >
+                            <button className="btn btn-soft-primary ms-2" onClick={() => updateQuantity(quantity)}>
                               Thêm vào giỏ hàng
                             </button>
                           </div>
