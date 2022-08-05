@@ -250,7 +250,7 @@ export default function DesignedProducts(props: IProductProps) {
                       );
                     })}
 
-                    {response?.elements > 1 && (
+                    {response?.page > 1 && (
                       <div className="d-flex justify-content-center">
                         <PaginationComponent
                           total={totalPages}
