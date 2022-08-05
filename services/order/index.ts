@@ -3,6 +3,7 @@ import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
 import {
   GetAllMyOrdersDto,
   GetAllOrderDetailDto,
+  OrderDetailDto,
   PayUnpaidOrderDto,
   PayUnpaidOrderResponse,
   ShippingInfo,
@@ -42,6 +43,7 @@ export const getAllMyOrders = async (filter?: Filter) => {
   );
   return data;
 };
+
 export const getAllOrderDetail = async (filter?: Filter) => {
   const pageNumber = 1;
   const pageSize = 10;
@@ -53,6 +55,11 @@ export const getAllOrderDetail = async (filter?: Filter) => {
     `/order/orderdetail?${query.toString()}`
   );
   return data;
+};
+
+export const getOrderDetailByOrderId = async (orderId: string) => {
+  const data = await API.get<OrderDetailDto[]>(`/order/${orderId}`);
+  return data.data;
 };
 
 export const payUnpaidOrder = async (requestData: PayUnpaidOrderDto) => {

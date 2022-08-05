@@ -151,7 +151,7 @@ export default function DesignedProductDetail() {
         setRenderedImagesList(filterColorImages);
       }
     }
-  }, [designedProduct, selectedColorImage]);
+  }, [selectedColorImage]);
 
   React.useEffect(() => {
     if (!!designedProduct) {
