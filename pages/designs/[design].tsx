@@ -1,23 +1,30 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import UserRating from '@/components/common/rating';
-import ShowRating from '@/components/common/show-rating';
-import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
-import { PageWithHero } from '@/components/layouts/page-with-hero';
-import useAddToCart from '@/hooks/api/cart/use-add-to-cart';
-import useUpdateCart from '@/hooks/api/cart/use-update-cart';
-import useGetOthersDesignById from '@/hooks/api/design/use-get-other-designs-by-designId';
-import { updateQuantityCartDetail, addNewCartDetail, setCart as setCartRedux } from '@/redux/slices/cart';
-import { AddToCartDTO, CartDetailDTO } from '@/services/type.dto';
-import { Rating } from '@mui/material';
-import { nanoid } from '@reduxjs/toolkit';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import * as React from 'react';
-import { string } from 'yup';
+import UserRating from "@/components/common/rating";
+import ShowRating from "@/components/common/show-rating";
+import ImageCarousel from "@/components/designed-products/imageCarousel";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { PageWithHero } from "@/components/layouts/page-with-hero";
+import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
+import useUpdateCart from "@/hooks/api/cart/use-update-cart";
+import useGetOthersDesignById from "@/hooks/api/design/use-get-other-designs-by-designId";
+import {
+  updateQuantityCartDetail,
+  addNewCartDetail,
+  setCart as setCartRedux,
+} from "@/redux/slices/cart";
+import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
+import { Rating } from "@mui/material";
+import { nanoid } from "@reduxjs/toolkit";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { string } from "yup";
 
-const quickSort = (arr: { size: string; dignity: number; color: string }[]): { size: string; dignity: number; color: string }[] => {
+const quickSort = (
+  arr: { size: string; dignity: number; color: string }[]
+): { size: string; dignity: number; color: string }[] => {
   if (arr.length < 2) return arr;
 
   // *** lấy phần tử cuối của 'arr' làm 'pivot'
@@ -205,12 +212,13 @@ export default function DesignedProductDetail() {
     };
     if (auth.isAuth) addToCart(newCartDetail);
     else {
+      console.log(renderedImagesList[0], "image colorr");
       const reduxCartDetail = {
         id: nanoid(),
         cartId: nanoid(),
         designedProductId: designedProduct?.id,
         designedProductName: designedProduct?.name,
-        designedImage: designedProduct?.imagePreviews[0].image,
+        designedImage: renderedImagesList[0],
         size: selectedSize,
         color: selectedColor,
         quantity: newQuantity,
@@ -257,68 +265,11 @@ export default function DesignedProductDetail() {
                 <div className="container">
                   <div className="row align-items-center">
                     <div className="col-md-5">
-                      {renderedImagesList && (
-                        <div className="tiny-single-item">
-                          <div className="tiny-slide">
-                            <div
-                              id="carouselExampleControls"
-                              className="carousel slide"
-                              data-ride="carousel"
-                            >
-                              <div className="carousel-inner">
-                                {renderedImagesList.map((image, index) => {
-                                  return (
-                                    <div
-                                      className={`carousel-item ${
-                                        index == 0 && "active"
-                                      }`}
-                                      key={image.position}
-                                    >
-                                      {" "}
-                                      <div className="d-block">
-                                        <Image
-                                          src={image.image}
-                                          width={1000}
-                                          height={1000}
-                                          objectFit="cover"
-                                          alt="productImage"
-                                        />
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                              <a
-                                className="carousel-control-prev h-full "
-                                href="#carouselExampleControls"
-                                role="button"
-                                data-slide="prev"
-                              >
-                                <div>
-                                  <span
-                                    className="bi bi-caret-left text-secondary h4"
-                                    aria-hidden="true"
-                                  />
-                                  <span className="sr-only">Previous</span>
-                                </div>
-                              </a>
-                              <a
-                                className="carousel-control-next h-full "
-                                href="#carouselExampleControls"
-                                role="button"
-                                data-slide="next"
-                              >
-                                <div>
-                                  <span
-                                    className="bi bi-caret-right text-secondary h4"
-                                    aria-hidden="true"
-                                  />
-                                  <span className="sr-only">Next</span>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
+                      {renderedImagesList && renderedImagesList.length > 0 && (
+                        <ImageCarousel
+                          key={nanoid()}
+                          renderedImagesList={renderedImagesList}
+                        />
                       )}
                     </div>
                     <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
