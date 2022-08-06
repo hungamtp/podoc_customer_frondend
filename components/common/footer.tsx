@@ -85,7 +85,7 @@ export default function Footer({}: Props) {
                     <div className="col-lg-4 col-md-4 col-12 mt-2 mt-sm-0">
                       <ul className="list-unstyled footer-list">
                         <li>
-                          <Link href="/account-setting" className="text-foot">
+                          <Link href="/account" className="text-foot">
                             <a>
                               <i className="uil uil-angle-right-b me-1"></i>Tài
                               khoản{" "}
@@ -93,7 +93,10 @@ export default function Footer({}: Props) {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/account-setting" className="text-foot">
+                          <Link
+                            href="/account/all-order-detail"
+                            className="text-foot"
+                          >
                             <a>
                               <i className="uil uil-angle-right-b me-1"></i>Lịch
                               sử mua hàng{" "}
@@ -101,7 +104,7 @@ export default function Footer({}: Props) {
                           </Link>
                         </li>
                         <li>
-                          <Link href="/account-setting" className="text-foot">
+                          <Link href="/account/mydesign" className="text-foot">
                             <a>
                               <i className="uil uil-angle-right-b me-1"></i>
                               Thiết kế của tôi{" "}

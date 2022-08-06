@@ -21,7 +21,7 @@ const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
     {
       onSuccess: (data) => {
         //because data:any
-        router.push("/account-setting");
+        router.push("/account/mydesign");
 
         dispatch(setChoosenKey(""));
         dispatch(clearAllPreview());

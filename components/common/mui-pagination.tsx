@@ -33,6 +33,7 @@ function PaginationComponent({
   };
 
   const classes = useStyles();
+  console.log(total, "total");
   return (
     <div className={classes.root}>
       <Pagination
