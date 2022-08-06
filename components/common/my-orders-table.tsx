@@ -42,8 +42,6 @@ export default function MyOrdersTable({
     };
     payOrder(tmpData);
   };
-  console.log(filter, "filter");
-  console.log(myOrdersResponse.elements, "myOrdersResponse");
   return (
     <>
       {myOrdersResponse && myOrdersResponse.data.length != 0 ? (
@@ -52,6 +50,14 @@ export default function MyOrdersTable({
             <>
               {orderDetailData && selectedOrderId && (
                 <div>
+                  <button
+                    className="btn btn-secondary mb-4"
+                    onClick={() => {
+                      setIsShowOrderDetail(false);
+                    }}
+                  >
+                    Trở về
+                  </button>
                   <div className="table bg-white shadow rounded">
                     <table className="table mb-0 table-center table-nowrap">
                       <thead>
@@ -84,20 +90,6 @@ export default function MyOrdersTable({
                             style={{ minWidth: "40px", width: "180px" }}
                           >
                             Tổng giá(VND)
-                          </th>
-                          <th
-                            scope="col"
-                            className="border-bottom"
-                            style={{ minWidth: "40px", width: "40px" }}
-                          >
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                setIsShowOrderDetail(false);
-                              }}
-                            >
-                              Trở về
-                            </button>
                           </th>
                         </tr>
                       </thead>
@@ -252,7 +244,7 @@ export default function MyOrdersTable({
                         <td className="align-middle">
                           <div>
                             {orders.orderDetailDtos
-                              .filter((orderDetail, index) => index <= 2)
+                              .filter((orderDetail, index) => index <= 1)
                               .map((orderDetail, insideIndex, newList) => {
                                 if (
                                   newList.length <
