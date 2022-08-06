@@ -71,31 +71,33 @@ export default function Cart({ cart }: Props) {
       <td className="text-center mb-0 ms-3">{cart.size}</td>
       <td className="text-center">{cart.color}</td>
       <td className="text-center"> {numberWithCommas(cart.price)}</td>
-      <td className="text-center qty-icons d-flex">
-        <button
-          className={`btn btn-icon btn-soft-primary minus ${
-            quantity == 1 && "disabled"
-          } ${!cart.publish && " disabled"}`}
-          onClick={() => updateQuantityCart(quantity - 1)}
-        >
-          -
-        </button>
-        <input
-          className="input-quantity pb-2 mt-0"
-          type="number"
-          min={1}
-          name="quantity"
-          value={quantity}
-          onChange={(e: any) => updateQuantityCart(e.target.value)}
-        />
-        <button
-          className={`btn btn-icon btn-soft-primary plus ${
-            !cart.publish && " disabled"
-          }`}
-          onClick={() => updateQuantityCart(quantity + 1)}
-        >
-          +
-        </button>
+      <td className="qty-icons">
+        <div className="d-flex justify-content-center">
+          <button
+            className={`btn btn-icon btn-soft-primary minus ${
+              quantity == 1 && "disabled"
+            } ${!cart.publish && " disabled"}`}
+            onClick={() => updateQuantityCart(quantity - 1)}
+          >
+            -
+          </button>
+          <input
+            className="input-quantity mt-0"
+            type="number"
+            min={1}
+            name="quantity"
+            value={quantity}
+            onChange={(e: any) => updateQuantityCart(e.target.value)}
+          />
+          <button
+            className={`btn btn-icon btn-soft-primary plus ${
+              !cart.publish && " disabled"
+            }`}
+            onClick={() => updateQuantityCart(quantity + 1)}
+          >
+            +
+          </button>
+        </div>
         <div>
           {productDontHaveEnoughQuatity.filter(
             (product) => product.id === cart.id

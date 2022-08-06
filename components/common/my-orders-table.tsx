@@ -1,57 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
-import { Account, MainLayout } from '@/components/layouts';
-import useDeleteOrder from '@/hooks/api/order/use-delete-order';
-import useGetOrderDetailByOrderId from '@/hooks/api/order/use-get-order-detail-by-orderId';
-import usePayUnpaidOrder from '@/hooks/api/order/use-pay-unpaid-order';
-import { GetAllMyOrdersDto, MyOrdersDto, OrderDetailDto } from '@/services/order/dto';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Account, MainLayout } from "@/components/layouts";
+import useDeleteOrder from "@/hooks/api/order/use-delete-order";
+import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
+import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
+import { Filter } from "@/services/order";
+import {
+  GetAllMyOrdersDto,
+  MyOrdersDto,
+  OrderDetailDto,
+} from "@/services/order/dto";
+import { nanoid } from "@reduxjs/toolkit";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import PaginationComponent from "./mui-pagination";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
   isLoading: boolean;
+  setFilter: (filter: Filter) => void;
+  filter: Filter;
 };
 
-export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
-  useEffect(() => {
-    const orderList = [...myOrdersResponse.data];
-    if (orderList.length > 0) {
-      orderList.forEach(order => {
-        const orderDetailDtos = order.orderDetailDtos;
-        if (orderDetailDtos.length > 1) {
-          let newLength = 1;
-          let i: number;
-          let j: number;
-          let count = 0;
-          for (i = 1; i < orderDetailDtos.length; i++) {
-            for (j = 0; j < newLength; j++) {
-              if (
-                orderDetailDtos[i].designName === orderDetailDtos[j].designName &&
-                orderDetailDtos[i].provider === orderDetailDtos[j].provider
-              ) {
-                orderDetailDtos[j].quantity = orderDetailDtos[j].quantity + orderDetailDtos[i].quantity;
-                count++;
-                break;
-              }
-            }
-            if (newLength === j) {
-              orderDetailDtos[newLength++] = orderDetailDtos[i];
-            }
-          }
-          if (count === orderDetailDtos.length - 1) {
-            order.orderDetailDtos = [orderDetailDtos[0]];
-          } else {
-            order.orderDetailDtos = orderDetailDtos.slice(0, newLength);
-          }
-        }
-      });
-      setRenderOrderData(orderList);
-    }
-  }, [myOrdersResponse]);
-
+export default function MyOrdersTable({
+  myOrdersResponse,
+  isLoading,
+  filter,
+  setFilter,
+}: Props) {
   const { mutate: payOrder } = usePayUnpaidOrder();
-  const [renderOrderData, setRenderOrderData] = useState<MyOrdersDto[]>();
   const { mutate: getOrderDetail } = useGetOrderDetailByOrderId();
   const { mutate: deleteOrder } = useDeleteOrder();
   const [isShowOrderDetail, setIsShowOrderDetail] = useState(false);
@@ -67,12 +44,20 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
   };
   return (
     <>
-      {renderOrderData && renderOrderData.length != 0 ? (
+      {myOrdersResponse && myOrdersResponse.data.length != 0 ? (
         <div>
           {isShowOrderDetail ? (
             <>
               {orderDetailData && selectedOrderId && (
                 <div>
+                  <button
+                    className="btn btn-secondary mb-4"
+                    onClick={() => {
+                      setIsShowOrderDetail(false);
+                    }}
+                  >
+                    Trở về
+                  </button>
                   <div className="table bg-white shadow rounded">
                     <table className="table mb-0 table-center table-nowrap">
                       <thead>
@@ -95,16 +80,6 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
                           </th>
                           <th scope="col" className="border-bottom align-middle" style={{ minWidth: '40px', width: '180px' }}>
                             Tổng giá(VND)
-                          </th>
-                          <th scope="col" className="border-bottom" style={{ minWidth: '40px', width: '40px' }}>
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => {
-                                setIsShowOrderDetail(false);
-                              }}
-                            >
-                              Trở về
-                            </button>
                           </th>
                         </tr>
                       </thead>
@@ -223,18 +198,51 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
                 <tbody>
                   {!isLoading &&
                     myOrdersResponse &&
-                    renderOrderData.map(orders => (
-                      <tr key={orders.orderId} data-toggle="tooltip" data-placement="top">
+                    myOrdersResponse.data.map((orders) => (
+                      <tr
+                        key={orders.orderId}
+                        data-toggle="tooltip"
+                        data-placement="top"
+                      >
                         <td className="align-middle">
                           <div>
-                            {orders.orderDetailDtos.map(orderDetail => (
-                              <>
-                                <div>{orderDetail.designName}</div>
-                                <div>
-                                  <p>Số lượng: {`${orderDetail.quantity}`}</p>
-                                </div>
-                              </>
-                            ))}
+                            {orders.orderDetailDtos
+                              .filter((orderDetail, index) => index <= 1)
+                              .map((orderDetail, insideIndex, newList) => {
+                                if (
+                                  newList.length <
+                                    orders.orderDetailDtos.length &&
+                                  insideIndex === newList.length - 1
+                                )
+                                  return (
+                                    <>
+                                      <div className="mt-2">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                      <div
+                                        className="mt-2 ms-5 text-secondary btn btn-link text-secondary"
+                                        onClick={() => {
+                                          getOrderDetail(orders.orderId, {
+                                            onSuccess: (data) => {
+                                              setOrderDetailData(data);
+                                              setIsShowOrderDetail(true);
+                                              setSelectedOrderId(
+                                                orders.orderId
+                                              );
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        xem thêm...{" "}
+                                      </div>
+                                    </>
+                                  );
+                                else {
+                                  return (
+                                    <>
+                                      <div className="mt-2">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                    </>
+                                  );
+                                }
+                              })}
                           </div>
                         </td>
                         <td className="align-middle">{`${new Date(orders.createdDate).getDate()}-${
@@ -249,7 +257,7 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
                           <div className="dropdown ">
                             <button
                               type="button"
-                              className="btn dropdown-toggle d-flex align-items-center m-0"
+                              className="btn dropdown-toggle d-flex align-items-center m-0 hoverButton"
                               data-bs-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
@@ -275,14 +283,17 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
                               </div>
                             </div>
                           </div>
-                          <button className="btn d-flex align-items-center m-0" onClick={() => deleteOrder(orders.orderId)}>
+                          <button
+                            className="btn d-flex align-items-center m-0 hoverButton text-dark"
+                            onClick={() => deleteOrder(orders.orderId)}
+                          >
                             <i className="bi bi-x-square text-danger me-2"></i>
                             <p className="m-0">Hủy đơn</p>
                           </button>
                         </td>
                         <td className="align-middle">
                           <button
-                            className="btn hoverButton"
+                            className="btn btn-link"
                             data-toggle="tooltip"
                             data-placement="top"
                             title="Xem chi tiết đơn hàng"
@@ -296,7 +307,7 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
                               });
                             }}
                           >
-                            <i className="bi bi-eye text-primary h5 "></i>
+                            <p className="m-0">Chi tiết</p>
                           </button>
                         </td>
                       </tr>
@@ -305,6 +316,20 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
               </table>
             </div>
           )}
+          <div className="row">
+            {Math.ceil(myOrdersResponse.elements / filter.pageSize) <= 1 ||
+            isShowOrderDetail ? (
+              <></>
+            ) : (
+              <div className="d-flex justify-content-center">
+                <PaginationComponent
+                  total={Math.ceil(myOrdersResponse.elements / filter.pageSize)}
+                  filter={filter}
+                  setFilter={setFilter}
+                />
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <h4 style={{ display: 'flex', justifyContent: 'space-around' }}>Chưa có đơn đặt hàng</h4>

@@ -31,7 +31,7 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
 export interface GetAllMyOrdersDto {
   data: MyOrdersDto[];
   page: number;
-  element: number;
+  elements: number;
 }
 export interface GetAllOrderDetailDto {
   data: OrderDetailDto[];

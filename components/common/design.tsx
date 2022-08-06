@@ -53,18 +53,18 @@ export default function Design({ product }: Props) {
         </div>
       </td>
       <td className="align-middle">
-        <p className="">{numberWithCommas(product.designedPrice)}</p>
+        <p className="m-0">{numberWithCommas(product.designedPrice)}</p>
       </td>
       <td className="align-middle">
         {product.publish && product.productOfDesignDeleted === false && (
-          <div className="badge badge-success mb-3 p-1">Đang đăng bán</div>
+          <div className="badge badge-success m-0 p-1">Đang đăng bán</div>
         )}
         {product.publish === false &&
           product.productOfDesignDeleted === false && (
-            <div className="badge badge-secondary mb-3 p-1">Chỉ mình tôi</div>
+            <div className="badge badge-secondary m-0 p-1">Chỉ mình tôi</div>
           )}
         {product.productOfDesignDeleted === true && (
-          <div className="badge badge-danger mb-3 p-1">
+          <div className="badge badge-danger m-0 p-1">
             Sản phẩm ngừng sản xuất
           </div>
         )}

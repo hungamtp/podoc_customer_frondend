@@ -288,6 +288,7 @@ input[type=number] {
   border: 1px solid #eceffc;
   border-radius: 1px;
   text-align: center;
+  outline: none;
 }
 
 
