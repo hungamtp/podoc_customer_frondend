@@ -66,36 +66,26 @@ export default function MyOrdersTable({
                             scope="col"
                             className="border-bottom align-middle"
                             style={{
-                              minWidth: "100px",
-                              width: "150px",
+                              minWidth: '100px',
+                              width: '150px',
                             }}
                           >
                             Hình ảnh
                           </th>
-                          <th
-                            scope="col"
-                            className="border-bottom align-middle"
-                          >
+                          <th scope="col" className="border-bottom align-middle">
                             Thiết kế
                           </th>
-                          <th
-                            scope="col"
-                            className="border-bottom align-middle"
-                          >
+                          <th scope="col" className="border-bottom align-middle">
                             Thông tin
                           </th>
-                          <th
-                            scope="col"
-                            className="border-bottom align-middle"
-                            style={{ minWidth: "40px", width: "180px" }}
-                          >
+                          <th scope="col" className="border-bottom align-middle" style={{ minWidth: '40px', width: '180px' }}>
                             Tổng giá(VND)
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {!isLoading &&
-                          orderDetailData.map((order) => (
+                          orderDetailData.map(order => (
                             <tr key={order.id}>
                               <td>
                                 <Image
@@ -110,20 +100,16 @@ export default function MyOrdersTable({
                               <th className="align-middle">
                                 <ul
                                   style={{
-                                    listStyleType: "none",
-                                    padding: "0",
+                                    listStyleType: 'none',
+                                    padding: '0',
                                   }}
                                 >
                                   <li className="d-flex">
-                                    <div style={{ fontWeight: "normal" }}>
-                                      Tên :{" "}
-                                    </div>
+                                    <div style={{ fontWeight: 'normal' }}>Tên : </div>
                                     <div>{order.designName}</div>
                                   </li>
                                   <li className="d-flex">
-                                    <div style={{ fontWeight: "normal" }}>
-                                      Nhà in :{" "}
-                                    </div>
+                                    <div style={{ fontWeight: 'normal' }}>Nhà in : </div>
                                     <div>{order.provider}</div>
                                   </li>
                                 </ul>
@@ -133,9 +119,7 @@ export default function MyOrdersTable({
                                 <div>Màu : {order.color}</div>
                                 <div>Số lượng : {order.quantity}</div>
                               </td>
-                              <td className="align-middle">
-                                {numberWithCommas(order.price)}
-                              </td>
+                              <td className="align-middle">{numberWithCommas(order.price)}</td>
                             </tr>
                           ))}
                       </tbody>
@@ -166,32 +150,19 @@ export default function MyOrdersTable({
                           Thanh toán
                         </button>
 
-                        <div
-                          className="dropdown-menu dd-menu dropdown-menu-end rounded border"
-                          style={{ width: "120px" }}
-                        >
+                        <div className="dropdown-menu dd-menu dropdown-menu-end rounded border" style={{ width: '120px' }}>
                           <div
                             onClick={() => handleSubmit(0, selectedOrderId)}
                             className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                           >
-                            <img
-                              className="me-1 rounded"
-                              src="asset/images/momologo.svg"
-                              width="25"
-                              alt="momo"
-                            />
+                            <img className="me-1 rounded" src="asset/images/momologo.svg" width="25" alt="momo" />
                             MOMO
                           </div>
                           <div
                             onClick={() => handleSubmit(1, selectedOrderId)}
                             className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                           >
-                            <img
-                              className="me-1 rounded"
-                              src="asset/images/zalopay.png"
-                              width="25"
-                              alt="momo"
-                            />
+                            <img className="me-1 rounded" src="asset/images/zalopay.png" width="25" alt="momo" />
                             Zalo
                           </div>
                         </div>
@@ -218,18 +189,10 @@ export default function MyOrdersTable({
                     <th scope="col" className="border-bottom">
                       Số lượng
                     </th>
-                    <th
-                      scope="col"
-                      className="border-bottom"
-                      style={{ width: "100px" }}
-                    >
+                    <th scope="col" className="border-bottom" style={{ width: '100px' }}>
                       Hành động
                     </th>
-                    <th
-                      scope="col"
-                      className="border-bottom"
-                      style={{ width: "80px" }}
-                    ></th>
+                    <th scope="col" className="border-bottom" style={{ width: '80px' }}></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -282,17 +245,13 @@ export default function MyOrdersTable({
                               })}
                           </div>
                         </td>
-                        <td className="align-middle">{`${new Date(
-                          orders.createdDate
-                        ).getDate()}-${
+                        <td className="align-middle">{`${new Date(orders.createdDate).getDate()}-${
                           new Date(orders.createdDate).getMonth() + 1
                         }-${new Date(orders.createdDate).getFullYear()}`}</td>
+                        <td className="align-middle">{numberWithCommas(orders.totalBill)} </td>
                         <td className="align-middle">
-                          {numberWithCommas(orders.totalBill)}{" "}
-                        </td>
-                        <td className="align-middle">
-                          {" "}
-                          {orders.countItem} {"sản phẩm"}
+                          {' '}
+                          {orders.countItem} {'sản phẩm'}
                         </td>
                         <td className="align-middle">
                           <div className="dropdown ">
@@ -312,24 +271,14 @@ export default function MyOrdersTable({
                                 onClick={() => handleSubmit(0, orders.orderId)}
                                 className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                               >
-                                <img
-                                  className="me-1 rounded"
-                                  src="asset/images/momologo.svg"
-                                  width="25"
-                                  alt="momo"
-                                />
+                                <img className="me-1 rounded" src="asset/images/momologo.svg" width="25" alt="momo" />
                                 MOMO
                               </div>
                               <div
                                 onClick={() => handleSubmit(1, orders.orderId)}
                                 className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                               >
-                                <img
-                                  className="me-1 rounded"
-                                  src="asset/images/zalopay.png"
-                                  width="25"
-                                  alt="momo"
-                                />
+                                <img className="me-1 rounded" src="asset/images/zalopay.png" width="25" alt="momo" />
                                 Zalo
                               </div>
                             </div>
@@ -350,7 +299,7 @@ export default function MyOrdersTable({
                             title="Xem chi tiết đơn hàng"
                             onClick={() => {
                               getOrderDetail(orders.orderId, {
-                                onSuccess: (data) => {
+                                onSuccess: data => {
                                   setOrderDetailData(data);
                                   setIsShowOrderDetail(true);
                                   setSelectedOrderId(orders.orderId);
@@ -383,9 +332,7 @@ export default function MyOrdersTable({
           </div>
         </div>
       ) : (
-        <h4 style={{ display: "flex", justifyContent: "space-around" }}>
-          Chưa có đơn đặt hàng
-        </h4>
+        <h4 style={{ display: 'flex', justifyContent: 'space-around' }}>Chưa có đơn đặt hàng</h4>
       )}
     </>
   );
