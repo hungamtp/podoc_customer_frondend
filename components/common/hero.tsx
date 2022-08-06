@@ -30,7 +30,7 @@ export default function Hero(props: IHeroProps) {
                 </li>
                 {path.includes("/my-product/order?designId=") ? (
                   <li className="breadcrumb-item">
-                    <Link href="/account-setting">
+                    <Link href="/account/mydesign">
                       <a>Thiết kế của tôi</a>
                     </Link>
                   </li>

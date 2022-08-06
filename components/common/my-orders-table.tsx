@@ -1,28 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-import { MainLayout } from "@/components/layouts";
-import useMyOrders from "@/hooks/api/order/use-my-orders";
-import { Filter } from "@/services/order";
+import { Account, MainLayout } from "@/components/layouts";
+import useDeleteOrder from "@/hooks/api/order/use-delete-order";
+import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
+import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
 import {
   GetAllMyOrdersDto,
   MyOrdersDto,
   OrderDetailDto,
-  PayUnpaidOrderDto,
 } from "@/services/order/dto";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { numberWithCommas } from "helper/number-util";
-import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
-import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
 import Image from "next/image";
-import useDeleteCartDetail from "@/hooks/api/cart/use-delete-cartdetail";
-import useDeleteOrder from "@/hooks/api/order/use-delete-order";
+import { useEffect, useState } from "react";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
   isLoading: boolean;
 };
 
-export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
+export default function MyOrdersTable({ myOrdersResponse, isLoading }: Props) {
   useEffect(() => {
     const orderList = [...myOrdersResponse.data];
     if (orderList.length > 0) {
@@ -387,4 +382,3 @@ export default function MyOrders({ myOrdersResponse, isLoading }: Props) {
     </>
   );
 }
-MyOrders.Layout = MainLayout;

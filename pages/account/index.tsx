@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import { Account } from "@/components/layouts";
 import useUserDashboard from "@/hooks/api/dashboard/use-dashboard";
 import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import { GetAllDesignFilter } from "@/services/design";
@@ -180,3 +181,4 @@ export default function Dashboard(props: IDashboardProps) {
     </>
   );
 }
+Dashboard.Layout = Account;

@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import CommentProduct from "@/components/common/comment";
+import PaginationComponent from "@/components/common/mui-pagination";
+import { Account } from "@/components/layouts";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
+import { Filter } from "@/services/design";
 import { GetAllOrderDetailDto } from "@/services/order/dto";
 import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
@@ -9,10 +12,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-export interface IAllOrderDetailProps {
-  allOrdersResponse: GetAllOrderDetailDto;
-  isLoading: boolean;
-}
+export interface IAllOrderDetailProps {}
 
 const convertStatus = (status: string) => {
   let tmpOrderStatusData = "";
@@ -33,7 +33,14 @@ const convertStatus = (status: string) => {
 };
 
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
-  const { allOrdersResponse, isLoading } = props;
+  const [filter, setFilter] = React.useState<Filter>({
+    pageNumber: 1,
+    pageSize: 10,
+  });
+
+  const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
+    useAllOrderDetail(filter);
+
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
   const [designId, setDesignId] = React.useState("");
   const [orderId, setOrderId] = React.useState("");
@@ -101,7 +108,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
           </DialogContent>
         </Dialog>
         {allOrdersResponse && allOrdersResponse.data.length > 0 ? (
-          <div className="table-responsive bg-white shadow rounded">
+          <div className=" bg-white shadow rounded">
             <table className="table mb-0 table-center table-nowrap">
               <thead>
                 <tr>
@@ -134,7 +141,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                 </tr>
               </thead>
               <tbody>
-                {!isLoading &&
+                {!isLoadingAllOrders &&
                   allOrdersResponse &&
                   allOrdersResponse.data.map((order) => (
                     <tr key={order.id}>
@@ -218,6 +225,21 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   ))}
               </tbody>
             </table>
+            <div className="row">
+              {Math.ceil(allOrdersResponse.element / filter.pageSize) > 1 ? (
+                <></>
+              ) : (
+                <div className="d-flex justify-content-center">
+                  <PaginationComponent
+                    total={Math.ceil(
+                      allOrdersResponse.element / filter.pageSize
+                    )}
+                    filter={filter}
+                    setFilter={setFilter}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <h4 style={{ display: "flex", justifyContent: "space-around" }}>
@@ -228,3 +250,5 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
     </>
   );
 }
+
+AllOrderDetail.Layout = Account;
