@@ -70,7 +70,12 @@ export default function Header({}: Props) {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <Badge color="secondary" badgeContent={cart.length}>
+                  <Badge
+                    color="secondary"
+                    badgeContent={cart.reduce((total, orderDetail) => {
+                      return total + orderDetail.quantity;
+                    }, 0)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -133,7 +138,9 @@ export default function Header({}: Props) {
                       }}
                     >
                       {cart.length > 0
-                        ? `Bạn có ${cart.length} sản phẩm trong giỏ hàng`
+                        ? `Bạn có ${cart.reduce((total, orderDetail) => {
+                            return total + orderDetail.quantity;
+                          }, 0)} sản phẩm trong giỏ hàng`
                         : "Giỏ hàng trống"}
                     </div>
                   </div>
@@ -241,13 +248,13 @@ export default function Header({}: Props) {
                 </Link>
               </li>
 
-              <li onClick={() => router.push("/raw-products")}>
-                <Link href="raw-products" className="sub-menu-item">
+              <li>
+                <Link href="/raw-products" className="sub-menu-item">
                   Tự thiết kế
                 </Link>
               </li>
-              <li onClick={() => router.push("/about")}>
-                <Link href="about" className="sub-menu-item">
+              <li>
+                <Link href="/about" className="sub-menu-item">
                   Giới thiệu
                 </Link>
               </li>

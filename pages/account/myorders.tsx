@@ -10,7 +10,7 @@ type Props = {};
 export default function MyOrders() {
   const [filter, setFilter] = React.useState<Filter>({
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: 4,
   });
 
   const { data: myOrdersResponse, isLoading: isLoading } = useMyOrders(filter);
@@ -19,6 +19,8 @@ export default function MyOrders() {
     <>
       {myOrdersResponse && (
         <MyOrdersTable
+          filter={filter}
+          setFilter={setFilter}
           myOrdersResponse={myOrdersResponse}
           isLoading={isLoading}
         />
