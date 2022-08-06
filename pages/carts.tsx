@@ -1,33 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from "react";
-import { MainLayout } from "@/components/layouts";
-import Cart from "@/components/common/cart";
-import { setCartNotEnough, resetCartNotEnough } from "@/redux/slices/checkCart";
-import { useAppSelector, useAppDispatch } from "@/components/hooks/reduxHook";
-import useCheckCart from "@/hooks/api/cart/use-check-cart";
-import { useRouter } from "next/router";
-import { Dialog, DialogContent } from "@material-ui/core";
-import Link from "next/link";
-import { numberWithCommas } from "helper/number-util";
-import UseCart from "@/hooks/api/cart/use-cart";
-import { setCart } from "@/redux/slices/cart";
+import React, { useEffect, useState } from 'react';
+import { MainLayout } from '@/components/layouts';
+import Cart from '@/components/common/cart';
+import { setCartNotEnough, resetCartNotEnough } from '@/redux/slices/checkCart';
+import { useAppSelector, useAppDispatch } from '@/components/hooks/reduxHook';
+import useCheckCart from '@/hooks/api/cart/use-check-cart';
+import { useRouter } from 'next/router';
+import { Dialog, DialogContent } from '@material-ui/core';
+import Link from 'next/link';
+import { numberWithCommas } from 'helper/number-util';
+import UseCart from '@/hooks/api/cart/use-cart';
+import { setCart } from '@/redux/slices/cart';
 type Props = {};
 
 export default function Carts({}: Props) {
   const { mutate: responseCart, isLoading: isCartLoading } = UseCart();
   useEffect(() => {
-    responseCart("");
+    responseCart('');
   }, []);
-  const carts = useAppSelector((state) => state.carts);
+  const carts = useAppSelector(state => state.carts);
   const haveProduct = carts?.length != 0;
   let haveUnpublish = false;
-  carts?.forEach((cart) => {
+  carts?.forEach(cart => {
     if (!cart.publish) {
       haveUnpublish = true;
     }
   });
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const auth = useAppSelector(state => state.auth);
   const { mutate: checkCart, isLoading, error } = useCheckCart();
 
   const handleCloseDialog = () => {
@@ -42,11 +42,11 @@ export default function Carts({}: Props) {
   const handleProceed = () => {
     if (auth.isAuth)
       checkCart(carts, {
-        onSuccess: (data) => {
+        onSuccess: data => {
           dispatch(setCartNotEnough([data]));
-          router.push("/checkout");
+          router.push('/checkout');
         },
-        onError: (data) => {
+        onError: data => {
           dispatch(setCartNotEnough(data));
         },
       });
@@ -56,7 +56,13 @@ export default function Carts({}: Props) {
   };
   return (
     <>
-      <section className="bg-half-170 bg-light d-table w-100">
+      <section
+        className="bg-half-170 bg-light d-table w-100"
+        style={{
+          background: "url('/asset/images/banner/banner_final.jpg') no-repeat center center fixed",
+          marginTop: '30px',
+        }}
+      >
         <div className="container">
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">
@@ -82,15 +88,8 @@ export default function Carts({}: Props) {
       </section>
       <div className="position-relative">
         <div className="shape overflow-hidden text-white">
-          <svg
-            viewBox="0 0 2880 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-              fill="currentColor"
-            ></path>
+          <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
           </svg>
         </div>
       </div>
@@ -100,58 +99,35 @@ export default function Carts({}: Props) {
             <div className="col-12">
               <div className="table-responsive bg-white shadow rounded">
                 {carts?.length == 0 ? (
-                  <h4 className="warning-cart-text">
-                    Chưa có sản phẩm nào trong giỏ hàng
-                  </h4>
+                  <h4 className="warning-cart-text">Chưa có sản phẩm nào trong giỏ hàng</h4>
                 ) : (
                   <table className="table mb-0 table-center">
                     <thead>
                       <tr>
-                        <th
-                          className="border-bottom py-3"
-                          style={{ minWidth: "20px" }}
-                        ></th>
-                        <th
-                          className="border-bottom text-start ps-5 py-3"
-                          style={{ minWidth: "200px", width: "250px" }}
-                        >
+                        <th className="border-bottom py-3" style={{ minWidth: '20px' }}></th>
+                        <th className="border-bottom text-start ps-5 py-3" style={{ minWidth: '200px', width: '250px' }}>
                           Sản phẩm
                         </th>
-                        <th
-                          className="border-bottom text-center py-3"
-                          style={{ minWidth: "50px" }}
-                        >
+                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
                           Kích thước
                         </th>
-                        <th
-                          className="border-bottom text-center py-3"
-                          style={{ minWidth: "50px" }}
-                        >
+                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
                           Màu
                         </th>
-                        <th
-                          className="border-bottom text-center py-3"
-                          style={{ minWidth: "50px" }}
-                        >
+                        <th className="border-bottom text-center py-3" style={{ minWidth: '50px' }}>
                           Giá(VND)
                         </th>
-                        <th
-                          className="border-bottom text-center py-3"
-                          style={{ minWidth: "100px" }}
-                        >
+                        <th className="border-bottom text-center py-3" style={{ minWidth: '100px' }}>
                           Số lượng
                         </th>
-                        <th
-                          className="border-bottom text-end py-3 pe-4"
-                          style={{ minWidth: "100px" }}
-                        >
+                        <th className="border-bottom text-end py-3 pe-4" style={{ minWidth: '100px' }}>
                           Tổng (VND)
                         </th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {carts?.map((cart) => {
+                      {carts?.map(cart => {
                         return <Cart key={cart.id} cart={cart} />;
                       })}
                     </tbody>
@@ -172,14 +148,7 @@ export default function Carts({}: Props) {
                           <tr>
                             <td className="h6 ps-4 py-3">Tổng </td>
                             <td className="text-end fw-bold pe-4">
-                              {numberWithCommas(
-                                carts.reduce(
-                                  (totalSum, a) =>
-                                    totalSum + a.quantity * a.price,
-                                  0
-                                )
-                              )}{" "}
-                              VND
+                              {numberWithCommas(carts.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0))} VND
                             </td>
                           </tr>
 
@@ -200,11 +169,7 @@ export default function Carts({}: Props) {
                       </table>
                     </div>
                     <div className="mt-3  text-end">
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleProceed}
-                        disabled={haveUnpublish}
-                      >
+                      <button className="btn btn-primary" onClick={handleProceed} disabled={haveUnpublish}>
                         Tiến hành thanh toán
                       </button>
                     </div>
@@ -227,26 +192,16 @@ export default function Carts({}: Props) {
                 <div className="card-body">
                   <div className="row mb-3">
                     <label htmlFor="basic-icon-default-fullname" className="h4">
-                      Bạn cần phải đăng nhập để có thể thanh toán, bạn có đồng ý
-                      không?
+                      Bạn cần phải đăng nhập để có thể thanh toán, bạn có đồng ý không?
                     </label>
                   </div>
 
                   <div className="d-flex justify-content-center">
                     <div className="col-sm-10 d-flex justify-content-around">
-                      <button
-                        className="btn btn-primary"
-                        color="primary"
-                        onClick={() => router.push("/login")}
-                      >
+                      <button className="btn btn-primary" color="primary" onClick={() => router.push('/login')}>
                         Đồng ý
                       </button>
-                      <button
-                        className="btn btn-secondary"
-                        onClick={handleCloseDialog}
-                        autoFocus
-                        type="button"
-                      >
+                      <button className="btn btn-secondary" onClick={handleCloseDialog} autoFocus type="button">
                         Không
                       </button>
                     </div>
