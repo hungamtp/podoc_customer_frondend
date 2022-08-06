@@ -21,24 +21,6 @@ export default function Footer({}: Props) {
               <div className="row">
                 <div className="col-lg-3 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
                   <p className="mt-4">PODOC sẽ mang đến cho bạn một trải nghiệm tốt nhất.</p>
-                  <ul className="list-unstyled social-icon foot-social-icon mb-0 mt-4">
-                    <li className="list-inline-item">
-                      <a href=" " className="rounded">
-                        <HeaerIcon />
-                      </a>
-                    </li>
-                    <li className="list-inline-item">
-                      <a href=" " className="rounded">
-                        <EyeIcon />
-                      </a>
-                    </li>
-
-                    <li className="list-inline-item">
-                      <a href=" " className="rounded">
-                        <CartIcon />
-                      </a>
-                    </li>
-                  </ul>
                 </div>
 
                 <div className="col-lg-6">
