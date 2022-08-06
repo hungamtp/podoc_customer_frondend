@@ -52,8 +52,8 @@ export default function RawProducts(props: IProductProps) {
         <section
           className="bg-half-170 bg-light d-table w-100"
           style={{
-            background: "url('/asset/images/banner/banner.jpg') no-repeat center center fixed ",
-            marginTop: '70px',
+            background: "url('/asset/images/banner/banner_final.jpg') no-repeat center center fixed",
+            marginTop: '30px',
           }}
         >
           <div className="container">
