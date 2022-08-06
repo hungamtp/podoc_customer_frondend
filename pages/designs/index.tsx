@@ -250,7 +250,7 @@ export default function DesignedProducts(props: IProductProps) {
                       );
                     })}
 
-                    {response?.page > 1 && (
+                    {Math.ceil(response?.elements / filter.pageSize) > 1 && (
                       <div className="d-flex justify-content-center">
                         <PaginationComponent
                           total={totalPages}
