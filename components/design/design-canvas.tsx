@@ -558,7 +558,6 @@ export default function DesignCanvas({ openPreview, setIsEdit }: IDesignCanvasPr
                 canvas.requestRenderAll();
               })
               .catch(function (e) {
-                console.log(e);
                 alert('font loading failed ' + fontName);
               });
           }

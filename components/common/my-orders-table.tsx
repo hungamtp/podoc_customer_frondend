@@ -1,19 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import { Account, MainLayout } from "@/components/layouts";
-import useDeleteOrder from "@/hooks/api/order/use-delete-order";
-import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
-import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
-import { Filter } from "@/services/order";
-import {
-  GetAllMyOrdersDto,
-  MyOrdersDto,
-  OrderDetailDto,
-} from "@/services/order/dto";
-import { nanoid } from "@reduxjs/toolkit";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import PaginationComponent from "./mui-pagination";
+import { Account, MainLayout } from '@/components/layouts';
+import useDeleteOrder from '@/hooks/api/order/use-delete-order';
+import useGetOrderDetailByOrderId from '@/hooks/api/order/use-get-order-detail-by-orderId';
+import usePayUnpaidOrder from '@/hooks/api/order/use-pay-unpaid-order';
+import { Filter } from '@/services/order';
+import { GetAllMyOrdersDto, MyOrdersDto, OrderDetailDto } from '@/services/order/dto';
+import { nanoid } from '@reduxjs/toolkit';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import PaginationComponent from './mui-pagination';
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -22,12 +18,7 @@ type Props = {
   filter: Filter;
 };
 
-export default function MyOrdersTable({
-  myOrdersResponse,
-  isLoading,
-  filter,
-  setFilter,
-}: Props) {
+export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, setFilter }: Props) {
   const { mutate: payOrder } = usePayUnpaidOrder();
   const { mutate: getOrderDetail } = useGetOrderDetailByOrderId();
   const { mutate: deleteOrder } = useDeleteOrder();
@@ -198,22 +189,14 @@ export default function MyOrdersTable({
                 <tbody>
                   {!isLoading &&
                     myOrdersResponse &&
-                    myOrdersResponse.data.map((orders) => (
-                      <tr
-                        key={orders.orderId}
-                        data-toggle="tooltip"
-                        data-placement="top"
-                      >
+                    myOrdersResponse.data.map(orders => (
+                      <tr key={orders.orderId} data-toggle="tooltip" data-placement="top">
                         <td className="align-middle">
                           <div>
                             {orders.orderDetailDtos
                               .filter((orderDetail, index) => index <= 1)
                               .map((orderDetail, insideIndex, newList) => {
-                                if (
-                                  newList.length <
-                                    orders.orderDetailDtos.length &&
-                                  insideIndex === newList.length - 1
-                                )
+                                if (newList.length < orders.orderDetailDtos.length && insideIndex === newList.length - 1)
                                   return (
                                     <>
                                       <div className="mt-2">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
@@ -221,17 +204,15 @@ export default function MyOrdersTable({
                                         className="mt-2 ms-5 text-secondary btn btn-link text-secondary"
                                         onClick={() => {
                                           getOrderDetail(orders.orderId, {
-                                            onSuccess: (data) => {
+                                            onSuccess: data => {
                                               setOrderDetailData(data);
                                               setIsShowOrderDetail(true);
-                                              setSelectedOrderId(
-                                                orders.orderId
-                                              );
+                                              setSelectedOrderId(orders.orderId);
                                             },
                                           });
                                         }}
                                       >
-                                        xem thêm...{" "}
+                                        xem thêm...{' '}
                                       </div>
                                     </>
                                   );
@@ -307,7 +288,9 @@ export default function MyOrdersTable({
                               });
                             }}
                           >
-                            <p className="m-0">Chi tiết</p>
+                            <p className="m-0">
+                              Xem<i className="uil uil-arrow-right"></i>
+                            </p>
                           </button>
                         </td>
                       </tr>
@@ -317,16 +300,11 @@ export default function MyOrdersTable({
             </div>
           )}
           <div className="row">
-            {Math.ceil(myOrdersResponse.elements / filter.pageSize) <= 1 ||
-            isShowOrderDetail ? (
+            {Math.ceil(myOrdersResponse.elements / filter.pageSize) <= 1 || isShowOrderDetail ? (
               <></>
             ) : (
               <div className="d-flex justify-content-center">
-                <PaginationComponent
-                  total={Math.ceil(myOrdersResponse.elements / filter.pageSize)}
-                  filter={filter}
-                  setFilter={setFilter}
-                />
+                <PaginationComponent total={Math.ceil(myOrdersResponse.elements / filter.pageSize)} filter={filter} setFilter={setFilter} />
               </div>
             )}
           </div>
