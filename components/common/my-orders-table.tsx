@@ -243,7 +243,7 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                               aria-haspopup="true"
                               aria-expanded="false"
                             >
-                              <i className="bi bi-credit-card text-success me-2"></i>
+                              <i className="bi bi-credit-card me-2"></i>
                               <p className="m-0">Thanh toán</p>
                             </button>
 
@@ -289,7 +289,8 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                             }}
                           >
                             <p className="m-0">
-                              Xem<i className="uil uil-arrow-right"></i>
+                              Chi tiết
+                              <i className="uil uil-arrow-right"></i>
                             </p>
                           </button>
                         </td>
