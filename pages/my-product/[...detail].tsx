@@ -1,18 +1,18 @@
-import { useAppDispatch } from "@/components/hooks/reduxHook";
-import { MainLayout } from "@/components/layouts";
-import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
-import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
-import { setHeaderInfo } from "@/redux/slices/headerInfo";
-import { EditDesignedProduct } from "@/services/design/dto";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Dialog, DialogContent } from "@material-ui/core";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
+import { useAppDispatch } from '@/components/hooks/reduxHook';
+import { MainLayout } from '@/components/layouts';
+import useEditDesignedProduct from '@/hooks/api/design/use-edit-desinged-product';
+import useGetDesignById from '@/hooks/api/design/use-get-design-by-id';
+import { setHeaderInfo } from '@/redux/slices/headerInfo';
+import { EditDesignedProduct } from '@/services/design/dto';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Dialog, DialogContent } from '@material-ui/core';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 export interface MyDesignDetailProps {}
 
@@ -26,26 +26,21 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const router = useRouter();
 
   const { detail } = router.query;
-  const { data: response, isLoading: isLoadingDesign } = useGetDesignById(
-    detail as string
-  );
+  const { data: response, isLoading: isLoadingDesign } = useGetDesignById(detail as string);
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(5, "Tên thiết kế cần ít nhất 5 kí tự")
-      .max(50, "Tên thiết kế tối đa 50 kí tự")
-      .required("Tên thiết kế không được để trống"),
-    designedPrice: yup
-      .number()
-      .min(0, "Giá thiết kế tối thiểu 0 đồng")
-      .required("Giá của mẫu thiết kế không được để trống"),
+      .min(5, 'Tên thiết kế cần ít nhất 5 kí tự')
+      .max(50, 'Tên thiết kế tối đa 50 kí tự')
+      .required('Tên thiết kế không được để trống'),
+    designedPrice: yup.number().min(0, 'Giá thiết kế tối thiểu 0 đồng').required('Giá của mẫu thiết kế không được để trống'),
     description: yup
       .string()
-      .min(5, "Tên thiết kế cần ít nhất  kí tự")
-      .max(255, "Description tối đa 255 kí tự")
-      .required("Thông tin mô tả không được để trống"),
+      .min(5, 'Tên thiết kế cần ít nhất  kí tự')
+      .max(255, 'Description tối đa 255 kí tự')
+      .required('Thông tin mô tả không được để trống'),
   });
-  const [renderedPosition, setRenderPosition] = useState("front");
+  const [renderedPosition, setRenderPosition] = useState('front');
   const [imageWithPosition, setImageWithPosition] = useState<
     {
       position: string;
@@ -53,12 +48,12 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
       color: string;
     }[]
   >([]);
-  const [renderedColor, setRenderColor] = useState("");
+  const [renderedColor, setRenderColor] = useState('');
   const form = useForm<DesignProductInfo>({
     defaultValues: {
       designedPrice: 10000,
-      description: "",
-      name: "",
+      description: '',
+      name: '',
     },
     resolver: yupResolver(schema),
   });
@@ -92,15 +87,11 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const handleConfirm = () => {
     setIsLoading(true);
   };
-  const {
-    mutate: editDesignProduct,
-    error,
-    isLoading: isLoadingSubmit,
-  } = useEditDesignedProduct(handleCloseDialog);
-  const designedPrice = watch("designedPrice", 10000);
-  const submit: SubmitHandler<DesignProductInfo> = (data) => {
+  const { mutate: editDesignProduct, error, isLoading: isLoadingSubmit } = useEditDesignedProduct(handleCloseDialog);
+  const designedPrice = watch('designedPrice', 10000);
+  const submit: SubmitHandler<DesignProductInfo> = data => {
     if (response) {
-      const colorsList = response.colorsObj.map((color) => color.image);
+      const colorsList = response.colorsObj.map(color => color.image);
       const submitData = {
         designedProductId: response.id,
         designedPrice: data.designedPrice,
@@ -112,15 +103,13 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
       } as EditDesignedProduct;
       setIsLoading(true);
       editDesignProduct(submitData, {
-        onSuccess: (data) => {
+        onSuccess: data => {
           //because data:any
           setIsLoading(false);
           setIsEdit(false);
           handleCloseDialog();
         },
-        onError: (error: any) => {
-          console.log(error, "edit error");
-        },
+        onError: (error: any) => {},
       });
     }
   };
@@ -133,12 +122,10 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   React.useEffect(() => {
     if (response) {
       if (renderedColor) {
-        const tmpList = response.imagePreviews.filter(
-          (image) => image.color === renderedColor
-        );
+        const tmpList = response.imagePreviews.filter(image => image.color === renderedColor);
         let submitImageList = [];
-        const front = tmpList.filter((image) => image.position === "front")[0];
-        const back = tmpList.filter((image) => image.position === "back")[0];
+        const front = tmpList.filter(image => image.position === 'front')[0];
+        const back = tmpList.filter(image => image.position === 'back')[0];
         submitImageList = [front, back];
         setImageWithPosition(submitImageList);
       }
@@ -158,9 +145,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                       <div className="invoice-top pb-4 border-bottom">
                         <div className="row">
                           <div className="col-md-8">
-                            <div className="logo-invoice mb-2">
-                              Hình ảnh thiết kế
-                            </div>
+                            <div className="logo-invoice mb-2">Hình ảnh thiết kế</div>
                           </div>
                         </div>
                       </div>
@@ -168,7 +153,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                         <div className="row mb-0">
                           <div className="col-md-5 d-flex flex-column justify-content-center align-items-center">
                             <>
-                              {response.imagePreviews.map((preview) => {
+                              {response.imagePreviews.map(preview => {
                                 if (preview.position === renderedPosition) {
                                   if (preview.color === renderedColor)
                                     return (
@@ -193,9 +178,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     })
                                   );
 
-                                  router.push(
-                                    `/my-product/edit-design?designId=${detail}&designName=${response.name}`
-                                  );
+                                  router.push(`/my-product/edit-design?designId=${detail}&designName=${response.name}`);
                                 }}
                                 className="btn btn-link text-success"
                               >
@@ -208,15 +191,13 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <p className="h4">Chọn mặt áo</p>
                               <div className="mt-4">
                                 <div className="mb-0 d-flex justify-content-between ">
-                                  {imageWithPosition.map((imagePreview) => (
+                                  {imageWithPosition.map(imagePreview => (
                                     <>
                                       <div
                                         key={imagePreview.position}
                                         className="cursor-pointer"
                                         onClick={() => {
-                                          setRenderPosition(
-                                            imagePreview.position
-                                          );
+                                          setRenderPosition(imagePreview.position);
                                         }}
                                       >
                                         <Image
@@ -229,10 +210,8 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                         />
 
                                         <p className="text-center position-relative bottom-2 bottom-line">
-                                          {imagePreview.position === "front" &&
-                                            "Trước"}
-                                          {imagePreview.position === "back" &&
-                                            "Sau"}
+                                          {imagePreview.position === 'front' && 'Trước'}
+                                          {imagePreview.position === 'back' && 'Sau'}
                                         </p>
                                       </div>
                                     </>
@@ -244,44 +223,34 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <p className="h4">Chọn màu áo</p>
                               <div className="mt-4">
                                 <div className=" mb-0 d-flex justify-content-between ms-4 p-4 w-50">
-                                  {response.imagePreviews.map(
-                                    (imagePreview) => {
-                                      if (
-                                        imagePreview.position ===
-                                        renderedPosition
-                                      )
-                                        return (
-                                          <>
-                                            <div
+                                  {response.imagePreviews.map(imagePreview => {
+                                    if (imagePreview.position === renderedPosition)
+                                      return (
+                                        <>
+                                          <div
+                                            key={imagePreview.color}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                              setRenderColor(imagePreview.color);
+                                            }}
+                                          >
+                                            <Image
+                                              className="rounded-circle border"
+                                              width={50}
+                                              height={50}
+                                              objectFit="cover"
                                               key={imagePreview.color}
-                                              className="cursor-pointer"
-                                              onClick={() => {
-                                                setRenderColor(
-                                                  imagePreview.color
-                                                );
+                                              src={'https://images.printify.com/5853fec7ce46f30f8328200a'}
+                                              style={{
+                                                backgroundColor: imagePreview.color,
+                                                opacity: '0.8',
                                               }}
-                                            >
-                                              <Image
-                                                className="rounded-circle border"
-                                                width={50}
-                                                height={50}
-                                                objectFit="cover"
-                                                key={imagePreview.color}
-                                                src={
-                                                  "https://images.printify.com/5853fec7ce46f30f8328200a"
-                                                }
-                                                style={{
-                                                  backgroundColor:
-                                                    imagePreview.color,
-                                                  opacity: "0.8",
-                                                }}
-                                                alt={imagePreview.color}
-                                              />
-                                            </div>
-                                          </>
-                                        );
-                                    }
-                                  )}
+                                              alt={imagePreview.color}
+                                            />
+                                          </div>
+                                        </>
+                                      );
+                                  })}
                                 </div>
                               </div>
                             </div>
@@ -310,54 +279,28 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                             {/*end col*/}
                             <div className="col-md-12">
                               <div className="mb-3">
-                                <label className="form-label">
-                                  Tên sản phẩm
-                                </label>
+                                <label className="form-label">Tên sản phẩm</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
-                                  <input
-                                    id="subject"
-                                    className="form-control ps-5"
-                                    {...register("name")}
-                                    disabled={!isEdit}
-                                  />
+                                  <i data-feather="book" className="fea icon-sm icons" />
+                                  <input id="subject" className="form-control ps-5" {...register('name')} disabled={!isEdit} />
                                 </div>
                               </div>
                             </div>
                             <div className="col-md-6">
                               <div className="mb-3">
-                                <label className="form-label">
-                                  Giá thiết kế
-                                </label>
+                                <label className="form-label">Giá thiết kế</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
-                                  <input
-                                    id="subject"
-                                    className="form-control ps-5"
-                                    {...register("designedPrice")}
-                                    disabled={!isEdit}
-                                  />
+                                  <i data-feather="book" className="fea icon-sm icons" />
+                                  <input id="subject" className="form-control ps-5" {...register('designedPrice')} disabled={!isEdit} />
                                 </div>
                               </div>
                             </div>
                             <div className="col-md-3">
                               <div className="mb-3">
-                                <label className="form-label">
-                                  Giá từ nhà sản xuất
-                                </label>
+                                <label className="form-label">Giá từ nhà sản xuất</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
-                                  {numberWithCommas(response.priceFromFactory)}{" "}
-                                  VND
+                                  <i data-feather="book" className="fea icon-sm icons" />
+                                  {numberWithCommas(response.priceFromFactory)} VND
                                 </div>
                               </div>
                             </div>
@@ -365,15 +308,8 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <div className="mb-3">
                                 <label className="form-label">Tổng giá</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
-                                  {numberWithCommas(
-                                    Number(designedPrice) +
-                                      response.priceFromFactory
-                                  )}{" "}
-                                  VND
+                                  <i data-feather="book" className="fea icon-sm icons" />
+                                  {numberWithCommas(Number(designedPrice) + response.priceFromFactory)} VND
                                 </div>
                               </div>
                             </div>
@@ -382,15 +318,12 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <div className="mb-3">
                                 <label className="form-label">Mô tả</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="message-circle"
-                                    className="fea icon-sm icons"
-                                  />
+                                  <i data-feather="message-circle" className="fea icon-sm icons" />
                                   <textarea
                                     id="comments"
                                     rows={4}
                                     className="form-control ps-5"
-                                    {...register("description")}
+                                    {...register('description')}
                                     disabled={!isEdit}
                                   />
                                 </div>
@@ -412,36 +345,20 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                 <div className="card mb-4">
                                   <div className="card-body">
                                     <div className="row mb-3">
-                                      <label
-                                        htmlFor="basic-icon-default-fullname"
-                                        className="h4"
-                                      >
+                                      <label htmlFor="basic-icon-default-fullname" className="h4">
                                         Bạn muốn lại thông tin thay đổi?
                                       </label>
                                     </div>
 
                                     <div className="d-flex justify-content-center">
                                       <div className="col-sm-10 d-flex justify-content-around">
-                                        <button
-                                          className="btn btn-primary"
-                                          color="primary"
-                                          onClick={handleSubmit(submit)}
-                                        >
+                                        <button className="btn btn-primary" color="primary" onClick={handleSubmit(submit)}>
                                           {(isLoading || isLoadingSubmit) && (
-                                            <span
-                                              className="spinner-border spinner-border-sm"
-                                              role="status"
-                                              aria-hidden="true"
-                                            />
+                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
                                           )}
                                           Xác nhận
                                         </button>
-                                        <button
-                                          className="btn btn-secondary"
-                                          onClick={handleCloseDialog}
-                                          autoFocus
-                                          type="button"
-                                        >
+                                        <button className="btn btn-secondary" onClick={handleCloseDialog} autoFocus type="button">
                                           Hủy
                                         </button>
                                       </div>
@@ -457,24 +374,15 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                           <div className="col-sm-12">
                             {isEdit ? (
                               <div className="d-flex justify-content-between w-25">
-                                <button
-                                  className="btn btn-success w-50 me-4"
-                                  onClick={() => handleOpenDialog()}
-                                >
+                                <button className="btn btn-success w-50 me-4" onClick={() => handleOpenDialog()}>
                                   Lưu
                                 </button>
-                                <button
-                                  className="btn btn-secondary w-50"
-                                  onClick={() => setIsEdit(false)}
-                                >
+                                <button className="btn btn-secondary w-50" onClick={() => setIsEdit(false)}>
                                   Hủy
                                 </button>
                               </div>
                             ) : (
-                              <button
-                                className="btn btn-primary"
-                                onClick={() => setIsEdit(true)}
-                              >
+                              <button className="btn btn-primary" onClick={() => setIsEdit(true)}>
                                 Chỉnh sửa
                               </button>
                             )}

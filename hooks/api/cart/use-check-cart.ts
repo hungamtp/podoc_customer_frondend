@@ -12,10 +12,6 @@ const useCheckCart = () => {
   return useMutation(
     async (cart: CartDetailDTO[]) => {
       return await checkQuantityBefore(cart);
-    },
-    {
-      onSuccess: (data) => {},
-      onError: (error: AxiosError<ErrorHttpResponse>) => {},
     }
   );
 };

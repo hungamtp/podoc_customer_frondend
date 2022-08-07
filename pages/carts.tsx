@@ -43,11 +43,12 @@ export default function Carts({}: Props) {
     if (auth.isAuth)
       checkCart(carts, {
         onSuccess: data => {
-          dispatch(setCartNotEnough([data]));
+          dispatch(setCartNotEnough([]));
           router.push('/checkout');
         },
         onError: data => {
-          dispatch(setCartNotEnough(data));
+          console.log(data, 'asd');
+          dispatch(setCartNotEnough([]));
         },
       });
     else {

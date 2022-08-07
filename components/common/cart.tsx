@@ -1,31 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import useDeleteCartDetail from "@/hooks/api/cart/use-delete-cartdetail";
-import useUpdateCart from "@/hooks/api/cart/use-update-cart";
-import {
-  deleteCartDetail,
-  updateQuantityCartDetail,
-} from "@/redux/slices/cart";
-import { CartDetailDTO } from "@/services/type.dto";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
+import { deleteCartDetail, updateQuantityCartDetail } from '@/redux/slices/cart';
+import { CartDetailDTO } from '@/services/type.dto';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import { useState } from 'react';
 type Props = {
   cart: CartDetailDTO;
 };
 export default function Cart({ cart }: Props) {
   const dispatch = useAppDispatch();
-  const {
-    mutate: deleteCartDetailApi,
-    isLoading,
-    error,
-  } = useDeleteCartDetail();
+  const { mutate: deleteCartDetailApi, isLoading, error } = useDeleteCartDetail();
   const { mutate: updateCart } = useUpdateCart();
-  const carts = useAppSelector((state) => state.carts);
-  const productDontHaveEnoughQuatity = useAppSelector(
-    (state) => state.checkCartSlice
-  );
-  console.log(productDontHaveEnoughQuatity, "productDontHaveEnoughQuatity");
+  const carts = useAppSelector(state => state.carts);
+  const productDontHaveEnoughQuatity = useAppSelector(state => state.checkCartSlice);
+  console.log(productDontHaveEnoughQuatity, 'productDontHaveEnoughQuatity');
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
@@ -35,7 +26,7 @@ export default function Cart({ cart }: Props) {
     dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
     setQuantity(newQuantity);
     const newCart: CartDetailDTO[] = [];
-    carts.forEach((cartDetail) => {
+    carts.forEach(cartDetail => {
       if (cartDetail.id != cart.id) {
         newCart.push(cartDetail);
       }
@@ -48,22 +39,12 @@ export default function Cart({ cart }: Props) {
 
   return (
     <tr className="shop-list">
-      <td
-        className="h6 text-center cursor-pointer"
-        onClick={handleDeleteCartDetail}
-      >
+      <td className="h6 text-center cursor-pointer" onClick={handleDeleteCartDetail}>
         <i className="bi bi-trash"></i>
       </td>
       <td>
         <div className="d-flex align-items-center ">
-          <Image
-            src={cart.designedImage}
-            className="img-fluid"
-            width={1000}
-            height={1000}
-            objectFit="cover"
-            alt="productImage"
-          />
+          <Image src={cart.designedImage} className="img-fluid" width={1000} height={1000} objectFit="cover" alt="productImage" />
 
           <h6 className="mb-0 ms-3">{cart.designedProductName}</h6>
         </div>
@@ -74,9 +55,7 @@ export default function Cart({ cart }: Props) {
       <td className="qty-icons">
         <div className="d-flex justify-content-center">
           <button
-            className={`btn btn-icon btn-soft-primary minus ${
-              quantity == 1 && "disabled"
-            } ${!cart.publish && " disabled"}`}
+            className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'} ${!cart.publish && ' disabled'}`}
             onClick={() => updateQuantityCart(quantity - 1)}
           >
             -
@@ -90,33 +69,21 @@ export default function Cart({ cart }: Props) {
             onChange={(e: any) => updateQuantityCart(e.target.value)}
           />
           <button
-            className={`btn btn-icon btn-soft-primary plus ${
-              !cart.publish && " disabled"
-            }`}
+            className={`btn btn-icon btn-soft-primary plus ${!cart.publish && ' disabled'}`}
             onClick={() => updateQuantityCart(quantity + 1)}
           >
             +
           </button>
         </div>
         <div>
-          {productDontHaveEnoughQuatity.filter(
-            (product) => product.id === cart.id
-          ).length > 0 &&
-            `This product have ${
-              productDontHaveEnoughQuatity.filter(
-                (product) => product.id === cart.id
-              )[0].quantityAvailable
-            } left`}
+          {productDontHaveEnoughQuatity.filter(product => product.id === cart.id).length > 0 &&
+            `This product have ${productDontHaveEnoughQuatity.filter(product => product.id === cart.id)[0].quantityAvailable} left`}
         </div>
       </td>
       {cart.publish ? (
-        <td className="text-end fw-bold pe-4">
-          {numberWithCommas(cart.price * cart.quantity)}
-        </td>
+        <td className="text-end fw-bold pe-4">{numberWithCommas(cart.price * cart.quantity)}</td>
       ) : (
-        <td style={{ width: "100px", color: "red" }}>
-          Sản phẩm ngừng kinh doanh
-        </td>
+        <td style={{ width: '100px', color: 'red' }}>Sản phẩm ngừng kinh doanh</td>
       )}
     </tr>
   );

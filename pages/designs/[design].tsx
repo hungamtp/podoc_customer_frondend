@@ -1,30 +1,24 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import UserRating from "@/components/common/rating";
-import ShowRating from "@/components/common/show-rating";
-import ImageCarousel from "@/components/designed-products/imageCarousel";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { PageWithHero } from "@/components/layouts/page-with-hero";
-import useAddToCart from "@/hooks/api/cart/use-add-to-cart";
-import useUpdateCart from "@/hooks/api/cart/use-update-cart";
-import useGetOthersDesignById from "@/hooks/api/design/use-get-other-designs-by-designId";
-import {
-  updateQuantityCartDetail,
-  addNewCartDetail,
-  setCart as setCartRedux,
-} from "@/redux/slices/cart";
-import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
-import { Rating } from "@mui/material";
-import { nanoid } from "@reduxjs/toolkit";
-import { numberWithCommas } from "helper/number-util";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { string } from "yup";
+import UserRating from '@/components/common/rating';
+import ShowRating from '@/components/common/show-rating';
+import ImageCarousel from '@/components/designed-products/imageCarousel';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { PageWithHero } from '@/components/layouts/page-with-hero';
+import useAddToCart from '@/hooks/api/cart/use-add-to-cart';
+import useUpdateCart from '@/hooks/api/cart/use-update-cart';
+import useGetOthersDesignById from '@/hooks/api/design/use-get-other-designs-by-designId';
+import { updateQuantityCartDetail, addNewCartDetail, setCart as setCartRedux } from '@/redux/slices/cart';
+import { AddToCartDTO, CartDetailDTO } from '@/services/type.dto';
+import { Rating } from '@mui/material';
+import { nanoid } from '@reduxjs/toolkit';
+import { numberWithCommas } from 'helper/number-util';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { string } from 'yup';
 
-const quickSort = (
-  arr: { size: string; dignity: number; color: string }[]
-): { size: string; dignity: number; color: string }[] => {
+const quickSort = (arr: { size: string; dignity: number; color: string }[]): { size: string; dignity: number; color: string }[] => {
   if (arr.length < 2) return arr;
 
   // *** lấy phần tử cuối của 'arr' làm 'pivot'
@@ -88,27 +82,17 @@ export default function DesignedProductDetail() {
 
   const { data: designedProduct, isLoading: isLoading } = useGetOthersDesignById(design);
 
-  const {
-    mutate: addToCart,
-    data: cartDetailFromAPI,
-    isLoading: isLoadingAddNewCartDetail,
-    error,
-  } = useAddToCart();
+  const { mutate: addToCart, data: cartDetailFromAPI, isLoading: isLoadingAddNewCartDetail, error } = useAddToCart();
 
   const carts = useAppSelector(state => state.carts);
   const [cart, setCart] = React.useState<CartDetailDTO>();
 
-  const [selectedSize, setSelectedSize] = React.useState<string>("");
-  const [selectedColor, setSelectedColor] = React.useState<string>("");
-  const [selectedColorImage, setSelectedColorImage] =
-    React.useState<string>("");
-  const [selectedColorSize, setSelectedColorSize] = React.useState<string>("");
-  const [renderedImagesList, setRenderedImagesList] = React.useState<
-    { color: string; image: string; position: string }[]
-  >([]);
-  const [sizeList, setSizeList] = React.useState<
-    { color: string; size: string }[]
-  >([]);
+  const [selectedSize, setSelectedSize] = React.useState<string>('');
+  const [selectedColor, setSelectedColor] = React.useState<string>('');
+  const [selectedColorImage, setSelectedColorImage] = React.useState<string>('');
+  const [selectedColorSize, setSelectedColorSize] = React.useState<string>('');
+  const [renderedImagesList, setRenderedImagesList] = React.useState<{ color: string; image: string; position: string }[]>([]);
+  const [sizeList, setSizeList] = React.useState<{ color: string; size: string }[]>([]);
   const [colorList, setColorList] = React.useState<string[]>([]);
   const [isError, setIsError] = React.useState<boolean>(false);
 
@@ -118,22 +102,18 @@ export default function DesignedProductDetail() {
       if (!!colorsAndSizeList) {
         const tmpColorsList = Object.getOwnPropertyNames(colorsAndSizeList);
         setColorList(tmpColorsList);
-        setSelectedColorImage(tmpColorsList[0].split("-")[1]);
+        setSelectedColorImage(tmpColorsList[0].split('-')[1]);
       }
     }
   }, [designedProduct]);
 
   React.useEffect(() => {
     if (designedProduct && selectedColorImage) {
-      console.log(designedProduct.imagePreviews, "imageList");
-      const filterColorImages = designedProduct.imagePreviews.filter(
-        (image) => image.color === selectedColorImage
-      );
-      console.log(filterColorImages, "filterColorImages");
+      const filterColorImages = designedProduct.imagePreviews.filter(image => image.color === selectedColorImage);
 
       if (filterColorImages.length > 0) {
         for (let index = 0; index < filterColorImages.length; index++) {
-          if (filterColorImages[index].position === "front") {
+          if (filterColorImages[index].position === 'front') {
             const tmp = filterColorImages[0];
             filterColorImages[0] = filterColorImages[index];
             filterColorImages[index] = tmp;
@@ -205,7 +185,6 @@ export default function DesignedProductDetail() {
     };
     if (auth.isAuth) addToCart(newCartDetail);
     else {
-      console.log(renderedImagesList[0], "image colorr");
       const reduxCartDetail = {
         id: nanoid(),
         cartId: nanoid(),
@@ -225,10 +204,7 @@ export default function DesignedProductDetail() {
   const updateCartDetailQuantity = (newQuantity: number) => {
     if (cart) {
       const newCart: CartDetailDTO[] = [];
-      console.log(newQuantity, 'newQuantity');
-      console.log(cart.quantity, 'newQuantity');
       const updatedQuantity = newQuantity + cart.quantity;
-      console.log(updatedQuantity, 'newQuantity');
       carts.forEach(cartDetail => {
         if (cartDetail.id != cart.id) {
           newCart.push(cartDetail);
@@ -259,10 +235,7 @@ export default function DesignedProductDetail() {
                   <div className="row align-items-center">
                     <div className="col-md-5">
                       {renderedImagesList && renderedImagesList.length > 0 && (
-                        <ImageCarousel
-                          key={nanoid()}
-                          renderedImagesList={renderedImagesList}
-                        />
+                        <ImageCarousel key={nanoid()} renderedImagesList={renderedImagesList} />
                       )}
                     </div>
                     <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
@@ -301,10 +274,8 @@ export default function DesignedProductDetail() {
                                         className={` ${color.split('-')[0] === selectedColor && 'border-blue'}`}
                                         onClick={() => {
                                           setSelectedColorSize(color);
-                                          setSelectedColor(color.split("-")[0]);
-                                          setSelectedColorImage(
-                                            color.split("-")[1]
-                                          );
+                                          setSelectedColor(color.split('-')[0]);
+                                          setSelectedColorImage(color.split('-')[1]);
                                           setIsError(false);
                                         }}
                                       >
@@ -324,11 +295,7 @@ export default function DesignedProductDetail() {
                                   ))}
                                 </ul>
                               </div>
-                              {isError && !selectedColor && (
-                                <p className="text-warning">
-                                  Vui lòng chọn màu áo
-                                </p>
-                              )}
+                              {isError && !selectedColor && <p className="text-warning">Vui lòng chọn màu áo</p>}
                               {sizeList.length > 0 && (
                                 <div className="d-flex align-items-center pt-4">
                                   <h6 className="mb-0">Size:</h6>
@@ -349,11 +316,7 @@ export default function DesignedProductDetail() {
                                   </ul>
                                 </div>
                               )}
-                              {isError && !selectedSize && selectedColor && (
-                                <p className="text-warning">
-                                  Vui lòng chọn size áo
-                                </p>
-                              )}
+                              {isError && !selectedSize && selectedColor && <p className="text-warning">Vui lòng chọn size áo</p>}
                             </div>
                             {/*end col*/}
                             <div className="col-lg-6 col-12 mt-4 mt-lg-0">
@@ -373,9 +336,7 @@ export default function DesignedProductDetail() {
                                     type="number"
                                     min={1}
                                     value={quantity}
-                                    onChange={(e: any) =>
-                                      setQuantity(Number(e.target.value))
-                                    }
+                                    onChange={(e: any) => setQuantity(Number(e.target.value))}
                                     className="input-quantity mt-0"
                                   />
                                   <button

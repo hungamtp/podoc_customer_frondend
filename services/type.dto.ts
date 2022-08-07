@@ -149,6 +149,11 @@ export interface AddToCartDTO {
   quantity: number;
 }
 
+export interface CartQuantity {
+  id: string;
+  quantityAvailable : number;
+}
+
 export interface PaymentResponse {
   requestId: string;
   amount: number;

@@ -1,25 +1,25 @@
 /* eslint-disable @next/next/no-css-tags */
 /* eslint-disable @next/next/no-sync-scripts */
-import { storage } from "@/firebase/firebase";
-import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
-import { Preview } from "@/redux/slices/previews";
-import { EditDesignedProduct } from "@/services/design/dto";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ErrorHttpResponse } from "@/models/error_http_response.interface";
-import { setChoosenKey } from "@/redux/slices/choosenKey";
-import { resetDesigns } from "@/redux/slices/design";
-import { resetControl } from "@/redux/slices/designControl";
-import { clearAllPreview } from "@/redux/slices/previews";
-import { resetColors } from "@/redux/slices/selectedColors";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { b64toBlob } from "helper/files-utils";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import SelectColor from "./select-color";
-import { AxiosError } from "axios";
+import { storage } from '@/firebase/firebase';
+import useEditDesignedProduct from '@/hooks/api/design/use-edit-desinged-product';
+import { Preview } from '@/redux/slices/previews';
+import { EditDesignedProduct } from '@/services/design/dto';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ErrorHttpResponse } from '@/models/error_http_response.interface';
+import { setChoosenKey } from '@/redux/slices/choosenKey';
+import { resetDesigns } from '@/redux/slices/design';
+import { resetControl } from '@/redux/slices/designControl';
+import { clearAllPreview } from '@/redux/slices/previews';
+import { resetColors } from '@/redux/slices/selectedColors';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { b64toBlob } from 'helper/files-utils';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
+import SelectColor from './select-color';
+import { AxiosError } from 'axios';
 
 export interface EditDesignFormProps {
   handleCloseDialog: () => void;
@@ -38,28 +38,25 @@ type FormAddDesignInfo = {
 const schema = yup.object().shape({
   name: yup
     .string()
-    .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
-    .max(26, "Tên thiết kế tối đa 50 kí tự")
-    .required("Tên thiết kế không được để trống"),
-  designedPrice: yup
-    .number()
-    .min(0, "Giá thiết kế tối thiểu 0 đồng")
-    .required("Giá của mẫu thiết kế không được để trống"),
-  description: yup.string().max(100, "Description tối đa 100 kí tự"),
+    .min(1, 'Tên thiết kế cần ít nhất 1 kí tự')
+    .max(26, 'Tên thiết kế tối đa 50 kí tự')
+    .required('Tên thiết kế không được để trống'),
+  designedPrice: yup.number().min(0, 'Giá thiết kế tối thiểu 0 đồng').required('Giá của mẫu thiết kế không được để trống'),
+  description: yup.string().max(100, 'Description tối đa 100 kí tự'),
 });
 
 export default function EditDesignForm(props: EditDesignFormProps) {
   const { handleCloseDialog, loadedColors } = props;
-  const previews = useAppSelector((state) => state.previews);
-  const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
+  const previews = useAppSelector(state => state.previews);
+  const blueprints = useAppSelector(state => state.blueprintsData.blueprints);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { designName } = router.query;
 
   const defaultValues: FormAddDesignInfo = {
-    name: "",
+    name: '',
     designedPrice: 0,
-    description: "",
+    description: '',
   };
   const {
     register,
@@ -70,15 +67,15 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     defaultValues,
     resolver: yupResolver(schema),
   });
-  const selectedColors = useAppSelector((state) => state.selectedColors);
+  const selectedColors = useAppSelector(state => state.selectedColors);
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const designedInfo = useAppSelector((state) => state.designProductInfo);
+  const designedInfo = useAppSelector(state => state.designProductInfo);
 
   const onUploadImage = () => {
     let submitPreviewList: Preview[] = [];
-    previews.forEach((preview) => {
-      selectedColors.forEach((selectedColor) => {
+    previews.forEach(preview => {
+      selectedColors.forEach(selectedColor => {
         if (preview.color === selectedColor) submitPreviewList.push(preview);
       });
     });
@@ -87,25 +84,14 @@ export default function EditDesignForm(props: EditDesignFormProps) {
       position: string;
       color: string;
     }[];
-    submitPreviewList.forEach((image) => {
+    submitPreviewList.forEach(image => {
       const file = b64toBlob(image.imageSrc);
-      const imageRef = ref(
-        storage,
-        `images/${
-          designedInfo.name +
-          "-" +
-          image.position +
-          "-" +
-          image.color +
-          "-" +
-          new Date().getTime()
-        }`
-      );
+      const imageRef = ref(storage, `images/${designedInfo.name + '-' + image.position + '-' + image.color + '-' + new Date().getTime()}`);
 
-      uploadBytes(imageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          const position = url.split("%2F")[1].split("-")[1];
-          const color = url.split("%2F")[1].split("-")[2].split("?")[0];
+      uploadBytes(imageRef, file).then(snapshot => {
+        getDownloadURL(snapshot.ref).then(url => {
+          const position = url.split('%2F')[1].split('-')[1];
+          const color = url.split('%2F')[1].split('-')[2].split('?')[0];
           imageList.push({ image: url, position: position, color: color });
 
           if (imageList.length === submitPreviewList.length) {
@@ -120,13 +106,11 @@ export default function EditDesignForm(props: EditDesignFormProps) {
               bluePrintDtos: blueprints,
             } as EditDesignedProduct;
 
-            console.log(submitData, "submitData");
-
             editDesignProduct(submitData, {
-              onSuccess: (data) => {
+              onSuccess: data => {
                 //because data:any
 
-                dispatch(setChoosenKey(""));
+                dispatch(setChoosenKey(''));
                 dispatch(clearAllPreview());
                 dispatch(resetColors());
                 dispatch(resetControl());
@@ -135,9 +119,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
                 handleCloseDialog();
                 router.back();
               },
-              onError: (error: any) => {
-                console.log(error, "edit error");
-              },
+              onError: (error: any) => {},
             });
           }
         });
@@ -145,11 +127,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     });
   };
 
-  const {
-    mutate: editDesignProduct,
-    error,
-    isLoading: isLoadingSubmit,
-  } = useEditDesignedProduct(handleCloseDialog);
+  const { mutate: editDesignProduct, error, isLoading: isLoadingSubmit } = useEditDesignedProduct(handleCloseDialog);
 
   const handleConfirm = () => {
     setIsLoading(true);
@@ -170,26 +148,11 @@ export default function EditDesignForm(props: EditDesignFormProps) {
 
             <div className="d-flex justify-content-center">
               <div className="col-sm-10 d-flex justify-content-around">
-                <button
-                  className="btn btn-primary"
-                  color="primary"
-                  onClick={() => handleConfirm()}
-                >
-                  {(isLoading || isLoadingSubmit) && (
-                    <span
-                      className="spinner-border spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  )}
+                <button className="btn btn-primary" color="primary" onClick={() => handleConfirm()}>
+                  {(isLoading || isLoadingSubmit) && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
                   Xác nhận
                 </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={handleCloseDialog}
-                  autoFocus
-                  type="button"
-                >
+                <button className="btn btn-secondary" onClick={handleCloseDialog} autoFocus type="button">
                   Hủy
                 </button>
               </div>

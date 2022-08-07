@@ -1,36 +1,33 @@
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
-import { LayoutProps } from "@/models/index";
-import Link from "next/link";
-import * as React from "react";
+import Footer from '@/components/common/footer';
+import Header from '@/components/common/header';
+import { LayoutProps } from '@/models/index';
+import Link from 'next/link';
+import * as React from 'react';
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import UpdateImageSuccess from "@/components/account/update-image-success";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { storage } from "@/firebase/firebase";
-import useGetAccountById from "@/hooks/api/account/use-account-by-id";
-import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
-import { logout } from "@/redux/slices/auth";
-import { setCart } from "@/redux/slices/cart";
-import { Filter } from "@/services/order";
-import { IconButton } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
-import Badge from "@mui/material/Badge";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useRouter } from "next/router";
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import UpdateImageSuccess from '@/components/account/update-image-success';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { storage } from '@/firebase/firebase';
+import useGetAccountById from '@/hooks/api/account/use-account-by-id';
+import useUpdateImageAccount from '@/hooks/api/account/use-update-image';
+import { logout } from '@/redux/slices/auth';
+import { setCart } from '@/redux/slices/cart';
+import { Filter } from '@/services/order';
+import { IconButton } from '@material-ui/core';
+import { PhotoCamera } from '@material-ui/icons';
+import Badge from '@mui/material/Badge';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useRouter } from 'next/router';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
 export interface IAccountProps {}
 
 export function Account({ children }: LayoutProps) {
   const storaged = globalThis?.sessionStorage;
-  const prevPath = storaged.getItem("prevPath");
-  const credentialId = useAppSelector((state) => state.auth.userId);
-  const { data: responseAccount, isLoading: isLoadingAccount } =
-    useGetAccountById(credentialId);
+  const prevPath = storaged.getItem('prevPath');
+  const credentialId = useAppSelector(state => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } = useGetAccountById(credentialId);
   const dispatch = useAppDispatch();
-  const [images, setImages] = React.useState<ImageListType>([
-    { data_url: responseAccount?.data.image },
-  ]);
+  const [images, setImages] = React.useState<ImageListType>([{ data_url: responseAccount?.data.image }]);
 
   const router = useRouter();
   const [filter, setFilter] = React.useState<Filter>({
@@ -38,39 +35,31 @@ export function Account({ children }: LayoutProps) {
     pageSize: 10,
   });
 
-  console.log(router.asPath, "router as path");
-
   const maxNumber = 69;
 
   const [isImageChange, setIsImageChange] = React.useState(false);
 
-  const {
-    mutate: updateAvatarImage,
-    isSuccess,
-    isLoading: isLoadingUpdateImage,
-  } = useUpdateImageAccount();
+  const { mutate: updateAvatarImage, isSuccess, isLoading: isLoadingUpdateImage } = useUpdateImageAccount();
 
   React.useEffect(() => {
     const storage = globalThis?.sessionStorage;
-    const prev = storage.getItem("prevPath");
-    console.log(prev, "prev");
-    if (prev === "/design") {
-      console.log("aduuu");
+    const prev = storage.getItem('prevPath');
+    if (prev === '/design') {
     }
   }, []);
 
   const logoutFunc = () => {
     dispatch(setCart([]));
     dispatch(logout([]));
-    router.push("/");
+    router.push('/');
   };
 
   const onUploadImage = () => {
     if (images !== null) {
       const file = images[0].file;
       const imageRef = ref(storage, `images/${file?.name}`);
-      uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
+      uploadBytes(imageRef, file || new Blob()).then(snapshot => {
+        getDownloadURL(snapshot.ref).then(url => {
           const submitData = {
             id: credentialId,
             image: url,
@@ -97,35 +86,22 @@ export function Account({ children }: LayoutProps) {
             <div className="col-md-3">
               <div className="d-flex align-items-center">
                 {images && (
-                  <ImageUploading
-                    value={images}
-                    onChange={onChange}
-                    maxNumber={maxNumber}
-                    dataURLKey="data_url"
-                  >
-                    {({
-                      imageList,
-                      onImageUpload,
-                      onImageRemoveAll,
-                      onImageUpdate,
-                      onImageRemove,
-                      isDragging,
-                      dragProps,
-                    }) => (
+                  <ImageUploading value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
+                    {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
                       // write your building UI
                       <div className="upload__image-wrapper">
                         <Badge
                           className="avatar rounded-circle"
                           overlap="circular"
                           anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "right",
+                            vertical: 'bottom',
+                            horizontal: 'right',
                           }}
                           badgeContent={
                             <IconButton
                               color="primary"
                               style={{
-                                backgroundColor: "gray",
+                                backgroundColor: 'gray',
                                 opacity: 0.95,
                               }}
                               aria-label="upload picture"
@@ -140,15 +116,10 @@ export function Account({ children }: LayoutProps) {
                           {imageList.map((image, index) => (
                             <img
                               key={index}
-                              src={
-                                image["data_url"] != null
-                                  ? image["data_url"]
-                                  : ""
-                              }
+                              src={image['data_url'] != null ? image['data_url'] : ''}
                               onError={({ currentTarget }) => {
                                 currentTarget.onerror = null; // prevents looping
-                                currentTarget.src =
-                                  "/asset/images/avatardefault_92824.png";
+                                currentTarget.src = '/asset/images/avatardefault_92824.png';
                               }}
                               className="avatar avatar rounded-circle"
                               width={120}
@@ -170,21 +141,13 @@ export function Account({ children }: LayoutProps) {
                 <div className="ms-3">
                   <h6 className="text-muted mb-0">Chào bạn,</h6>
                   <h5 className="mb-0">
-                    {responseAccount?.data.userLastName}{" "}
-                    {responseAccount?.data.userFirstName}
+                    {responseAccount?.data.userLastName} {responseAccount?.data.userFirstName}
                   </h5>
                   {isImageChange && (
-                    <button
-                      onClick={onUploadImage}
-                      className="btn btn-primary mt-2 pt-1 pb-1"
-                    >
+                    <button onClick={onUploadImage} className="btn btn-primary mt-2 pt-1 pb-1">
                       Lưu
                       {isLoadingUpdateImage === true && (
-                        <span
-                          className="spinner-border spinner-border-sm me-1"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
+                        <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                       )}
                     </button>
                   )}
@@ -201,21 +164,10 @@ export function Account({ children }: LayoutProps) {
             <div className="col-md-3 mt-4 pt-2">
               <ul className="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0">
                 <li className="nav-item">
-                  <Link
-                    id="dashboard"
-                    data-bs-toggle="pill"
-                    href="/account"
-                    aria-controls="dash"
-                    aria-selected="false"
-                  >
-                    <a
-                      className={`nav-link rounded text-start py-1 px-3 ${
-                        router.asPath === "/account" && "active show"
-                      }`}
-                    >
+                  <Link id="dashboard" data-bs-toggle="pill" href="/account" aria-controls="dash" aria-selected="false">
+                    <a className={`nav-link rounded text-start py-1 px-3 ${router.asPath === '/account' && 'active show'}`}>
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-dashboard h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Dashboard</p>
+                        <i className="uil uil-dashboard h5 me-2 mb-0" /> <p className="m-0">Dashboard</p>
                       </h6>
                     </a>
                   </Link>
@@ -230,11 +182,7 @@ export function Account({ children }: LayoutProps) {
                     aria-controls="mydesigns"
                     aria-selected="false"
                   >
-                    <a
-                      className={`nav-link rounded text-start p-0 px-3 ${
-                        router.asPath === "/account/mydesign" && "active show"
-                      }`}
-                    >
+                    <a className={`nav-link rounded text-start p-0 px-3 ${router.asPath === '/account/mydesign' && 'active show'}`}>
                       <h6 className="mb-0 d-flex py-2">
                         <svg
                           className="me-2 mb-0 h5"
@@ -263,7 +211,7 @@ export function Account({ children }: LayoutProps) {
 		                          "
                             />
                           </g>
-                        </svg>{" "}
+                        </svg>{' '}
                         <p className="m-0">Thiết kế của tôi</p>
                       </h6>
                     </a>
@@ -281,14 +229,9 @@ export function Account({ children }: LayoutProps) {
                     aria-controls="orders"
                     aria-selected="false"
                   >
-                    <a
-                      className={`nav-link rounded text-start px-3 ${
-                        router.asPath === "/account/myorders" && "active show"
-                      }`}
-                    >
+                    <a className={`nav-link rounded text-start px-3 ${router.asPath === '/account/myorders' && 'active show'}`}>
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-list-ul h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Đơn hàng chưa thanh toán</p>
+                        <i className="uil uil-list-ul h5 me-2 mb-0" /> <p className="m-0">Đơn hàng chưa thanh toán</p>
                       </h6>
                     </a>
                   </Link>
@@ -304,15 +247,9 @@ export function Account({ children }: LayoutProps) {
                     aria-controls="orders"
                     aria-selected="false"
                   >
-                    <a
-                      className={`nav-link rounded text-start px-3 ${
-                        router.asPath === "/account/all-order-detail" &&
-                        "active show"
-                      }`}
-                    >
+                    <a className={`nav-link rounded text-start px-3 ${router.asPath === '/account/all-order-detail' && 'active show'}`}>
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-clipboard-notes h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Đơn hàng đã mua</p>
+                        <i className="uil uil-clipboard-notes h5 me-2 mb-0" /> <p className="m-0">Đơn hàng đã mua</p>
                       </h6>
                     </a>
                   </Link>
@@ -332,15 +269,9 @@ export function Account({ children }: LayoutProps) {
                     aria-controls="account"
                     aria-selected="false"
                   >
-                    <a
-                      className={`nav-link rounded text-start py-1 px-3 ${
-                        router.asPath === "/account/account-setting" &&
-                        "active show"
-                      }`}
-                    >
+                    <a className={`nav-link rounded text-start py-1 px-3 ${router.asPath === '/account/account-setting' && 'active show'}`}>
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-user h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Thông tin cá nhân</p>
+                        <i className="uil uil-user h5 me-2 mb-0" /> <p className="m-0">Thông tin cá nhân</p>
                       </h6>
                     </a>
                   </Link>
@@ -349,16 +280,10 @@ export function Account({ children }: LayoutProps) {
                 {/*end nav item*/}
                 <li className="nav-item mt-2">
                   <Link href="/home">
-                    <a
-                      className="nav-link rounded"
-                      role="tab"
-                      onClick={logoutFunc}
-                      aria-selected="false"
-                    >
+                    <a className="nav-link rounded" role="tab" onClick={logoutFunc} aria-selected="false">
                       <div className="text-start py-1 px-3">
                         <h6 className="mb-0 py-1">
-                          <i className="uil uil-sign-out-alt h5 me-2 mb-0" />{" "}
-                          Đăng xuất
+                          <i className="uil uil-sign-out-alt h5 me-2 mb-0" /> Đăng xuất
                         </h6>
                       </div>
                     </a>
