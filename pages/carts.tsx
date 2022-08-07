@@ -46,7 +46,7 @@ export default function Carts({}: Props) {
           dispatch(setCartNotEnough([]));
           router.push('/checkout');
         },
-        onError: data => {
+        onError: (data: any) => {
           dispatch(setCartNotEnough(data.response.data));
         },
       });
