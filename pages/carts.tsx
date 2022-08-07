@@ -47,8 +47,7 @@ export default function Carts({}: Props) {
           router.push('/checkout');
         },
         onError: data => {
-          console.log(data, 'asd');
-          dispatch(setCartNotEnough([]));
+          dispatch(setCartNotEnough(data.response.data));
         },
       });
     else {

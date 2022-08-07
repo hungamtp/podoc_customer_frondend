@@ -16,7 +16,6 @@ export default function Cart({ cart }: Props) {
   const { mutate: updateCart } = useUpdateCart();
   const carts = useAppSelector(state => state.carts);
   const productDontHaveEnoughQuatity = useAppSelector(state => state.checkCartSlice);
-  console.log(productDontHaveEnoughQuatity, 'productDontHaveEnoughQuatity');
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
@@ -75,9 +74,9 @@ export default function Cart({ cart }: Props) {
             +
           </button>
         </div>
-        <div>
-          {productDontHaveEnoughQuatity.filter(product => product.id === cart.id).length > 0 &&
-            `This product have ${productDontHaveEnoughQuatity.filter(product => product.id === cart.id)[0].quantityAvailable} left`}
+        <div className="text-danger mt-2" style={{ display: 'flex', justifyContent: 'space-around' }}>
+          {productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId).length > 0 &&
+            `*Chỉ còn ${productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable} sản phẩm`}
         </div>
       </td>
       {cart.publish ? (
