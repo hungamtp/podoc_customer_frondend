@@ -6,6 +6,8 @@ import { useAppDispatch } from '../hooks/reduxHook';
 import { setIsEdit } from '@/redux/slices/isEdit';
 import { numberWithCommas } from 'helper/number-util';
 import { setHeaderInfo } from '@/redux/slices/headerInfo';
+import ShowRating from './show-rating';
+import { Rating } from '@mui/material';
 
 type Props = {
   factory: FactoryDTO;
@@ -43,8 +45,33 @@ export default function Factory({ factory, productName }: Props) {
         <div className="card">
           <div className="card-header card-factory-header">
             <div className="right-card-factory-header">
-              <span style={{ marginRight: ' 20px' }}>
-                <b className="mb-0"> {factory.name}</b> {factory.rateCount > 0 && <span>({factory.rate.toFixed(2) + '/' + '5'})</span>}
+              <span style={{ marginRight: ' 20px', display: 'flex', justifyContent: 'start' }}>
+                <div>
+                  <b className="mb-0 me-3"> {factory.name}</b>{' '}
+                </div>
+                <div>
+                  {factory.rateCount > 0 && (
+                    <span>
+                      <div>
+                        <div className="d-flex justify-content-between">
+                          <div className="d-flex" style={{ justifyContent: 'space-between' }}>
+                            <div className="me-3">
+                              <Rating
+                                name="half-rating"
+                                value={factory?.rate}
+                                size="medium"
+                                sx={{ marginY: 'auto' }}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </div>
+                            <div style={{ marginTop: '2px' }}>({factory?.rateCount})</div>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  )}
+                </div>
               </span>
             </div>
 

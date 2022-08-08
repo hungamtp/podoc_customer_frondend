@@ -1,15 +1,15 @@
-import { DesignState } from "@/models/design/designInfo";
-import { updateBlueprint } from "@/redux/slices/blueprints";
-import { updateDesignInfos } from "@/redux/slices/design";
-import { setControlData } from "@/redux/slices/designControl";
-import * as React from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import { DesignState } from '@/models/design/designInfo';
+import { updateBlueprint } from '@/redux/slices/blueprints';
+import { updateDesignInfos } from '@/redux/slices/design';
+import { setControlData } from '@/redux/slices/designControl';
+import * as React from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
 export interface IDesignFooterLeftProps {}
 
 export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
-  const blueprintData = useAppSelector((state) => state.blueprintsData);
-  const infoManageData = useAppSelector((state) => state.infoManageData);
-  const controlData = useAppSelector((state) => state.designControl);
+  const blueprintData = useAppSelector(state => state.blueprintsData);
+  const infoManageData = useAppSelector(state => state.infoManageData);
+  const controlData = useAppSelector(state => state.designControl);
   const [isOpen, setIsOpen] = React.useState(false);
   const handleCloseDialog = () => {
     setIsOpen(false);
@@ -22,7 +22,6 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
 
   const changePos = (position: string) => {
     if (blueprintData.position === position) return;
-    console.log("change poss");
     let pos = -1;
     let isEmpty = false;
     let tmpDesignInfos: DesignState[] = [];
@@ -32,7 +31,6 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
         pos = index; //Lấy blurprint hiện tại
       }
       if (blueprint.position === position) {
-        console.log(blueprint.designInfos, "infoo");
         //lấy design info để load lên
         if (blueprint.designInfos && blueprint.designInfos.length > 0) {
           tmpDesignInfos = blueprint.designInfos;
@@ -49,9 +47,7 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
       }
     }
 
-    dispatch(
-      updateBlueprint({ position: position, blueprints: tmpBlueprints })
-    );
+    dispatch(updateBlueprint({ position: position, blueprints: tmpBlueprints }));
     //Lưu design list hiện tại vào trong blueprint
 
     dispatch(
@@ -81,14 +77,12 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
     }
   };
   const positionList = [
-    { position: "Trước", value: "front" },
-    { position: "Sau", value: "back" },
+    { position: 'Trước', value: 'front' },
+    { position: 'Sau', value: 'back' },
   ];
-  const positionArr = positionList.map((posData) => (
+  const positionArr = positionList.map(posData => (
     <button
-      className={`btn  w-half ${
-        posData.value === blueprintData.position && "btn-success"
-      }`}
+      className={`btn  w-half ${posData.value === blueprintData.position && 'btn-success'}`}
       disabled={controlData.controlData.isLoadingImage}
       key={posData.value}
       onClick={() => changePos(posData.value)}
@@ -101,9 +95,7 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
     <>
       <div className="col-lg-9 col-12 px-0 d-flex flex-column">
         <div className="d-flex justify-content-center  border-top  py-4">
-          <div className="d-flex w-quater align-items-center px-4 btn-group group">
-            {positionArr}
-          </div>
+          <div className="d-flex w-quater align-items-center px-4 btn-group group">{positionArr}</div>
         </div>
       </div>
     </>

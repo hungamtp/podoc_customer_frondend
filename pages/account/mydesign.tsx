@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Design from "@/components/common/design";
 import PaginationComponent from "@/components/common/mui-pagination";
-import { MainLayout } from "@/components/layouts";
+import { Account, MainLayout } from "@/components/layouts";
 import useGetAllMyDesign from "@/hooks/api/design/use-get-all-my-design";
 import { GetAllDesignFilter } from "@/services/design";
 import Link from "next/link";
@@ -91,4 +91,4 @@ export default function MyDesign({}: Props) {
   );
 }
 
-MyDesign.Layout = MainLayout;
+MyDesign.Layout = Account;

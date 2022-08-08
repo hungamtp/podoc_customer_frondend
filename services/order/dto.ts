@@ -31,7 +31,7 @@ export interface DesignedProductDto extends ISuccessHttpResponse {
 export interface GetAllMyOrdersDto {
   data: MyOrdersDto[];
   page: number;
-  element: number;
+  elements: number;
 }
 export interface GetAllOrderDetailDto {
   data: OrderDetailDto[];
@@ -51,7 +51,7 @@ export interface OrderDetailDto {
   size: string;
   quantity: string;
   provider: string;
-  date : string;
+  date: string;
   rated: boolean;
   status: string;
 }
@@ -60,6 +60,7 @@ export interface MyOrdersDto {
   orderId: string;
   totalBill: number;
   createdDate: string;
+  orderDetailDtos: OrderDetailDto[];
   isPaid: boolean;
   countItem: number;
 }

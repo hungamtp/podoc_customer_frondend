@@ -1,15 +1,15 @@
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { Blueprint, DesignState } from "@/models/design";
-import { setControlData } from "@/redux/slices/designControl";
-import { addPreview, clearAllPreview, Preview } from "@/redux/slices/previews";
-import { Dialog, DialogContent } from "@material-ui/core";
-import { fabric } from "fabric";
-import { useRouter } from "next/router";
-import * as React from "react";
-import CreateDesignedProductForm from "./designed-product-info";
-import EditDesignForm from "./edit-design";
-import PreviewFooter from "./preview-footer";
-import PreviewTable from "./preview-table";
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { Blueprint, DesignState } from '@/models/design';
+import { setControlData } from '@/redux/slices/designControl';
+import { addPreview, clearAllPreview, Preview } from '@/redux/slices/previews';
+import { Dialog, DialogContent } from '@material-ui/core';
+import { fabric } from 'fabric';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import CreateDesignedProductForm from './designed-product-info';
+import EditDesignForm from './edit-design';
+import PreviewFooter from './preview-footer';
+import PreviewTable from './preview-table';
 export interface IPreviewCanvasProps {
   colors: {
     id: string;
@@ -22,33 +22,29 @@ export interface IPreviewCanvasProps {
 }
 
 const initBlueprint = {
-  frameImage:
-    "https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117",
-  position: "back",
+  frameImage: 'https://bizweb.dktcdn.net/100/364/712/products/021204.jpg?v=1635825038117',
+  position: 'back',
   placeholder: {
     width: 12,
     height: 13.7,
   },
   designInfos: [
     {
-      key: "",
-      name: "",
-      types: "image/jpeg",
+      key: '',
+      name: '',
+      types: 'image/jpeg',
       height: 0,
       width: 0,
       leftPosition: 0,
       rotate: 0,
       scales: 0,
       topPosition: 0,
-      src: "https://www.google.com/search?q=default+image&tbm=isch&source=iu&ictx=1&vet=1&fir=E__DFTIbn9J8IM%252CTx4IM-J_9YNR0M%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BdAOBLb6Mi03B7M%252CtF62HY2qabLnWM%252C_%253BdzPYWaGt8jz9-M%252CxyV8ddqOau4KMM%252C_%253B6tO2K22XfMJMrM%252CJQ2op_24QBAxAM%252C_%253BiBwkPVyfzII9PM%252CRpvxnsLrgxL3_M%252C_%253BQ6BBzp2xDdCTDM%252C5SCId8Hd97daPM%252C_%253BZUQ4hqK0eoOE9M%252CCG1CySSEUS0-DM%252C_%253BX_RNqGrs8uOLUM%252CQgac5TnVA2DlVM%252C_%253Bfzm-cB-sF1nIvM%252CYlh7sHyFI9lHtM%252C_%253BCFxypJE63mo0qM%252CCfVbZJhXslp5nM%252C_%253ByFECy8Q7jEiD6M%252CzfN5DSNirAo6lM%252C_%253BmFBeEI-GK2RjoM%252CC93Eufb1-gvCmM%252C_%253BIVgx2CC_VChlFM%252CzfN5DSNirAo6lM%252C_%253BGEbPHTiPVju47M%252CoXGuy_ozigx-hM%252C_&usg=AI4_-kRMLHt0QpXibXOVMObu4AxomAnBBA&sa=X&ved=2ahUKEwiqtJWqz7v3AhUazIsBHTxODDsQ9QF6BAgDEAE&biw=1920&bih=929&dpr=1#imgrc=E__DFTIbn9J8IM",
+      src: 'https://www.google.com/search?q=default+image&tbm=isch&source=iu&ictx=1&vet=1&fir=E__DFTIbn9J8IM%252CTx4IM-J_9YNR0M%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BdAOBLb6Mi03B7M%252CtF62HY2qabLnWM%252C_%253BdzPYWaGt8jz9-M%252CxyV8ddqOau4KMM%252C_%253B6tO2K22XfMJMrM%252CJQ2op_24QBAxAM%252C_%253BiBwkPVyfzII9PM%252CRpvxnsLrgxL3_M%252C_%253BQ6BBzp2xDdCTDM%252C5SCId8Hd97daPM%252C_%253BZUQ4hqK0eoOE9M%252CCG1CySSEUS0-DM%252C_%253BX_RNqGrs8uOLUM%252CQgac5TnVA2DlVM%252C_%253Bfzm-cB-sF1nIvM%252CYlh7sHyFI9lHtM%252C_%253BCFxypJE63mo0qM%252CCfVbZJhXslp5nM%252C_%253ByFECy8Q7jEiD6M%252CzfN5DSNirAo6lM%252C_%253BmFBeEI-GK2RjoM%252CC93Eufb1-gvCmM%252C_%253BIVgx2CC_VChlFM%252CzfN5DSNirAo6lM%252C_%253BGEbPHTiPVju47M%252CoXGuy_ozigx-hM%252C_&usg=AI4_-kRMLHt0QpXibXOVMObu4AxomAnBBA&sa=X&ved=2ahUKEwiqtJWqz7v3AhUazIsBHTxODDsQ9QF6BAgDEAE&biw=1920&bih=929&dpr=1#imgrc=E__DFTIbn9J8IM',
     },
   ],
 } as Blueprint;
 
-const resizer = (
-  canvasSize: { width: number; height: number },
-  imageSize: { width: number; height: number }
-) => {
+const resizer = (canvasSize: { width: number; height: number }, imageSize: { width: number; height: number }) => {
   const imageAspectRatio = imageSize.width / imageSize.height;
   let canvasAspectRatio = canvasSize.width / canvasSize.height;
   let renderableHeight, renderableWidth, xStart, yStart;
@@ -86,11 +82,7 @@ const resizer = (
   };
 };
 
-const initCanvas = (
-  defaultWidth: number,
-  defaultHeight: number,
-  id: string
-): fabric.Canvas => {
+const initCanvas = (defaultWidth: number, defaultHeight: number, id: string): fabric.Canvas => {
   const tmpCanvas = new fabric.Canvas(id, {
     height: defaultHeight,
     width: defaultWidth,
@@ -111,7 +103,7 @@ const initPlaceHolder = (
 
   const rect = new fabric.Rect({
     width: newWidth,
-    name: "placeHolder",
+    name: 'placeHolder',
     height: newHeight,
     left: left,
     top: top,
@@ -123,53 +115,41 @@ const initPlaceHolder = (
   return rect;
 };
 
-export default function PreviewCanvas({
-  colors,
-  isEditPage,
-  setIsEdit,
-  isEdit,
-}: IPreviewCanvasProps) {
+export default function PreviewCanvas({ colors, isEditPage, setIsEdit, isEdit }: IPreviewCanvasProps) {
   const router = useRouter();
-  const controlData = useAppSelector((state) => state.designControl);
-
-  // React.useEffect(() => {
-  //   console.log(controlData.controlData.isLoadingImage, "loaddinngg imageeee");
-  // }, [controlData]);
+  const controlData = useAppSelector(state => state.designControl);
 
   const [isDrawPreview, setIsDrawPreview] = React.useState(false);
 
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const auth = useAppSelector((state) => state.auth);
+  const auth = useAppSelector(state => state.auth);
 
-  const blueprintsData = useAppSelector((state) => state.blueprintsData);
+  const blueprintsData = useAppSelector(state => state.blueprintsData);
 
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
   const handleOpenDialog = () => {
-    if (!(auth.roleName === "USER")) router.push("/login");
+    if (!(auth.roleName === 'USER')) router.push('/login');
     else setIsOpen(true);
   };
 
-  const selectedColors = useAppSelector((state) => state.selectedColors);
+  const selectedColors = useAppSelector(state => state.selectedColors);
 
-  const previews = useAppSelector((state) => state.previews);
+  const previews = useAppSelector(state => state.previews);
 
   let renderedPreviews: Preview[] = [];
-  previews.forEach((preview) => {
+  previews.forEach(preview => {
     if (preview.color === renderColor) {
       renderedPreviews.push(preview);
     }
   });
-  if (renderedPreviews.length === 0 && previews.length !== 0)
-    renderedPreviews = [previews[0], previews[1]];
+  if (renderedPreviews.length === 0 && previews.length !== 0) renderedPreviews = [previews[0], previews[1]];
 
-  const [renderedPosition, setRenderedPosition] = React.useState("front");
+  const [renderedPosition, setRenderedPosition] = React.useState('front');
 
-  const [renderCount, setRenderCount] = React.useState(
-    isEdit ? blueprintsData.blueprints.length - 1 : 0
-  );
+  const [renderCount, setRenderCount] = React.useState(isEdit ? blueprintsData.blueprints.length - 1 : 0);
 
   const blueprint = blueprintsData.blueprints[renderCount];
 
@@ -179,14 +159,10 @@ export default function PreviewCanvas({
   const previewsCount = React.useRef<number>(isEdit ? 0 : previews.length);
 
   const [canvas, setCanvas] = React.useState<fabric.Canvas>();
-  const [imgSrc, setImgSrc] = React.useState<string>("");
+  const [imgSrc, setImgSrc] = React.useState<string>('');
   const [placeHolder, setPlaceHolder] = React.useState<fabric.Rect>();
 
-  const setBackgroundFromDataUrl = (
-    dataUrl: string,
-    outerSize: { outerWidth: number; outerHeight: number },
-    isNeedColor: boolean
-  ) => {
+  const setBackgroundFromDataUrl = (dataUrl: string, outerSize: { outerWidth: number; outerHeight: number }, isNeedColor: boolean) => {
     if (!dataUrl && !outerSize) {
       return true;
     }
@@ -198,28 +174,28 @@ export default function PreviewCanvas({
         (image: fabric.Image) => {
           const colorFilter = new fabric.Image.filters.BlendColor({
             color: renderColor,
-            mode: "add",
+            mode: 'add',
             alpha: 0.75,
           });
           image.scaleToHeight(outerHeight);
-          image.set("top", 0);
+          image.set('top', 0);
           canvas.centerObject(image);
           if (isNeedColor) image.filters?.push(colorFilter);
           image.applyFilters();
           canvas.setBackgroundImage(image, canvas.renderAll.bind(canvas));
           // canvas.clipPath = image;
         },
-        { crossOrigin: "anonymous" }
+        { crossOrigin: 'anonymous' }
       );
     }
   };
 
   React.useEffect(() => {
     const rerenderLoop = setInterval(() => {
-      const defaultWidth = document.getElementById("outer")?.clientWidth;
-      const defaultHeight = document.getElementById("outer")?.clientHeight;
+      const defaultWidth = document.getElementById('outer')?.clientWidth;
+      const defaultHeight = document.getElementById('outer')?.clientHeight;
       if (defaultWidth && defaultHeight) {
-        setCanvas(initCanvas(defaultWidth, defaultHeight, "preview"));
+        setCanvas(initCanvas(defaultWidth, defaultHeight, 'preview'));
         clearInterval(rerenderLoop);
       }
     }, 200);
@@ -250,7 +226,7 @@ export default function PreviewCanvas({
     let hasMorePreview = true;
 
     if (previews.length > 0) {
-      previews.forEach((preview) => {
+      previews.forEach(preview => {
         if (preview.color === renderColor) {
           hasMorePreview = false;
         }
@@ -268,11 +244,8 @@ export default function PreviewCanvas({
       } else {
         canvas.clear();
         let renderImage = previews[0].imageSrc;
-        previews.forEach((preview) => {
-          if (
-            preview.color === renderColor &&
-            preview.position === renderedPosition
-          ) {
+        previews.forEach(preview => {
+          if (preview.color === renderColor && preview.position === renderedPosition) {
             renderImage = preview.imageSrc;
           }
         });
@@ -299,7 +272,7 @@ export default function PreviewCanvas({
   React.useEffect(() => {
     if (!!selectedColors) {
       let keep = true;
-      const renderedColorList = previews.map((preview) => preview.color);
+      const renderedColorList = previews.map(preview => preview.color);
       for (let index = 0; index < selectedColors.length && keep; index++) {
         if (!renderedColorList.includes(selectedColors[index])) {
           keep = false;
@@ -317,10 +290,7 @@ export default function PreviewCanvas({
   React.useEffect(() => {
     if (canvas && previews.length !== 0 && canvas.width && canvas.height) {
       canvas.clear();
-      const renderedImage = previews.filter(
-        (preview) =>
-          preview.color === renderColor && preview.position === renderedPosition
-      );
+      const renderedImage = previews.filter(preview => preview.color === renderColor && preview.position === renderedPosition);
       const outerSize = {
         outerWidth: canvas.width,
         outerHeight: canvas.height,
@@ -334,7 +304,7 @@ export default function PreviewCanvas({
     let count = 0;
 
     if (previews.length > 0 && !isEdit) {
-      previews.forEach((preview) => {
+      previews.forEach(preview => {
         if (preview.color === renderColor) {
           count++;
           if (count === 2) hasMorePreview = false;
@@ -364,10 +334,8 @@ export default function PreviewCanvas({
 
     if (canvas && !hasMorePreview && canvas.width && canvas.height) {
       canvas.clear();
-      const renderedImage = previews.filter((preview) => {
-        return (
-          preview.color === renderColor && preview.position === renderedPosition
-        );
+      const renderedImage = previews.filter(preview => {
+        return preview.color === renderColor && preview.position === renderedPosition;
       });
       const outerSize = {
         outerWidth: canvas.width,
@@ -378,20 +346,19 @@ export default function PreviewCanvas({
     }
 
     const rerenderLoop = setInterval(() => {
-      if (canvas && imgSrc === "") {
+      if (canvas && imgSrc === '') {
         const canvasObjs = canvas._objects || [];
         if (blueprint.designInfos && blueprint.designInfos.length > 0) {
           if (
             canvasObjs.length === blueprint.designInfos.length + 1 &&
-            canvasObjs.some((design) => {
-              if (blueprint.designInfos && blueprint.designInfos.length > 0)
-                return design.name === blueprint.designInfos[0].key;
+            canvasObjs.some(design => {
+              if (blueprint.designInfos && blueprint.designInfos.length > 0) return design.name === blueprint.designInfos[0].key;
             })
           ) {
             clearInterval(rerenderLoop);
             setImgSrc(
               canvas.toDataURL({
-                format: "png",
+                format: 'png',
                 multiplier: 2,
               })
             );
@@ -399,7 +366,7 @@ export default function PreviewCanvas({
         } else {
           setImgSrc(
             canvas.toDataURL({
-              format: "png",
+              format: 'png',
               multiplier: 2,
             })
           );
@@ -420,14 +387,14 @@ export default function PreviewCanvas({
     let count = 0;
 
     if (previews.length > 0 && !isEdit) {
-      previews.forEach((preview) => {
+      previews.forEach(preview => {
         if (preview.color === renderColor) {
           count++;
           if (count === 2) hasMorePreview = false;
         }
       });
     }
-    if (canvas && imgSrc !== "" && hasMorePreview) {
+    if (canvas && imgSrc !== '' && hasMorePreview) {
       dispatch(
         addPreview({
           position: blueprint.position,
@@ -437,10 +404,10 @@ export default function PreviewCanvas({
       );
 
       if (renderCount > 0) {
-        setRenderCount((count) => count - 1);
+        setRenderCount(count => count - 1);
       } else if (!!selectedColors) {
         let keep = true;
-        const renderedColorList = previews.map((preview) => preview.color);
+        const renderedColorList = previews.map(preview => preview.color);
         for (let index = 0; index < selectedColors.length && keep; index++) {
           if (!renderedColorList.includes(selectedColors[index])) {
             keep = false;
@@ -448,7 +415,7 @@ export default function PreviewCanvas({
           }
         }
       }
-      setImgSrc("");
+      setImgSrc('');
     }
   }, [imgSrc]);
 
@@ -457,7 +424,7 @@ export default function PreviewCanvas({
     let count = 0;
 
     if (previews.length > 0 && !isEdit) {
-      previews.forEach((preview) => {
+      previews.forEach(preview => {
         if (preview.color === renderColor) {
           count++;
           if (count === 2) hasMorePreview = false;
@@ -467,7 +434,7 @@ export default function PreviewCanvas({
     if (canvas && placeHolder && hasMorePreview) {
       canvas.add(placeHolder);
       let renderedBlueprint = initBlueprint;
-      blueprintsData.blueprints.forEach((blueprint) => {
+      blueprintsData.blueprints.forEach(blueprint => {
         if (blueprint.position === renderedPosition) {
           renderedBlueprint = blueprint;
         }
@@ -490,7 +457,7 @@ export default function PreviewCanvas({
 
       const designInfos = blueprint.designInfos;
       if (designInfos && designInfos.length > 0) {
-        designInfos.forEach((design) => {
+        designInfos.forEach(design => {
           addRect(design);
         });
         canvas.requestRenderAll();
@@ -501,35 +468,25 @@ export default function PreviewCanvas({
   const reverseData = (key: string, value: number) => {
     let data = 0;
     if (placeHolder) {
-      if (key === "top")
-        data =
-          (value / 100) * placeHolder.getScaledHeight() +
-          (placeHolder.top || 0);
-      if (key === "left")
-        data =
-          (value / 100) * placeHolder.getScaledWidth() +
-          (placeHolder.left || 0);
-      if (key === "width") {
-        data =
-          (value / blueprint.placeholder.width) * placeHolder.getScaledWidth();
+      if (key === 'top') data = (value / 100) * placeHolder.getScaledHeight() + (placeHolder.top || 0);
+      if (key === 'left') data = (value / 100) * placeHolder.getScaledWidth() + (placeHolder.left || 0);
+      if (key === 'width') {
+        data = (value / blueprint.placeholder.width) * placeHolder.getScaledWidth();
       }
 
-      if (key === "height")
-        data =
-          (value / blueprint.placeholder.height) *
-          placeHolder.getScaledHeight();
-      if (key === "scale") data = placeHolder.getScaledWidth() * value;
+      if (key === 'height') data = (value / blueprint.placeholder.height) * placeHolder.getScaledHeight();
+      if (key === 'scale') data = placeHolder.getScaledWidth() * value;
       return data;
     }
   };
 
   const addRect = (design: DesignState) => {
     if (canvas && placeHolder) {
-      const imageLeft = reverseData("left", design.leftPosition);
-      const imageTop = reverseData("top", design.topPosition);
-      const imageWidth = reverseData("width", design.width);
-      const imageHeight = reverseData("height", design.height);
-      if (design.types === "text") {
+      const imageLeft = reverseData('left', design.leftPosition);
+      const imageTop = reverseData('top', design.topPosition);
+      const imageWidth = reverseData('width', design.width);
+      const imageHeight = reverseData('height', design.height);
+      if (design.types === 'text') {
         const newText = new fabric.Text(design.src, {
           fontFamily: design.font,
           clipPath: placeHolder,
@@ -547,7 +504,7 @@ export default function PreviewCanvas({
           mr: false, // I think you get it
         });
         newText.scaleToWidth(imageWidth || 150);
-        newText.set("angle", design.rotate);
+        newText.set('angle', design.rotate);
 
         canvas.add(newText);
         canvas.renderAll();
@@ -555,20 +512,20 @@ export default function PreviewCanvas({
         fabric.Image.fromURL(
           design.tmpSrc,
           (image: fabric.Image) => {
-            image.set("name", design.key);
-            image.set("left", imageLeft);
-            image.set("top", imageTop);
+            image.set('name', design.key);
+            image.set('left', imageLeft);
+            image.set('top', imageTop);
 
-            image.set("opacity", 100);
-            image.set("noScaleCache", true);
-            image.set("clipPath", placeHolder);
-            image.set("selectable", false);
+            image.set('opacity', 100);
+            image.set('noScaleCache', true);
+            image.set('clipPath', placeHolder);
+            image.set('selectable', false);
             image.scaleToWidth(imageWidth || 150);
-            image.set("angle", design.rotate);
+            image.set('angle', design.rotate);
             canvas.add(image);
             canvas.renderAll();
           },
-          { crossOrigin: "anonymous" }
+          { crossOrigin: 'anonymous' }
         );
       }
     }
@@ -608,10 +565,7 @@ export default function PreviewCanvas({
         </div>
       )}
       <div className="row h-8 ">
-        <PreviewFooter
-          setRenderedPosition={setRenderedPosition}
-          renderedPosition={renderedPosition}
-        />
+        <PreviewFooter setRenderedPosition={setRenderedPosition} renderedPosition={renderedPosition} />
         <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
           <div className="d-flex justify-content-center border-top   py-4">
             <div className="d-flex  w-full align-items-center px-4">
@@ -635,15 +589,9 @@ export default function PreviewCanvas({
         >
           <DialogContent>
             {isEditPage ? (
-              <EditDesignForm
-                handleCloseDialog={handleCloseDialog}
-                loadedColors={colors}
-              />
+              <EditDesignForm handleCloseDialog={handleCloseDialog} loadedColors={colors} />
             ) : (
-              <CreateDesignedProductForm
-                handleCloseDialog={handleCloseDialog}
-                loadedColors={colors}
-              />
+              <CreateDesignedProductForm handleCloseDialog={handleCloseDialog} loadedColors={colors} />
             )}
           </DialogContent>
         </Dialog>

@@ -22,7 +22,6 @@ export default function handler(
   return new Promise((resolve) => {
     const handlerLoginResponse: ProxyResCallback = (proxyRes, req, res) => {
       const accessToken = store.getState().auth.token;
-      console.log(req.headers, "headerss");
       if (accessToken) {
         req.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -32,7 +31,6 @@ export default function handler(
       });
       proxyRes.on("end", function () {
         try {
-          console.log(body, "bodyyy");
           //set access token vao cookie của client
           (res as NextApiResponse)
             .status(200)
