@@ -165,48 +165,48 @@ export default function EditDesign(props: EditDesignProps) {
       );
       const colorsList = response.colorsObj.map((color) => color.image);
       dispatch(setColors(colorsList));
-    }
 
-    if (blueprints && blueprints.length > 0) {
-      const renderBlueprint = [...blueprints];
-      const allTasks: Promise<void>[] = [];
-      renderBlueprint.forEach((blueprint, index) => {
-        if (!!blueprint.designInfos && blueprint.designInfos.length !== 0) {
-          blueprint.designInfos.forEach((designInfo, index) => {
-            if (designInfo.types !== "text") {
-              const loadDesignInfo = getBase64FromUrl(designInfo.src).then(
-                (tmpSrc) => {
-                  if (blueprint.designInfos) {
-                    blueprint.designInfos[index].tmpSrc = tmpSrc;
+      if (blueprints && blueprints.length > 0) {
+        const renderBlueprint = [...blueprints];
+        const allTasks: Promise<void>[] = [];
+        renderBlueprint.forEach((blueprint, index) => {
+          if (!!blueprint.designInfos && blueprint.designInfos.length !== 0) {
+            blueprint.designInfos.forEach((designInfo, index) => {
+              if (designInfo.types !== "text") {
+                const loadDesignInfo = getBase64FromUrl(designInfo.src).then(
+                  (tmpSrc) => {
+                    if (blueprint.designInfos) {
+                      blueprint.designInfos[index].tmpSrc = tmpSrc;
+                    }
                   }
-                }
-              );
-              allTasks.push(loadDesignInfo);
-            }
+                );
+                allTasks.push(loadDesignInfo);
+              }
 
-            designInfo.key = nanoid();
-          });
-        }
-
-        const loadBlueprint = getBase64FromUrl(blueprint.frameImage).then(
-          (tmpImageSrc) => {
-            blueprint.tmpFrameImage = tmpImageSrc;
+              designInfo.key = nanoid();
+            });
           }
-        );
-        allTasks.push(loadBlueprint);
-      });
-      Promise.all(allTasks).then((final) => {
-        let front = renderBlueprint[0];
-        let back = renderBlueprint[0];
-        renderBlueprint.forEach((blueprint) => {
-          if (blueprint.position === "front") front = blueprint;
-        });
-        renderBlueprint.forEach((blueprint) => {
-          if (blueprint.position === "back") back = blueprint;
-        });
 
-        setRenderBlueprint([front, back]);
-      });
+          const loadBlueprint = getBase64FromUrl(blueprint.frameImage).then(
+            (tmpImageSrc) => {
+              blueprint.tmpFrameImage = tmpImageSrc;
+            }
+          );
+          allTasks.push(loadBlueprint);
+        });
+        Promise.all(allTasks).then((final) => {
+          let front = renderBlueprint[0];
+          let back = renderBlueprint[0];
+          renderBlueprint.forEach((blueprint) => {
+            if (blueprint.position === "front") front = blueprint;
+          });
+          renderBlueprint.forEach((blueprint) => {
+            if (blueprint.position === "back") back = blueprint;
+          });
+
+          setRenderBlueprint([front, back]);
+        });
+      }
     }
   }, [response]);
 
