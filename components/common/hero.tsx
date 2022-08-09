@@ -9,7 +9,13 @@ export default function Hero(props: IHeroProps) {
   const path = router.asPath;
   return (
     <div>
-      <section className="bg-half-170 bg-light d-table w-100">
+      <section
+        className="bg-half-170 bg-light d-table w-100"
+        style={{
+          background: "url('/asset/images/banner/banner_fixed.jpg') no-repeat center center",
+          marginTop: '30px',
+        }}
+      >
         <div className="container">
           <div className="row mt-5 justify-content-center">
             <div className="col-lg-12 text-center">

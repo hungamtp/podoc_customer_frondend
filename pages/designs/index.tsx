@@ -143,10 +143,7 @@ export default function DesignedProducts(props: IProductProps) {
                                 <Link href={`designs/${product.id}`}>
                                   <a className="text-dark h6">{product.name}</a>
                                 </Link>
-                                <h6 className="text-dark small fst-italic mb-0 mt-1">
-                                  {product.designedPrice} VNĐ
-                                  {/* <del className="text-danger ms-2">$22.00</del>{" "} */}
-                                </h6>
+                                <h6 className="text-dark small fst-italic mb-0 mt-1">{product.designedPrice} VNĐ</h6>
 
                                 <ShowRating rate={product.rate} rateCount={product.rateCount} />
 
