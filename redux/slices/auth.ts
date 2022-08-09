@@ -36,6 +36,7 @@ export const counterSlice = createSlice({
       state.token = "";
       state.userId = "";
       state.roleName = "";
+      state.image = "";
     },
     signup: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -46,11 +47,19 @@ export const counterSlice = createSlice({
       state.token = action.payload.jwt;
       state.userId = action.payload.userId;
       state.roleName = action.payload.role;
+      state.image = action.payload.image;
+    },
+    updateImage: (state, action) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      return { ...state, image: action.payload };
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, signup } = counterSlice.actions;
+export const { login, logout, signup, updateImage } = counterSlice.actions;
 
 export default counterSlice.reducer;

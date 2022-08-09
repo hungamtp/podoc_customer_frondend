@@ -116,8 +116,12 @@ export default function CreateDesignedProductForm(
 
       uploadBytes(imageRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          const position = url.split("%2F")[1].split("-")[1];
-          const color = url.split("%2F")[1].split("-")[2].split("?")[0];
+          const position = snapshot.metadata.fullPath
+            .split("images/")[1]
+            .split("-")[1];
+          const color = snapshot.metadata.fullPath
+            .split("images/")[1]
+            .split("-")[2];
           imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
             if (
