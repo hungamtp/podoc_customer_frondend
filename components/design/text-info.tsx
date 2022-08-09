@@ -1,10 +1,10 @@
-import { DesignState } from '@/models/design';
-import * as React from 'react';
-import { useAppSelector } from '../hooks/reduxHook';
-import AutoCompleteSelect from './auto-complete-select';
-import ColorPicker from './color-picker';
-import SingleInputMemo from './single-input';
-import SingleInput from './single-input';
+import { DesignState } from "@/models/design";
+import * as React from "react";
+import { useAppSelector } from "../hooks/reduxHook";
+import AutoCompleteSelect from "./auto-complete-select";
+import ColorPicker from "./color-picker";
+import SingleInputMemo from "./single-input";
+import SingleInput from "./single-input";
 
 export interface ITextInfoProps {
   addNewRect: (imgSrc: string, tmpSrc: string) => void;
@@ -16,7 +16,7 @@ export interface ITextInfoProps {
   setDesignLocation: (
     designKey: string,
     posInfo: {
-      pos: 'top' | 'left' | 'scale' | 'angle' | 'width' | 'height';
+      pos: "top" | "left" | "scale" | "angle" | "width" | "height";
       value: number;
     }
   ) => void;
@@ -27,31 +27,31 @@ export interface ITextInfoProps {
 }
 
 const fontsList = [
-  'Roboto',
-  'Acme',
-  'Black Ops One',
-  'Boogaloo',
-  'Caveat Brush',
-  'Cinzel',
-  'Coiny',
-  'Dancing Script',
-  'Fjalla One',
-  'Graduate',
-  'Josefin Slab',
-  'Lobster',
-  'Mali',
-  'Pacifico',
-  'Permanent Marker',
-  'Princess Sofia',
-  'Shadows Into Light',
-  'Special Elite',
-].map(font => ({ label: font, value: font }));
+  "Roboto",
+  "Acme",
+  "Black Ops One",
+  "Boogaloo",
+  "Caveat Brush",
+  "Cinzel",
+  "Coiny",
+  "Dancing Script",
+  "Fjalla One",
+  "Graduate",
+  "Josefin Slab",
+  "Lobster",
+  "Mali",
+  "Pacifico",
+  "Permanent Marker",
+  "Princess Sofia",
+  "Shadows Into Light",
+  "Special Elite",
+].map((font) => ({ label: font, value: font }));
 
 const get2Decimal = (num: number): number => {
   return Number(Number(num).toFixed(2));
 };
 const TextInfo = (props: ITextInfoProps) => {
-  const choosenKey = useAppSelector(state => state.choosenKey);
+  const choosenKey = useAppSelector((state) => state.choosenKey);
   let designPosInitVal: {
     top: number;
     left: number;
@@ -82,7 +82,7 @@ const TextInfo = (props: ITextInfoProps) => {
   };
   const handleChangeRotate = (data: any) => {};
   const handleChangeScale = (data: any) => {
-    setDesignLocation(choosenKey, { pos: 'scale', value: Number(data) });
+    setDesignLocation(choosenKey, { pos: "scale", value: Number(data) });
   };
   const handleChangeLeft = (data: any) => {};
   const handleChangeTop = (data: any) => {};
@@ -129,23 +129,36 @@ const TextInfo = (props: ITextInfoProps) => {
             <table className="w-full p-5 text-gray-700 ">
               <tbody>
                 <tr className="">
-                  <td>Text</td>
+                  <td>
+                    <p className="mt-2 mb-0">Nội dung</p>
+                  </td>
                 </tr>
                 <tr className="">
                   <td className="">
-                    <SingleInput type="text" handleChange={handleChangeText} defaultVal={designInfo.src} />
+                    <SingleInput
+                      type="text"
+                      handleChange={handleChangeText}
+                      defaultVal={designInfo.src}
+                    />
                   </td>
                 </tr>
                 <tr className="">
-                  <td>Font</td>
+                  <td>
+                    <p className="mt-3 mb-0">Phông chữ</p>
+                  </td>
                 </tr>
                 <tr>
                   <td className="w-full">
-                    <AutoCompleteSelect handleChange={handleChangeFont} list={fontsList} />
+                    <AutoCompleteSelect
+                      handleChange={handleChangeFont}
+                      list={fontsList}
+                    />
                   </td>
                 </tr>
                 <tr className="">
-                  <td>Color</td>
+                  <td>
+                    <p className="mt-3 mb-0">Màu</p>
+                  </td>
                 </tr>
                 <tr>
                   <td className="w-full">
@@ -160,23 +173,31 @@ const TextInfo = (props: ITextInfoProps) => {
             <div className="row mt-3">
               <div className="w-25"></div>
               <div className="d-flex w-75">
-                <div className="w-50 mx-4">Rotate</div>
-                <div className="w-50">Scale</div>
+                <div className="w-50 mx-4">Độ xoay</div>
+                <div className="w-50">Tỉ lệ</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Transform</div>
+              <div className="w-25">Gốc</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-4">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeRotate} defaultVal={get2Decimal(designInfo.rotate) + ''} />
-                    <span className="custom-input-tag">deg</span>
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeRotate}
+                      defaultVal={get2Decimal(designInfo.rotate) + ""}
+                    />
+                    <span className="custom-input-tag">độ</span>
                   </div>
                 </div>
                 <div className="w-50">
-                  {' '}
+                  {" "}
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeScale} defaultVal={get2Decimal(designInfo.scales) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeScale}
+                      defaultVal={get2Decimal(designInfo.scales) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
@@ -185,37 +206,49 @@ const TextInfo = (props: ITextInfoProps) => {
             <div className="row mt-3">
               <div className="w-25 "></div>
               <div className="d-flex w-75">
-                <div className="w-50 mx-4">Left</div>
-                <div className="w-50">Top</div>
+                <div className="w-50 mx-4">Cách phải</div>
+                <div className="w-50">Cách trái</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Positioning</div>
+              <div className="w-25">Vị trí</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-4">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeLeft} defaultVal={get2Decimal(designInfo.leftPosition) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeLeft}
+                      defaultVal={get2Decimal(designInfo.leftPosition) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
                 <div className="w-50">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeTop} defaultVal={get2Decimal(designInfo.topPosition) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeTop}
+                      defaultVal={get2Decimal(designInfo.topPosition) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="row mt-4">
-              <div className="w-25">Algin</div>
+              <div className="w-25">Căn dòng</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-3">
-                  <div className="btn-group btn-group-sm " role="group" aria-label="Basic outlined example">
+                  <div
+                    className="btn-group btn-group-sm "
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('left');
+                        align("left");
                       }}
                     >
                       <i className="bi bi-align-start"></i>
@@ -224,7 +257,7 @@ const TextInfo = (props: ITextInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('center');
+                        align("center");
                       }}
                     >
                       <i className="bi bi-align-center"></i>
@@ -233,7 +266,7 @@ const TextInfo = (props: ITextInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('right');
+                        align("right");
                       }}
                     >
                       <i className="bi bi-align-end"></i>
@@ -241,12 +274,16 @@ const TextInfo = (props: ITextInfoProps) => {
                   </div>
                 </div>
                 <div className="w-50">
-                  <div className="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                  <div
+                    className="btn-group btn-group-sm"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('top');
+                        align("top");
                       }}
                     >
                       <i className="bi bi-align-top"></i>
@@ -255,7 +292,7 @@ const TextInfo = (props: ITextInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('middle');
+                        align("middle");
                       }}
                     >
                       <i className="bi bi-align-middle"></i>
@@ -264,7 +301,7 @@ const TextInfo = (props: ITextInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('bottom');
+                        align("bottom");
                       }}
                     >
                       <i className="bi bi-align-bottom"></i>

@@ -20,6 +20,7 @@ const SingleInput = (props: ISingleInputProps) => {
       <input
         type={type}
         className="custom-input"
+        disabled={type === "number"}
         aria-label="Inches (with dot and two decimal places)"
         onChange={(e: any) => {
           setValue(e.target.value);

@@ -1,8 +1,8 @@
-import { DesignState } from '@/models/design';
-import Image from 'next/image';
-import * as React from 'react';
-import { useAppSelector } from '../hooks/reduxHook';
-import SingleInputMemo from './single-input';
+import { DesignState } from "@/models/design";
+import Image from "next/image";
+import * as React from "react";
+import { useAppSelector } from "../hooks/reduxHook";
+import SingleInputMemo from "./single-input";
 
 export interface IImageInfoProps {
   addNewRect: (imgSrc: string, tmpSrc: string) => void;
@@ -14,7 +14,7 @@ export interface IImageInfoProps {
   setDesignLocation: (
     designKey: string,
     posInfo: {
-      pos: 'top' | 'left' | 'scale' | 'angle' | 'width' | 'height';
+      pos: "top" | "left" | "scale" | "angle" | "width" | "height";
       value: number;
     }
   ) => void;
@@ -25,7 +25,7 @@ const get2Decimal = (num: number): number => {
 };
 
 const ImageInfo = (props: IImageInfoProps) => {
-  const choosenKey = useAppSelector(state => state.choosenKey);
+  const choosenKey = useAppSelector((state) => state.choosenKey);
 
   let designPosInitVal: {
     top: number;
@@ -33,13 +33,22 @@ const ImageInfo = (props: IImageInfoProps) => {
     scale: number;
     rotate: number;
   } = { top: 0, left: 0, scale: 0, rotate: 0 };
-  const { addNewRect, deleteImage, chooseDesign, cloneDesign, align, placeHolder, setDesignLocation, designInfo } = props;
+  const {
+    addNewRect,
+    deleteImage,
+    chooseDesign,
+    cloneDesign,
+    align,
+    placeHolder,
+    setDesignLocation,
+    designInfo,
+  } = props;
   const handleChangeWidth = (data: string) => {};
   const handleChangeHeight = (data: any) => {};
 
   const handleChangeRotate = (data: any) => {};
   const handleChangeScale = (data: any) => {
-    setDesignLocation(choosenKey, { pos: 'scale', value: Number(data) });
+    setDesignLocation(choosenKey, { pos: "scale", value: Number(data) });
   };
   const handleChangeLeft = (data: any) => {};
   const handleChangeTop = (data: any) => {};
@@ -57,14 +66,26 @@ const ImageInfo = (props: IImageInfoProps) => {
         >
           <div className="border-bottom p-3 d-flex justify-content-between ">
             <div className="w-25">
-              <Image src={designInfo.src} className="img-fluid " width={50} height={50} objectFit="cover" alt="productImage" />
+              <Image
+                src={designInfo.src}
+                className="img-fluid "
+                width={50}
+                height={50}
+                objectFit="cover"
+                alt="productImage"
+              />
             </div>
 
             <div className="w-75">
-              <p className="h6 m-0 text-truncate ps-3 " style={{ maxWidth: 200 }}>
+              <p
+                className="h6 m-0 text-truncate ps-3 "
+                style={{ maxWidth: 200 }}
+              >
                 {designInfo.name}
               </p>
-              <p className="text-warning m-0 te ps-3">{get2Decimal(designInfo.DPI || 0)}</p>
+              <p className="text-warning m-0 te ps-3">
+                {get2Decimal(designInfo.DPI || 0)}
+              </p>
             </div>
             <div className="d-flex justify-content-end">
               <button
@@ -89,22 +110,30 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row">
               <div className="w-25"></div>
               <div className="d-flex w-75">
-                <div className="w-50 mx-4">Width</div>
-                <div className="w-50">Height</div>
+                <div className="w-50 mx-4">Chiều rộng</div>
+                <div className="w-50">Chiều dài</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Size</div>
+              <div className="w-25">Số đo</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-4">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeWidth} defaultVal={get2Decimal(designInfo.width) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeWidth}
+                      defaultVal={get2Decimal(designInfo.width) + ""}
+                    />
                     <span className="custom-input-tag">in</span>
                   </div>
                 </div>
                 <div className="w-50">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeHeight} defaultVal={get2Decimal(designInfo.height) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeHeight}
+                      defaultVal={get2Decimal(designInfo.height) + ""}
+                    />
                     <span className="custom-input-tag">in</span>
                   </div>
                 </div>
@@ -113,23 +142,31 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row mt-3">
               <div className="w-25"></div>
               <div className="d-flex w-75">
-                <div className="w-50 mx-4">Rotate</div>
-                <div className="w-50">Scale</div>
+                <div className="w-50 mx-4">Độ xoay</div>
+                <div className="w-50">Tỉ lệ</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Transform</div>
+              <div className="w-25">Gốc</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-4">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeRotate} defaultVal={get2Decimal(designInfo.rotate) + ''} />
-                    <span className="custom-input-tag">deg</span>
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeRotate}
+                      defaultVal={get2Decimal(designInfo.rotate) + ""}
+                    />
+                    <span className="custom-input-tag">độ</span>
                   </div>
                 </div>
                 <div className="w-50">
-                  {' '}
+                  {" "}
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeScale} defaultVal={get2Decimal(designInfo.scales) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeScale}
+                      defaultVal={get2Decimal(designInfo.scales) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
@@ -138,37 +175,49 @@ const ImageInfo = (props: IImageInfoProps) => {
             <div className="row mt-3">
               <div className="w-25 "></div>
               <div className="d-flex w-75">
-                <div className="w-50 mx-4">Left</div>
-                <div className="w-50">Top</div>
+                <div className="w-50 mx-4">Cách trái</div>
+                <div className="w-50">Cách phải</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Positioning</div>
+              <div className="w-25">Vị trí</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-4">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeLeft} defaultVal={get2Decimal(designInfo.leftPosition) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeLeft}
+                      defaultVal={get2Decimal(designInfo.leftPosition) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
                 <div className="w-50">
                   <div className="d-flex ">
-                    <SingleInputMemo type="number" handleChange={handleChangeTop} defaultVal={get2Decimal(designInfo.topPosition) + ''} />
+                    <SingleInputMemo
+                      type="number"
+                      handleChange={handleChangeTop}
+                      defaultVal={get2Decimal(designInfo.topPosition) + ""}
+                    />
                     <span className="custom-input-tag">%</span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="row mt-4">
-              <div className="w-25">Algin</div>
+              <div className="w-25">Căn dòng</div>
               <div className="d-flex w-75">
                 <div className="w-50 mx-3">
-                  <div className="btn-group btn-group-sm " role="group" aria-label="Basic outlined example">
+                  <div
+                    className="btn-group btn-group-sm "
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('left');
+                        align("left");
                       }}
                     >
                       <i className="bi bi-align-start"></i>
@@ -177,7 +226,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('center');
+                        align("center");
                       }}
                     >
                       <i className="bi bi-align-center"></i>
@@ -186,7 +235,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('right');
+                        align("right");
                       }}
                     >
                       <i className="bi bi-align-end"></i>
@@ -194,12 +243,16 @@ const ImageInfo = (props: IImageInfoProps) => {
                   </div>
                 </div>
                 <div className="w-50">
-                  <div className="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                  <div
+                    className="btn-group btn-group-sm"
+                    role="group"
+                    aria-label="Basic outlined example"
+                  >
                     <button
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('top');
+                        align("top");
                       }}
                     >
                       <i className="bi bi-align-top"></i>
@@ -208,7 +261,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('middle');
+                        align("middle");
                       }}
                     >
                       <i className="bi bi-align-middle"></i>
@@ -217,7 +270,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                       type="button"
                       className="btn btn-outline-secondary"
                       onClick={() => {
-                        align('bottom');
+                        align("bottom");
                       }}
                     >
                       <i className="bi bi-align-bottom"></i>
@@ -238,14 +291,26 @@ const ImageInfo = (props: IImageInfoProps) => {
             }}
           >
             <div className="w-25">
-              <Image src={designInfo.src} className="img-fluid " width={50} height={50} objectFit="cover" alt="productImage" />
+              <Image
+                src={designInfo.src}
+                className="img-fluid "
+                width={50}
+                height={50}
+                objectFit="cover"
+                alt="productImage"
+              />
             </div>
 
             <div className="w-75">
-              <p className="h6 m-0 text-truncate ps-3 " style={{ maxWidth: 200 }}>
+              <p
+                className="h6 m-0 text-truncate ps-3 "
+                style={{ maxWidth: 200 }}
+              >
                 {designInfo.name}
               </p>
-              <p className="text-warning m-0 ps-3">{get2Decimal(designInfo.DPI || 0)}</p>
+              <p className="text-warning m-0 ps-3">
+                {get2Decimal(designInfo.DPI || 0)}
+              </p>
             </div>
             <div className="d-flex justify-content-end">
               <button
