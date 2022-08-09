@@ -25,8 +25,8 @@ const schema = yup.object().shape({
 export default function ResetPassword({}: Props) {
   const { mutate: resetPassword, isLoading: isLoading } = useResetPassword();
   const router = useRouter();
-  const email = router.asPath.split("/")[2];
-  const token = router.asPath.split("/")[3];
+  const email = router.asPath.split("/")[3];
+  const token = router.asPath.split("/")[4];
   const defaultValues: ResetPasswordDto = {
     email: "",
     token: "",
