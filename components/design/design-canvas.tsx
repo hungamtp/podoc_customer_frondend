@@ -345,7 +345,7 @@ export default function DesignCanvas({
 
       canvas.on("mouse:down", function (options) {
         const obj = options.target;
-        if (obj) {
+        if (obj && obj.name) {
           obj.lockMovementX = false;
           obj.lockMovementY = false;
           dispatch(setChoosenKey(obj.name));
@@ -835,6 +835,7 @@ export default function DesignCanvas({
               scales: tmpDesignData?.scale,
               leftPosition: tmpDesignData?.left,
               topPosition: tmpDesignData?.top,
+              DPI: tmpDesignData?.DPI,
               tmpSrc: tmpSrc,
               src: imgUrl,
             };
