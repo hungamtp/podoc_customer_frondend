@@ -268,11 +268,7 @@ export default function DesignedProductDetail() {
                     </div>
                     <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                       <div className="section-title ms-md-4">
-                        <h4 className="title">
-                          {" "}
-                          {designedProduct.name}
-                          sdkfjsdlfjsldfjsdlkfsjfjsldkfjsldkfjsldfj
-                        </h4>
+                        <h4 className="title"> {designedProduct.name}</h4>
                         <div className="d-flex justify-content-between mt-1">
                           <h6 className="text-dark small fst-italic mb-0 mt-1">
                             {numberWithCommas(designedProduct.price)} VND
@@ -286,6 +282,14 @@ export default function DesignedProductDetail() {
                         <div>
                           <span className="sold-number ">
                             Đã bán {designedProduct.sold}
+                          </span>
+                        </div>
+                        <div className="designer cursor-pointer">
+                          Chất liệu vải{" "}
+                          <span
+                            onClick={() => goToProfile(designedProduct.user.id)}
+                          >
+                            <b>{designedProduct.material}</b>
                           </span>
                         </div>
                         <div className="designer cursor-pointer">

@@ -53,9 +53,7 @@ export default function DesignedProductCard({ product }: Props) {
         </div>
         <div className="card-body content pt-4 p-2">
           <Link href={`/designs/${product.id}`}>
-            <a className="text-dark product-name h6">
-              {product.name}skldfjsdfjsdlkfjsdlkfjlskdfjsldkfjdslkfds
-            </a>
+            <a className="text-dark product-name h6">{product.name}</a>
           </Link>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">

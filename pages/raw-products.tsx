@@ -156,10 +156,12 @@ export default function RawProducts(props: IProductProps) {
                     </div>
                   </div>
                 ) : (
-                  <div className="d-flex justify-content-center align-items-center h-full">
+                  <div className="d-flex mt-5 ">
                     {" "}
                     {!isLoading && (
-                      <h3 className="">Không tìm thấy sản phẩm nào</h3>
+                      <h3 className="mt-5 text-center w-100">
+                        Không tìm thấy sản phẩm nào
+                      </h3>
                     )}
                   </div>
                 )}
