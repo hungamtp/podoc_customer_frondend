@@ -1,36 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { Badge } from "@material-ui/core";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { setCart } from "@/redux/slices/cart";
-import { logout } from "@/redux/slices/auth";
-import { CartDetailDTO } from "@/services/type.dto";
-import Link from "next/link";
-import Image from "next/image";
-import UseCart from "@/hooks/api/cart/use-cart";
-import { numberWithCommas } from "helper/number-util";
+import { Badge } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
+import { setCart } from '@/redux/slices/cart';
+import { logout } from '@/redux/slices/auth';
+import { CartDetailDTO } from '@/services/type.dto';
+import Link from 'next/link';
+import Image from 'next/image';
+import UseCart from '@/hooks/api/cart/use-cart';
+import { numberWithCommas } from 'helper/number-util';
 type Props = {};
 
 export default function Header({}: Props) {
   const [itemCount, setItemCount] = React.useState(1);
 
-  const cart = useAppSelector((state) => state.carts);
-  const auth = useAppSelector((state) => state.auth);
+  const cart = useAppSelector(state => state.carts);
+  const auth = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const logoutFunc = () => {
     dispatch(setCart([]));
     dispatch(logout([]));
-    router.push("/");
+    router.push('/');
   };
   function toggleMenu(): void {
-    var isOpen = document.getElementById("navigation");
+    var isOpen = document.getElementById('navigation');
     if (isOpen) {
-      if (isOpen.style.display === "block") {
-        isOpen.style.display = "none";
+      if (isOpen.style.display === 'block') {
+        isOpen.style.display = 'none';
       } else {
-        isOpen.style.display = "block";
+        isOpen.style.display = 'block';
       }
     }
   }
@@ -40,12 +40,7 @@ export default function Header({}: Props) {
       <div id="topnav" className="bg-light">
         <div className="container">
           <a className="logo" href="/">
-            <img
-              src="/asset/images/logo_man.png"
-              height="60"
-              className="logo-light-mode"
-              alt=""
-            />
+            <img src="/asset/images/logo_man.png" height="60" className="logo-light-mode" alt="" />
           </a>
 
           <div className="menu-extras">
@@ -91,21 +86,21 @@ export default function Header({}: Props) {
 
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 p-4"
-                  style={{ width: "300px" }}
+                  style={{ width: '300px' }}
                 >
                   <div className="pb-4">
                     {cart.length != 0 &&
                       cart &&
-                      cart.slice(0, 3).map((cart) => {
+                      cart.slice(0, 3).map(cart => {
                         return (
-                          <a
-                            key={cart.id}
-                            href=" "
-                            className="d-flex align-items-center "
-                          >
+                          <a key={cart.id} href=" " className="d-flex align-items-center ">
                             <div className="w-25">
                               <Image
-                                src={cart.designedImage}
+                                src={cart.designedImage != '' ? cart.designedImage : ''}
+                                onError={({ currentTarget }) => {
+                                  currentTarget.onerror = null; // prevents looping
+                                  currentTarget.src = '/asset/images/image_default/image_default.png';
+                                }}
                                 className="shadow rounded"
                                 width={1000}
                                 height={1000}
@@ -122,26 +117,24 @@ export default function Header({}: Props) {
                                 {numberWithCommas(cart.price)} X {cart.quantity}
                               </p>
                             </div>
-                            <h6 className="text-dark mb-0">
-                              {numberWithCommas(cart.price * cart.quantity)}
-                            </h6>
+                            <h6 className="text-dark mb-0">{numberWithCommas(cart.price * cart.quantity)}</h6>
                           </a>
                         );
                       })}
                     <div
                       className="text-dark mb-0  "
                       style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                        marginTop: "20px",
-                        fontStyle: "italic",
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        marginTop: '20px',
+                        fontStyle: 'italic',
                       }}
                     >
                       {cart.length > 0
                         ? `Bạn có ${cart.reduce((total, orderDetail) => {
                             return total + orderDetail.quantity;
                           }, 0)} sản phẩm trong giỏ hàng`
-                        : "Giỏ hàng trống"}
+                        : 'Giỏ hàng trống'}
                     </div>
                   </div>
 
@@ -167,14 +160,13 @@ export default function Header({}: Props) {
                     aria-expanded="false"
                   >
                     <img
-                      src={auth.image != null ? auth.image : ""}
+                      src={auth.image != null ? auth.image : ''}
                       alt="hihi"
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
-                        currentTarget.src =
-                          "/asset/images/avatardefault_92824.png";
+                        currentTarget.src = '/asset/images/avatardefault_92824.png';
                       }}
-                      style={{ borderRadius: "35px" }}
+                      style={{ borderRadius: '35px' }}
                       height={35}
                       width={35}
                     />
@@ -202,31 +194,25 @@ export default function Header({}: Props) {
 
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-1 py-3"
-                  style={{ width: "200px" }}
+                  style={{ width: '200px' }}
                 >
                   {auth.isAuth ? (
                     <div>
                       <Link href="/account">
                         <a className="dropdown-item text-dark" href="#">
-                          <i className="uil uil-user align-middle me-1"></i> Tài
-                          khoản
+                          <i className="uil uil-user align-middle me-1"></i> Tài khoản
                         </a>
                       </Link>
 
                       <div className="dropdown-divider my-3 border-top"></div>
-                      <a
-                        className="dropdown-item text-dark cursor-pointer"
-                        onClick={logoutFunc}
-                      >
-                        <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                        Đăng xuất
+                      <a className="dropdown-item text-dark cursor-pointer" onClick={logoutFunc}>
+                        <i className="uil uil-sign-out-alt align-middle me-1"></i> Đăng xuất
                       </a>
                     </div>
                   ) : (
                     <Link href="/login">
                       <a className="dropdown-item text-dark" href="#">
-                        <i className="uil uil-user align-middle me-1"></i> Đăng
-                        nhập
+                        <i className="uil uil-user align-middle me-1"></i> Đăng nhập
                       </a>
                     </Link>
                   )}
