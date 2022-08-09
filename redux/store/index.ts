@@ -13,6 +13,8 @@ import checkCartSliceReducer from "@/redux/slices/checkCart";
 import isEditSliceReducer from "@/redux/slices/isEdit";
 import headerInfoReducer from "@/redux/slices/headerInfo";
 import designProductInfoReducer from "@/redux/slices/designProductInfo";
+import designInValidReducer from "@/redux/slices/designInValid";
+import routeReducer from "@/redux/slices/route";
 
 import {
   persistStore,
@@ -38,6 +40,7 @@ const persistConfig = {
     "previews",
     "selectedColors",
     "isEdit",
+    "designInValid",
   ],
 };
 
@@ -49,6 +52,7 @@ const rootReducer = combineReducers({
   previews: previewsReducer,
   selectedColors: selectedColorsReducer,
   isEdit: isEditSliceReducer,
+  designInValid: designInValidReducer,
 
   auth: authReducer,
   searchValue: searchReducer,
@@ -57,6 +61,7 @@ const rootReducer = combineReducers({
   checkCartSlice: checkCartSliceReducer,
   headerInfo: headerInfoReducer,
   designProductInfo: designProductInfoReducer,
+  route: routeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
