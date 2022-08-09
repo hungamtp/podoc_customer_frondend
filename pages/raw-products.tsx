@@ -140,7 +140,7 @@ export default function RawProducts(props: IProductProps) {
               </div>
               {/*end col*/}
               <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
-                {!isLoading && response && response.elements > 0 ? (
+                {response && response.elements > 0 ? (
                   <div className="row align-items-center">
                     <div className="col-lg-8 col-md-7">
                       <div className="section-title">
@@ -158,7 +158,9 @@ export default function RawProducts(props: IProductProps) {
                 ) : (
                   <div className="d-flex justify-content-center align-items-center h-full">
                     {" "}
-                    <h3 className="">Không tìm thấy sản phẩm nào</h3>
+                    {!isLoading && (
+                      <h3 className="">Không tìm thấy sản phẩm nào</h3>
+                    )}
                   </div>
                 )}
                 {/*end col*/}
