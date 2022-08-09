@@ -3,9 +3,10 @@
 import { EmptyLayout } from "@/components/layouts";
 import useConfirmEmail from "@/hooks/api/account/use-confirm-email";
 import useCompleteOrder from "@/hooks/api/order/use-complete-momo-order";
+import { confirmEmail } from "@/services/account";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 type Props = {};
 
@@ -23,6 +24,7 @@ export default function ConfirmEmail({}: Props) {
   //            &responseTime=1656439248218
   //            &extraData=
   //    &signature=640a8e675597bbf0315f86426e07dee858df920bebc85a56e59db2cd1fe6a6d4
+
   const router = useRouter();
   const param = router.query;
   if (param["orderId"]) {
@@ -38,7 +40,9 @@ export default function ConfirmEmail({}: Props) {
   const email = router.asPath.split("/")[3];
   const id = router.asPath.split("/")[4];
 
-  const { mutate: confirm } = useConfirmEmail(email, id);
+  useEffect(() => {
+    if (router) confirmEmail(email, id);
+  }, [router]);
 
   return (
     <div>
