@@ -1,54 +1,56 @@
 /* eslint-disable @next/next/no-img-element */
-import { MainLayout } from '@/components/layouts';
-import React, { useEffect, useState } from 'react';
-import useCreatePaymentTransaction from '@/hooks/api/order/use-create-transaction';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { Dialog, DialogContent } from '@mui/material';
-import { nanoid } from '@reduxjs/toolkit';
-import { ShippingInfo } from '@/services/order/dto';
-import useAddOrder from '@/hooks/api/order/use-create-order';
-import { useAppSelector } from '@/components/hooks/reduxHook';
-import useGetAllShippingInfo from '@/hooks/api/order/use-get-all-shipping-infor';
-import { useRouter } from 'next/router';
-import { setCart } from '@/redux/slices/cart';
-import { useDispatch } from 'react-redux';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import Link from 'next/link';
-import useGetAccountById from '@/hooks/api/account/use-account-by-id';
+import { MainLayout } from "@/components/layouts";
+import React, { useEffect, useState } from "react";
+import useCreatePaymentTransaction from "@/hooks/api/order/use-create-transaction";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Dialog, DialogContent } from "@mui/material";
+import { nanoid } from "@reduxjs/toolkit";
+import { ShippingInfo } from "@/services/order/dto";
+import useAddOrder from "@/hooks/api/order/use-create-order";
+import { useAppSelector } from "@/components/hooks/reduxHook";
+import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
+import { useRouter } from "next/router";
+import { setCart } from "@/redux/slices/cart";
+import { useDispatch } from "react-redux";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import Link from "next/link";
+import useGetAccountById from "@/hooks/api/account/use-account-by-id";
 
 type Props = {};
 
 const shippingArray = [
   {
-    name: 'Nguyen Minh Hieu',
-    email: 'hieuthomnghiep@gmail.com',
-    address: 'thai binh que anh',
-    phone: '0907543291',
+    name: "Nguyen Minh Hieu",
+    email: "hieuthomnghiep@gmail.com",
+    address: "thai binh que anh",
+    phone: "0907543291",
   },
   {
-    name: 'Nguyen Van Tai',
-    email: 'nguyenvantai@gmail.com',
-    address: 'ca mau que anh',
-    phone: '0907543291',
+    name: "Nguyen Van Tai",
+    email: "nguyenvantai@gmail.com",
+    address: "ca mau que anh",
+    phone: "0907543291",
   },
   {
-    name: 'Nguyen Van Ttuan',
-    email: 'nguyenvantuan@gmail.com',
-    address: 'thai thuy que anh',
-    phone: '0907543291',
+    name: "Nguyen Van Ttuan",
+    email: "nguyenvantuan@gmail.com",
+    address: "thai thuy que anh",
+    phone: "0907543291",
   },
 ];
 
 export default function Checkout({}: Props) {
   const handleOrder = async () => {};
-  const { data: shippingInfos, isLoading: isLoadingShippingInfos } = useGetAllShippingInfo();
-  const cart = useAppSelector(state => state.carts);
+  const { data: shippingInfos, isLoading: isLoadingShippingInfos } =
+    useGetAllShippingInfo();
+  const cart = useAppSelector((state) => state.carts);
 
-  const credentialId = useAppSelector(state => state.auth.userId);
-  const { data: responseAccount, isLoading: isLoadingAccount } = useGetAccountById(credentialId);
+  const credentialId = useAppSelector((state) => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } =
+    useGetAccountById(credentialId);
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -61,28 +63,42 @@ export default function Checkout({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const { mutate: createPaymentTransaction, isLoading, error } = useCreatePaymentTransaction();
+  const {
+    mutate: createPaymentTransaction,
+    isLoading,
+    error,
+  } = useCreatePaymentTransaction();
   const schema = yup.object().shape({
     email: yup
       .string()
       .email()
-      .min(8, 'Email cần ít nhất 8 chữ cái')
-      .max(50, 'Email tối đa 50 chữ cái')
-      .required('Email không được để trống'),
-    address: yup.string().min(8, 'Địa chỉ cần ít nhất 8 chữ cái').max(300, 'Địa chỉ tối đa 300 chữ cái'),
-    name: yup.string().max(26, 'Tên tối đa 50 chữ cái').required('Tên không được để trống'),
+      .min(8, "Email cần ít nhất 8 chữ cái")
+      .max(50, "Email tối đa 50 chữ cái")
+      .required("Email không được để trống"),
+    address: yup
+      .string()
+      .min(8, "Địa chỉ cần ít nhất 8 chữ cái")
+      .max(300, "Địa chỉ tối đa 300 chữ cái")
+      .required("Địa chỉ giao hàng không được trống"),
+    name: yup
+      .string()
+      .max(26, "Tên tối đa 50 chữ cái")
+      .required("Tên không được để trống"),
     phone: yup
       .string()
       .trim()
-      .matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/, 'Sai định dạng')
-      .required('Số điện thoại không được để trống'),
+      .matches(
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+        "Sai định dạng"
+      )
+      .required("Số điện thoại không được để trống"),
   });
   const form = useForm<ShippingInfo>({
     defaultValues: {
-      name: '',
-      email: '',
-      address: '',
-      phone: '',
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
       shouldSave: true,
     },
     resolver: yupResolver(schema),
@@ -101,10 +117,13 @@ export default function Checkout({}: Props) {
   useEffect(() => {
     if (responseAccount) {
       reset({
-        name: responseAccount.data.userFirstName + ' ' + responseAccount.data.userLastName,
+        name:
+          responseAccount.data.userFirstName +
+          " " +
+          responseAccount.data.userLastName,
         email: responseAccount.data.email,
         address: responseAccount.data.address,
-        phone: responseAccount.data.phone + '',
+        phone: responseAccount.data.phone + "",
       });
       if (responseAccount.data.id) {
         setIsEdit(false);
@@ -114,7 +133,7 @@ export default function Checkout({}: Props) {
     }
   }, [responseAccount]);
 
-  const submit: SubmitHandler<ShippingInfo> = data => {
+  const submit: SubmitHandler<ShippingInfo> = (data) => {
     createOrder(
       { shippingInfo: data, paymentMethod: paymentMethod },
       {
@@ -127,13 +146,22 @@ export default function Checkout({}: Props) {
     );
   };
 
-  const handleChange = (shipping: { name: string; email: string; address: string; phone: string }) => {
+  const handleChange = (shipping: {
+    name: string;
+    email: string;
+    address: string;
+    phone: string;
+  }) => {
     handleCloseDialog();
     reset(shipping);
   };
 
-  const shippingInfosList = shippingInfos?.map(shipping => (
-    <div key={nanoid()} className="p-4 card rounded shadow mb-4 btn" onClick={() => handleChange(shipping)}>
+  const shippingInfosList = shippingInfos?.map((shipping) => (
+    <div
+      key={nanoid()}
+      className="p-4 card rounded shadow mb-4 btn"
+      onClick={() => handleChange(shipping)}
+    >
       <div className="d-flex justify-content-between">
         <span className="">Tên khách hàng</span>
         <p className="text-left w-half">{shipping.name}</p>
@@ -190,14 +218,21 @@ export default function Checkout({}: Props) {
                 </ul>
               </nav>
             </div>
-          </div>{' '}
+          </div>{" "}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
+            <svg
+              viewBox="0 0 2880 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
+                fill="currentColor"
+              />
             </svg>
           </div>
         </div>
@@ -210,13 +245,20 @@ export default function Checkout({}: Props) {
                 <div className="card rounded shadow p-4 border-0">
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <span className="h5 mb-0">Giỏ hàng của tôi</span>
-                    <span className="badge bg-primary rounded-pill">{cart.length}</span>
+                    <span className="badge bg-primary rounded-pill">
+                      {cart.length}
+                    </span>
                   </div>
                   <ul className="list-group mb-3 border">
-                    {cart.map(cartDetail => (
-                      <li key={cartDetail.id} className="d-flex justify-content-between lh-sm p-3 border-bottom">
+                    {cart.map((cartDetail) => (
+                      <li
+                        key={cartDetail.id}
+                        className="d-flex justify-content-between lh-sm p-3 border-bottom"
+                      >
                         <div>
-                          <h6 className="my-0">{cartDetail.designedProductName}</h6>
+                          <h6 className="my-0">
+                            {cartDetail.designedProductName}
+                          </h6>
                           <div className="d-flex justify-content-around">
                             <small className="text-muted me-2">
                               {cartDetail.color}
@@ -230,7 +272,9 @@ export default function Checkout({}: Props) {
                             </small>
                           </div>
                         </div>
-                        <span className="text-muted">{numberWithCommas(cartDetail.price)}</span>
+                        <span className="text-muted">
+                          {numberWithCommas(cartDetail.price)}
+                        </span>
                       </li>
                     ))}
 
@@ -243,7 +287,14 @@ export default function Checkout({}: Props) {
                     </li> */}
                     <li className="d-flex justify-content-between p-3">
                       <span>Tổng tiền (VND)</span>
-                      <strong>{numberWithCommas(cart.reduce((totalSum, a) => totalSum + a.quantity * a.price, 0))}</strong>
+                      <strong>
+                        {numberWithCommas(
+                          cart.reduce(
+                            (totalSum, a) => totalSum + a.quantity * a.price,
+                            0
+                          )
+                        )}
+                      </strong>
                     </li>
                   </ul>
                   {/* <div className="input-group">
@@ -260,7 +311,10 @@ export default function Checkout({}: Props) {
               </div>
               {/*end col*/}
               <div className="col-md-7 col-lg-8">
-                <form className="card rounded shadow p-4 border-0" onSubmit={handleSubmit(submit)}>
+                <form
+                  className="card rounded shadow p-4 border-0"
+                  onSubmit={handleSubmit(submit)}
+                >
                   <div className="d-flex justify-content-between">
                     <h4 className="mb-3">Thông tin giao hàng</h4>
                     {shippingInfos && shippingInfos.length > 0 && isEdit && (
@@ -289,40 +343,88 @@ export default function Checkout({}: Props) {
                       <label htmlFor="name" className="form-label">
                         Họ và tên
                       </label>
-                      <input id="name" type="text" className="form-control" disabled={!isEdit} {...register('name')} />
-                      {errors.name && <div className="text-danger">{errors.name.message}</div>}
+                      <input
+                        id="name"
+                        type="text"
+                        className="form-control"
+                        disabled={!isEdit}
+                        {...register("name")}
+                      />
+                      {errors.name && (
+                        <div className="text-danger">{errors.name.message}</div>
+                      )}
                     </div>
                     <div className="col-sm-6">
                       <label htmlFor="phone" className="form-label">
                         Số điện thoại
                       </label>
-                      <input id="phone" type="text" className="form-control" disabled={!isEdit} {...register('phone')} />
-                      {errors.phone && <div className="text-danger">{errors.phone.message}</div>}
+                      <input
+                        id="phone"
+                        type="text"
+                        className="form-control"
+                        disabled={!isEdit}
+                        {...register("phone")}
+                      />
+                      {errors.phone && (
+                        <div className="text-danger">
+                          {errors.phone.message}
+                        </div>
+                      )}
                     </div>
                     <div className="col-12">
                       <label htmlFor="email" className="form-label">
                         Email
                       </label>
-                      <input id="email" className="form-control" disabled={!isEdit} {...register('email')} />
-                      {errors.email && <div className="text-danger">{errors.email.message}</div>}
+                      <input
+                        id="email"
+                        className="form-control"
+                        disabled={!isEdit}
+                        {...register("email")}
+                      />
+                      {errors.email && (
+                        <div className="text-danger">
+                          {errors.email.message}
+                        </div>
+                      )}
                     </div>
                     <div className="col-12">
                       <label htmlFor="address" className="form-label">
                         Địa chỉ
                       </label>
-                      <input type="text" id="address" className="form-control" disabled={!isEdit} {...register('address')} />
-                      {errors.address && <div className="text-danger">{errors.address.message}</div>}
+                      <input
+                        type="text"
+                        id="address"
+                        className="form-control"
+                        disabled={!isEdit}
+                        {...register("address")}
+                      />
+                      {errors.address && (
+                        <div className="text-danger">
+                          {errors.address.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   {isEdit ? (
                     <div className="form-check mt-4 pt-4 border-top">
-                      <input type="checkbox" className="form-check-input" id="same-address" {...register('shouldSave')} />
-                      <label className="form-check-label" htmlFor="same-address">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="same-address"
+                        {...register("shouldSave")}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="same-address"
+                      >
                         Lưu lại địa chỉ giao hàng
                       </label>
                     </div>
                   ) : (
-                    <div className="btn btn-primary mt-4 w-25" onClick={() => setIsEdit(true)}>
+                    <div
+                      className="btn btn-primary mt-4 w-25"
+                      onClick={() => setIsEdit(true)}
+                    >
                       Chọn địa chỉ khác
                     </div>
                   )}
@@ -336,12 +438,16 @@ export default function Checkout({}: Props) {
                   >
                     {shippingInfos && shippingInfos.length > 0 && (
                       <DialogContent>
-                        <div className="overflow-y-scroll h-60">{shippingInfosList}</div>
+                        <div className="overflow-y-scroll h-60">
+                          {shippingInfosList}
+                        </div>
                       </DialogContent>
                     )}
                   </Dialog>
 
-                  <h4 className="mb-3 mt-4 pt-4 border-top">Phương thức thanh toán</h4>
+                  <h4 className="mb-3 mt-4 pt-4 border-top">
+                    Phương thức thanh toán
+                  </h4>
                   <label htmlFor="btn-check-momo">
                     <div className="d-flex ">
                       <div className="checkout-button-momo my-3">
@@ -355,9 +461,11 @@ export default function Checkout({}: Props) {
                           />
                         </div>
                         <div className="checkout-content">
-                          <span className="checkout-title">Thanh toán bằng</span>
+                          <span className="checkout-title">
+                            Thanh toán bằng
+                          </span>
                           <Image
-                            src={'/asset/images/momologo.svg'}
+                            src={"/asset/images/momologo.svg"}
                             className="img-fluid"
                             width={50}
                             height={50}
@@ -381,9 +489,11 @@ export default function Checkout({}: Props) {
                           />
                         </div>
                         <div className="checkout-content">
-                          <span className="checkout-title">Thanh toán bằng Zalo</span>
+                          <span className="checkout-title">
+                            Thanh toán bằng Zalo
+                          </span>
                           <Image
-                            src={'/asset/images/zalopay.png'}
+                            src={"/asset/images/zalopay.png"}
                             className="img-fluid"
                             width={50}
                             height={50}

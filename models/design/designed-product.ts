@@ -29,6 +29,7 @@ export interface ShownDesignedProduct {
   };
   colorAndSizes: any;
   imagePreviews: { position: string; image: string; color: string }[];
+  material: string;
   rating: number;
   sold: number;
   tagName: string[];

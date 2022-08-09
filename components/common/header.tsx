@@ -157,7 +157,7 @@ export default function Header({}: Props) {
                   <div className="  text-center">
                     {cart.length > 0 && (
                       <Link href="/carts">
-                        <a className="btn btn-primary me-2">Xem giỏ hàng</a>
+                        <a className="btn btn-primary me-2 ">Xem giỏ hàng</a>
                       </Link>
                     )}
                   </div>
@@ -217,21 +217,20 @@ export default function Header({}: Props) {
                     <div>
                       <Link href="/account">
                         <a className="dropdown-item text-dark">
-                          <i className="uil uil-user align-middle me-1"></i> Tài
-                          khoản
+                          <i className="uil uil-user me-1"></i> Tài khoản
                         </a>
                       </Link>
                       <Link href="/account/all-order-detail">
                         <a className="dropdown-item text-dark mt-2">
-                          <i className="uil uil-clipboard-notes h5 me-1" /> Lịch
-                          sử mua hàng
+                          <i className="uil uil-clipboard-notes h5 me-1 align-middle" />{" "}
+                          Lịch sử mua hàng
                         </a>
                       </Link>
 
                       <Link href="/account/mydesign">
                         <a className="dropdown-item text-dark mt-2">
                           <svg
-                            className="me-1 mb-0 h5"
+                            className="me-1 mb-0 h5 align-middle"
                             version="1.1"
                             id="Capa_1"
                             xmlns="http://www.w3.org/2000/svg"
@@ -267,17 +266,24 @@ export default function Header({}: Props) {
                         className="dropdown-item text-dark cursor-pointer"
                         onClick={logoutFunc}
                       >
-                        <i className="uil uil-sign-out-alt align-middle me-1"></i>{" "}
-                        Đăng xuất
+                        <i className="uil uil-sign-in-alt me-1"></i> Đăng xuất
                       </a>
                     </div>
                   ) : (
-                    <Link href="/login">
-                      <a className="dropdown-item text-dark" href="#">
-                        <i className="uil uil-user align-middle me-1"></i> Đăng
-                        nhập
-                      </a>
-                    </Link>
+                    <>
+                      <Link href="/login">
+                        <a className="dropdown-item text-dark">
+                          <i className="uil uil-sign-out-alt me-1"></i> Đăng
+                          nhập
+                        </a>
+                      </Link>
+                      <Link href="/signup">
+                        <a className="dropdown-item text-dark mt-2">
+                          <i className="uil uil-user  me-1"></i> Đăng kí tài
+                          khoản
+                        </a>
+                      </Link>
+                    </>
                   )}
                 </div>
               </div>
@@ -288,23 +294,47 @@ export default function Header({}: Props) {
             <ul className="navigation-menu">
               <li>
                 <Link href="/" className="sub-menu-item">
-                  Trang chủ
+                  <a
+                    className={`sub-menu-item ${
+                      router.asPath === "/" && "nav-active"
+                    }`}
+                  >
+                    Trang chủ
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link href="/designs" className="sub-menu-item">
-                  Thiết kế có sẵn
+                <Link href="/designs">
+                  <a
+                    className={`sub-menu-item ${
+                      router.asPath.includes("/designs") && "nav-active"
+                    }`}
+                  >
+                    Thiết kế có sẵn
+                  </a>
                 </Link>
               </li>
 
               <li>
                 <Link href="/raw-products" className="sub-menu-item">
-                  Tự thiết kế
+                  <a
+                    className={`sub-menu-item ${
+                      router.asPath.includes("/raw-products") && "nav-active"
+                    }`}
+                  >
+                    Tự thiết kế
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="sub-menu-item">
-                  Giới thiệu
+                  <a
+                    className={`sub-menu-item ${
+                      router.asPath.includes("/about") && "nav-active"
+                    }`}
+                  >
+                    Giới thiệu
+                  </a>
                 </Link>
               </li>
             </ul>

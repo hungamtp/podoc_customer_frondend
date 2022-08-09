@@ -36,6 +36,10 @@ a {
   
 }
 
+.nav-active {
+  color: #0a58ca !important
+}
+
 .hoverButton {
   cursor: pointer;
   color: black;
