@@ -214,7 +214,9 @@ export default function DesignedProducts(props: IProductProps) {
                 ) : (
                   <div className="d-flex justify-content-center align-items-center h-full">
                     {" "}
-                    <h3 className="">Không tìm thấy sản phẩm nào</h3>
+                    {!isLoading && (
+                      <h3 className="">Không tìm thấy sản phẩm nào</h3>
+                    )}
                   </div>
                 )}
                 {/*end row*/}
