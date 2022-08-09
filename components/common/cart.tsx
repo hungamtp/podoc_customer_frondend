@@ -43,7 +43,18 @@ export default function Cart({ cart }: Props) {
       </td>
       <td>
         <div className="d-flex align-items-center ">
-          <Image src={cart.designedImage} className="img-fluid" width={1000} height={1000} objectFit="cover" alt="productImage" />
+          <Image
+            src={cart.designedImage != '' ? cart.designedImage : ''}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = '/asset/images/image_default/image_default.png';
+            }}
+            className="img-fluid"
+            width={1000}
+            height={1000}
+            objectFit="cover"
+            alt="productImage"
+          />
 
           <h6 className="mb-0 ms-3">{cart.designedProductName}</h6>
         </div>
