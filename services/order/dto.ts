@@ -36,7 +36,7 @@ export interface GetAllMyOrdersDto {
 export interface GetAllOrderDetailDto {
   data: OrderDetailDto[];
   page: number;
-  element: number;
+  elements: number;
 }
 
 export interface OrderDetailDto {

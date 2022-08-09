@@ -35,7 +35,7 @@ const convertStatus = (status: string) => {
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const [filter, setFilter] = React.useState<Filter>({
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: 9,
   });
 
   const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
@@ -226,13 +226,13 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               </tbody>
             </table>
             <div className="row">
-              {Math.ceil(allOrdersResponse.element / filter.pageSize) <= 1 ? (
+              {Math.ceil(allOrdersResponse.elements / filter.pageSize) <= 1 ? (
                 <></>
               ) : (
                 <div className="d-flex justify-content-center">
                   <PaginationComponent
                     total={Math.ceil(
-                      allOrdersResponse.element / filter.pageSize
+                      allOrdersResponse.elements / filter.pageSize
                     )}
                     filter={filter}
                     setFilter={setFilter}

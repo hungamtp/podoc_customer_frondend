@@ -45,7 +45,7 @@ export const getAllMyOrders = async (filter?: Filter) => {
 };
 
 export const getAllOrderDetail = async (filter?: Filter) => {
-  const pageNumber = 1;
+  const pageNumber = 0;
   const pageSize = 10;
   const query = new URLSearchParams({
     page: filter?.pageNumber?.toString() || pageNumber.toString(),
