@@ -34,7 +34,7 @@ const convertStatus = (status: string) => {
 
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const [filter, setFilter] = React.useState<Filter>({
-    pageNumber: 1,
+    pageNumber: 0,
     pageSize: 10,
   });
 

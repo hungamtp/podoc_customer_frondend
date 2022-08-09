@@ -5,7 +5,7 @@ export interface ColorPicker {
 
 export default function ColorPicker(props: ColorPicker) {
   const { handleChange } = props;
-  const [color, setColor] = React.useState("black");
+  const [color, setColor] = React.useState("#FFFFFF");
 
   const onchange = (e: any) => {
     const value = e.target.value;
