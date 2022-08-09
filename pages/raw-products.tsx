@@ -1,17 +1,17 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import { MainLayout } from "@/components/layouts";
-import * as React from "react";
-import useRawProduct from "@/hooks/api/use-get-all-product-raw";
-import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
-import { useState } from "react";
-import RawProduct from "@/components/common/raw-product";
-import Pagination from "@/components/common/pagination";
-import search from "@/redux/slices/search";
-import Categories from "@/components/common/categories";
-import { useForm } from "react-hook-form";
-import PaginationComponent from "@/components/common/mui-pagination";
-import Link from "next/link";
+import { MainLayout } from '@/components/layouts';
+import * as React from 'react';
+import useRawProduct from '@/hooks/api/use-get-all-product-raw';
+import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
+import { useState } from 'react';
+import RawProduct from '@/components/common/raw-product';
+import Pagination from '@/components/common/pagination';
+import search from '@/redux/slices/search';
+import Categories from '@/components/common/categories';
+import { useForm } from 'react-hook-form';
+import PaginationComponent from '@/components/common/mui-pagination';
+import Link from 'next/link';
 
 export interface IProductProps {}
 
@@ -19,12 +19,12 @@ export default function RawProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
     pageSize: 9,
-    sort: "",
+    sort: '',
   });
   const [totalPages, setTotalPages] = React.useState(0);
 
   const { register, handleSubmit } = useForm<{ name: string }>({
-    defaultValues: { name: "" },
+    defaultValues: { name: '' },
   });
 
   const onSubmit = (data: { name: string }) => {
@@ -52,9 +52,8 @@ export default function RawProducts(props: IProductProps) {
         <section
           className="bg-half-170 bg-light d-table w-100"
           style={{
-            background:
-              "url('/asset/images/banner/banner_final.jpg') no-repeat center center fixed",
-            marginTop: "30px",
+            background: "url('/asset/images/banner/banner_fixed.jpg') no-repeat center center",
+            marginTop: '30px',
           }}
         >
           <div className="container">
@@ -81,21 +80,14 @@ export default function RawProducts(props: IProductProps) {
                 </ul>
               </nav>
             </div>
-          </div>{" "}
+          </div>{' '}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg
-              viewBox="0 0 2880 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                fill="currentColor"
-              />
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
             </svg>
           </div>
         </div>
@@ -109,23 +101,10 @@ export default function RawProducts(props: IProductProps) {
                   <div className="card-body p-0">
                     {/* SEARCH */}
                     <div className="widget">
-                      <form
-                        role="search"
-                        method="get"
-                        onSubmit={handleSubmit(onSubmit)}
-                      >
+                      <form role="search" method="get" onSubmit={handleSubmit(onSubmit)}>
                         <div className="input-group mb-3 border rounded">
-                          <input
-                            type="text"
-                            className="form-control border-0"
-                            placeholder="Tên sản phẩm"
-                            {...register("name")}
-                          />
-                          <button
-                            type="submit"
-                            className="input-group-text bg-white border-0"
-                            id="searchsubmit"
-                          >
+                          <input type="text" className="form-control border-0" placeholder="Tên sản phẩm" {...register('name')} />
+                          <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit">
                             <i className="uil uil-search" />
                           </button>
                         </div>
@@ -146,10 +125,7 @@ export default function RawProducts(props: IProductProps) {
                       <div className="section-title">
                         <h5 className="mb-0">
                           Hiển thị 1–
-                          {response && response?.elements < filter.pageSize
-                            ? response?.elements
-                            : filter.pageSize}{" "}
-                          của {response?.elements}
+                          {response && response?.elements < filter.pageSize ? response?.elements : filter.pageSize} của {response?.elements}
                           &nbsp;sản phẩm
                         </h5>
                       </div>
@@ -169,18 +145,14 @@ export default function RawProducts(props: IProductProps) {
                 {/*end col*/}
                 {/*end row*/}
                 <div className="row">
-                  {response?.data.map((product) => {
+                  {response?.data.map(product => {
                     return <RawProduct key={product.id} product={product} />;
                   })}
                   {totalPages <= 1 ? (
                     <></>
                   ) : (
                     <div className="d-flex justify-content-center">
-                      <PaginationComponent
-                        total={totalPages}
-                        filter={filter}
-                        setFilter={setFilter}
-                      />
+                      <PaginationComponent total={totalPages} filter={filter} setFilter={setFilter} />
                     </div>
                   )}
                 </div>
