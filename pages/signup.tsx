@@ -32,8 +32,14 @@ export default function SignUp({}: Props) {
         "Sai định dạng"
       )
       .required("Số điện thoại không được để trống"),
-    firstName: yup.string().max(20, "Họ tối đa 20 ký tự").required(),
-    lastName: yup.string().max(50, "Tên tối đa 20 ký tự").required(),
+    firstName: yup
+      .string()
+      .max(20, "Họ tối đa 20 ký tự")
+      .required("Họ không được để trống"),
+    lastName: yup
+      .string()
+      .max(50, "Tên tối đa 20 ký tự")
+      .required("Tên không được để trống"),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
   const [accepted, setAccepted] = useState(false);
@@ -115,7 +121,7 @@ export default function SignUp({}: Props) {
                             <input
                               type="text"
                               className="form-control ps-5"
-                              placeholder="First Name"
+                              placeholder="Họ"
                               {...register("firstName")}
                             />
                             {errors.firstName && (
@@ -143,7 +149,7 @@ export default function SignUp({}: Props) {
                             <input
                               type="text"
                               className="form-control ps-5"
-                              placeholder="Last Name"
+                              placeholder="Tên"
                               {...register("lastName")}
                             />
                             {errors.lastName && (
@@ -171,7 +177,7 @@ export default function SignUp({}: Props) {
                             <input
                               type="phone"
                               className="form-control ps-5"
-                              placeholder="Phone"
+                              placeholder="Số điện thoại"
                               {...register("phone")}
                             />
                             {errors.phone && (
@@ -235,7 +241,7 @@ export default function SignUp({}: Props) {
                             <input
                               type="password"
                               className="form-control ps-5"
-                              placeholder="Password"
+                              placeholder="Mật khẩu"
                               {...register("password")}
                             />
                             {errors.password && (

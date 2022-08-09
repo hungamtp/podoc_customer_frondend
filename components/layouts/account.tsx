@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
+import { FALSE } from "sass";
 export interface IAccountProps {}
 
 export function Account({ children }: LayoutProps) {
@@ -34,6 +35,7 @@ export function Account({ children }: LayoutProps) {
   const [images, setImages] = React.useState<ImageListType>([
     { data_url: responseAccount?.data.image },
   ]);
+  const [isUpdatingImage, setIsUpdatingImage] = React.useState(false);
 
   const router = useRouter();
   const [filter, setFilter] = React.useState<Filter>({
@@ -72,6 +74,7 @@ export function Account({ children }: LayoutProps) {
 
   const onUploadImage = () => {
     if (images !== null) {
+      setIsUpdatingImage(true);
       const file = images[0].file;
       const imageRef = ref(storage, `images/${file?.name}`);
       uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
@@ -83,6 +86,7 @@ export function Account({ children }: LayoutProps) {
           updateAvatarImage(submitData, {
             onSuccess: () => {
               queryClient.invalidateQueries("GetAccountById");
+              setIsUpdatingImage(false);
               dispatch(updateImage(url));
             },
           });
@@ -189,9 +193,9 @@ export function Account({ children }: LayoutProps) {
                       className="btn btn-primary mt-2 pt-1 pb-1"
                     >
                       Lưu
-                      {isLoadingUpdateImage === true && (
+                      {isUpdatingImage && (
                         <span
-                          className="spinner-border spinner-border-sm me-1"
+                          className="spinner-border spinner-border-sm ms-2"
                           role="status"
                           aria-hidden="true"
                         ></span>

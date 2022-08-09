@@ -22,8 +22,8 @@ export default function Design({ product }: Props) {
   return (
     <tr className="">
       <td>
-        <div className="row">
-          <div className="col-6">
+        <div className="d-flex align-items-center">
+          <div className="w-50">
             <Image
               src={renderImage.image}
               className="img-fluid"
@@ -33,22 +33,12 @@ export default function Design({ product }: Props) {
               alt="productImage"
             />
           </div>
-          <div className="col-6 d-flex align-items-center">
+          <div className="w-50 " style={{ wordWrap: "break-word" }}>
             <Link href={`/my-product/${product.id}`} className="mb-0 ">
-              <a>{product.name}</a>
+              <a>
+                <p>{product.name}</p>
+              </a>
             </Link>
-            {/* <p
-              _ngcontent-cjt-c236=""
-              className="small-text mb-0 ms-3"
-              style={{ color: "#757c7e" }}
-            >
-              <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-                <b>1</b>&nbsp;sizes
-              </span>
-              <span _ngcontent-cjt-c236="" className="detail ng-star-inserted">
-                <b>2</b>&nbsp;colors
-              </span>
-            </p> */}
           </div>
         </div>
       </td>

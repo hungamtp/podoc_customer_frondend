@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { Account, MainLayout } from '@/components/layouts';
-import useDeleteOrder from '@/hooks/api/order/use-delete-order';
-import useGetOrderDetailByOrderId from '@/hooks/api/order/use-get-order-detail-by-orderId';
-import usePayUnpaidOrder from '@/hooks/api/order/use-pay-unpaid-order';
-import { Filter } from '@/services/order';
-import { GetAllMyOrdersDto, MyOrdersDto, OrderDetailDto } from '@/services/order/dto';
-import { nanoid } from '@reduxjs/toolkit';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import PaginationComponent from './mui-pagination';
+import { Account, MainLayout } from "@/components/layouts";
+import useDeleteOrder from "@/hooks/api/order/use-delete-order";
+import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
+import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
+import { Filter } from "@/services/order";
+import {
+  GetAllMyOrdersDto,
+  MyOrdersDto,
+  OrderDetailDto,
+} from "@/services/order/dto";
+import { nanoid } from "@reduxjs/toolkit";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import PaginationComponent from "./mui-pagination";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -18,7 +22,12 @@ type Props = {
   filter: Filter;
 };
 
-export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, setFilter }: Props) {
+export default function MyOrdersTable({
+  myOrdersResponse,
+  isLoading,
+  filter,
+  setFilter,
+}: Props) {
   const { mutate: payOrder } = usePayUnpaidOrder();
   const { mutate: getOrderDetail } = useGetOrderDetailByOrderId();
   const { mutate: deleteOrder } = useDeleteOrder();
@@ -57,26 +66,36 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                             scope="col"
                             className="border-bottom align-middle"
                             style={{
-                              minWidth: '100px',
-                              width: '150px',
+                              minWidth: "100px",
+                              width: "150px",
                             }}
                           >
                             Hình ảnh
                           </th>
-                          <th scope="col" className="border-bottom align-middle">
+                          <th
+                            scope="col"
+                            className="border-bottom align-middle"
+                          >
                             Thiết kế
                           </th>
-                          <th scope="col" className="border-bottom align-middle">
+                          <th
+                            scope="col"
+                            className="border-bottom align-middle"
+                          >
                             Thông tin
                           </th>
-                          <th scope="col" className="border-bottom align-middle" style={{ minWidth: '40px', width: '180px' }}>
+                          <th
+                            scope="col"
+                            className="border-bottom align-middle"
+                            style={{ minWidth: "40px", width: "180px" }}
+                          >
                             Tổng giá(VND)
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {!isLoading &&
-                          orderDetailData.map(order => (
+                          orderDetailData.map((order) => (
                             <tr key={order.id}>
                               <td>
                                 <Image
@@ -91,16 +110,20 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                               <th className="align-middle">
                                 <ul
                                   style={{
-                                    listStyleType: 'none',
-                                    padding: '0',
+                                    listStyleType: "none",
+                                    padding: "0",
                                   }}
                                 >
                                   <li className="d-flex">
-                                    <div style={{ fontWeight: 'normal' }}>Tên : </div>
+                                    <div style={{ fontWeight: "normal" }}>
+                                      Tên :{" "}
+                                    </div>
                                     <div>{order.designName}</div>
                                   </li>
                                   <li className="d-flex">
-                                    <div style={{ fontWeight: 'normal' }}>Nhà in : </div>
+                                    <div style={{ fontWeight: "normal" }}>
+                                      Nhà in :{" "}
+                                    </div>
                                     <div>{order.provider}</div>
                                   </li>
                                 </ul>
@@ -110,7 +133,9 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                                 <div>Màu : {order.color}</div>
                                 <div>Số lượng : {order.quantity}</div>
                               </td>
-                              <td className="align-middle">{numberWithCommas(order.price)}</td>
+                              <td className="align-middle">
+                                {numberWithCommas(order.price)}
+                              </td>
                             </tr>
                           ))}
                       </tbody>
@@ -141,19 +166,32 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                           Thanh toán
                         </button>
 
-                        <div className="dropdown-menu dd-menu dropdown-menu-end rounded border" style={{ width: '120px' }}>
+                        <div
+                          className="dropdown-menu dd-menu dropdown-menu-end rounded border"
+                          style={{ width: "120px" }}
+                        >
                           <div
                             onClick={() => handleSubmit(0, selectedOrderId)}
                             className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                           >
-                            <img className="me-1 rounded" src="asset/images/momologo.svg" width="25" alt="momo" />
+                            <img
+                              className="me-1 rounded"
+                              src="asset/images/momologo.svg"
+                              width="25"
+                              alt="momo"
+                            />
                             MOMO
                           </div>
                           <div
                             onClick={() => handleSubmit(1, selectedOrderId)}
                             className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                           >
-                            <img className="me-1 rounded" src="asset/images/zalopay.png" width="25" alt="momo" />
+                            <img
+                              className="me-1 rounded"
+                              src="asset/images/zalopay.png"
+                              width="25"
+                              alt="momo"
+                            />
                             Zalo
                           </div>
                         </div>
@@ -180,39 +218,57 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                     <th scope="col" className="border-bottom">
                       Số lượng
                     </th>
-                    <th scope="col" className="border-bottom" style={{ width: '100px' }}>
+                    <th
+                      scope="col"
+                      className="border-bottom"
+                      style={{ width: "100px" }}
+                    >
                       Hành động
                     </th>
-                    <th scope="col" className="border-bottom" style={{ width: '80px' }}></th>
+                    <th
+                      scope="col"
+                      className="border-bottom"
+                      style={{ width: "80px" }}
+                    ></th>
                   </tr>
                 </thead>
                 <tbody>
                   {!isLoading &&
                     myOrdersResponse &&
-                    myOrdersResponse.data.map(orders => (
-                      <tr key={orders.orderId} data-toggle="tooltip" data-placement="top">
+                    myOrdersResponse.data.map((orders) => (
+                      <tr
+                        key={orders.orderId}
+                        data-toggle="tooltip"
+                        data-placement="top"
+                      >
                         <td className="align-middle">
-                          <div>
+                          <div style={{ minWidth: "200px", width: "220px" }}>
                             {orders.orderDetailDtos
                               .filter((orderDetail, index) => index <= 1)
                               .map((orderDetail, insideIndex, newList) => {
-                                if (newList.length < orders.orderDetailDtos.length && insideIndex === newList.length - 1)
+                                if (
+                                  newList.length <
+                                    orders.orderDetailDtos.length &&
+                                  insideIndex === newList.length - 1
+                                )
                                   return (
                                     <>
-                                      <div className="mt-2">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                      <p className="mt-2 text-truncate">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</p>
                                       <div
                                         className="mt-2 ms-5 text-secondary btn btn-link text-secondary"
                                         onClick={() => {
                                           getOrderDetail(orders.orderId, {
-                                            onSuccess: data => {
+                                            onSuccess: (data) => {
                                               setOrderDetailData(data);
                                               setIsShowOrderDetail(true);
-                                              setSelectedOrderId(orders.orderId);
+                                              setSelectedOrderId(
+                                                orders.orderId
+                                              );
                                             },
                                           });
                                         }}
                                       >
-                                        xem thêm...{' '}
+                                        xem thêm...{" "}
                                       </div>
                                     </>
                                   );
@@ -226,13 +282,17 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                               })}
                           </div>
                         </td>
-                        <td className="align-middle">{`${new Date(orders.createdDate).getDate()}-${
+                        <td className="align-middle">{`${new Date(
+                          orders.createdDate
+                        ).getDate()}-${
                           new Date(orders.createdDate).getMonth() + 1
                         }-${new Date(orders.createdDate).getFullYear()}`}</td>
-                        <td className="align-middle">{numberWithCommas(orders.totalBill)} </td>
                         <td className="align-middle">
-                          {' '}
-                          {orders.countItem} {'sản phẩm'}
+                          {numberWithCommas(orders.totalBill)}{" "}
+                        </td>
+                        <td className="align-middle">
+                          {" "}
+                          {orders.countItem} {"sản phẩm"}
                         </td>
                         <td className="align-middle">
                           <div className="dropdown ">
@@ -252,14 +312,24 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                                 onClick={() => handleSubmit(0, orders.orderId)}
                                 className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                               >
-                                <img className="me-1 rounded" src="asset/images/momologo.svg" width="25" alt="momo" />
+                                <img
+                                  className="me-1 rounded"
+                                  src="asset/images/momologo.svg"
+                                  width="25"
+                                  alt="momo"
+                                />
                                 MOMO
                               </div>
                               <div
                                 onClick={() => handleSubmit(1, orders.orderId)}
                                 className="d-flex align-items-center mt-1 cursor-pointer ps-2"
                               >
-                                <img className="me-1 rounded" src="asset/images/zalopay.png" width="25" alt="momo" />
+                                <img
+                                  className="me-1 rounded"
+                                  src="asset/images/zalopay.png"
+                                  width="25"
+                                  alt="momo"
+                                />
                                 Zalo
                               </div>
                             </div>
@@ -280,7 +350,7 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                             title="Xem chi tiết đơn hàng"
                             onClick={() => {
                               getOrderDetail(orders.orderId, {
-                                onSuccess: data => {
+                                onSuccess: (data) => {
                                   setOrderDetailData(data);
                                   setIsShowOrderDetail(true);
                                   setSelectedOrderId(orders.orderId);
@@ -301,17 +371,24 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
             </div>
           )}
           <div className="row">
-            {Math.ceil(myOrdersResponse.elements / filter.pageSize) <= 1 || isShowOrderDetail ? (
+            {Math.ceil(myOrdersResponse.elements / filter.pageSize) <= 1 ||
+            isShowOrderDetail ? (
               <></>
             ) : (
               <div className="d-flex justify-content-center">
-                <PaginationComponent total={Math.ceil(myOrdersResponse.elements / filter.pageSize)} filter={filter} setFilter={setFilter} />
+                <PaginationComponent
+                  total={Math.ceil(myOrdersResponse.elements / filter.pageSize)}
+                  filter={filter}
+                  setFilter={setFilter}
+                />
               </div>
             )}
           </div>
         </div>
       ) : (
-        <h4 style={{ display: 'flex', justifyContent: 'space-around' }}>Chưa có đơn đặt hàng</h4>
+        <h4 style={{ display: "flex", justifyContent: "space-around" }}>
+          Chưa có đơn đặt hàng
+        </h4>
       )}
     </>
   );
