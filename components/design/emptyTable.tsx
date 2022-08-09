@@ -128,9 +128,6 @@ export default function EmptyTable(props: IEmptyTableProps) {
                   <i className="bi bi-fonts me-4 h4 pt-1"></i>
                   Văn bản
                 </li>
-                <li className="list-group-item px-4 py-3 mb-2 border h6 btn btn-light d-flex justify-content-start align-items-center">
-                  <i className="bi bi-google me-4 h4 pt-1"></i>Google Drive
-                </li>
               </ul>
             </>
           )}

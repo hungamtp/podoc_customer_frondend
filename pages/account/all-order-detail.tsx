@@ -226,7 +226,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
               </tbody>
             </table>
             <div className="row">
-              {Math.ceil(allOrdersResponse.element / filter.pageSize) > 1 ? (
+              {Math.ceil(allOrdersResponse.element / filter.pageSize) <= 1 ? (
                 <></>
               ) : (
                 <div className="d-flex justify-content-center">
