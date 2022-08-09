@@ -177,7 +177,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
               Vùng in {placeHolder.width * 300} × {placeHolder.height * 300} px
               (300 DPI)
             </li>
-            <li>Độ phân giải tối đa 23000 x 23000 px</li>
+            <li>Độ phân giải tối đa 12000 x 12000 px</li>
           </ul>
         </div>
       )}
