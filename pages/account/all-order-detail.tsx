@@ -194,7 +194,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       <td className=" align-middle">
                         {order.status === "DONE" ? (
                           <div className="badge bg-success mb-3 p-1">
-                            {order.status}
+                            {convertStatus(order.status)}
                           </div>
                         ) : (
                           <div className="badge bg-warning mb-3 p-1">
@@ -215,7 +215,7 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                           </button>
 
                           <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
-                            {order.rated == false && (
+                            {order.rated == false && order.status === "DONE" && (
                               <div
                                 className="d-flex align-items-center mt-1  hoverButton text-center p-2"
                                 onClick={() => {
