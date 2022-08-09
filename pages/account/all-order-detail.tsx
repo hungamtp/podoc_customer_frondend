@@ -109,13 +109,21 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
         </Dialog>
         {allOrdersResponse && allOrdersResponse.data.length > 0 ? (
           <div className=" bg-white shadow rounded">
-            <table className="table mb-0 table-center table-nowrap">
+            <table className="table mb-0, table-center table-nowrap">
               <thead>
                 <tr>
-                  <th scope="col" className="border-bottom">
+                  <th
+                    style={{ minWidth: "50px", width: "120px" }}
+                    scope="col"
+                    className="border-bottom"
+                  >
                     Hình ảnh
                   </th>
-                  <th scope="col" className="border-bottom">
+                  <th
+                    scope="col"
+                    className="border-bottom"
+                    style={{ minWidth: "200px", width: "220px" }}
+                  >
                     Thiết kế
                   </th>
                   <th scope="col" className="border-bottom">
@@ -146,37 +154,44 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   allOrdersResponse.data.map((order) => (
                     <tr key={order.id}>
                       <td>
-                        <img
-                          className="border-secondary"
-                          src={order.designImage}
-                          width={100}
-                          height={70}
-                        />
+                        <div className=" border-secondary">
+                          <Image
+                            src={order.designImage}
+                            width={1000}
+                            height={1000}
+                            objectFit="cover"
+                            alt="productImage"
+                          />
+                        </div>
                       </td>
-                      <th>
+                      <td className=" align-middle">
                         <ul style={{ listStyleType: "none", padding: "0" }}>
-                          <li className="d-flex">
-                            <div style={{ fontWeight: "normal" }}>Tên : </div>
-                            <div>{order.designName}</div>
+                          <li style={{ minWidth: "200px", width: "220px" }}>
+                            <p className="text-truncate m-0">
+                              Tên: {order.designName}
+                            </p>
                           </li>
-                          <li className="d-flex">
-                            <div style={{ fontWeight: "normal" }}>
-                              Nhà in :{" "}
-                            </div>
-                            <div>{order.provider}</div>
+                          <li style={{ minWidth: "200px", width: "220px" }}>
+                            <p className="text-truncate mt-1">
+                              Nhà in: {order.provider}
+                            </p>
                           </li>
                         </ul>
-                      </th>
-                      <td>
+                      </td>
+                      <td className=" align-middle">
                         <div>Size : {order.size}</div>
                         <div>Màu : {order.color}</div>
                         <div>Số lượng : {order.quantity}</div>
                       </td>
-                      <td>{`${new Date(order.date).getDate()}-${new Date(
+                      <td className=" align-middle">{`${new Date(
+                        order.date
+                      ).getDate()}-${new Date(
                         order.date
                       ).getMonth()}-${new Date(order.date).getFullYear()}`}</td>
-                      <td>{numberWithCommas(order.price)}</td>
-                      <td>
+                      <td className=" align-middle">
+                        {numberWithCommas(order.price)}
+                      </td>
+                      <td className=" align-middle">
                         {order.status === "DONE" ? (
                           <div className="badge bg-success mb-3 p-1">
                             {order.status}

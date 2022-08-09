@@ -70,7 +70,9 @@ export default function Cart({ cart }: Props) {
             />
           </div>
 
-          <h6 className="mb-0 ms-3 w-50">{cart.designedProductName}</h6>
+          <h6 className="mb-0 ms-3 w-50 " style={{ wordWrap: "break-word" }}>
+            {cart.designedProductName}
+          </h6>
         </div>
       </td>
       <td className="text-center mb-0 ms-3">{cart.size}</td>
