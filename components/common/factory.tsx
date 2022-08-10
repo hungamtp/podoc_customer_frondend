@@ -101,7 +101,10 @@ export default function Factory({ factory, productName }: Props) {
           </div>
           <div className="card-body">
             <div className="card-factory-body">
-              <div className="card-factory-body-content w-25">
+              <div
+                className="card-factory-body-content"
+                style={{ width: "450px" }}
+              >
                 <div className="small-text text-muted mb-0 card-body-title">
                   Địa chỉ
                 </div>
@@ -112,7 +115,7 @@ export default function Factory({ factory, productName }: Props) {
               </div>
               <div
                 className="card-factory-body-content ms-4"
-                style={{ width: "200px" }}
+                style={{ width: "240px" }}
               >
                 <div className="small-text text-muted mb-0 card-body-title">
                   Giá
@@ -121,7 +124,7 @@ export default function Factory({ factory, productName }: Props) {
               </div>
               <div
                 className="card-factory-body-content"
-                style={{ width: "150px" }}
+                style={{ width: "200px" }}
               >
                 <div className="small-text text-muted mb-0 card-body-title">
                   Chất liệu
@@ -142,7 +145,7 @@ export default function Factory({ factory, productName }: Props) {
                     .join(" , ")}
                 </div>
               </div>
-              <div style={{ width: "150px" }}>
+              <div style={{ width: "250px" }}>
                 <div className="small-text text-muted mb-0 card-body-title">
                   Vị trí
                 </div>

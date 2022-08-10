@@ -227,8 +227,7 @@ export default function CreateDesignedProductForm(
                 <label htmlFor="basic-icon-default-company">Mô tả</label>
                 <div className="col-sm-10">
                   <div className="input-group input-group-merge">
-                    <input
-                      type="text"
+                    <textarea
                       id="basic-icon-default-company"
                       className="form-control"
                       aria-label="ACME Inc."
@@ -257,7 +256,7 @@ export default function CreateDesignedProductForm(
                   >
                     {(isLoading || isLoadingSubmit) && (
                       <span
-                        className="spinner-border spinner-border-sm"
+                        className="spinner-border spinner-border-sm me-2"
                         role="status"
                         aria-hidden="true"
                       />

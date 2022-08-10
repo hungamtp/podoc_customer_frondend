@@ -12,6 +12,7 @@ import {
   updateUniqueData,
 } from "@/redux/slices/design";
 import { setControlData } from "@/redux/slices/designControl";
+import { setIsDesignInvalid } from "@/redux/slices/designInValid";
 import { fabric } from "fabric";
 import FontFaceObserver from "fontfaceobserver";
 import googleFonts from "google-fonts";
@@ -824,7 +825,11 @@ export default function DesignCanvas({
               image.getScaledHeight(),
               image.height
             );
+            if (tmpDesignData?.DPI || 249 < 250) {
+              dispatch(setIsDesignInvalid(true));
+            }
             const imageNameFromUrl = imgUrl.split("%2F")[1].split("?")[0];
+
             const designInfo = {
               key: newName,
               name: imageNameFromUrl,
