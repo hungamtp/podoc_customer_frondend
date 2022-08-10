@@ -12,7 +12,7 @@ type Props = {};
 export default function MyDesign({}: Props) {
   const [filter, setFilter] = useState<GetAllDesignFilter>({
     pageNumber: 0,
-    pageSize: 9,
+    pageSize: 4,
   });
 
   const { data: response, isLoading } = useGetAllMyDesign(filter);

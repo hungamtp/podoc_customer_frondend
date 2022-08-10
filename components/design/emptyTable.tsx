@@ -173,8 +173,15 @@ export default function EmptyTable(props: IEmptyTableProps) {
           <ul>
             <li>Hỗ trợ JPG và PNG</li>
             <li>Kích cỡ file tối đa 50MB</li>
-            <li>
-              Vùng in {placeHolder.width * 300} × {placeHolder.height * 300} px
+            <li
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="Hình ảnh nên đạt độ phân giải này"
+            >
+              Vùng in{" "}
+              <u>
+                {placeHolder.width * 300} × {placeHolder.height * 300} px
+              </u>{" "}
               (300 DPI)
             </li>
             <li>Độ phân giải tối đa 12000 x 12000 px</li>
