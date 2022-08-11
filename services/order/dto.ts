@@ -62,6 +62,8 @@ export interface MyOrdersDto {
   createdDate: string;
   orderDetailDtos: OrderDetailDto[];
   isPaid: boolean;
+  canCancel: boolean;
+  canceled: boolean;
   countItem: number;
 }
 
