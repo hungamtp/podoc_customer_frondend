@@ -2,24 +2,22 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import { storage } from "@/firebase/firebase";
 import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
-import { Preview } from "@/redux/slices/previews";
-import { EditDesignedProduct } from "@/services/design/dto";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ErrorHttpResponse } from "@/models/error_http_response.interface";
 import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { resetDesigns } from "@/redux/slices/design";
 import { resetControl } from "@/redux/slices/designControl";
-import { clearAllPreview } from "@/redux/slices/previews";
+import { clearAllPreview, Preview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
+import { EditDesignedProduct } from "@/services/design/dto";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { b64toBlob } from "helper/files-utils";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import SelectColor from "./select-color";
-import { AxiosError } from "axios";
 
 export interface EditDesignFormProps {
   handleCloseDialog: () => void;
@@ -54,6 +52,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const { designName } = router.query;
 
   const defaultValues: FormAddDesignInfo = {
@@ -127,7 +126,10 @@ export default function EditDesignForm(props: EditDesignFormProps) {
             editDesignProduct(submitData, {
               onSuccess: (data) => {
                 //because data:any
-
+                enqueueSnackbar("Chỉnh sửa thiết kế thành công!", {
+                  autoHideDuration: 4000,
+                  variant: "success",
+                });
                 dispatch(setChoosenKey(""));
                 dispatch(clearAllPreview());
                 dispatch(resetColors());
@@ -188,6 +190,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
                   className="btn btn-secondary"
                   onClick={handleCloseDialog}
                   autoFocus
+                  disabled={isLoading || isLoadingSubmit}
                   type="button"
                 >
                   Hủy

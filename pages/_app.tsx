@@ -12,6 +12,7 @@ import "../styles/global.scss";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { SnackbarProvider } from "notistack";
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = Component.Layout ?? EmptyLayout;
   const queryClient = new QueryClient();
@@ -38,9 +39,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 "AXtc9DqyqTCgesK5RMtPckwA8VQ7r0zKWKMABjTFdZXrbIpMpFCz2BRMiFMM4W9b4gISymIZHp1kNnaK",
             }}
           >
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              maxSnack={2}
+            >
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </SnackbarProvider>
           </PayPalScriptProvider>
         </QueryClientProvider>
       </PersistGate>

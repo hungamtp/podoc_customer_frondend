@@ -1,13 +1,14 @@
-import * as React from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Image from "next/image";
-export interface IUpdateImageSuccessProps {}
+import * as React from "react";
+export interface IUpdateImageSuccessProps {
+  content: string;
+}
 
-export default function UpdateImageSuccess(props: IUpdateImageSuccessProps) {
+export default function UpdateImageSuccess({
+  content,
+}: IUpdateImageSuccessProps) {
   const [open, setOpen] = React.useState(true);
 
   const handleClickOpen = () => {
@@ -37,10 +38,7 @@ export default function UpdateImageSuccess(props: IUpdateImageSuccessProps) {
                 alt="productImage"
               />
             </div>
-            <div>
-              Đổi avatar thành công, cảm ơn bạn đã xử dụng dịch vụ của chúng
-              tôi.
-            </div>
+            <div>{content}</div>
             <div className=" d-flex justify-content-center">
               <button
                 className="btn btn-primary ps-4 pe-4"

@@ -1,3 +1,4 @@
+import UpdateImageSuccess from "@/components/account/update-image-success";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
 import { MainLayout } from "@/components/layouts";
 import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
@@ -9,6 +10,7 @@ import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -45,6 +47,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
       .max(255, "Description tối đa 255 kí tự")
       .required("Thông tin mô tả không được để trống"),
   });
+  const { enqueueSnackbar } = useSnackbar();
   const [renderedPosition, setRenderPosition] = useState("front");
   const [imageWithPosition, setImageWithPosition] = useState<
     {
@@ -54,6 +57,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
     }[]
   >([]);
   const [renderedColor, setRenderColor] = useState("");
+  const dialogContent = "Thay đổi thông tin thiết kế thành công";
   const form = useForm<DesignProductInfo>({
     defaultValues: {
       designedPrice: 10000,
@@ -94,6 +98,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   };
   const {
     mutate: editDesignProduct,
+    isSuccess,
     error,
     isLoading: isLoadingSubmit,
   } = useEditDesignedProduct(handleCloseDialog);
@@ -114,6 +119,10 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
       editDesignProduct(submitData, {
         onSuccess: (data) => {
           //because data:any
+          enqueueSnackbar("Chỉnh sửa thông tin thiết kế thành công!", {
+            autoHideDuration: 3000,
+            variant: "success",
+          });
           setIsLoading(false);
           setIsEdit(false);
           handleCloseDialog();

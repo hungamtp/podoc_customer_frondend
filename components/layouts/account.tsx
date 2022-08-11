@@ -12,16 +12,14 @@ import useGetAccountById from "@/hooks/api/account/use-account-by-id";
 import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
 import { logout, updateImage } from "@/redux/slices/auth";
 import { setCart } from "@/redux/slices/cart";
-import { Filter } from "@/services/order";
 import { IconButton } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import Badge from "@mui/material/Badge";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
-import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useEffect } from "react";
+import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useQueryClient } from "react-query";
-import { FALSE } from "sass";
 export interface IAccountProps {}
 
 export function Account({ children }: LayoutProps) {
@@ -38,16 +36,15 @@ export function Account({ children }: LayoutProps) {
   const [isUpdatingImage, setIsUpdatingImage] = React.useState(false);
 
   const router = useRouter();
-  const [filter, setFilter] = React.useState<Filter>({
-    pageNumber: 0,
-    pageSize: 10,
-  });
 
   useEffect(() => {
     if (responseAccount) {
       setImages([{ data_url: responseAccount.data.image }]);
     }
   }, [responseAccount]);
+
+  const dialogContent =
+    "Đổi avatar thành công, cảm ơn bạn đã xử dụng dịch vụ của chúng tôi";
 
   const maxNumber = 69;
 
@@ -130,7 +127,7 @@ export function Account({ children }: LayoutProps) {
                       <div className="upload__image-wrapper">
                         <Badge
                           className="avatar rounded-circle"
-                          overlap="circular"
+                          overlap="rectangular"
                           anchorOrigin={{
                             vertical: "bottom",
                             horizontal: "right",
@@ -202,7 +199,7 @@ export function Account({ children }: LayoutProps) {
                       )}
                     </button>
                   )}
-                  {isSuccess && <UpdateImageSuccess />}
+                  {isSuccess && <UpdateImageSuccess content={dialogContent} />}
                 </div>
               </div>
             </div>
