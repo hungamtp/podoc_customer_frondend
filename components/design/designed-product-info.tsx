@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -84,7 +85,7 @@ export default function CreateDesignedProductForm(
     defaultValues,
     resolver: yupResolver(schema),
   });
-
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
     name: string;
@@ -146,7 +147,14 @@ export default function CreateDesignedProductForm(
               productId: productId,
             } as CreateDesignedProduct;
 
-            addDesignedProduct(submitData);
+            addDesignedProduct(submitData, {
+              onSuccess: () => {
+                enqueueSnackbar("Tạo sản phẩm thiết kế thành công!", {
+                  autoHideDuration: 4000,
+                  variant: "success",
+                });
+              },
+            });
           }
         });
       });
@@ -268,6 +276,7 @@ export default function CreateDesignedProductForm(
                   <button
                     className="btn btn-secondary w-30p"
                     onClick={handleCloseDialog}
+                    disabled={isLoadingSubmit || isLoading}
                     autoFocus
                     type="button"
                   >

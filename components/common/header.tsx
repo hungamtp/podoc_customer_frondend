@@ -72,6 +72,7 @@ export default function Header({}: Props) {
                 >
                   <Badge
                     color="secondary"
+                    overlap="rectangular"
                     badgeContent={cart.reduce((total, orderDetail) => {
                       return total + orderDetail.quantity;
                     }, 0)}
@@ -108,7 +109,7 @@ export default function Header({}: Props) {
                                 src={
                                   cart.designedImage != ""
                                     ? cart.designedImage
-                                    : ""
+                                    : "/asset/images/image_default/image_default.png"
                                 }
                                 onError={({ currentTarget }) => {
                                   currentTarget.onerror = null; // prevents looping
@@ -217,12 +218,12 @@ export default function Header({}: Props) {
                     <div>
                       <Link href="/account">
                         <a className="dropdown-item text-dark">
-                          <i className="uil uil-user me-1"></i> Tài khoản
+                          <i className="uil uil-user me-2"></i> Tài khoản
                         </a>
                       </Link>
                       <Link href="/account/all-order-detail">
                         <a className="dropdown-item text-dark mt-2">
-                          <i className="uil uil-clipboard-notes h5 me-1 align-middle" />{" "}
+                          <i className="uil uil-clipboard-notes h5 me-1 align-middle text-start" />{" "}
                           Lịch sử mua hàng
                         </a>
                       </Link>

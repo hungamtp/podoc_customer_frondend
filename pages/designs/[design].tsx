@@ -19,6 +19,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { string } from "yup";
 
@@ -87,6 +88,7 @@ export default function DesignedProductDetail() {
   const dispatch = useAppDispatch();
   const { design }: any = router.query;
   const auth = useAppSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
 
   const { data: designedProduct, isLoading: isLoading } =
     useGetOthersDesignById(design);
@@ -214,14 +216,22 @@ export default function DesignedProductDetail() {
       size: selectedSize,
       quantity: newQuantity,
     };
-    if (auth.isAuth) addToCart(newCartDetail);
+    if (auth.isAuth)
+      addToCart(newCartDetail, {
+        onSuccess: () => {
+          enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
+            autoHideDuration: 3000,
+            variant: "success",
+          });
+        },
+      });
     else {
       const reduxCartDetail = {
         id: nanoid(),
         cartId: nanoid(),
         designedProductId: designedProduct?.id,
         designedProductName: designedProduct?.name,
-        designedImage: renderedImagesList[0],
+        designedImage: renderedImagesList[0].image,
         size: selectedSize,
         color: selectedColor,
         quantity: newQuantity,
@@ -229,6 +239,10 @@ export default function DesignedProductDetail() {
         publish: true,
       };
       dispatch(addNewCartDetail(reduxCartDetail));
+      enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
+        autoHideDuration: 3000,
+        variant: "success",
+      });
     }
   };
 
@@ -248,6 +262,10 @@ export default function DesignedProductDetail() {
       );
       dispatch(setCartRedux(newCart));
       updateCart(newCart);
+      enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
+        autoHideDuration: 3000,
+        variant: "success",
+      });
     }
   };
 

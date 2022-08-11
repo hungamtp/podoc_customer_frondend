@@ -92,13 +92,12 @@ export default function PreviewTable(props: IPreviewTableProps) {
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
               style={{
-                marginLeft: "8rem",
+                marginLeft: "30%",
                 background: "none",
                 display: "block",
                 shapeRendering: "auto",
+                width: "50%",
               }}
-              width="10rem"
-              height="10rem"
               viewBox="0 0 100 100"
               preserveAspectRatio="xMidYMid"
             >
@@ -121,15 +120,6 @@ export default function PreviewTable(props: IPreviewTableProps) {
         )}
       </div>
 
-      <Backdrop
-        sx={{
-          color: "#fff",
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
-        open={controlData.isLoadingImage}
-      >
-        <Card>cccccccccc</Card>
-      </Backdrop>
       <div className="p-2">
         <label className="h4">Màu áo</label>
         {colors?.map((color) => (
