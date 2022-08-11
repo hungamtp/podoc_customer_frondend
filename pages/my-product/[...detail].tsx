@@ -173,8 +173,8 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                       <Image
                                         src={preview.image}
                                         className="img-fluid"
-                                        width={1000}
-                                        height={1000}
+                                        width={5000}
+                                        height={5000}
                                         objectFit="cover"
                                         alt="productImage"
                                       />
