@@ -180,11 +180,12 @@ export default function EmptyTable(props: IEmptyTableProps) {
             >
               Vùng in{" "}
               <u>
-                {placeHolder.width * 300} × {placeHolder.height * 300} px
+                {((placeHolder.width * 300) / 2.54).toFixed(0)}×
+                {((placeHolder.height * 300) / 2.54).toFixed(0)} px
               </u>{" "}
               (300 DPI)
             </li>
-            <li>Độ phân giải tối đa 12000 x 12000 px</li>
+            <li>Độ phân giải tối đa 12000x12000 px</li>
           </ul>
         </div>
       )}

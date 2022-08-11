@@ -121,23 +121,21 @@ const ImageInfo = (props: IImageInfoProps) => {
           </div>
           <div className="p-3">
             <div className="row">
-              <div className="w-25"></div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">Chiều rộng</div>
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">Chiều rộng</div>
                 <div className="w-50">Chiều dài</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Số đo</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
                       handleChange={handleChangeWidth}
                       defaultVal={get2Decimal(designInfo.width) + ""}
                     />
-                    <span className="custom-input-tag">in</span>
+                    <span className="custom-input-tag">cm</span>
                   </div>
                 </div>
                 <div className="w-50">
@@ -147,22 +145,20 @@ const ImageInfo = (props: IImageInfoProps) => {
                       handleChange={handleChangeHeight}
                       defaultVal={get2Decimal(designInfo.height) + ""}
                     />
-                    <span className="custom-input-tag">in</span>
+                    <span className="custom-input-tag">cm</span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="row mt-3">
-              <div className="w-25"></div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">Độ xoay</div>
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">Độ xoay</div>
                 <div className="w-50">Tỉ lệ</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Gốc</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -186,16 +182,14 @@ const ImageInfo = (props: IImageInfoProps) => {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="w-25 "></div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">Cách trái</div>
-                <div className="w-50">Cách phải</div>
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">Cách trái</div>
+                <div className="w-50">Cách trên</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Vị trí</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -218,9 +212,8 @@ const ImageInfo = (props: IImageInfoProps) => {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="w-25">Căn dòng</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-3">
+              <div className="d-flex w-100">
+                <div className="me-4">
                   <div
                     className="btn-group btn-group-sm "
                     role="group"
@@ -255,7 +248,7 @@ const ImageInfo = (props: IImageInfoProps) => {
                     </button>
                   </div>
                 </div>
-                <div className="w-50">
+                <div className="">
                   <div
                     className="btn-group btn-group-sm"
                     role="group"
@@ -314,16 +307,29 @@ const ImageInfo = (props: IImageInfoProps) => {
               />
             </div>
 
-            <div className="w-75">
+            <div className="w-75 ">
               <p
-                className="h6 m-0 text-truncate ps-3 "
+                className="h6 m-0 text-truncate ps-3 mt-1"
                 style={{ maxWidth: 200 }}
               >
                 {designInfo.name}
               </p>
-              <p className="text-warning m-0 ps-3">
-                {get2Decimal(designInfo.DPI || 0)}
-              </p>
+              {(designInfo.DPI || 300) > 300 && (
+                <small className="text-success m-0 te ps-3">
+                  Độ phân giải cao ({get2Decimal(designInfo.DPI || 0)})
+                </small>
+              )}
+              {(designInfo.DPI || 200) < 300 &&
+                (designInfo.DPI || 200) > 200 && (
+                  <small className="text-warning m-0 te ps-3 ">
+                    Độ phân giải vừa ({get2Decimal(designInfo.DPI || 0)})
+                  </small>
+                )}
+              {(designInfo.DPI || 100) < 200 && (
+                <small className="text-danger m-0 te ps-3">
+                  Độ phân giải thấp ({get2Decimal(designInfo.DPI || 0)})
+                </small>
+              )}
             </div>
             <div className="d-flex justify-content-end">
               <button

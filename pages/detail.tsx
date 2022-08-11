@@ -129,6 +129,13 @@ export default function ProductDetail() {
                 </div>
               </div>
             </div>
+
+            {/* <div className="container">
+              <div className="mt-4">
+                <p className="h4">Danh sách nhà in</p>
+              </div>
+            </div> */}
+
             {response.factories.length != 0 ? (
               response.factories.map((factory) => {
                 return (

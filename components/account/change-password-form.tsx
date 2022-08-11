@@ -12,16 +12,19 @@ export interface IChangePasswordProps {
 const schema = yup.object().shape({
   oldPassword: yup
     .string()
+    .trim("Không đúng định dạng")
     .min(8, "Mật khẩu cần ít nhất 8 kí tự")
     .max(30, "Mật khẩu tối đa 50 kí tự")
     .required("Mật khẩu không được để trống"),
   newPassword: yup
     .string()
+    .trim("Không đúng định dạng")
     .min(8, "Mật khẩu cần ít nhất 8 kí tự")
     .max(30, "Mật khẩu tối đa 50 kí tự")
     .required("Mật khẩu không được để trống"),
   passwordConfirmation: yup
     .string()
+    .trim("Không đúng định dạng")
     .oneOf([yup.ref("newPassword"), null], "Mật khẩu nhập lại không đúng"),
 });
 

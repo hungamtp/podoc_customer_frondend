@@ -27,7 +27,7 @@ export default function ShowRating({ rate, rateCount }: IShowRatingProps) {
         </div>
       </div>
       {rateCount > 0 ? (
-        <span className="sold-number ">{`Đánh giá : ${rateCount} `}</span>
+        <span className="sold-number ">{`Đánh giá: ${rateCount} `}</span>
       ) : (
         <span className="sold-number ">Chưa có đánh giá nào</span>
       )}

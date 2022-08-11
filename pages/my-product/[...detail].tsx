@@ -312,13 +312,9 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                   Tên sản phẩm
                                 </label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
                                   <input
                                     id="subject"
-                                    className="form-control ps-5"
+                                    className="form-control"
                                     {...register("name")}
                                     disabled={!isEdit}
                                   />
@@ -331,13 +327,9 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                   Giá thiết kế
                                 </label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
                                   <input
                                     id="subject"
-                                    className="form-control ps-5"
+                                    className="form-control"
                                     {...register("designedPrice")}
                                     disabled={!isEdit}
                                   />
@@ -350,10 +342,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                   Giá từ nhà sản xuất
                                 </label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
                                   {numberWithCommas(response.priceFromFactory)}{" "}
                                   VND
                                 </div>
@@ -363,10 +351,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <div className="mb-3">
                                 <label className="form-label">Tổng giá</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="book"
-                                    className="fea icon-sm icons"
-                                  />
                                   {numberWithCommas(
                                     Number(designedPrice) +
                                       response.priceFromFactory
@@ -380,14 +364,10 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <div className="mb-3">
                                 <label className="form-label">Mô tả</label>
                                 <div className="form-icon position-relative">
-                                  <i
-                                    data-feather="message-circle"
-                                    className="fea icon-sm icons"
-                                  />
                                   <textarea
                                     id="comments"
                                     rows={4}
-                                    className="form-control ps-5"
+                                    className="form-control"
                                     {...register("description")}
                                     disabled={!isEdit}
                                   />
