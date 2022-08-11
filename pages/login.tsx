@@ -24,11 +24,13 @@ type Props = {
 const schema = yup.object().shape({
   email: yup
     .string()
+    .trim()
     .email("Không đúng định dạng email")
     .max(50, "Không đúng định dạng email")
     .required("Email không được để trống"),
   password: yup
     .string()
+    .trim()
     .min(8, "Mật khẩu cần ít nhất 8 chữ cái")
     .max(26, "Mật khẩu tối đa 50 chữ cái")
     .required("Mật khẩu không được để trống"),

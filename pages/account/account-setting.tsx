@@ -1,80 +1,95 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import ChangePassword from '@/components/account/change-password-form';
-import VerifieSuccess from '@/components/account/verifie-success-form';
-import Dashboard from '@/pages/account';
-import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
-import { Account, MainLayout } from '@/components/layouts';
-import useGetAccountById from '@/hooks/api/account/use-account-by-id';
-import useUpdateProfile from '@/hooks/api/account/use-update-profile';
-import useVerifyEmail from '@/hooks/api/account/use-verify-email';
-import UseCart from '@/hooks/api/cart/use-cart';
-import useAllOrderDetail from '@/hooks/api/order/use-all-order-detail';
-import useMyOrders from '@/hooks/api/order/use-my-orders';
-import { logout } from '@/redux/slices/auth';
-import { setCart } from '@/redux/slices/cart';
-import { AccountByIdDtos } from '@/services/account/dto';
-import { Filter } from '@/services/order';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { IconButton } from '@material-ui/core';
-import { PhotoCamera } from '@material-ui/icons';
-import Badge from '@mui/material/Badge';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import * as React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { storage } from '@/firebase/firebase';
-import ImageUploading, { ImageListType } from 'react-images-uploading';
-import * as yup from 'yup';
-import AllOrderDetail from './all-order-detail';
-import MyDesign from './mydesign';
-import MyOrders from './myorders';
-import useUpdateImageAccount from '@/hooks/api/account/use-update-image';
-import { updateImageAccount } from '@/services/account';
-import UpdateImageSuccess from '@/components/account/update-image-success';
+import ChangePassword from "@/components/account/change-password-form";
+import VerifieSuccess from "@/components/account/verifie-success-form";
+import Dashboard from "@/pages/account";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { Account, MainLayout } from "@/components/layouts";
+import useGetAccountById from "@/hooks/api/account/use-account-by-id";
+import useUpdateProfile from "@/hooks/api/account/use-update-profile";
+import useVerifyEmail from "@/hooks/api/account/use-verify-email";
+import UseCart from "@/hooks/api/cart/use-cart";
+import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
+import useMyOrders from "@/hooks/api/order/use-my-orders";
+import { logout } from "@/redux/slices/auth";
+import { setCart } from "@/redux/slices/cart";
+import { AccountByIdDtos } from "@/services/account/dto";
+import { Filter } from "@/services/order";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IconButton } from "@material-ui/core";
+import { PhotoCamera } from "@material-ui/icons";
+import Badge from "@mui/material/Badge";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { storage } from "@/firebase/firebase";
+import ImageUploading, { ImageListType } from "react-images-uploading";
+import * as yup from "yup";
+import AllOrderDetail from "./all-order-detail";
+import MyDesign from "./mydesign";
+import MyOrders from "./myorders";
+import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
+import { updateImageAccount } from "@/services/account";
+import UpdateImageSuccess from "@/components/account/update-image-success";
 
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
   userFirstName: yup
     .string()
-    .min(1, 'First Name cần ít nhất 1 kí tự')
-    .max(26, 'First Name tối đa 50 kí tự')
-    .required('First Name không được để trống'),
+    .trim("Tên không được để trống")
+    .min(1, "Tên cần ít nhất 1 kí tự")
+    .max(26, "Tên tối đa 50 kí tự")
+    .required("Tên không được để trống"),
   userLastName: yup
     .string()
-    .min(1, 'Last Name cần ít nhất 1 kí tự')
-    .max(26, 'Last Name tối đa 50 kí tự')
-    .required('Last Name không được để trống'),
+    .trim("Họ không được để trống")
+    .min(1, "Họ cần ít nhất 1 kí tự")
+    .max(26, "Họ tối đa 50 kí tự")
+    .required("Họ không được để trống"),
   email: yup
     .string()
+    .trim("Email không được để trống")
     .email()
-    .min(8, 'Tài khoản cần ít nhất 8 kí tự')
-    .max(50, 'Tài khoản tối đa 50 kí tự')
-    .required('Tài khoản không được để trống'),
+    .min(8, "Tài khoản cần ít nhất 8 kí tự")
+    .max(50, "Tài khoản tối đa 50 kí tự")
+    .required("Tài khoản không được để trống"),
   phone: yup
     .string()
-    .matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/, 'Số điện thoại gồm 10 số và bắt đầu từ 0')
-    .required('Số điện thoại không được để trống'),
+    .trim("Số điện thoại không được để trống")
+    .matches(
+      /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+      "Số điện thoại gồm 10 số và bắt đầu từ 0"
+    )
+    .required("Số điện thoại không được để trống"),
   address: yup
     .string()
-    .min(10, 'Địa chỉ cần ít nhất 10 kí tự')
-    .max(300, 'Địa chỉ tối đa 300 kí tự')
-    .required('Địa chỉ không được để trống'),
+    .trim("Địa chỉ được để trống")
+    .min(10, "Địa chỉ cần ít nhất 10 kí tự")
+    .max(300, "Địa chỉ tối đa 300 kí tự")
+    .required("Địa chỉ không được để trống"),
 });
 
 export default function AccountSetting(props: IAccountSettingProps) {
   const storaged = globalThis?.sessionStorage;
-  const prevPath = storaged.getItem('prevPath');
-  const credentialId = useAppSelector(state => state.auth.userId);
-  const { data: responseAccount, isLoading: isLoadingAccount } = useGetAccountById(credentialId);
-  const { mutate: verifyEmail, isLoading: isLoadingVerifieEmail, isSuccess: isSuccessVerifieEmail } = useVerifyEmail();
+  const prevPath = storaged.getItem("prevPath");
+  const credentialId = useAppSelector((state) => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } =
+    useGetAccountById(credentialId);
+  const {
+    mutate: verifyEmail,
+    isLoading: isLoadingVerifieEmail,
+    isSuccess: isSuccessVerifieEmail,
+  } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const { mutate: updateProfile } = useUpdateProfile();
   const dispatch = useAppDispatch();
-  const [images, setImages] = React.useState<ImageListType>([{ data_url: responseAccount?.data.image }]);
+  const [images, setImages] = React.useState<ImageListType>([
+    { data_url: responseAccount?.data.image },
+  ]);
 
   const router = useRouter();
 
@@ -82,32 +97,36 @@ export default function AccountSetting(props: IAccountSettingProps) {
 
   const [isImageChange, setIsImageChange] = React.useState(false);
 
-  const { mutate: updateAvatarImage, isSuccess, isLoading: isLoadingUpdateImage } = useUpdateImageAccount();
+  const {
+    mutate: updateAvatarImage,
+    isSuccess,
+    isLoading: isLoadingUpdateImage,
+  } = useUpdateImageAccount();
 
   React.useEffect(() => {
     const storage = globalThis?.sessionStorage;
-    const prev = storage.getItem('prevPath');
-    if (prev === '/design') {
+    const prev = storage.getItem("prevPath");
+    if (prev === "/design") {
     }
   }, []);
 
   const logoutFunc = () => {
     dispatch(setCart([]));
     dispatch(logout([]));
-    router.push('/');
+    router.push("/");
   };
 
   const defaultValues: AccountByIdDtos = {
-    id: '',
-    userFirstName: '',
-    userLastName: '',
-    name: '',
-    email: '',
-    roleName: '',
+    id: "",
+    userFirstName: "",
+    userLastName: "",
+    name: "",
+    email: "",
+    roleName: "",
     phone: 0,
-    address: '',
-    image: '',
-    userStatus: '',
+    address: "",
+    image: "",
+    userStatus: "",
     mailVerified: false,
   };
   const {
@@ -125,7 +144,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     setImages([{ data_url: responseAccount?.data.image }]);
   }, [responseAccount]);
 
-  const onSubmit: SubmitHandler<AccountByIdDtos> = data => {
+  const onSubmit: SubmitHandler<AccountByIdDtos> = (data) => {
     const tmpData = {
       id: credentialId,
       firstName: data.userFirstName,
@@ -140,30 +159,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
     setIsEdit(false);
   };
 
-  const onUploadImage = () => {
-    if (images !== null) {
-      const file = images[0].file;
-      const imageRef = ref(storage, `images/${file?.name}`);
-      uploadBytes(imageRef, file || new Blob()).then(snapshot => {
-        getDownloadURL(snapshot.ref).then(url => {
-          const submitData = {
-            id: credentialId,
-            image: url,
-          };
-          updateAvatarImage(submitData);
-          setIsImageChange(false);
-        });
-      });
-    }
-  };
-
   const closeChangePassword = () => {
     setIsChangePassword(false);
-  };
-  const onChange = (imageList: ImageListType, addUpdateIndex: any) => {
-    setImages(imageList);
-    setIsImageChange(true);
-    // data for submit
   };
 
   return (
@@ -198,9 +195,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className="form-control ps-5"
                       disabled={!isEdit}
                       defaultValue={responseAccount.data.userLastName}
-                      {...register('userLastName')}
+                      {...register("userLastName")}
                     />
                   </div>
+                  {errors.userLastName && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.userLastName.message}
+                    </span>
+                  )}
                 </div>
               </div>
               {/*end col*/}
@@ -230,9 +232,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className="form-control ps-5"
                       disabled={!isEdit}
                       defaultValue={responseAccount.data.userFirstName}
-                      {...register('userFirstName')}
+                      {...register("userFirstName")}
                     />
                   </div>
+                  {errors.userFirstName && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.userFirstName.message}
+                    </span>
+                  )}
                 </div>
               </div>
               {/*end col*/}
@@ -261,7 +268,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       disabled
                       className="form-control ps-5"
                       defaultValue={responseAccount.data.email}
-                      {...register('email')}
+                      {...register("email")}
                     />
                     {responseAccount.data.mailVerified === false && (
                       <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
@@ -270,18 +277,30 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                     )}
                   </div>
-                  {responseAccount.data.mailVerified === false && <p className="ms-1 text-warning">Email chưa được xác nhận</p>}
+                  {responseAccount.data.mailVerified === false && (
+                    <p className="ms-1 text-warning">
+                      Email chưa được xác nhận
+                    </p>
+                  )}
                 </div>
                 {/*end col*/}
                 {responseAccount.data.mailVerified === false && (
                   <div className="col-md-4">
                     <div className="mb-3">
                       <div className="form-icon position-relative d-flex justify-content-end">
-                        <button onClick={() => verifyEmail()} className=" btn btn-primary " type="button">
+                        <button
+                          onClick={() => verifyEmail()}
+                          className=" btn btn-primary "
+                          type="button"
+                        >
                           {isLoadingVerifieEmail ? (
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
                           ) : (
-                            'Xác nhận email'
+                            "Xác nhận email"
                           )}
                         </button>
                       </div>
@@ -309,7 +328,13 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       >
                         <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
                       </svg>
-                      <input id="password" type="password" disabled className="form-control ps-5" defaultValue="matkhaucuahientai" />
+                      <input
+                        id="password"
+                        type="password"
+                        disabled
+                        className="form-control ps-5"
+                        defaultValue="matkhaucuahientai"
+                      />
                     </div>
                   </div>
                 </div>
@@ -355,9 +380,14 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       disabled={!isEdit}
                       className="form-control ps-5"
                       defaultValue={responseAccount.data.phone}
-                      {...register('phone')}
+                      {...register("phone")}
                     />
                   </div>
+                  {errors.phone && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.phone.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="col-md-8">
@@ -385,23 +415,33 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       disabled={!isEdit}
                       className="form-control ps-5"
                       defaultValue={responseAccount.data.address}
-                      {...register('address')}
+                      {...register("address")}
                     />
                   </div>
+                  {errors.address && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.address.message}
+                    </span>
+                  )}
                 </div>
               </div>
               {/*end col*/}
               <div className="col-lg-8 mt-2 mb-0">
                 {isEdit && (
                   <>
-                    <button onClick={handleSubmit(onSubmit)} className="btn btn-primary me-2" type="submit">
+                    <button
+                      onClick={handleSubmit(onSubmit)}
+                      className="btn btn-primary me-2"
+                      type="submit"
+                    >
                       Lưu thay đổi
                     </button>
                     <button
                       onClick={() => {
                         setIsEdit(false);
+                        reset(responseAccount?.data);
                       }}
-                      style={{ width: '140px' }}
+                      style={{ width: "140px" }}
                       className="btn btn-primary me-2"
                     >
                       Hủy
@@ -430,7 +470,10 @@ export default function AccountSetting(props: IAccountSettingProps) {
             {isChangePassword && (
               <>
                 <hr />
-                <ChangePassword id={credentialId} closeChangePassword={closeChangePassword} />
+                <ChangePassword
+                  id={credentialId}
+                  closeChangePassword={closeChangePassword}
+                />
               </>
             )}
           </div>
