@@ -21,27 +21,6 @@ import useGetAccountById from "@/hooks/api/account/use-account-by-id";
 
 type Props = {};
 
-const shippingArray = [
-  {
-    name: "Nguyen Minh Hieu",
-    email: "hieuthomnghiep@gmail.com",
-    address: "thai binh que anh",
-    phone: "0907543291",
-  },
-  {
-    name: "Nguyen Van Tai",
-    email: "nguyenvantai@gmail.com",
-    address: "ca mau que anh",
-    phone: "0907543291",
-  },
-  {
-    name: "Nguyen Van Ttuan",
-    email: "nguyenvantuan@gmail.com",
-    address: "thai thuy que anh",
-    phone: "0907543291",
-  },
-];
-
 export default function Checkout({}: Props) {
   const handleOrder = async () => {};
   const { data: shippingInfos, isLoading: isLoadingShippingInfos } =
@@ -71,17 +50,20 @@ export default function Checkout({}: Props) {
   const schema = yup.object().shape({
     email: yup
       .string()
-      .email()
+      .email("Email không hợp lệ")
+      .trim()
       .min(8, "Email cần ít nhất 8 chữ cái")
       .max(50, "Email tối đa 50 chữ cái")
       .required("Email không được để trống"),
     address: yup
       .string()
+      .trim()
       .min(8, "Địa chỉ cần ít nhất 8 chữ cái")
       .max(300, "Địa chỉ tối đa 300 chữ cái")
       .required("Địa chỉ giao hàng không được trống"),
     name: yup
       .string()
+      .trim()
       .max(26, "Tên tối đa 50 chữ cái")
       .required("Tên không được để trống"),
     phone: yup

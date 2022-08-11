@@ -1,5 +1,7 @@
 import { setControlData } from "@/redux/slices/designControl";
 import { Preview } from "@/redux/slices/previews";
+import { Card, CircularProgress } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
 import { nanoid } from "@reduxjs/toolkit";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -119,7 +121,15 @@ export default function PreviewTable(props: IPreviewTableProps) {
         )}
       </div>
 
-      {controlData.isLoadingImage && <LoadingPrompt />}
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={controlData.isLoadingImage}
+      >
+        <Card>cccccccccc</Card>
+      </Backdrop>
       <div className="p-2">
         <label className="h4">Màu áo</label>
         {colors?.map((color) => (

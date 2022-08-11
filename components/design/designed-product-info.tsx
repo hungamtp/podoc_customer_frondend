@@ -31,16 +31,19 @@ type FormAddDesignInfo = {
 const schema = yup.object().shape({
   name: yup
     .string()
+    .trim("Không đúng định dạng")
     .min(5, "Tên thiết kế cần ít nhất 5 kí tự")
     .max(50, "Tên thiết kế tối đa 50 kí tự")
     .required("Tên thiết kế không được để trống"),
   designedPrice: yup
     .number()
+    .typeError("Giá của mẫu thiết kế không được để trống")
     .min(0, "Giá thiết kế tối thiểu 0 đồng")
     .required("Giá của mẫu thiết kế không được để trống"),
   description: yup
     .string()
-    .min(5, "Tên thiết kế cần ít nhất  kí tự")
+    .trim("Không đúng định dạng")
+    .min(5, "Mô tả thiết kế cần ít nhất 5 kí tự")
     .max(255, "Description tối đa 255 kí tự")
     .required("Thông tin mô tả không được để trống"),
 });
@@ -210,7 +213,6 @@ export default function CreateDesignedProductForm(
                       type="number"
                       id="basic-icon-default-company"
                       className="form-control"
-                      placeholder="ACME Inc."
                       aria-label="ACME Inc."
                       aria-describedby="basic-icon-default-company2"
                       {...register("designedPrice")}

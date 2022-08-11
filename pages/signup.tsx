@@ -16,11 +16,13 @@ export default function SignUp({}: Props) {
   const schema = yup.object().shape({
     email: yup
       .string()
+      .trim()
       .email("Email không đúng định dạng")
       .max(50, "Email tối đa 50 ký tự")
       .required("Email không được để trống"),
     password: yup
       .string()
+      .trim()
       .min(8, "Mật khẩu cần ít nhất 8 ký tự")
       .max(50, "Mật khẩu tối đa 50 ký tự")
       .required("Mật khẩu không được để trống"),
@@ -34,12 +36,14 @@ export default function SignUp({}: Props) {
       .required("Số điện thoại không được để trống"),
     firstName: yup
       .string()
-      .max(20, "Họ tối đa 20 ký tự")
-      .required("Họ không được để trống"),
+      .trim()
+      .max(20, "Tên tối đa 20 ký tự")
+      .required("Tên không được để trống"),
     lastName: yup
       .string()
-      .max(50, "Tên tối đa 20 ký tự")
-      .required("Tên không được để trống"),
+      .trim()
+      .max(50, "Họ tối đa 20 ký tự")
+      .required("Họ không được để trống"),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
   const [accepted, setAccepted] = useState(false);
@@ -122,14 +126,14 @@ export default function SignUp({}: Props) {
                               type="text"
                               className="form-control ps-5"
                               placeholder="Họ"
-                              {...register("firstName")}
+                              {...register("lastName")}
                             />
-                            {errors.firstName && (
+                            {errors.lastName && (
                               <span
                                 id="error-pwd-message"
                                 className="text-danger"
                               >
-                                {errors.firstName.message}
+                                {errors.lastName.message}
                               </span>
                             )}
                           </div>
@@ -150,14 +154,14 @@ export default function SignUp({}: Props) {
                               type="text"
                               className="form-control ps-5"
                               placeholder="Tên"
-                              {...register("lastName")}
+                              {...register("firstName")}
                             />
-                            {errors.lastName && (
+                            {errors.firstName && (
                               <span
                                 id="error-pwd-message"
                                 className="text-danger"
                               >
-                                {errors.lastName.message}
+                                {errors.firstName.message}
                               </span>
                             )}
                           </div>
