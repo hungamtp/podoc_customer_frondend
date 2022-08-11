@@ -206,21 +206,21 @@ export default function MyOrdersTable({
               <table className="table mb-0 table-center table-nowrap">
                 <thead>
                   <tr>
-                    <th scope="col" className="border-bottom">
+                    <th scope="col" className="border-bottom align-middle">
                       Thông tin
                     </th>
-                    <th scope="col" className="border-bottom">
+                    <th scope="col" className="border-bottom align-middle">
                       Ngày tạo
                     </th>
-                    <th scope="col" className="border-bottom">
+                    <th scope="col" className="border-bottom align-middle">
                       Tổng giá (VND)
                     </th>
-                    <th scope="col" className="border-bottom">
+                    <th scope="col" className="border-bottom align-middle">
                       Số lượng
                     </th>
                     <th
                       scope="col"
-                      className="border-bottom"
+                      className="border-bottom align-middle"
                       style={{ width: "100px" }}
                     >
                       Hành động

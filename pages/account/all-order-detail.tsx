@@ -35,7 +35,7 @@ const convertStatus = (status: string) => {
 export default function AllOrderDetail(props: IAllOrderDetailProps) {
   const [filter, setFilter] = React.useState<Filter>({
     pageNumber: 0,
-    pageSize: 9,
+    pageSize: 4,
   });
 
   const { data: allOrdersResponse, isLoading: isLoadingAllOrders } =
@@ -115,33 +115,33 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                   <th
                     style={{ minWidth: "50px", width: "120px" }}
                     scope="col"
-                    className="border-bottom"
+                    className="border-bottom align-middle"
                   >
                     Hình ảnh
                   </th>
                   <th
                     scope="col"
-                    className="border-bottom"
+                    className="border-bottom align-middle"
                     style={{ minWidth: "200px", width: "220px" }}
                   >
                     Thiết kế
                   </th>
-                  <th scope="col" className="border-bottom">
+                  <th scope="col" className="border-bottom align-middle">
                     Thông tin
                   </th>
-                  <th scope="col" className="border-bottom">
+                  <th scope="col" className="border-bottom align-middle">
                     Ngày tạo
                   </th>
                   <th
                     scope="col"
-                    className="border-bottom"
+                    className="border-bottom align-middle"
                     style={{ minWidth: "20px" }}
                   >
                     Tổng giá(VND)
                   </th>
                   <th
                     scope="col"
-                    className="border-bottom"
+                    className="border-bottom align-middle"
                     style={{ minWidth: "20px" }}
                   >
                     Trạng thái
@@ -178,7 +178,10 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                           </li>
                         </ul>
                       </td>
-                      <td className=" align-middle">
+                      <td
+                        className=" align-middle"
+                        style={{ minWidth: "100px", width: "120px" }}
+                      >
                         <div>Size : {order.size}</div>
                         <div>Màu : {order.color}</div>
                         <div>Số lượng : {order.quantity}</div>
@@ -193,11 +196,11 @@ export default function AllOrderDetail(props: IAllOrderDetailProps) {
                       </td>
                       <td className=" align-middle">
                         {order.status === "DONE" ? (
-                          <div className="badge bg-success mb-3 p-1">
+                          <div className="badge bg-success p-1 ">
                             {convertStatus(order.status)}
                           </div>
                         ) : (
-                          <div className="badge bg-warning mb-3 p-1">
+                          <div className="badge bg-warning  p-1">
                             {convertStatus(order.status)}
                           </div>
                         )}
