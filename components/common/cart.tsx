@@ -30,7 +30,8 @@ export default function Cart({ cart }: Props) {
     deleteCartDetailApi(cart.id);
   };
 
-  const updateQuantityCart = (newQuantity: number) => {
+  const updateQuantityCart = (inputQuantity: number) => {
+    const newQuantity = Number(inputQuantity);
     dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
     setQuantity(newQuantity);
     const newCart: CartDetailDTO[] = [];

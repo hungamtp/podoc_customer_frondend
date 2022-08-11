@@ -36,7 +36,7 @@ export default function Design({ product }: Props) {
           <div className="w-50 " style={{ wordWrap: "break-word" }}>
             <Link href={`/my-product/${product.id}`} className="mb-0 ">
               <a>
-                <p>{product.name}</p>
+                <p className="m-0">{product.name}</p>
               </a>
             </Link>
           </div>

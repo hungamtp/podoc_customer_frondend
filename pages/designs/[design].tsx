@@ -154,6 +154,14 @@ export default function DesignedProductDetail() {
           color: string;
           size: string;
         }[];
+        if (selectedSize) {
+          const submitSize = sizeData.filter(
+            (size) => size.size === selectedSize
+          )[0];
+          if (!submitSize) {
+            setSelectedSize("");
+          }
+        }
 
         setSizeList(quickSort(sizeSort(sizeData)));
       }
@@ -281,11 +289,11 @@ export default function DesignedProductDetail() {
 
                         <div>
                           <span className="sold-number ">
-                            Đã bán {designedProduct.sold}
+                            Đã bán: {designedProduct.sold}
                           </span>
                         </div>
                         <div className="designer cursor-pointer">
-                          Chất liệu vải{" "}
+                          Chất liệu{" "}
                           <span
                             onClick={() => goToProfile(designedProduct.user.id)}
                           >

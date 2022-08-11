@@ -419,7 +419,7 @@ export default function DesignCanvas({
         (height / placeHolder.rect.getScaledHeight()) *
         blueprint.placeholder.height;
       const scale = width / placeHolder.rect.getScaledWidth();
-      const DPI = heightPixel ? heightPixel / newHeight : heightPixel;
+      const DPI = heightPixel ? heightPixel / (newHeight / 2.54) : heightPixel;
       return {
         left: newLeft,
         top: newTop,
@@ -826,7 +826,9 @@ export default function DesignCanvas({
               image.height
             );
             if (tmpDesignData?.DPI || 249 < 250) {
-              dispatch(setIsDesignInvalid(true));
+              dispatch(
+                setIsDesignInvalid({ designName: newName, isValid: false })
+              );
             }
             const imageNameFromUrl = imgUrl.split("%2F")[1].split("?")[0];
 

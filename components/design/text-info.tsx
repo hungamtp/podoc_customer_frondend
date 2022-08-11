@@ -97,16 +97,21 @@ const TextInfo = (props: ITextInfoProps) => {
             if (chooseDesign) chooseDesign(designInfo.key);
           }}
         >
-          <div className="border-bottom p-3 d-flex justify-content-between">
-            <div className="d-flex">
-              <i className="bi bi-fonts h3 px-2"></i>
-
-              <div className="ms-4">
-                <p className="h6 m-0">{designInfo.src}</p>
-                <p className="text-warning m-0">Văn bản</p>
-              </div>
+          <div className="border-bottom p-3 d-flex justify-content-between ">
+            <div className="w-25 py-2">
+              <i className="bi bi-fonts h2"></i>
             </div>
-            <div>
+
+            <div className="w-75 mt-2">
+              <p
+                className="h6 m-0 text-truncate ps-3 "
+                style={{ maxWidth: 200 }}
+              >
+                {designInfo.src}
+              </p>
+              <small className="text-secondary m-0 te ps-3">Văn bản</small>
+            </div>
+            <div className="d-flex justify-content-end">
               <button
                 className="btn btn-link text-dark px-2"
                 onClick={() => {
@@ -125,6 +130,7 @@ const TextInfo = (props: ITextInfoProps) => {
               </button>
             </div>
           </div>
+
           <div className="p-3 border-bottom">
             <table className="w-full p-5 text-gray-700 ">
               <tbody>
@@ -171,16 +177,14 @@ const TextInfo = (props: ITextInfoProps) => {
 
           <div className="p-3">
             <div className="row mt-3">
-              <div className="w-25"></div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">Độ xoay</div>
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">Độ xoay</div>
                 <div className="w-50">Tỉ lệ</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Gốc</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -204,16 +208,14 @@ const TextInfo = (props: ITextInfoProps) => {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="w-25 "></div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">Cách phải</div>
-                <div className="w-50">Cách trái</div>
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">Cách trái</div>
+                <div className="w-50">Cách trên</div>
               </div>
             </div>
             <div className="row">
-              <div className="w-25">Vị trí</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-4">
+              <div className="d-flex w-100">
+                <div className="w-50 me-4">
                   <div className="d-flex ">
                     <SingleInputMemo
                       type="number"
@@ -236,9 +238,8 @@ const TextInfo = (props: ITextInfoProps) => {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="w-25">Căn dòng</div>
-              <div className="d-flex w-75">
-                <div className="w-50 mx-3">
+              <div className="d-flex w-100">
+                <div className="me-4">
                   <div
                     className="btn-group btn-group-sm "
                     role="group"
@@ -273,7 +274,7 @@ const TextInfo = (props: ITextInfoProps) => {
                     </button>
                   </div>
                 </div>
-                <div className="w-50">
+                <div className="">
                   <div
                     className="btn-group btn-group-sm"
                     role="group"
@@ -322,15 +323,20 @@ const TextInfo = (props: ITextInfoProps) => {
               if (chooseDesign) chooseDesign(designInfo.key);
             }}
           >
-            <div className="d-flex">
-              <i className="bi bi-fonts h3 px-2"></i>
-
-              <div className="ms-4">
-                <p className="h6 m-0">{designInfo.src}</p>
-                <p className="text-warning m-0">Văn bản</p>
-              </div>
+            <div className="w-25 py-2">
+              <i className="bi bi-fonts h2"></i>
             </div>
-            <div>
+
+            <div className="w-75 mt-2">
+              <p
+                className="h6 m-0 text-truncate ps-3 "
+                style={{ maxWidth: 200 }}
+              >
+                {designInfo.src}
+              </p>
+              <small className="text-secondary m-0 te ps-3">Văn bản</small>
+            </div>
+            <div className="d-flex justify-content-end">
               <button
                 className="btn btn-link text-dark px-2"
                 onClick={() => {
