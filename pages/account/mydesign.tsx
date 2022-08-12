@@ -20,7 +20,7 @@ export default function MyDesign({}: Props) {
     <>
       <div className="col-12">
         {response && response.content.length > 0 && (
-          <div className="table bg-white shadow rounded">
+          <div className="table bg-white shadow rounded table-responsive">
             <table className="table mb-0 table-center">
               <thead>
                 <tr>

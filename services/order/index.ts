@@ -3,6 +3,7 @@ import { ISuccessHttpResponse } from "@/models/success_http_response.interface";
 import {
   GetAllMyOrdersDto,
   GetAllOrderDetailDto,
+  MyOrdersDto,
   OrderDetailDto,
   PayUnpaidOrderDto,
   PayUnpaidOrderResponse,
@@ -13,6 +14,8 @@ import {
 export interface Filter {
   pageSize: number;
   pageNumber: number;
+  cancel?: boolean;
+  paid?: boolean;
 }
 
 export const getAllShippingInfos = async () => {
@@ -31,15 +34,18 @@ export const addOrder = async (
   return data;
 };
 
-export const getAllMyOrders = async (filter?: Filter) => {
+export const getAllMyOrders = async (filter: Filter) => {
   const pageNumber = 0;
-  const pageSize = 10;
+  const pageSize = 4;
+  console.log(filter, "filter");
+  let search = filter.paid !== undefined ? `&isPaid=${filter.paid}` : "";
+  if (filter.cancel !== undefined) search = search + `&cancel=${filter.cancel}`;
   const query = new URLSearchParams({
     page: filter?.pageNumber?.toString() || pageNumber.toString(),
     size: filter?.pageSize?.toString() || pageSize.toString(),
   });
   const { data } = await API.get<GetAllMyOrdersDto>(
-    `/order/myorder?${query.toString()}`
+    `/order/myorder?${query.toString()}${search}`
   );
   return data;
 };

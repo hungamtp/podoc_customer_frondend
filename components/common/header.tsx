@@ -221,7 +221,7 @@ export default function Header({}: Props) {
                           <i className="uil uil-user me-2"></i> Tài khoản
                         </a>
                       </Link>
-                      <Link href="/account/all-order-detail">
+                      <Link href="/account/myorders">
                         <a className="dropdown-item text-dark mt-2">
                           <i className="uil uil-clipboard-notes h5 me-1 align-middle text-start" />{" "}
                           Lịch sử mua hàng

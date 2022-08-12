@@ -299,14 +299,13 @@ export function Account({ children }: LayoutProps) {
                     >
                       <h6 className="mb-0 d-flex py-1">
                         <i className="uil uil-list-ul h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Đơn hàng chưa thanh toán</p>
+                        <p className="m-0">Đơn hàng của tôi</p>
                       </h6>
                     </a>
                   </Link>
-                  {/*end nav link*/}
                 </li>
 
-                <li className="nav-item mt-2">
+                {/* <li className="nav-item mt-2">
                   <Link
                     id="order-history"
                     data-bs-toggle="pill"
@@ -323,12 +322,11 @@ export function Account({ children }: LayoutProps) {
                     >
                       <h6 className="mb-0 d-flex py-1">
                         <i className="uil uil-clipboard-notes h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Đơn hàng đã mua</p>
+                        <p className="m-0">Đơn hàng của tôi</p>
                       </h6>
                     </a>
                   </Link>
-                  {/*end nav link*/}
-                </li>
+                </li> */}
                 {/*end nav item*/}
 
                 {/*end nav item*/}
