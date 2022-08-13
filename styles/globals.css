@@ -46,6 +46,16 @@ a {
   text-align: center;
 }
 
+.hoverEffectBtn {
+  margin:0;
+  cursor: pointer;
+}
+
+.hoverEffectBtn:hover{
+  background-color: #f8f9fc;
+}
+
+
 .bottom-line {
   z-index: 1080;
   bottom:5%;
