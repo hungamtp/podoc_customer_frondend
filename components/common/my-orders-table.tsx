@@ -13,6 +13,7 @@ import * as React from "react";
 import { useState } from "react";
 import CustomAutoCompleteSelect from "../design/custom-auto-complete-selecte";
 import PaginationComponent from "./mui-pagination";
+import { MyOrdersDto } from "@/services/order/dto";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -347,7 +348,11 @@ export default function MyOrdersTable({
                 <table className="table mb-0 table-center table-nowrap">
                   <thead>
                     <tr>
-                      <th scope="col" className="border-bottom align-middle">
+                      <th
+                        scope="col"
+                        className="border-bottom align-middle w-25"
+                        style={{ minWidth: "200px" }}
+                      >
                         Thông tin
                       </th>
                       <th scope="col" className="border-bottom align-middle">
@@ -370,7 +375,9 @@ export default function MyOrdersTable({
                         scope="col"
                         className="border-bottom"
                         style={{ width: "80px" }}
-                      ></th>
+                      >
+                        Trạng thái
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -382,8 +389,22 @@ export default function MyOrdersTable({
                           data-toggle="tooltip"
                           data-placement="top"
                         >
-                          <td className="align-middle">
-                            <div style={{ minWidth: "200px", width: "220px" }}>
+                          <td
+                            className=""
+                            onClick={() => {
+                              getOrderDetail(orders.orderId, {
+                                onSuccess: (data) => {
+                                  setOrderDetailData(data);
+                                  setIsShowOrderDetail(true);
+                                  setSelectedOrderId(orders.orderId);
+                                },
+                              });
+                            }}
+                          >
+                            <div
+                              style={{ minWidth: "200px", width: "300px" }}
+                              className=" align-middle text-secondary hoverEffectBtn"
+                            >
                               {orders.orderDetailDtos
                                 .filter((orderDetail, index) => index <= 1)
                                 .map((orderDetail, insideIndex, newList) => {
@@ -394,9 +415,12 @@ export default function MyOrdersTable({
                                   )
                                     return (
                                       <>
-                                        <p className="mt-2 text-truncate">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</p>
+                                        <div className="mt-2 mb-0 d-flex justify-content-start">
+                                          <div className="text-truncate w-50 text-start">{`${orderDetail.designName}`}</div>
+                                          <div className="w-50">{`(${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                        </div>
                                         <div
-                                          className="mt-2 ms-5 text-secondary btn btn-link text-secondary"
+                                          className="ms-5 text-secondary btn btn-link text-secondary"
                                           onClick={() => {
                                             getOrderDetail(orders.orderId, {
                                               onSuccess: (data) => {
@@ -416,7 +440,10 @@ export default function MyOrdersTable({
                                   else {
                                     return (
                                       <>
-                                        <div className="mt-2">{`${orderDetail.designName} (${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                        <div className="mt-2 mb-0 d-flex justify-content-start">
+                                          <div className="text-truncate w-50 text-start">{`${orderDetail.designName}`}</div>
+                                          <div className="w-50">{`(${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
+                                        </div>
                                       </>
                                     );
                                   }

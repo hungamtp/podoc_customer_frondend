@@ -38,7 +38,7 @@ export default function MyOrders() {
       setFilter((filter) => {
         return {
           pageSize: 4,
-          pageNumber: filter.pageNumber,
+          pageNumber: 0,
           cancel: true,
         };
       });
@@ -47,7 +47,7 @@ export default function MyOrders() {
       setFilter((filter) => {
         return {
           pageSize: 4,
-          pageNumber: filter.pageNumber,
+          pageNumber: 0,
           paid: false,
         };
       });
@@ -56,7 +56,7 @@ export default function MyOrders() {
       setFilter((filter) => {
         return {
           pageSize: 4,
-          pageNumber: filter.pageNumber,
+          pageNumber: 0,
         };
       });
       setCriteria(criteriaEnum.ALL);
