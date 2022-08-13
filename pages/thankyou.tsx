@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { EmptyLayout } from "@/components/layouts";
-import useCompleteOrder from "@/hooks/api/order/use-complete-momo-order";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
+import { EmptyLayout } from '@/components/layouts';
+import useCompleteOrder from '@/hooks/api/order/use-complete-momo-order';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type Props = {};
 
@@ -24,16 +24,14 @@ export default function ThankYou({}: Props) {
   //    &signature=640a8e675597bbf0315f86426e07dee858df920bebc85a56e59db2cd1fe6a6d4
   const router = useRouter();
   const param = router.query;
-  if (param["orderId"]) {
-    if (param["resultCode"] == "0") {
-      const { data: categories, isLoading: isCategoryLoading } =
-        useCompleteOrder(param["orderId"]);
+  if (param['orderId']) {
+    if (param['resultCode'] == '0') {
+      useCompleteOrder(param['orderId'], param['transId']);
     }
   }
-  if (param["apptransid"]) {
-    if (param["status"] == "1") {
-      const { data: categories, isLoading: isCategoryLoading } =
-        useCompleteOrder(param["apptransid"]);
+  if (param['apptransid']) {
+    if (param['status'] == '1') {
+      useCompleteOrder(param['apptransid'], param['zp_trans_id']);
     }
   }
 
@@ -43,8 +41,8 @@ export default function ThankYou({}: Props) {
         className="bg-home bg-light d-flex align-items-center"
         style={{
           background: "url('/asset/images/shop/hp-3.jpg') ",
-          objectFit: "contain",
-          backgroundRepeat: "no-repeat",
+          objectFit: 'contain',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         <div className="container">
@@ -54,8 +52,8 @@ export default function ThankYou({}: Props) {
                 <div
                   className="icon d-flex align-items-center justify-content-center bg-soft-primary rounded-circle mx-auto"
                   style={{
-                    height: "200px",
-                    width: "200px",
+                    height: '200px',
+                    width: '200px',
                   }}
                 >
                   <Image
@@ -73,8 +71,7 @@ export default function ThankYou({}: Props) {
                   tôi.`}
                 </p>
                 <p className="text-muted para-desc mx-auto">
-                  {`Đơn hàng đã được xác nhận thanh toán, bạn có thể theo dõi đơn hàng tại`}{" "}
-                  <span className="text-success">đây</span>
+                  {`Đơn hàng đã được xác nhận thanh toán, bạn có thể theo dõi đơn hàng tại`} <span className="text-success">đây</span>
                 </p>
 
                 <Link href="/" className="btn btn-soft-primary mt-3">
@@ -85,7 +82,7 @@ export default function ThankYou({}: Props) {
             {/*end col*/}
           </div>
           {/*end row*/}
-        </div>{" "}
+        </div>{' '}
         {/*end container*/}
       </section>
       {/*end section*/}
