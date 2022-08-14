@@ -27,16 +27,16 @@ export default function ConfirmEmail({}: Props) {
 
   const router = useRouter();
   const param = router.query;
-  if (param["orderId"]) {
+  if (param["orderId"] && param["apptransid"]) {
     const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["orderId"][0]
+      param["orderId"][0], param["apptransid"][0]
     );
   }
-  if (param["apptransid"]) {
-    const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["apptransid"][0]
-    );
-  }
+  // if (param["apptransid"]) {
+  //   const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
+  //     param["apptransid"][0]
+  //   );
+  // }
   const email = router.asPath.split("/")[3];
   const id = router.asPath.split("/")[4];
 
