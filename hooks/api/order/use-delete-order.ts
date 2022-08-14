@@ -4,18 +4,9 @@ import { ShippingInfo } from "@/services/order/dto";
 import { useMutation, useQueryClient } from "react-query";
 
 const useDeleteOrder = () => {
-  const query = useQueryClient();
-  return useMutation(
-    ["DeleteOrder"],
-    async (orderId: string) => {
-      return await deleteOrder(orderId);
-    },
-    {
-      onSuccess: () => {
-        query.invalidateQueries("MyOrders");
-      },
-    }
-  );
+  return useMutation(["DeleteOrder"], async (orderId: string) => {
+    return await deleteOrder(orderId);
+  });
 };
 
 export default useDeleteOrder;

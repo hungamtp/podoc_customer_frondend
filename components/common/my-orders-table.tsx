@@ -14,6 +14,7 @@ import { useState } from "react";
 import CustomAutoCompleteSelect from "../design/custom-auto-complete-selecte";
 import PaginationComponent from "./mui-pagination";
 import { MyOrdersDto } from "@/services/order/dto";
+import { useQueryClient } from "react-query";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -22,6 +23,16 @@ type Props = {
   filter: Filter;
   handleFilter: (criteria: string) => void;
   criteria: string;
+};
+
+const hanleOrderStatus = (order: MyOrdersDto) => {
+  if (order.isPaid && !order.canceled) {
+    return "Đã thanh toán";
+  } else if (order.canceled) {
+    return "Đã hủy đơn";
+  } else if (!order.isPaid) {
+    return "Chưa thanh toán";
+  }
 };
 
 const criteriaEnum = [
@@ -35,7 +46,7 @@ const criteriaEnum = [
   },
   { label: "Đơn hàng chưa thanh toán", value: "unpaid" },
   {
-    label: "Đơn hàng đang xử lý",
+    label: "Đơn hàng đã thanh toán",
     value: "pending",
   },
 ];
@@ -54,7 +65,10 @@ const convertStatus = (status: string) => {
     tmpOrderStatusData = "Đã giao";
   } else if (status === "DONE") {
     tmpOrderStatusData = "Hoàn thành";
+  } else if (status === "IS_CANCEL") {
+    tmpOrderStatusData = "Đã hủy đơn";
   }
+
   return tmpOrderStatusData;
 };
 
@@ -66,23 +80,37 @@ export default function MyOrdersTable({
   handleFilter,
   criteria,
 }: Props) {
+  const query = useQueryClient();
   const { mutate: payOrder } = usePayUnpaidOrder();
-  const { mutate: getOrderDetail } = useGetOrderDetailByOrderId();
   const { mutate: deleteOrder } = useDeleteOrder();
   const [isShowOrderDetail, setIsShowOrderDetail] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState<OrderDetailDto[]>();
-  const [selectedOrderId, setSelectedOrderId] = useState<string>();
-
+  const [selectedOrderDetailId, setSelectedOrderDetailId] =
+    useState<string>("");
+  const [selectedOrder, setSelectedOrder] = useState<MyOrdersDto>(
+    myOrdersResponse.data[0]
+  );
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
   const [designId, setDesignId] = React.useState("");
-  const [orderId, setOrderId] = React.useState("");
+  React.useEffect(() => {
+    if (myOrdersResponse) {
+      if (selectedOrder.orderId) {
+        myOrdersResponse.data.forEach((order) => {
+          if (selectedOrder.orderId === order.orderId) {
+            setOrderDetailData(order.orderDetailDtos);
+          }
+        });
+      }
+    }
+  }, [myOrdersResponse]);
+
   const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
   const router = useRouter();
 
-  const handleOpenDialog = (designId: string, orderId: string) => {
-    setIsOpenDialog(true);
+  const handleOpenDialog = (designId: string, orderDetailId: string) => {
     setDesignId(designId);
-    setOrderId(orderId);
+    setSelectedOrderDetailId(orderDetailId);
+    setIsOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
@@ -106,12 +134,14 @@ export default function MyOrdersTable({
         disableEnforceFocus
       >
         <DialogContent>
-          <CommentProduct
-            setIsOpenSuccessRating={setIsOpenSuccessRating}
-            handleCloseDialog={handleCloseDialog}
-            designId={designId}
-            orderDetailId={orderId}
-          />
+          {selectedOrderDetailId && (
+            <CommentProduct
+              setIsOpenSuccessRating={setIsOpenSuccessRating}
+              handleCloseDialog={handleCloseDialog}
+              designId={designId}
+              orderDetailId={selectedOrderDetailId}
+            />
+          )}
         </DialogContent>
       </Dialog>
       <Dialog
@@ -160,7 +190,7 @@ export default function MyOrdersTable({
         <div>
           {isShowOrderDetail ? (
             <>
-              {orderDetailData && selectedOrderId && (
+              {orderDetailData && selectedOrder && (
                 <div>
                   <button
                     className="btn btn-secondary mb-4"
@@ -289,7 +319,13 @@ export default function MyOrdersTable({
                                     {convertStatus(order.status)}
                                   </div>
                                 ) : (
-                                  <div className="badge bg-warning  p-1">
+                                  <div
+                                    className={`badge ${
+                                      order.status === "IS_CANCEL"
+                                        ? "bg-secondary"
+                                        : "bg-warning"
+                                    }  p-1`}
+                                  >
                                     {convertStatus(order.status)}
                                   </div>
                                 )}
@@ -306,11 +342,11 @@ export default function MyOrdersTable({
                                     <i className="bi bi-three-dots cursor-pointer fa-lg"></i>
                                   </button>
 
-                                  <div className="dropdown-menu dd-menu dropdown-menu-start rounded border ">
-                                    {order.rated == false &&
+                                  <div className="dropdown-menu dd-menu dropdown-menu-end rounded border ">
+                                    {order.rated === false &&
                                       order.status === "DONE" && (
                                         <div
-                                          className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                                          className="hoverButton text-start p-2"
                                           onClick={() => {
                                             handleOpenDialog(
                                               order.designId,
@@ -318,17 +354,19 @@ export default function MyOrdersTable({
                                             );
                                           }}
                                         >
+                                          <i className="bi bi-card-text me-2"></i>
                                           Đánh giá
                                         </div>
                                       )}
                                     <div
-                                      className="d-flex align-items-center mt-1  hoverButton text-center p-2"
+                                      className="hoverButton text-start p-2"
                                       onClick={() =>
                                         router.push(
                                           `/designs/${order.designId}`
                                         )
                                       }
                                     >
+                                      <i className="bi bi-cart me-2"></i>
                                       Mua lại
                                     </div>
                                   </div>
@@ -338,6 +376,69 @@ export default function MyOrdersTable({
                           ))}
                       </tbody>
                     </table>
+                  </div>
+
+                  <div className="d-flex justify-content-end">
+                    {selectedOrder.canCancel && !selectedOrder.canceled && (
+                      <button
+                        className="btn btn-danger d-flex align-items-center me-4"
+                        onClick={() =>
+                          deleteOrder(selectedOrder.orderId, {
+                            onSuccess: () => {
+                              query.invalidateQueries("MyOrders");
+                            },
+                          })
+                        }
+                      >
+                        <i className="bi bi-x-square  me-2"></i>
+                        <p className="m-0">Hủy đơn</p>
+                      </button>
+                    )}
+                    {!selectedOrder.isPaid && !selectedOrder.canceled && (
+                      <div className="dropdown align-middle">
+                        <button
+                          type="button"
+                          className="btn btn-success dropdown-toggle d-flex align-items-center "
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          <i className="bi bi-credit-card me-2"></i>
+                          <p className="m-0">Thanh toán</p>
+                        </button>
+
+                        <div className="dropdown-menu dd-menu dropdown-menu-end rounded border">
+                          <div
+                            onClick={() =>
+                              handleSubmit(0, selectedOrder.orderId)
+                            }
+                            className="d-flex align-items-center mt-1 hoverButton ps-2"
+                          >
+                            <img
+                              className="me-1 rounded"
+                              src="/asset/images/momologo.svg"
+                              width="25"
+                              alt="momo"
+                            />
+                            MOMO
+                          </div>
+                          <div
+                            onClick={() =>
+                              handleSubmit(1, selectedOrder.orderId)
+                            }
+                            className="d-flex align-items-center mt-1 hoverButton ps-2"
+                          >
+                            <img
+                              className="me-1 rounded"
+                              src="/asset/images/zalopay.png"
+                              width="25"
+                              alt="momo"
+                            />
+                            Zalo
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -366,18 +467,16 @@ export default function MyOrdersTable({
                       </th>
                       <th
                         scope="col"
-                        className="border-bottom align-middle"
-                        style={{ width: "100px", textAlign: "center" }}
-                      >
-                        Hành động
-                      </th>
-                      <th
-                        scope="col"
                         className="border-bottom"
                         style={{ width: "80px" }}
                       >
                         Trạng thái
                       </th>
+                      <th
+                        scope="col"
+                        className="border-bottom"
+                        style={{ width: "80px" }}
+                      ></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -389,21 +488,13 @@ export default function MyOrdersTable({
                           data-toggle="tooltip"
                           data-placement="top"
                         >
-                          <td
-                            className=""
-                            onClick={() => {
-                              getOrderDetail(orders.orderId, {
-                                onSuccess: (data) => {
-                                  setOrderDetailData(data);
-                                  setIsShowOrderDetail(true);
-                                  setSelectedOrderId(orders.orderId);
-                                },
-                              });
-                            }}
-                          >
+                          <td className="">
                             <div
                               style={{ minWidth: "200px", width: "300px" }}
-                              className=" align-middle text-secondary hoverEffectBtn"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Xem chi tiết đơn hàng"
+                              className=" align-middle"
                             >
                               {orders.orderDetailDtos
                                 .filter((orderDetail, index) => index <= 1)
@@ -420,17 +511,13 @@ export default function MyOrdersTable({
                                           <div className="w-50">{`(${orderDetail.color} - ${orderDetail.size} x ${orderDetail.quantity})`}</div>
                                         </div>
                                         <div
-                                          className="ms-5 text-secondary btn btn-link text-secondary"
+                                          className="ms-5 text-secondary btn btn-link"
                                           onClick={() => {
-                                            getOrderDetail(orders.orderId, {
-                                              onSuccess: (data) => {
-                                                setOrderDetailData(data);
-                                                setIsShowOrderDetail(true);
-                                                setSelectedOrderId(
-                                                  orders.orderId
-                                                );
-                                              },
-                                            });
+                                            setOrderDetailData(
+                                              orders.orderDetailDtos
+                                            );
+                                            setSelectedOrder(orders);
+                                            setIsShowOrderDetail(true);
                                           }}
                                         >
                                           xem thêm...{" "}
@@ -462,69 +549,21 @@ export default function MyOrdersTable({
                             {" "}
                             {orders.countItem} {"sản phẩm"}
                           </td>
-                          <td className="align-middle">
-                            {(!orders.isPaid || orders.canceled) && (
-                              <div className="dropdown ">
-                                <button
-                                  type="button"
-                                  className="btn dropdown-toggle d-flex align-items-center m-0 hoverButton"
-                                  data-bs-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
-                                  <i className="bi bi-credit-card me-2"></i>
-                                  <p className="m-0">Thanh toán</p>
-                                </button>
-
-                                <div className="dropdown-menu dd-menu dropdown-menu-end rounded border">
-                                  <div
-                                    onClick={() =>
-                                      handleSubmit(0, orders.orderId)
-                                    }
-                                    className="d-flex align-items-center mt-1 cursor-pointer ps-2"
-                                  >
-                                    <img
-                                      className="me-1 rounded"
-                                      src="asset/images/momologo.svg"
-                                      width="25"
-                                      alt="momo"
-                                    />
-                                    MOMO
-                                  </div>
-                                  <div
-                                    onClick={() =>
-                                      handleSubmit(1, orders.orderId)
-                                    }
-                                    className="d-flex align-items-center mt-1 cursor-pointer ps-2"
-                                  >
-                                    <img
-                                      className="me-1 rounded"
-                                      src="asset/images/zalopay.png"
-                                      width="25"
-                                      alt="momo"
-                                    />
-                                    Zalo
-                                  </div>
-                                </div>
+                          <td className=" align-middle align-center">
+                            {hanleOrderStatus(orders) === "Đã thanh toán" && (
+                              <div className="badge bg-success p-1 ">
+                                {hanleOrderStatus(orders)}
                               </div>
                             )}
-                            {orders.canCancel && orders.isPaid && (
-                              <button
-                                className="btn d-flex align-items-center m-0 hoverButton text-dark"
-                                onClick={() => deleteOrder(orders.orderId)}
-                              >
-                                <i className="bi bi-x-square text-danger me-2"></i>
-                                <p className="m-0">Hủy đơn</p>
-                              </button>
+                            {hanleOrderStatus(orders) === "Đã hủy đơn" && (
+                              <div className="badge bg-secondary p-1 ">
+                                {hanleOrderStatus(orders)}
+                              </div>
                             )}
-                            {!orders.canCancel && orders.isPaid && (
-                              <button
-                                className="btn d-flex align-items-center m-0 hoverButton text-dark"
-                                onClick={() => deleteOrder(orders.orderId)}
-                              >
-                                <i className="bi bi-bag-heart text-success me-2"></i>
-                                <p className="m-0">Mua lại</p>
-                              </button>
+                            {hanleOrderStatus(orders) === "Chưa thanh toán" && (
+                              <div className="badge bg-warning p-1 ">
+                                {hanleOrderStatus(orders)}
+                              </div>
                             )}
                           </td>
                           <td className="align-middle">
@@ -534,13 +573,9 @@ export default function MyOrdersTable({
                               data-placement="top"
                               title="Xem chi tiết đơn hàng"
                               onClick={() => {
-                                getOrderDetail(orders.orderId, {
-                                  onSuccess: (data) => {
-                                    setOrderDetailData(data);
-                                    setIsShowOrderDetail(true);
-                                    setSelectedOrderId(orders.orderId);
-                                  },
-                                });
+                                setOrderDetailData(orders.orderDetailDtos);
+                                setSelectedOrder(orders);
+                                setIsShowOrderDetail(true);
                               }}
                             >
                               <p className="m-0">

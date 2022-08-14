@@ -2,17 +2,17 @@ import { UpdateAccountDto, UpdatePasswordDto } from "@/services/account/dto";
 import { updateAccount, updatePassword } from "@/services/account/index";
 import { getOrderDetailByOrderId, payUnpaidOrder } from "@/services/order";
 import { PayUnpaidOrderDto } from "@/services/order/dto";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
-const useGetOrderDetailByOrderId = () => {
+const useGetOrderDetailByOrderId = (orderId?: string) => {
   const queryClient = useQueryClient();
-  return useMutation(
-    async (orderId: string) => {
-      return await getOrderDetailByOrderId(orderId);
+
+  return useQuery(
+    ["OrderDetail", orderId],
+    async () => {
+      return await getOrderDetailByOrderId(orderId || "");
     },
-    {
-      onSuccess: (data: any) => {},
-    }
+    { enabled: !!orderId }
   );
 };
 
