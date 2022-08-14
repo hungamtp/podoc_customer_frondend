@@ -172,6 +172,7 @@ export default function DesignCanvas({
   const dispatch = useAppDispatch();
   const designControlData = useAppSelector((state) => state.designControl);
   const blueprintsData = useAppSelector((state) => state.blueprintsData);
+  const designInValid = useAppSelector((state) => state.designInValid);
   const [renderPosition, setRenderPosition] = React.useState<string>(
     blueprintsData.position
   );
@@ -186,7 +187,6 @@ export default function DesignCanvas({
     rect: fabric.Rect;
     border: fabric.Object[];
   }>();
-  const [JSONdata, setJSONdata] = React.useState<string>();
 
   React.useEffect(() => {
     const rerenderLoop = setInterval(() => {
@@ -326,6 +326,19 @@ export default function DesignCanvas({
             topPosition: tmpDesignData?.top,
             DPI: tmpDesignData?.DPI,
           };
+          if ((tmpDesignData?.DPI || 249) < 250) {
+            let isContain = false;
+            designInValid.forEach((designName) => {
+              if (designName === obj.name) isContain = true;
+            });
+            if (!isContain)
+              dispatch(setIsDesignInvalid([...designInValid, obj.name]));
+          } else {
+            const newInValidList = designInValid.filter(
+              (designName) => designName !== obj.name
+            );
+            dispatch(setIsDesignInvalid(newInValidList));
+          }
           dispatch(setValue({ ...designInfo }));
           if (obj.name) dispatch(setChoosenKey(obj.name));
           setIsEdit(true);
@@ -356,18 +369,6 @@ export default function DesignCanvas({
 
       canvas.on("selection:cleared", function () {
         dispatch(setChoosenKey(""));
-      });
-
-      canvas.on("", function (options) {
-        const obj = options.target;
-        if (obj) {
-          obj.lockMovementX = false;
-          obj.lockMovementY = false;
-          console.log(canvas.getActiveObject(), "cc");
-          if (!canvas.getActiveObject()) dispatch(setChoosenKey(""));
-          else dispatch(setChoosenKey(obj.name));
-          canvas.renderAll();
-        }
       });
 
       if (canvas.width && canvas.height) {
@@ -573,6 +574,10 @@ export default function DesignCanvas({
       const image = _.find(canvas._objects, function (o) {
         return o.name === key;
       });
+      const newInValidList = designInValid.filter(
+        (designName) => designName !== key
+      );
+      dispatch(setIsDesignInvalid(newInValidList));
       dispatch(deleteDesignInfo({ key: key }));
       dispatch(
         setControlData(
@@ -581,6 +586,7 @@ export default function DesignCanvas({
             : { ...controlData, isChooseImage: false }
         )
       );
+
       if (image) canvas.remove(image);
     }
   };
@@ -825,10 +831,13 @@ export default function DesignCanvas({
               image.getScaledHeight(),
               image.height
             );
-            if (tmpDesignData?.DPI || 249 < 250) {
-              dispatch(
-                setIsDesignInvalid({ designName: newName, isValid: false })
-              );
+            if ((tmpDesignData?.DPI || 249) < 250) {
+              let isContain = false;
+              designInValid.forEach((designName) => {
+                if (designName === newName) isContain = true;
+              });
+              if (!isContain)
+                dispatch(setIsDesignInvalid([...designInValid, newName]));
             }
             const imageNameFromUrl = imgUrl.split("%2F")[1].split("?")[0];
 
@@ -1022,7 +1031,12 @@ export default function DesignCanvas({
             <div className="d-flex  w-full align-items-center px-4">
               <button
                 className="btn btn-secondary w-full"
-                disabled={controlData.isLoadingImage}
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Hình ảnh thiết kế cần phải đạt 250 DPI trở lên"
+                disabled={
+                  controlData.isLoadingImage || designInValid.length > 0
+                }
                 onClick={() => openPreview()}
               >
                 Lưu lại

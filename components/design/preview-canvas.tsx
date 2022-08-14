@@ -338,6 +338,7 @@ export default function PreviewCanvas({
         }
       });
     }
+
     if (previews.length === previewsCount.current && renderCount === 0) {
       const tmpControlData = {
         ...controlData,
@@ -377,12 +378,13 @@ export default function PreviewCanvas({
     const rerenderLoop = setInterval(() => {
       if (canvas && imgSrc === "") {
         const canvasObjs = canvas._objects || [];
-        if (blueprint.designInfos && blueprint.designInfos.length > 0) {
+        if (blueprint.designInfos) {
           if (
             canvasObjs.length === blueprint.designInfos.length + 1 &&
             canvasObjs.some((design) => {
               if (blueprint.designInfos && blueprint.designInfos.length > 0)
                 return design.name === blueprint.designInfos[0].key;
+              else return true;
             })
           ) {
             clearInterval(rerenderLoop);
