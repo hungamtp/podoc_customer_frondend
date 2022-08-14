@@ -40,6 +40,23 @@ export const designSlice = createSlice({
         return designInfo;
       });
     },
+    setDPI: (state, action) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      state.choosenKey = state.choosenKey;
+      state.isEmpty = false;
+      state.designInfos = state.designInfos.map((designInfo) => {
+        if (designInfo.key === action.payload.key) {
+          return {
+            ...designInfo,
+            DPI: action.payload.DPI,
+          };
+        }
+        return designInfo;
+      });
+    },
     updateUniqueData: (state, action) => {
       state.choosenKey = action.payload.choosenKey;
       state.isEmpty = false;
@@ -64,7 +81,6 @@ export const designSlice = createSlice({
         }
         return designInfo;
       });
-
     },
     addDesignInfo: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -142,6 +158,7 @@ export const {
   updateUniqueData,
   updateTmpSrc,
   resetDesigns,
+  setDPI,
 } = designSlice.actions;
 
 export default designSlice.reducer;

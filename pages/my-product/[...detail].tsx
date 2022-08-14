@@ -1,6 +1,6 @@
 import UpdateImageSuccess from "@/components/account/update-image-success";
 import { useAppDispatch } from "@/components/hooks/reduxHook";
-import { MainLayout } from "@/components/layouts";
+import { ControlLayout, MainLayout } from "@/components/layouts";
 import useEditDesignedProduct from "@/hooks/api/design/use-edit-desinged-product";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { setHeaderInfo } from "@/redux/slices/headerInfo";
@@ -485,4 +485,4 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
     </div>
   );
 }
-MyDesignDetail.Layout = MainLayout;
+MyDesignDetail.Layout = ControlLayout;

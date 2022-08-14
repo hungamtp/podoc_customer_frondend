@@ -2,6 +2,7 @@ import DesignCanvas from "@/components/design/design-canvas";
 import DesignHeaderLeft from "@/components/design/design-header-left";
 import PreviewCanvas from "@/components/design/preview-canvas";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { DesignControl } from "@/components/layouts/design-control";
 import useGetColorsByFactoryAndProductId from "@/hooks/api/design/use-get-colors-by-factoryId-productId";
 import useGetDesignById from "@/hooks/api/design/use-get-design-by-id";
 import { Blueprint } from "@/models/design";
@@ -298,3 +299,5 @@ export default function EditDesign(props: EditDesignProps) {
     </div>
   );
 }
+
+EditDesign.Layout = DesignControl;

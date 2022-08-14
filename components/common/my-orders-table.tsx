@@ -15,6 +15,7 @@ import CustomAutoCompleteSelect from "../design/custom-auto-complete-selecte";
 import PaginationComponent from "./mui-pagination";
 import { MyOrdersDto } from "@/services/order/dto";
 import { useQueryClient } from "react-query";
+import CancelOrderStatus from "./cancel-order-status";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -81,8 +82,17 @@ export default function MyOrdersTable({
   criteria,
 }: Props) {
   const query = useQueryClient();
+  const [openCancelOrderDialog, setOpenCancelOrderDialog] =
+    React.useState(false);
+
+  const handleClickOpenCancelOrder = () => {
+    setOpenCancelOrderDialog(true);
+  };
+
+  const handleCloseOrderDialog = () => {
+    setOpenCancelOrderDialog(false);
+  };
   const { mutate: payOrder } = usePayUnpaidOrder();
-  const { mutate: deleteOrder } = useDeleteOrder();
   const [isShowOrderDetail, setIsShowOrderDetail] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState<OrderDetailDto[]>();
   const [selectedOrderDetailId, setSelectedOrderDetailId] =
@@ -175,6 +185,22 @@ export default function MyOrdersTable({
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog
+        open={openCancelOrderDialog}
+        onClose={handleCloseOrderDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogContent>
+          <CancelOrderStatus
+            handleCloseDialog={handleCloseOrderDialog}
+            orderId={selectedOrder.orderId}
+            setIsShowOrderDetail={setIsShowOrderDetail}
+          />
+        </DialogContent>
+      </Dialog>
       {!isShowOrderDetail && (
         <div className="d-flex justify-content-start">
           <div className="w-25">
@@ -200,6 +226,7 @@ export default function MyOrdersTable({
                   >
                     Trở về
                   </button>
+
                   <div className="table bg-white shadow rounded table-responsive-lg">
                     <table className="table mb-0 table-center table-nowrap ">
                       <thead>
@@ -382,13 +409,7 @@ export default function MyOrdersTable({
                     {selectedOrder.canCancel && !selectedOrder.canceled && (
                       <button
                         className="btn btn-danger d-flex align-items-center me-4"
-                        onClick={() =>
-                          deleteOrder(selectedOrder.orderId, {
-                            onSuccess: () => {
-                              query.invalidateQueries("MyOrders");
-                            },
-                          })
-                        }
+                        onClick={() => handleClickOpenCancelOrder()}
                       >
                         <i className="bi bi-x-square  me-2"></i>
                         <p className="m-0">Hủy đơn</p>
