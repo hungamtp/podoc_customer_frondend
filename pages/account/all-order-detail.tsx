@@ -5,7 +5,6 @@ import PaginationComponent from "@/components/common/mui-pagination";
 import { Account } from "@/components/layouts";
 import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
 import { Filter } from "@/services/design";
-import { GetAllOrderDetailDto } from "@/services/order/dto";
 import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";

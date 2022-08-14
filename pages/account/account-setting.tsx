@@ -2,37 +2,21 @@
 /* eslint-disable @next/next/no-img-element */
 import ChangePassword from "@/components/account/change-password-form";
 import VerifieSuccess from "@/components/account/verifie-success-form";
-import Dashboard from "@/pages/account";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
-import { Account, MainLayout } from "@/components/layouts";
+import { Account } from "@/components/layouts";
 import useGetAccountById from "@/hooks/api/account/use-account-by-id";
+import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
 import useUpdateProfile from "@/hooks/api/account/use-update-profile";
 import useVerifyEmail from "@/hooks/api/account/use-verify-email";
-import UseCart from "@/hooks/api/cart/use-cart";
-import useAllOrderDetail from "@/hooks/api/order/use-all-order-detail";
-import useMyOrders from "@/hooks/api/order/use-my-orders";
 import { logout } from "@/redux/slices/auth";
 import { setCart } from "@/redux/slices/cart";
 import { AccountByIdDtos } from "@/services/account/dto";
-import { Filter } from "@/services/order";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IconButton } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
-import Badge from "@mui/material/Badge";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { storage } from "@/firebase/firebase";
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import { ImageListType } from "react-images-uploading";
 import * as yup from "yup";
-import AllOrderDetail from "./all-order-detail";
-import MyDesign from "./mydesign";
-import MyOrders from "./myorders";
-import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
-import { updateImageAccount } from "@/services/account";
-import UpdateImageSuccess from "@/components/account/update-image-success";
 
 export interface IAccountSettingProps {}
 

@@ -37,7 +37,6 @@ export const addOrder = async (
 export const getAllMyOrders = async (filter: Filter) => {
   const pageNumber = 0;
   const pageSize = 4;
-  console.log(filter, "filter");
   let search = filter.paid !== undefined ? `&isPaid=${filter.paid}` : "";
   if (filter.cancel !== undefined) search = search + `&cancel=${filter.cancel}`;
   const query = new URLSearchParams({
