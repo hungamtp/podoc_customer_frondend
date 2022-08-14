@@ -88,7 +88,7 @@ export default function MyOrdersTable({
   const [selectedOrderDetailId, setSelectedOrderDetailId] =
     useState<string>("");
   const [selectedOrder, setSelectedOrder] = useState<MyOrdersDto>(
-    myOrdersResponse.data[0]
+    myOrdersResponse.data[0] || ""
   );
   const [isOpenDialog, setIsOpenDialog] = React.useState(false);
   const [designId, setDesignId] = React.useState("");

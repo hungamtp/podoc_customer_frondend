@@ -4,16 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // isSetImage: bảng chọn hình
 // isChooseImage: mở bảng chọn hình từ trang trống
 
-interface DesignInvalid {
-  designName: string;
-  isValid: boolean;
-}
-
-const initialState: DesignInvalid = {
-  designName: "",
-  isValid: false,
-};
-
+const initialState: string[] = [];
 export const designInValid = createSlice({
   name: "designInValid",
   initialState,

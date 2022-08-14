@@ -1,10 +1,10 @@
-import { DesignState } from '@/models/design';
-import { updateBlueprint } from '@/redux/slices/blueprints';
-import { setControlData } from '@/redux/slices/designControl';
-import { resetHeaderInfo } from '@/redux/slices/headerInfo';
-import { useRouter } from 'next/router';
-import * as React from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
+import { DesignState } from "@/models/design";
+import { updateBlueprint } from "@/redux/slices/blueprints";
+import { setControlData } from "@/redux/slices/designControl";
+import { resetHeaderInfo } from "@/redux/slices/headerInfo";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface IDesignHeaderLeftProps {
   closePreview: () => void;
@@ -16,16 +16,16 @@ export interface IDesignHeaderLeftProps {
 export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
   const { closePreview, openPreview, isPreview, isEditPage } = props;
 
-  const blueprintData = useAppSelector(state => state.blueprintsData);
-  const infoManageData = useAppSelector(state => state.infoManageData);
-  const previews = useAppSelector(state => state.previews);
+  const blueprintData = useAppSelector((state) => state.blueprintsData);
+  const infoManageData = useAppSelector((state) => state.infoManageData);
+  const designInValid = useAppSelector((state) => state.designInValid);
 
   const router = useRouter();
 
-  const designControl = useAppSelector(state => state.designControl);
+  const designControl = useAppSelector((state) => state.designControl);
   const controlData = designControl.controlData;
   const dispatch = useAppDispatch();
-  const headerInfo = useAppSelector(state => state.headerInfo);
+  const headerInfo = useAppSelector((state) => state.headerInfo);
   const updateAllToPreview = () => {
     let pos = -1;
     let tmpDesignInfos: DesignState[] = [];
@@ -91,13 +91,17 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
 
   React.useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (!url.includes('/design?productId') && !url.includes('/my-product/edit-design?designId=')) dispatch(resetHeaderInfo());
+      if (
+        !url.includes("/design?productId") &&
+        !url.includes("/my-product/edit-design?designId=")
+      )
+        dispatch(resetHeaderInfo());
     };
 
-    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on("routeChangeStart", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off("routeChangeStart", handleRouteChange);
     };
   }, []);
 
@@ -114,21 +118,27 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
               className="h6 px-4 m-auto bi bi-arrow-left cursor-pointer"
               onClick={() => {
                 if (isEditPage) router.back();
-                else router.push('/raw-products');
+                else router.push("/raw-products");
               }}
             >
-              {' '}
-              {isEditPage ? 'Trở về trang chi tiết ' : 'Trở về trang sản phẩm'}
+              {" "}
+              {isEditPage ? "Trở về trang chi tiết " : "Trở về trang sản phẩm"}
             </p>
             {headerInfo && (
               <div className="d-flex flex-column justify-content-center">
                 <p className="h5 pt-2">{headerInfo.productName}</p>
-                <p className="text-secondary">Cung cấp bởi nhà in {headerInfo.factoryName}</p>
+                <p className="text-secondary">
+                  Cung cấp bởi nhà in {headerInfo.factoryName}
+                </p>
               </div>
             )}
           </div>
           <div className="d-flex justify-content-center w-quater align-items-center px-4 btn-group">
-            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <div
+              className="btn-group"
+              role="group"
+              aria-label="Basic radio toggle button group"
+            >
               <input
                 type="radio"
                 className="btn-check"
@@ -136,7 +146,9 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
                 id="btnradio1"
                 autoComplete="off"
                 defaultChecked
-                disabled={controlData.isLoadingImage}
+                disabled={
+                  controlData.isLoadingImage || designInValid.length > 0
+                }
                 onClick={() => {
                   handleClosePreview();
                 }}
