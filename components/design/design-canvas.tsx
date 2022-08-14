@@ -7,6 +7,7 @@ import {
   addDesignInfo,
   cloneDesignInfo,
   deleteDesignInfo,
+  setDPI,
   setValue,
   updateTmpSrc,
   updateUniqueData,
@@ -326,19 +327,23 @@ export default function DesignCanvas({
             topPosition: tmpDesignData?.top,
             DPI: tmpDesignData?.DPI,
           };
-          if ((tmpDesignData?.DPI || 249) < 250) {
-            let isContain = false;
-            designInValid.forEach((designName) => {
-              if (designName === obj.name) isContain = true;
-            });
-            if (!isContain)
-              dispatch(setIsDesignInvalid([...designInValid, obj.name]));
-          } else {
-            const newInValidList = designInValid.filter(
-              (designName) => designName !== obj.name
-            );
-            dispatch(setIsDesignInvalid(newInValidList));
+          const type = obj.get("type")?.split("-")[1];
+          if (type !== "text") {
+            if ((tmpDesignData?.DPI || 99) < 100) {
+              let isContain = false;
+              designInValid.forEach((designName) => {
+                if (designName === obj.name) isContain = true;
+              });
+              if (!isContain)
+                dispatch(setIsDesignInvalid([...designInValid, obj.name]));
+            } else {
+              const newInValidList = designInValid.filter(
+                (designName) => designName !== obj.name
+              );
+              dispatch(setIsDesignInvalid(newInValidList));
+            }
           }
+
           dispatch(setValue({ ...designInfo }));
           if (obj.name) dispatch(setChoosenKey(obj.name));
           setIsEdit(true);
@@ -831,7 +836,7 @@ export default function DesignCanvas({
               image.getScaledHeight(),
               image.height
             );
-            if ((tmpDesignData?.DPI || 249) < 250) {
+            if ((tmpDesignData?.DPI || 99) < 100) {
               let isContain = false;
               designInValid.forEach((designName) => {
                 if (designName === newName) isContain = true;
@@ -880,6 +885,7 @@ export default function DesignCanvas({
         const imageLeft = reverseData("left", design.leftPosition);
         const imageTop = reverseData("top", design.topPosition);
         const imageWidth = reverseData("width", design.width);
+
         if (design.types === "text") {
           const newText = new fabric.IText(design.src, {
             fontFamily: design.font,
@@ -922,6 +928,10 @@ export default function DesignCanvas({
                     ml: false, // middle left
                     mr: false, // I think you get it
                   });
+                  const DPI = image.height
+                    ? image.height / (design.height / 2.54)
+                    : image.height;
+                  dispatch(setDPI({ DPI: DPI, key: design.key }));
                   canvas.add(image);
                   canvas.renderAll();
                   dispatch(updateTmpSrc({ key: design.key, tmpSrc: tmpSrc }));
@@ -949,6 +959,10 @@ export default function DesignCanvas({
                   ml: false, // middle left
                   mr: false, // I think you get it
                 });
+                const DPI = image.height
+                  ? image.height / (design.height / 2.54)
+                  : image.height;
+                dispatch(setDPI({ DPI: DPI, key: design.key }));
                 canvas.add(image);
                 canvas.renderAll();
               },
@@ -1033,7 +1047,7 @@ export default function DesignCanvas({
                 className="btn btn-secondary w-full"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="Hình ảnh thiết kế cần phải đạt 250 DPI trở lên"
+                title="Hình ảnh thiết kế cần phải đạt tối thiểu 100 DPI trở lên"
                 disabled={
                   controlData.isLoadingImage || designInValid.length > 0
                 }

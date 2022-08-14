@@ -1,23 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
-import { MainLayout } from "@/components/layouts";
-import React, { useEffect, useState } from "react";
+import { useAppSelector } from "@/components/hooks/reduxHook";
+import { CheckoutLayout } from "@/components/layouts";
+import useGetAccountById from "@/hooks/api/account/use-account-by-id";
+import useAddOrder from "@/hooks/api/order/use-create-order";
 import useCreatePaymentTransaction from "@/hooks/api/order/use-create-transaction";
-import { SubmitHandler, useForm } from "react-hook-form";
+import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
+import { setCart } from "@/redux/slices/cart";
+import { ShippingInfo } from "@/services/order/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { Dialog, DialogContent } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
-import { ShippingInfo } from "@/services/order/dto";
-import useAddOrder from "@/hooks/api/order/use-create-order";
-import { useAppSelector } from "@/components/hooks/reduxHook";
-import useGetAllShippingInfo from "@/hooks/api/order/use-get-all-shipping-infor";
-import { useRouter } from "next/router";
-import { setCart } from "@/redux/slices/cart";
-import { useDispatch } from "react-redux";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import Link from "next/link";
-import useGetAccountById from "@/hooks/api/account/use-account-by-id";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import * as yup from "yup";
 
 type Props = {};
 
@@ -507,4 +506,4 @@ export default function Checkout({}: Props) {
   );
 }
 
-Checkout.Layout = MainLayout;
+Checkout.Layout = CheckoutLayout;

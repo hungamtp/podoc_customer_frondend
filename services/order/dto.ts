@@ -56,6 +56,11 @@ export interface OrderDetailDto {
   status: string;
 }
 
+export interface CancelOrderStatusDto {
+  orderId: string;
+  cancelReason: string;
+}
+
 export interface MyOrdersDto {
   orderId: string;
   totalBill: number;

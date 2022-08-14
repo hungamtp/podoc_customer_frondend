@@ -23,6 +23,12 @@ import { useQueryClient } from "react-query";
 export interface IAccountProps {}
 
 export function Account({ children }: LayoutProps) {
+  const router = useRouter();
+
+  const auth = useAppSelector((state) => state.auth);
+  if (auth.roleName !== "USER") {
+    router.push("/login");
+  }
   const storaged = globalThis?.sessionStorage;
   const prevPath = storaged.getItem("prevPath");
   const credentialId = useAppSelector((state) => state.auth.userId);
@@ -34,8 +40,6 @@ export function Account({ children }: LayoutProps) {
     { data_url: responseAccount?.data.image },
   ]);
   const [isUpdatingImage, setIsUpdatingImage] = React.useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     if (responseAccount) {
