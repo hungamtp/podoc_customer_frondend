@@ -24,16 +24,16 @@ export default function ForgotPasswordMessage({}: Props) {
   //    &signature=640a8e675597bbf0315f86426e07dee858df920bebc85a56e59db2cd1fe6a6d4
   const router = useRouter();
   const param = router.query;
-  if (param["orderId"]) {
-    const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["orderId"][0]
-    );
-  }
-  if (param["apptransid"]) {
-    const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
-      param["apptransid"][0]
-    );
-  }
+  // if (param["orderId"]) {
+  //   const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
+  //     param["orderId"][0]
+  //   );
+  // }
+  // if (param["apptransid"]) {
+  //   const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
+  //     param["apptransid"][0]
+  //   );
+  // }
 
   return (
     <div>
