@@ -1,12 +1,49 @@
 import useDeleteOrder from "@/hooks/api/order/use-delete-order";
 import { CancelOrderStatusDto } from "@/services/order/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Theme, useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import * as yup from "yup";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
+const names = [
+  "Giao hàng chậm",
+  "Tôi đặt nhầm sản phẩm muốn mua",
+  "Đơn hàng tôi đặt bị trùng",
+  "Tôi không liên lạc được với bên hỗ trợ sau khi đã đặt hàng",
+  "Đợi lâu nhưng đơn hàng vẫn chưa được xử lý",
+  "Tôi không muốn đặt sản phẩm này nữa",
+  "Đơn hàng của tôi bị thiếu sản phẩm",
+  "Lý do khác",
+];
 export interface ICancelOrderStatusProps {
   handleCloseDialog: () => void;
   orderId: string;
@@ -38,8 +75,8 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
   };
   const [finishLoading, setFinishLoading] = useState(true);
 
-  const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
+  const theme = useTheme();
+  const [personName, setPersonName] = useState<string[]>([]);
 
   const {
     register,
@@ -50,18 +87,47 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
     defaultValues,
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (personName) {
+      let isContain = false;
+      personName.forEach((reason) => {
+        if (reason === "Lý do khác") isContain = true;
+      });
+      if (isContain) {
+        setIsAutoComplete(false);
+        reset({ cancelReason: "" });
+      } else reset({ cancelReason: personName.toString() });
+    }
+  }, [personName]);
+
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+  const [isAutoComplete, setIsAutoComplete] = useState(true);
+
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+
   const onSubmit: SubmitHandler<FormCancelOrderStatus> = (data) => {
     const tmpData: CancelOrderStatusDto = {
       orderId: orderId,
       cancelReason: data.cancelReason,
     };
+    // setIsShowOrderDetail(false);
     setFinishLoading(false);
     deleteOrder(tmpData, {
       onSuccess: (data) => {
         //because data:any
         queryClient.invalidateQueries("MyOrders");
         queryClient.invalidateQueries("OrderDetail");
-        setIsShowOrderDetail(false);
+        // setIsShowOrderDetail(true);
         handleCloseDialog();
         enqueueSnackbar("Hủy đơn hàng thành công!", {
           autoHideDuration: 3000,
@@ -70,10 +136,11 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
         setFinishLoading(true);
       },
       onError: (error: any) => {
+        setIsShowOrderDetail(true);
         if (error) {
-          enqueueSnackbar(error.response?.data.errorMessage, {
+          enqueueSnackbar("Có một hoặc nhiều nhà in đang tiến hành xử lý đơn", {
             autoHideDuration: 9000,
-            variant: "error",
+            variant: "warning",
           });
         }
       },
@@ -95,7 +162,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <strong>Bạn có muốn hủy đơn hàng này không?</strong>
+            <strong>Xin hãy cho chúng tôi biết lý do mà bạn hủy đơn</strong>
           </div>
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,8 +173,47 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                 >
                   Lý do hủy đơn
                 </label>
-                <div className="">
-                  <div className="input-group input-group-merge">
+                {isAutoComplete && (
+                  <FormControl sx={{ m: 2, width: 500 }}>
+                    <Select
+                      className="border px-2 rounded"
+                      multiple
+                      rows={3}
+                      disableUnderline
+                      displayEmpty
+                      value={personName}
+                      variant="standard"
+                      onChange={handleChange}
+                      renderValue={(selected) => (
+                        <Box
+                          sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+                        >
+                          {selected.map((value) => (
+                            <Chip key={value} label={value} />
+                          ))}
+                        </Box>
+                      )}
+                      inputProps={{ "aria-label": "Without label" }}
+                      MenuProps={MenuProps}
+                    >
+                      {names.map((name) => (
+                        <MenuItem
+                          key={name}
+                          value={name}
+                          style={getStyles(name, personName, theme)}
+                        >
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
+                <div>
+                  <div
+                    className={`input-group input-group-merge ${
+                      isAutoComplete && "d-none"
+                    }`}
+                  >
                     <textarea
                       rows={3}
                       className="form-control"
@@ -122,7 +228,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                   )}
                 </div>
               </div>
-              <div className=" d-flex justify-content-center mt-2">
+              <div className=" d-flex justify-content-center mt-2 ">
                 <button
                   className="btn btn-primary ps-4 pe-4 me-3"
                   type="submit"

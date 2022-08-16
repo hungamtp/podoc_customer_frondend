@@ -56,6 +56,7 @@ export default function Checkout({}: Props) {
       .required("Email không được để trống"),
     address: yup
       .string()
+      .typeError("Địa chỉ đang trống, vui lòng nhập lại địa chỉ giao hàng")
       .trim()
       .min(8, "Địa chỉ cần ít nhất 8 chữ cái")
       .max(300, "Địa chỉ tối đa 300 chữ cái")

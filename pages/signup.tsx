@@ -46,6 +46,7 @@ export default function SignUp({}: Props) {
       .required("Họ không được để trống"),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
+  console.log(error, "error");
   const [accepted, setAccepted] = useState(false);
   const defaultValues: SignUpDTO = {
     firstName: "",
@@ -219,12 +220,12 @@ export default function SignUp({}: Props) {
                                 {errors.email.message}
                               </span>
                             )}
-                            {error && (
+                            {error && error.response && (
                               <span
                                 id="error-pwd-message"
                                 className="text-danger"
                               >
-                                {error.response?.data.errorMessage &&
+                                {error.response.data?.errorMessage &&
                                   "Email đã tồn tại"}
                               </span>
                             )}

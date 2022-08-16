@@ -4,7 +4,11 @@ import useDeleteOrder from "@/hooks/api/order/use-delete-order";
 import useGetOrderDetailByOrderId from "@/hooks/api/order/use-get-order-detail-by-orderId";
 import usePayUnpaidOrder from "@/hooks/api/order/use-pay-unpaid-order";
 import { Filter } from "@/services/order";
-import { GetAllMyOrdersDto, OrderDetailDto } from "@/services/order/dto";
+import {
+  CancelOrderStatusDto,
+  GetAllMyOrdersDto,
+  OrderDetailDto,
+} from "@/services/order/dto";
 import { Dialog, DialogContent } from "@material-ui/core";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
@@ -16,6 +20,7 @@ import PaginationComponent from "./mui-pagination";
 import { MyOrdersDto } from "@/services/order/dto";
 import { useQueryClient } from "react-query";
 import CancelOrderStatus from "./cancel-order-status";
+import { useSnackbar } from "notistack";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -68,6 +73,8 @@ const convertStatus = (status: string) => {
     tmpOrderStatusData = "Hoàn thành";
   } else if (status === "IS_CANCEL") {
     tmpOrderStatusData = "Đã hủy đơn";
+  } else if (status === "CANCEL") {
+    tmpOrderStatusData = "Đã bị hủy";
   }
 
   return tmpOrderStatusData;
@@ -81,9 +88,10 @@ export default function MyOrdersTable({
   handleFilter,
   criteria,
 }: Props) {
-  const query = useQueryClient();
+  const queryClient = useQueryClient();
   const [openCancelOrderDialog, setOpenCancelOrderDialog] =
     React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpenCancelOrder = () => {
     setOpenCancelOrderDialog(true);
@@ -92,6 +100,13 @@ export default function MyOrdersTable({
   const handleCloseOrderDialog = () => {
     setOpenCancelOrderDialog(false);
   };
+
+  const {
+    mutate: deleteOrder,
+    isSuccess: isDeleteSuccess,
+    isLoading: isProcessDelete,
+  } = useDeleteOrder(handleCloseOrderDialog);
+
   const { mutate: payOrder } = usePayUnpaidOrder();
   const [isShowOrderDetail, setIsShowOrderDetail] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState<OrderDetailDto[]>();
@@ -107,6 +122,7 @@ export default function MyOrdersTable({
       if (selectedOrder.orderId) {
         myOrdersResponse.data.forEach((order) => {
           if (selectedOrder.orderId === order.orderId) {
+            setSelectedOrder(order);
             setOrderDetailData(order.orderDetailDtos);
           }
         });
@@ -115,6 +131,8 @@ export default function MyOrdersTable({
   }, [myOrdersResponse]);
 
   const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
+  const [isShowCancelReason, setIsShowCancelReason] = useState(false);
+
   const router = useRouter();
 
   const handleOpenDialog = (designId: string, orderDetailId: string) => {
@@ -155,6 +173,61 @@ export default function MyOrdersTable({
         </DialogContent>
       </Dialog>
       <Dialog
+        open={isShowCancelReason}
+        onClose={() => setIsShowCancelReason(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogContent>
+          {orderDetailData &&
+            selectedOrderDetailId &&
+            orderDetailData.filter(
+              (orderDetail) => orderDetail.id === selectedOrderDetailId
+            )[0] && (
+              <div className="">
+                <div className=" d-flex justify-content-center">
+                  <Image
+                    src="/asset/images/logo_man.png"
+                    className="avatar avatar rounded-circle "
+                    width={150}
+                    height={150}
+                    objectFit="cover"
+                    alt="productImage"
+                  />
+                </div>
+                <div className="h5 d-flex justify-content-center">
+                  Chúng tôi xin chân thành xin lỗi quý khách.
+                </div>
+                <div className=" d-flex justify-content-center">
+                  Nhà in{" "}
+                  {
+                    orderDetailData.filter(
+                      (orderDetail) => orderDetail.id === selectedOrderDetailId
+                    )[0].provider
+                  }{" "}
+                  đã hủy đơn hàng, vì lý do :
+                </div>
+                <div className="d-flex justify-content-center">
+                  {
+                    orderDetailData.filter(
+                      (orderDetail) => orderDetail.id === selectedOrderDetailId
+                    )[0].reason
+                  }
+                </div>
+                <div className=" d-flex justify-content-center">
+                  <button
+                    className="btn btn-primary ps-4 pe-4"
+                    onClick={() => setIsShowCancelReason(false)}
+                  >
+                    Đóng
+                  </button>
+                </div>
+              </div>
+            )}
+        </DialogContent>
+      </Dialog>
+      <Dialog
         open={isOpenSuccessRating}
         onClose={() => setIsOpenSuccessRating(false)}
         aria-labelledby="alert-dialog-title"
@@ -192,6 +265,7 @@ export default function MyOrdersTable({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth={true}
+        disableEnforceFocus
       >
         <DialogContent>
           <CancelOrderStatus
@@ -341,21 +415,39 @@ export default function MyOrdersTable({
                                 {numberWithCommas(order.price)}
                               </td>
                               <td className=" align-middle">
-                                {order.status === "DONE" ? (
+                                {order.status === "DONE" && (
                                   <div className="badge bg-success p-1 ">
                                     {convertStatus(order.status)}
                                   </div>
-                                ) : (
-                                  <div
-                                    className={`badge ${
-                                      order.status === "IS_CANCEL"
-                                        ? "bg-secondary"
-                                        : "bg-warning"
-                                    }  p-1`}
-                                  >
+                                )}
+                                {order.status === "IS_CANCEL" && (
+                                  <div className="badge bg-secondary p-1 ">
                                     {convertStatus(order.status)}
                                   </div>
                                 )}
+                                {order.status === "CANCEL" && (
+                                  <div className="row ">
+                                    <div className="badge bg-secondary h-75 w-50 mt-1">
+                                      {convertStatus(order.status)}
+                                    </div>
+                                    <div
+                                      className="text-secondary btn btn-link p-0 text-start"
+                                      onClick={() => {
+                                        setSelectedOrderDetailId(order.id);
+                                        setIsShowCancelReason(true);
+                                      }}
+                                    >
+                                      xem thêm{" "}
+                                    </div>
+                                  </div>
+                                )}
+                                {order.status !== "DONE" &&
+                                  order.status !== "IS_CANCEL" &&
+                                  order.status !== "CANCEL" && (
+                                    <div className="badge bg-warning p-1 ">
+                                      {convertStatus(order.status)}
+                                    </div>
+                                  )}
                               </td>
                               <td className="align-middle">
                                 <div className="dropdown">
@@ -409,7 +501,41 @@ export default function MyOrdersTable({
                     {selectedOrder.canCancel && !selectedOrder.canceled && (
                       <button
                         className="btn btn-danger d-flex align-items-center me-4"
-                        onClick={() => handleClickOpenCancelOrder()}
+                        onClick={() => {
+                          if (!selectedOrder.isPaid) {
+                            const tmpData: CancelOrderStatusDto = {
+                              orderId: selectedOrder.orderId,
+                              cancelReason: "Hủy đơn hàng chưa được thanh toán",
+                            };
+                            // setIsShowOrderDetail(false);
+                            deleteOrder(tmpData, {
+                              onSuccess: (data) => {
+                                //because data:any
+                                queryClient.invalidateQueries("MyOrders");
+                                queryClient.invalidateQueries("OrderDetail");
+                                // setIsShowOrderDetail(true);
+
+                                enqueueSnackbar("Hủy đơn hàng thành công!", {
+                                  autoHideDuration: 3000,
+                                  variant: "success",
+                                });
+                              },
+                              onError: (error: any) => {
+                                if (error) {
+                                  setIsShowOrderDetail(true);
+                                  enqueueSnackbar(
+                                    // 'error.response?.data.errorMessage',
+                                    "Có một hoặc nhiều nhà máy đang xử lý đơn hàng",
+                                    {
+                                      autoHideDuration: 9000,
+                                      variant: "error",
+                                    }
+                                  );
+                                }
+                              },
+                            });
+                          } else handleClickOpenCancelOrder();
+                        }}
                       >
                         <i className="bi bi-x-square  me-2"></i>
                         <p className="m-0">Hủy đơn</p>

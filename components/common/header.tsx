@@ -39,26 +39,16 @@ export default function Header({}: Props) {
     <div>
       <div id="topnav" className="bg-light">
         <div className="container">
-          <a className="logo" href="/">
-            <img
-              src="/asset/images/logo_man.png"
-              height="60"
-              className="logo-light-mode"
-              alt=""
-            />
-          </a>
-
-          <div className="menu-extras">
-            <div className="menu-item">
-              <a className="navbar-toggle" id="isToggle" onClick={toggleMenu}>
-                <div className="lines">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </a>
-            </div>
-          </div>
+          <Link href="/">
+            <a className="logo">
+              <img
+                src="/asset/images/logo_man.png"
+                height="60"
+                className="logo-light-mode"
+                alt=""
+              />
+            </a>
+          </Link>
 
           <ul className="buy-button list-inline mb-0">
             <li className="list-inline-item mb-0">
@@ -99,43 +89,45 @@ export default function Header({}: Props) {
                       cart &&
                       cart.slice(0, 3).map((cart) => {
                         return (
-                          <a
+                          <Link
+                            href={`/designs/${cart.designedProductId}`}
                             key={cart.id}
-                            href=" "
-                            className="d-flex align-items-center "
                           >
-                            <div className="w-25">
-                              <Image
-                                src={
-                                  cart.designedImage != ""
-                                    ? cart.designedImage
-                                    : "/asset/images/image_default/image_default.png"
-                                }
-                                onError={({ currentTarget }) => {
-                                  currentTarget.onerror = null; // prevents looping
-                                  currentTarget.src =
-                                    "/asset/images/image_default/image_default.png";
-                                }}
-                                className="shadow rounded"
-                                width={1000}
-                                height={1000}
-                                objectFit="cover"
-                                alt="productImage"
-                              />
-                            </div>
+                            <a className="d-flex align-items-center ">
+                              <div className="w-25">
+                                <Image
+                                  src={
+                                    cart.designedImage != ""
+                                      ? cart.designedImage
+                                      : "/asset/images/image_default/image_default.png"
+                                  }
+                                  onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; // prevents looping
+                                    currentTarget.src =
+                                      "/asset/images/image_default/image_default.png";
+                                  }}
+                                  className="shadow rounded"
+                                  width={1000}
+                                  height={1000}
+                                  objectFit="cover"
+                                  alt="productImage"
+                                />
+                              </div>
 
-                            <div className="flex-1 text-start ms-3">
+                              <div className="flex-1 text-start ms-3">
+                                <h6 className="text-dark mb-0">
+                                  {cart.designedProductName} ({cart.size})
+                                </h6>
+                                <p className="text-muted mb-0">
+                                  {numberWithCommas(cart.price)} X{" "}
+                                  {cart.quantity}
+                                </p>
+                              </div>
                               <h6 className="text-dark mb-0">
-                                {cart.designedProductName} ({cart.size})
+                                {numberWithCommas(cart.price * cart.quantity)}
                               </h6>
-                              <p className="text-muted mb-0">
-                                {numberWithCommas(cart.price)} X {cart.quantity}
-                              </p>
-                            </div>
-                            <h6 className="text-dark mb-0">
-                              {numberWithCommas(cart.price * cart.quantity)}
-                            </h6>
-                          </a>
+                            </a>
+                          </Link>
                         );
                       })}
                     <div

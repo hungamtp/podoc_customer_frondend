@@ -3,6 +3,7 @@ import { EmptyLayout } from "@/components/layouts";
 import useForgotPassword from "@/hooks/api/account/use-forgot-password";
 import { ForgotPasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -126,9 +127,9 @@ export default function ForgotPassword({}: Props) {
                           <small className="text-dark me-2">
                             Bạn đã nhớ lại mật khẩu ?
                           </small>{" "}
-                          <a href="login" className="text-dark fw-bold fs-7">
-                            Đăng nhập
-                          </a>
+                          <Link href="login">
+                            <a className="text-dark fw-bold fs-7">Đăng nhập</a>
+                          </Link>
                         </p>
                       </div>
                     </div>
