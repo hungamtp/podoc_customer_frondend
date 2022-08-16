@@ -52,7 +52,7 @@ export default function RawProduct({ product }: Props) {
             objectFit="cover"
             alt="productImage"
           />
-          <a className="overlay-work">
+          <div className="overlay-work">
             {product.productImages[0].image ? (
               <img
                 src={product.productImages[0].image}
@@ -63,10 +63,10 @@ export default function RawProduct({ product }: Props) {
             ) : (
               ""
             )}
-          </a>
+          </div>
         </div>
         <div className="card-body content pt-4 p-2">
-          <a className="text-dark product-name h6">{product.name}</a>
+          <div className="text-dark product-name h6">{product.name}</div>
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic mb-0 mt-1">
               Giá từ

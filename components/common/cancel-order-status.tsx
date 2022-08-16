@@ -37,7 +37,6 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 const names = [
   "Giao hàng chậm",
   "Tôi đặt nhầm sản phẩm muốn mua",
-  "Phí vận chuyển quá cao",
   "Đơn hàng tôi đặt bị trùng",
   "Tôi không liên lạc được với bên hỗ trợ sau khi đã đặt hàng",
   "Đợi lâu nhưng đơn hàng vẫn chưa được xử lý",
@@ -121,13 +120,14 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
       orderId: orderId,
       cancelReason: data.cancelReason,
     };
+    // setIsShowOrderDetail(false);
     setFinishLoading(false);
     deleteOrder(tmpData, {
       onSuccess: (data) => {
         //because data:any
         queryClient.invalidateQueries("MyOrders");
         queryClient.invalidateQueries("OrderDetail");
-        setIsShowOrderDetail(false);
+        // setIsShowOrderDetail(true);
         handleCloseDialog();
         enqueueSnackbar("Hủy đơn hàng thành công!", {
           autoHideDuration: 3000,
@@ -136,10 +136,11 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
         setFinishLoading(true);
       },
       onError: (error: any) => {
+        setIsShowOrderDetail(true);
         if (error) {
-          enqueueSnackbar(error.response?.data.errorMessage, {
+          enqueueSnackbar("Có một hoặc nhiều nhà in đang tiến hành xử lý đơn", {
             autoHideDuration: 9000,
-            variant: "error",
+            variant: "warning",
           });
         }
       },
