@@ -393,7 +393,10 @@ export default function DesignedProductDetail() {
                           </div>
                           {/*end row*/}
                           <div className="mt-4 pt-2">
-                            <button className="btn btn-primary" onClick={checkout}>
+                            <button
+                              className="btn btn-soft-primary"
+                              onClick={checkout}
+                            >
                               Xem giỏ hàng
                             </button>
                             <button className="btn btn-soft-primary ms-2" onClick={() => updateQuantity(quantity)}>
