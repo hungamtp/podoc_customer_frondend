@@ -79,7 +79,7 @@ export default function ProductDetail() {
           </div>
 
           <section className="section pb-0">
-            <div className="container">
+            <div className="container mb-5">
               <div className="row align-items-center">
                 <div className="col-md-5">
                   <div className="tiny-single-item">
@@ -130,11 +130,11 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* <div className="container">
-              <div className="mt-4">
-                <p className="h4">Danh sách nhà in</p>
+            <div className="container">
+              <div className="mt-5 mb-5 pt-3">
+                <p className="h3 font-weight-bold">Danh sách nhà in</p>
               </div>
-            </div> */}
+            </div>
 
             {response.factories.length != 0 ? (
               response.factories.map((factory) => {
