@@ -458,7 +458,7 @@ export default function DesignedProductDetail() {
                           {/*end row*/}
                           <div className="mt-4 pt-2">
                             <button
-                              className="btn btn-primary"
+                              className="btn btn-soft-primary"
                               onClick={checkout}
                             >
                               Xem giỏ hàng

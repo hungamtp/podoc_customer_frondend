@@ -54,6 +54,7 @@ export interface OrderDetailDto {
   date: string;
   rated: boolean;
   status: string;
+  reason: string;
 }
 
 export interface CancelOrderStatusDto {
