@@ -75,31 +75,6 @@ export default function AccountSetting(props: IAccountSettingProps) {
     { data_url: responseAccount?.data.image },
   ]);
 
-  const router = useRouter();
-
-  const maxNumber = 69;
-
-  const [isImageChange, setIsImageChange] = React.useState(false);
-
-  const {
-    mutate: updateAvatarImage,
-    isSuccess,
-    isLoading: isLoadingUpdateImage,
-  } = useUpdateImageAccount();
-
-  React.useEffect(() => {
-    const storage = globalThis?.sessionStorage;
-    const prev = storage.getItem("prevPath");
-    if (prev === "/design") {
-    }
-  }, []);
-
-  const logoutFunc = () => {
-    dispatch(setCart([]));
-    dispatch(logout([]));
-    router.push("/");
-  };
-
   const defaultValues: AccountByIdDtos = {
     id: "",
     userFirstName: "",
@@ -125,7 +100,6 @@ export default function AccountSetting(props: IAccountSettingProps) {
 
   React.useEffect(() => {
     reset(responseAccount?.data);
-    setImages([{ data_url: responseAccount?.data.image }]);
   }, [responseAccount]);
 
   const onSubmit: SubmitHandler<AccountByIdDtos> = (data) => {
