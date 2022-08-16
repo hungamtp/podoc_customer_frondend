@@ -30,10 +30,11 @@ const schema = yup.object().shape({
 
 export default function ChangePassword(props: IChangePasswordProps) {
   const { id, closeChangePassword } = props;
-  const { mutate: updatePassword, error } = useUpdatePassword(
-    id,
-    closeChangePassword
-  );
+  const {
+    mutate: updatePassword,
+    error,
+    isLoading,
+  } = useUpdatePassword(id, closeChangePassword);
   const defaultValues: UpdatePasswordDto = {
     oldPassword: "",
     newPassword: "",
@@ -128,12 +129,19 @@ export default function ChangePassword(props: IChangePasswordProps) {
           <div className="d-flex justify-content-center">
             <div className="col-lg-6 mt-2 mb-0 d-flex justify-content-evenly">
               <button
-                className="btn btn-success "
+                className="btn btn-success"
                 type="submit"
                 onClick={() => {
                   handleSubmit(onSubmit);
                 }}
               >
+                {isLoading && (
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )}
                 Lưu mật khẩu
               </button>
               <button
