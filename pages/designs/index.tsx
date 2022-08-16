@@ -1,22 +1,15 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 import Categories from "@/components/common/categories";
-import DesignedProduct from "@/components/common/designed-product";
 import PaginationComponent from "@/components/common/mui-pagination";
-import RawProduct from "@/components/common/raw-product";
 import ShowRating from "@/components/common/show-rating";
 import DesignedProductCard from "@/components/designed-products/designed-product-card";
 import { MainLayout } from "@/components/layouts";
 import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
-import useRawProduct, {
-  RawProductFilter,
-} from "@/hooks/api/use-get-all-product-raw";
+import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
 import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
-import search from "@/redux/slices/search";
 import Image from "next/image";
 import Link from "next/link";
-import * as React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -172,7 +165,9 @@ export default function DesignedProducts(props: IProductProps) {
                                 <Link href={`designs/${product.id}`}>
                                   <a className="text-dark h6">{product.name}</a>
                                 </Link>
-                                <h6 className="text-dark small fst-italic mb-0 mt-1">{product.designedPrice} VNĐ</h6>
+                                <h6 className="text-dark small fst-italic mb-0 mt-1">
+                                  {product.designedPrice} VNĐ
+                                </h6>
 
                                 <ShowRating
                                   rate={product.rate}

@@ -197,12 +197,11 @@ export default function Login({ data }: Props) {
                       <div className="col-lg-12">
                         <div className="d-flex justify-content-between">
                           <p className="forgot-pass mt-2">
-                            <a
-                              href="forgotpassword"
-                              className="text-dark fw-bold"
-                            >
-                              Bạn quên mật khẩu ?
-                            </a>
+                            <Link href="forgotpassword">
+                              <a className="text-dark fw-bold">
+                                Bạn quên mật khẩu ?
+                              </a>
+                            </Link>
                           </p>
                         </div>
                       </div>

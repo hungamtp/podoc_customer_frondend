@@ -122,6 +122,7 @@ export default function MyOrdersTable({
       if (selectedOrder.orderId) {
         myOrdersResponse.data.forEach((order) => {
           if (selectedOrder.orderId === order.orderId) {
+            setSelectedOrder(order);
             setOrderDetailData(order.orderDetailDtos);
           }
         });
@@ -506,13 +507,14 @@ export default function MyOrdersTable({
                               orderId: selectedOrder.orderId,
                               cancelReason: "Hủy đơn hàng chưa được thanh toán",
                             };
+                            // setIsShowOrderDetail(false);
                             deleteOrder(tmpData, {
                               onSuccess: (data) => {
                                 //because data:any
                                 queryClient.invalidateQueries("MyOrders");
                                 queryClient.invalidateQueries("OrderDetail");
-                                setIsShowOrderDetail(false);
-                                handleCloseDialog();
+                                // setIsShowOrderDetail(true);
+
                                 enqueueSnackbar("Hủy đơn hàng thành công!", {
                                   autoHideDuration: 3000,
                                   variant: "success",
@@ -520,8 +522,10 @@ export default function MyOrdersTable({
                               },
                               onError: (error: any) => {
                                 if (error) {
+                                  setIsShowOrderDetail(true);
                                   enqueueSnackbar(
-                                    error.response?.data.errorMessage,
+                                    // 'error.response?.data.errorMessage',
+                                    "Có một hoặc nhiều nhà máy đang xử lý đơn hàng",
                                     {
                                       autoHideDuration: 9000,
                                       variant: "error",
