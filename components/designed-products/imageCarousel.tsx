@@ -1,5 +1,7 @@
+import { Skeleton } from "@mui/material";
 import Image from "next/image";
 import * as React from "react";
+import { useState } from "react";
 
 export interface IImageCarouselProps {
   renderedImagesList: { image: string; position: string; color: string }[];
@@ -8,6 +10,7 @@ export interface IImageCarouselProps {
 export default function ImageCarousel({
   renderedImagesList,
 }: IImageCarouselProps) {
+  const [imageIsLoaded, setImageIsLoaded] = useState(false);
   return (
     <div>
       <div className="tiny-single-item">
@@ -26,11 +29,14 @@ export default function ImageCarousel({
                   >
                     {" "}
                     <div className="d-block">
+                      {}
                       <Image
                         src={image.image}
                         width={3000}
                         height={3000}
                         objectFit="cover"
+                        placeholder="blur"
+                        blurDataURL="/asset/images/image_default/BLANK+grey+placeholder+-+light.jpg"
                         alt="productImage"
                       />
                     </div>

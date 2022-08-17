@@ -12,9 +12,12 @@ import Categories from "@/components/common/categories";
 import { useForm } from "react-hook-form";
 import PaginationComponent from "@/components/common/mui-pagination";
 import Link from "next/link";
+import { Skeleton } from "@mui/material";
+import { Box } from "@material-ui/core";
 
 export interface IProductProps {}
 
+const renderList = [1, 2, 3];
 export default function RawProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
@@ -169,6 +172,29 @@ export default function RawProducts(props: IProductProps) {
                 {/*end col*/}
                 {/*end row*/}
                 <div className="row">
+                  {isLoading && (
+                    <div className="row">
+                      {renderList.map((data) => (
+                        <div
+                          key={data}
+                          className="col-lg-4 col-md-6 col-12 mt-4 pt-2"
+                        >
+                          <Skeleton
+                            variant="rectangular"
+                            width={240}
+                            height={240}
+                          />
+                          <Box sx={{ pt: 0.5 }}>
+                            <Skeleton />
+                            <Skeleton width="60%" />
+                            <Skeleton width="70%" />
+                            <Skeleton width="60%" />
+                            <Skeleton width="80%" />
+                          </Box>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   {response?.data.map((product) => {
                     return <RawProduct key={product.id} product={product} />;
                   })}

@@ -306,8 +306,8 @@ export function Account({ children }: LayoutProps) {
                       }`}
                     >
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-list-ul h5 me-2 mb-0" />{" "}
-                        <p className="m-0">Đơn hàng của tôi</p>
+                        <i className="uil uil-clipboard-notes h5 me-2 mb-0" />{" "}
+                        <p className="m-0">Đơn hàng</p>
                       </h6>
                     </a>
                   </Link>
@@ -356,7 +356,7 @@ export function Account({ children }: LayoutProps) {
                       }`}
                     >
                       <h6 className="mb-0 d-flex py-1">
-                        <i className="uil uil-user h5 me-2 mb-0" />{" "}
+                        <i className="bi bi-person-lines-fill h5 me-2 mb-0" />{" "}
                         <p className="m-0">Thông tin cá nhân</p>
                       </h6>
                     </a>
