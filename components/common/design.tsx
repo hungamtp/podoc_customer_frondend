@@ -43,6 +43,9 @@ export default function Design({ product }: Props) {
         </div>
       </td>
       <td className="align-middle">
+        <p className="m-0">{product?.factory}</p>
+      </td>
+      <td className="align-middle">
         <p className="m-0">{numberWithCommas(product.designedPrice)}</p>
       </td>
       <td className="align-middle">

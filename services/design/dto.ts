@@ -54,6 +54,7 @@ export interface SimpleDesignProduct {
   soldCount: number;
   designedPrice: number;
   productOfDesignDeleted: boolean;
+  factory?: string;
   user: {
     id: string;
     firstName: string;
