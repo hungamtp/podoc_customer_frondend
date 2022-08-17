@@ -22,15 +22,6 @@ const useUpdatePassword = (id: string, closeChangePassword: () => void) => {
           variant: "success",
         });
       },
-      onError: (error: AxiosError<ErrorHttpResponse>) => {
-        enqueueSnackbar(
-          "Có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau!",
-          {
-            autoHideDuration: 6000,
-            variant: "warning",
-          }
-        );
-      },
     }
   );
 };

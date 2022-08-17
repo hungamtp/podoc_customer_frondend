@@ -130,8 +130,8 @@ export default function ChangePassword(props: IChangePasswordProps) {
             </div>
           </div>
           {/*end col*/}
-          <div className="col-lg-12">
-            <div className="mb-3">
+          <div className="col-lg-12 mb-3">
+            <>
               <label className="form-label">Nhập lại mật khẩu mới:</label>
               <div className="form-icon position-relative">
                 <i className="bi bi-key position-absolute mt-2 ms-3" />
@@ -162,7 +162,7 @@ export default function ChangePassword(props: IChangePasswordProps) {
                   Mật khẩu cũ không đúng
                 </span>
               )}
-            </div>
+            </>
           </div>
           {/*end col*/}
           <div className="d-flex justify-content-center">
