@@ -47,6 +47,14 @@ export default function SignUp({}: Props) {
   });
   const { mutate: signUp, isLoading, error } = useSignup();
   const [accepted, setAccepted] = useState(false);
+  const [seePassword, setSeePassword] = useState("password");
+  const handleSeePassword = () => {
+    if (seePassword === "password") {
+      setSeePassword("text");
+    } else {
+      setSeePassword("password");
+    }
+  };
   const defaultValues: SignUpDTO = {
     firstName: "",
     lastName: "",
@@ -243,11 +251,21 @@ export default function SignUp({}: Props) {
                               className="bi bi-key position-absolute mt-2 ms-3"
                             ></i>
                             <input
-                              type="password"
+                              type={seePassword}
                               className="form-control ps-5"
                               placeholder="Mật khẩu"
                               {...register("password")}
                             />
+                            <span
+                              className="cursor-pointer position-absolute top-50 end-0 translate-middle-y me-3"
+                              onClick={handleSeePassword}
+                            >
+                              {seePassword === "password" ? (
+                                <i className={`bi bi-eye`} />
+                              ) : (
+                                <i className={`bi bi-eye-slash`} />
+                              )}
+                            </span>
                             {errors.password && (
                               <span
                                 id="error-pwd-message"

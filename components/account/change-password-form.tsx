@@ -41,6 +41,15 @@ export default function ChangePassword(props: IChangePasswordProps) {
     passwordConfirmation: "",
   };
 
+  const [seePassword, setSeePassword] = React.useState("password");
+  const handleSeePassword = () => {
+    if (seePassword === "password") {
+      setSeePassword("text");
+    } else {
+      setSeePassword("password");
+    }
+  };
+
   React.useEffect(() => {
     setFocus("oldPassword");
   }, []);
@@ -70,11 +79,21 @@ export default function ChangePassword(props: IChangePasswordProps) {
                 <i className="bi bi-key-fill position-absolute mt-2 ms-3" />
 
                 <input
-                  type="password"
+                  type={seePassword}
                   className="form-control ps-5"
                   placeholder="Mật khẩu cũ"
                   {...register("oldPassword")}
                 />
+                <span
+                  className="cursor-pointer position-absolute top-50 end-0 translate-middle-y me-3"
+                  onClick={handleSeePassword}
+                >
+                  {seePassword === "password" ? (
+                    <i className={`bi bi-eye`} />
+                  ) : (
+                    <i className={`bi bi-eye-slash`} />
+                  )}
+                </span>
                 {errors.oldPassword && (
                   <p className="text-danger">{errors.oldPassword.message}</p>
                 )}
@@ -89,11 +108,21 @@ export default function ChangePassword(props: IChangePasswordProps) {
                 <i className="bi bi-key position-absolute mt-2 ms-3" />
 
                 <input
-                  type="password"
+                  type={seePassword}
                   className="form-control ps-5"
                   placeholder="Mật khẩu mới"
                   {...register("newPassword")}
                 />
+                <span
+                  className="cursor-pointer position-absolute top-50 end-0 translate-middle-y me-3"
+                  onClick={handleSeePassword}
+                >
+                  {seePassword === "password" ? (
+                    <i className={`bi bi-eye`} />
+                  ) : (
+                    <i className={`bi bi-eye-slash`} />
+                  )}
+                </span>
                 {errors.newPassword && (
                   <p className="text-danger">{errors.newPassword.message}</p>
                 )}
@@ -107,11 +136,21 @@ export default function ChangePassword(props: IChangePasswordProps) {
               <div className="form-icon position-relative">
                 <i className="bi bi-key position-absolute mt-2 ms-3" />
                 <input
-                  type="password"
+                  type={seePassword}
                   className="form-control ps-5"
                   placeholder="Nhập lại Mật khẩu mới"
                   {...register("passwordConfirmation")}
                 />
+                <span
+                  className="cursor-pointer position-absolute top-50 end-0 translate-middle-y me-3"
+                  onClick={handleSeePassword}
+                >
+                  {seePassword === "password" ? (
+                    <i className={`bi bi-eye`} />
+                  ) : (
+                    <i className={`bi bi-eye-slash`} />
+                  )}
+                </span>
                 {errors.passwordConfirmation && (
                   <p className="text-danger">
                     {errors.passwordConfirmation.message}

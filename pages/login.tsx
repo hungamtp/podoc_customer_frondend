@@ -44,6 +44,14 @@ export default function Login({ data }: Props) {
   // Set the previous path as the value of the current path.
   const prevPath = storage.getItem("prevPath");
   // const [error, setError] = React.useState(false);
+  const [seePassword, setSeePassword] = React.useState("password");
+  const handleSeePassword = () => {
+    if (seePassword === "password") {
+      setSeePassword("text");
+    } else {
+      setSeePassword("password");
+    }
+  };
   const { mutate: login, isLoading } = useLogin();
   const dispatch = useAppDispatch();
   const defaultValues: FormLogin = {
@@ -171,14 +179,24 @@ export default function Login({ data }: Props) {
                             <label className="form-label">
                               Mật khẩu <span className="text-danger">*</span>
                             </label>
-                            <div className="position-relative">
+                            <div className="position-relative ">
                               <i className="bi bi-key position-absolute mt-2 ms-3"></i>
                               <input
-                                type="password"
+                                type={seePassword}
                                 className="form-control ps-5"
                                 placeholder="Mật khẩu"
                                 {...register("password")}
                               />
+                              <span
+                                className="cursor-pointer position-absolute top-50 end-0 translate-middle-y me-3"
+                                onClick={handleSeePassword}
+                              >
+                                {seePassword === "password" ? (
+                                  <i className={`bi bi-eye`} />
+                                ) : (
+                                  <i className={`bi bi-eye-slash`} />
+                                )}
+                              </span>
                             </div>
                             {errors.password && (
                               <span
