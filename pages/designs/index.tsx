@@ -1,17 +1,18 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import Categories from "@/components/common/categories";
-import PaginationComponent from "@/components/common/mui-pagination";
-import ShowRating from "@/components/common/show-rating";
-import DesignedProductCard from "@/components/designed-products/designed-product-card";
-import { MainLayout } from "@/components/layouts";
-import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
-import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
-import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import Categories from '@/components/common/categories';
+import PaginationComponent from '@/components/common/mui-pagination';
+import ShowRating from '@/components/common/show-rating';
+import DesignedProductCard from '@/components/designed-products/designed-product-card';
+import { MainLayout } from '@/components/layouts';
+import useGetAllDesigns from '@/hooks/api/design/use-get-all-designs';
+import { RawProductFilter } from '@/hooks/api/use-get-all-product-raw';
+import { useGetBestSeller } from '@/hooks/api/use-get-best-seller';
+import { useGetHighestRateDesign } from '@/hooks/api/use-get-highest-rate-design';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export interface IProductProps {}
 
@@ -19,11 +20,11 @@ export default function DesignedProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
     pageNumber: 0,
     pageSize: 9,
-    sort: "",
+    sort: '',
   });
 
   const { register, handleSubmit } = useForm<{ name: string }>({
-    defaultValues: { name: "" },
+    defaultValues: { name: '' },
   });
 
   const onSubmit = (data: { name: string }) => {
@@ -42,12 +43,9 @@ export default function DesignedProducts(props: IProductProps) {
   };
 
   const { data: response, isLoading: isLoading } = useGetAllDesigns(filter);
-  const { data: getBestSellerResponse, isLoading: isLoadingBestSeller } =
-    useGetBestSeller();
+  const { data: getBestSellerResponse, isLoading: isLoadingBestSeller } = useGetHighestRateDesign();
 
-  const totalPages = Math.ceil(
-    (response?.elements || filter.pageSize) / filter.pageSize
-  );
+  const totalPages = Math.ceil((response?.elements || filter.pageSize) / filter.pageSize);
 
   return (
     <>
@@ -55,9 +53,8 @@ export default function DesignedProducts(props: IProductProps) {
         <section
           className="bg-half-170 bg-light d-table w-100"
           style={{
-            background:
-              "url('/asset/images/banner/banner_fixed.jpg') no-repeat center center",
-            marginTop: "30px",
+            background: "url('/asset/images/banner/banner_fixed.jpg') no-repeat center center",
+            marginTop: '30px',
           }}
         >
           <div className="container">
@@ -84,21 +81,14 @@ export default function DesignedProducts(props: IProductProps) {
                 </ul>
               </nav>
             </div>
-          </div>{" "}
+          </div>{' '}
           {/*end container*/}
         </section>
         {/*end section*/}
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg
-              viewBox="0 0 2880 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                fill="currentColor"
-              />
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
             </svg>
           </div>
         </div>
@@ -112,23 +102,10 @@ export default function DesignedProducts(props: IProductProps) {
                   <div className="card-body p-0">
                     {/* SEARCH */}
                     <div className="widget">
-                      <form
-                        role="search"
-                        method="get"
-                        onSubmit={handleSubmit(onSubmit)}
-                      >
+                      <form role="search" method="get" onSubmit={handleSubmit(onSubmit)}>
                         <div className="input-group mb-3 border rounded">
-                          <input
-                            type="text"
-                            className="form-control border-0"
-                            {...register("name")}
-                            placeholder="Tên sản phẩm"
-                          />
-                          <button
-                            type="submit"
-                            className="input-group-text bg-white border-0"
-                            id="searchsubmit"
-                          >
+                          <input type="text" className="form-control border-0" {...register('name')} placeholder="Tên sản phẩm" />
+                          <button type="submit" className="input-group-text bg-white border-0" id="searchsubmit">
                             <i className="uil uil-search" />
                           </button>
                         </div>
@@ -140,19 +117,16 @@ export default function DesignedProducts(props: IProductProps) {
                     {/* Top Products */}
                     {getBestSellerResponse && getBestSellerResponse.length > 0 && (
                       <div className="widget mt-4 pt-2">
-                        <h5 className="widget-title">Sản phẩm bán chạy</h5>
+                        <h5 className="widget-title">Sản phẩm được yêu thích</h5>
                         <ul className="list-unstyled mt-4 mb-0">
-                          {getBestSellerResponse.map((product) => (
-                            <li
-                              className="d-flex align-items-center"
-                              key={product.id}
-                            >
+                          {getBestSellerResponse.map(product => (
+                            <li className="d-flex align-items-center" key={product.id}>
                               <Link href={`designs/${product.id}`}>
                                 <a className="w-25">
                                   <Image
                                     src={product.image}
                                     className="img-fluid avatar avatar-small rounded shadow"
-                                    style={{ height: "auto" }}
+                                    style={{ height: 'auto' }}
                                     width={2000}
                                     height={2000}
                                     objectFit="cover"
@@ -165,18 +139,11 @@ export default function DesignedProducts(props: IProductProps) {
                                 <Link href={`designs/${product.id}`}>
                                   <a className="text-dark h6">{product.name}</a>
                                 </Link>
-                                <h6 className="text-dark small fst-italic mb-0 mt-1">
-                                  {product.designedPrice} VNĐ
-                                </h6>
+                                <h6 className="text-dark small fst-italic mb-0 mt-1">{product.designedPrice} VNĐ</h6>
 
-                                <ShowRating
-                                  rate={product.rate}
-                                  rateCount={product.rateCount}
-                                />
+                                <ShowRating rate={product.rate} rateCount={product.rateCount} />
 
-                                <p className="text-success">
-                                  {product.username}
-                                </p>
+                                <p className="text-success">{product.username}</p>
                               </div>
                             </li>
                           ))}
@@ -194,10 +161,7 @@ export default function DesignedProducts(props: IProductProps) {
                       <div className="section-title">
                         <h5 className="mb-0">
                           Hiển thị 1–
-                          {response && response?.elements < filter.pageSize
-                            ? response?.elements
-                            : filter.pageSize}{" "}
-                          của {response?.elements}
+                          {response && response?.elements < filter.pageSize ? response?.elements : filter.pageSize} của {response?.elements}
                           &nbsp;sản phẩm
                         </h5>
                       </div>
@@ -205,33 +169,20 @@ export default function DesignedProducts(props: IProductProps) {
                   </div>
                 ) : (
                   <div className="d-flex mt-5 ">
-                    {" "}
-                    {!isLoading && (
-                      <h3 className="mt-5 text-center w-100">
-                        Không tìm thấy sản phẩm nào
-                      </h3>
-                    )}
+                    {' '}
+                    {!isLoading && <h3 className="mt-5 text-center w-100">Không tìm thấy sản phẩm nào</h3>}
                   </div>
                 )}
                 {/*end row*/}
                 {response && (
                   <div className="row">
-                    {response?.data.map((product) => {
-                      return (
-                        <DesignedProductCard
-                          key={product.id}
-                          product={product}
-                        />
-                      );
+                    {response?.data.map(product => {
+                      return <DesignedProductCard key={product.id} product={product} />;
                     })}
 
                     {Math.ceil(response?.elements / filter.pageSize) > 1 && (
                       <div className="d-flex justify-content-center">
-                        <PaginationComponent
-                          total={totalPages}
-                          filter={filter}
-                          setFilter={setFilter}
-                        />
+                        <PaginationComponent total={totalPages} filter={filter} setFilter={setFilter} />
                       </div>
                     )}
                   </div>
