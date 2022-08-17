@@ -304,7 +304,7 @@ export default function DesignedProductDetail() {
                         <hr className="my-0" />
                         <div>
                           <div className="row mt-4 pt-2">
-                            <div className="col-lg-6 col-12">
+                            <div className="col-lg-8 col-12">
                               <div className="d-flex align-items-center ">
                                 <h6 className="mb-0">Chọn màu:</h6>
 
@@ -337,30 +337,9 @@ export default function DesignedProductDetail() {
                                 </ul>
                               </div>
                               {isError && !selectedColor && <p className="text-warning">Vui lòng chọn màu áo</p>}
-                              {sizeList.length > 0 && (
-                                <div className="d-flex align-items-center pt-4">
-                                  <h6 className="mb-0">Size:</h6>
-                                  <ul className="list-unstyled mb-0 ms-3">
-                                    {sizeList.map(({ size }) => (
-                                      <li key={size} className="list-inline-item ms-1">
-                                        <button
-                                          className={`${size === selectedSize ? `is-select` : 'my-button'}`}
-                                          onClick={() => {
-                                            setSelectedSize(size);
-                                            setIsError(false);
-                                          }}
-                                        >
-                                          {size}
-                                        </button>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              {isError && !selectedSize && selectedColor && <p className="text-warning">Vui lòng chọn size áo</p>}
                             </div>
                             {/*end col*/}
-                            <div className="col-lg-6 col-12 mt-4 mt-lg-0">
+                            <div className="col-lg-4 col-12 mt-4 mt-lg-0">
                               <div className="d-flex shop-list align-items-center">
                                 <h6 className="mb-0">Số lượng:</h6>
                                 <div className="qty-icons ms-3 d-flex">
@@ -392,11 +371,30 @@ export default function DesignedProductDetail() {
                             {/*end col*/}
                           </div>
                           {/*end row*/}
+                          {sizeList.length > 0 && (
+                            <div className="d-flex align-items-center pt-4">
+                              <h6 className="mb-0">Size:</h6>
+                              <ul className="list-unstyled mb-0 ms-3">
+                                {sizeList.map(({ size }) => (
+                                  <li key={size} className="list-inline-item ms-1">
+                                    <button
+                                      className={`${size === selectedSize ? `is-select` : 'my-button'}`}
+                                      onClick={() => {
+                                        setSelectedSize(size);
+                                        setIsError(false);
+                                      }}
+                                    >
+                                      {size}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {isError && !selectedSize && selectedColor && <p className="text-warning">Vui lòng chọn size áo</p>}
+
                           <div className="mt-4 pt-2">
-                            <button
-                              className="btn btn-soft-primary"
-                              onClick={checkout}
-                            >
+                            <button className="btn btn-soft-primary" onClick={checkout}>
                               Xem giỏ hàng
                             </button>
                             <button className="btn btn-soft-primary ms-2" onClick={() => updateQuantity(quantity)}>
