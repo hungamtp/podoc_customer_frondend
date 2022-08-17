@@ -250,7 +250,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                             <div className="">
                               <p className="h4">Chọn màu áo</p>
                               <div className="mt-4">
-                                <div className=" mb-0 d-flex justify-content-between ms-4 p-4 w-50">
+                                <div className=" mb-0 d-flex justify-content-start ms-4 p-4 w-50">
                                   {response.imagePreviews.map(
                                     (imagePreview) => {
                                       if (
@@ -261,7 +261,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                           <>
                                             <div
                                               key={imagePreview.color}
-                                              className="cursor-pointer"
+                                              className={`cursor-pointer rounded-circle me-2 `}
                                               onClick={() => {
                                                 setRenderColor(
                                                   imagePreview.color
@@ -269,13 +269,12 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                               }}
                                             >
                                               <Image
-                                                className="rounded-circle border"
+                                                className={`rounded-circle`}
                                                 width={50}
                                                 height={50}
-                                                objectFit="cover"
                                                 key={imagePreview.color}
                                                 src={
-                                                  "https://images.printify.com/5853fec7ce46f30f8328200a"
+                                                  "/asset/images/image_default/color-base.png"
                                                 }
                                                 style={{
                                                   backgroundColor:

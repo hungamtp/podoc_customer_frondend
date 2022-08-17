@@ -137,7 +137,7 @@ export default function EmptyTable(props: IEmptyTableProps) {
           <div className="d-flex justify-content-center ">
             <div className="w-half d-flex flex-column justify-content-center">
               <Image
-                src="https://printify.com/assets/gen_images/add-layer.svg"
+                src="/asset/images/image_default/empty_logo.png"
                 className="avatar avatar rounded-circle"
                 width={2000}
                 height={2000}

@@ -212,7 +212,7 @@ a {
 }
 
 .border-blue{
-  border-radius: 50%;
+  border-radius: 100%;
   border-color: #2F55D4;
   border:2px solid;
 }

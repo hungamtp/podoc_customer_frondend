@@ -73,9 +73,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                       height={30}
                       objectFit="cover"
                       key={colors[0].image}
-                      src={
-                        "https://images.printify.com/5853fec7ce46f30f8328200a"
-                      }
+                      src={"/asset/images/image_default/color-base.png"}
                       style={{
                         backgroundColor: colors[0].image,
                         opacity: "0.8",
@@ -92,7 +90,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                     width={30}
                     height={30}
                     className="rounded-circle border"
-                    src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
+                    src={"/asset/images/image_default/color-base.png"}
                     style={{ backgroundColor: color, opacity: "0.8" }}
                     alt={color}
                   />
@@ -114,7 +112,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                     height={30}
                     objectFit="cover"
                     key={color.image}
-                    src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
+                    src={"/asset/images/image_default/color-base.png"}
                     style={{
                       backgroundColor: color.image,
                       opacity: "0.8",
