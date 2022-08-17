@@ -8,12 +8,15 @@ import { MainLayout } from "@/components/layouts";
 import useGetAllDesigns from "@/hooks/api/design/use-get-all-designs";
 import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
 import { useGetBestSeller } from "@/hooks/api/use-get-best-seller";
+import { Box, Skeleton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export interface IProductProps {}
+
+const renderList = [1, 2, 3];
 
 export default function DesignedProducts(props: IProductProps) {
   const [filter, setFilter] = useState<RawProductFilter>({
@@ -33,6 +36,7 @@ export default function DesignedProducts(props: IProductProps) {
     else delete tmpFilter.name;
     setFilter(tmpFilter);
   };
+  const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
   const handleCategoryChange = (value: string) => {
     let tmpFilter = { ...filter } as RawProductFilter;
@@ -136,7 +140,6 @@ export default function DesignedProducts(props: IProductProps) {
                     </div>
                     {/* SEARCH */}
                     <Categories handleCategoryChange={handleCategoryChange} />
-
                     {/* Top Products */}
                     {getBestSellerResponse && getBestSellerResponse.length > 0 && (
                       <div className="widget mt-4 pt-2">
@@ -156,6 +159,18 @@ export default function DesignedProducts(props: IProductProps) {
                                     width={2000}
                                     height={2000}
                                     objectFit="cover"
+                                    onLoad={(event: any) => {
+                                      const target = event.target;
+
+                                      // next/image use an 1x1 px git as placeholder. We only want the onLoad event on the actual image
+                                      if (
+                                        target.src.indexOf(
+                                          "data:image/gif;base64"
+                                        ) < 0
+                                      ) {
+                                        setImageIsLoaded(true);
+                                      }
+                                    }}
                                     alt="productImage"
                                   />
                                 </a>
@@ -186,6 +201,7 @@ export default function DesignedProducts(props: IProductProps) {
                   </div>
                 </div>
               </div>
+
               {/*end col*/}
               <div className="col-lg-9 col-md-8 col-12 mt-5 pt-2 mt-sm-0 pt-sm-0">
                 {!isLoading && response && response.elements > 0 ? (
@@ -234,6 +250,29 @@ export default function DesignedProducts(props: IProductProps) {
                         />
                       </div>
                     )}
+                  </div>
+                )}
+                {isLoading && (
+                  <div className="row">
+                    {renderList.map((data) => (
+                      <div
+                        key={data}
+                        className="col-lg-4 col-md-6 col-12 mt-4 pt-2"
+                      >
+                        <Skeleton
+                          variant="rectangular"
+                          width={240}
+                          height={240}
+                        />
+                        <Box sx={{ pt: 0.5 }}>
+                          <Skeleton />
+                          <Skeleton width="60%" />
+                          <Skeleton width="70%" />
+                          <Skeleton width="60%" />
+                          <Skeleton width="80%" />
+                        </Box>
+                      </div>
+                    ))}
                   </div>
                 )}
                 {/*end row*/}
