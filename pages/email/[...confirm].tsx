@@ -1,12 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { EmptyLayout } from "@/components/layouts";
-import useConfirmEmail from "@/hooks/api/account/use-confirm-email";
-import useCompleteOrder from "@/hooks/api/order/use-complete-momo-order";
 import { confirmEmail } from "@/services/account";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -26,7 +23,6 @@ export default function ConfirmEmail({}: Props) {
   //    &signature=640a8e675597bbf0315f86426e07dee858df920bebc85a56e59db2cd1fe6a6d4
 
   const router = useRouter();
-  const param = router.query;
   // if (param["orderId"] && param["apptransid"]) {
   //   const { data: categories, isLoading: isCategoryLoading } = useCompleteOrder(
   //     param["orderId"][0]
@@ -83,7 +79,9 @@ export default function ConfirmEmail({}: Props) {
 
                     <button
                       className="btn btn-primary"
-                      onClick={() => confirm()}
+                      onClick={() => {
+                        router.push("/account/account-setting");
+                      }}
                     >
                       Đồng ý
                     </button>

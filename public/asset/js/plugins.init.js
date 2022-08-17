@@ -203,7 +203,10 @@ if (document.getElementsByClassName("tiny-twelve-item").length > 0) {
     autoplayButtonOutput: false,
     autoplayTimeout: 3000,
     navPosition: "bottom",
-    controlsText: ['<i class="mdi mdi-chevron-left "></i>', '<i class="mdi mdi-chevron-right"></i>'],
+    controlsText: [
+      '<i class="mdi mdi-chevron-left "></i>',
+      '<i class="mdi mdi-chevron-right"></i>',
+    ],
     nav: false,
     speed: 400,
     gutter: 0,
@@ -263,7 +266,8 @@ try {
           var slideProgress = swiper.slides[i].progress;
           var innerOffset = swiper.width * interleaveOffset;
           var innerTranslate = slideProgress * innerOffset;
-          swiper.slides[i].querySelector(".slide-inner").style.transform = "translate3d(" + innerTranslate + "px, 0, 0)";
+          swiper.slides[i].querySelector(".slide-inner").style.transform =
+            "translate3d(" + innerTranslate + "px, 0, 0)";
         }
       },
 
@@ -278,7 +282,8 @@ try {
         var swiper = this;
         for (var i = 0; i < swiper.slides.length; i++) {
           swiper.slides[i].style.transition = speed + "ms";
-          swiper.slides[i].querySelector(".slide-inner").style.transition = speed + "ms";
+          swiper.slides[i].querySelector(".slide-inner").style.transition =
+            speed + "ms";
         }
       },
     },
@@ -288,7 +293,7 @@ try {
   var swiper = new Swiper(".swiper-container", swiperOptions);
 
   let data = document.querySelectorAll(".slide-bg-image");
-  data.forEach(e => {
+  data.forEach((e) => {
     e.style.backgroundImage = `url(${e.getAttribute("data-background")})`;
   });
 } catch (err) {}
@@ -309,15 +314,21 @@ try {
 
       // Calculating the days, hours, minutes and seconds left
       var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var hours = Math.floor(
+        (timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
       // Result is output to the specific element
-      document.getElementById("days").innerHTML = days + "<p class='count-head'>Days</p> ";
-      document.getElementById("hours").innerHTML = hours + "<p class='count-head'>Hours</p> ";
-      document.getElementById("mins").innerHTML = minutes + "<p class='count-head'>Mins</p> ";
-      document.getElementById("secs").innerHTML = seconds + "<p class='count-head'>Secs</p> ";
+      document.getElementById("days").innerHTML =
+        days + "<p class='count-head'>Days</p> ";
+      document.getElementById("hours").innerHTML =
+        hours + "<p class='count-head'>Hours</p> ";
+      document.getElementById("mins").innerHTML =
+        minutes + "<p class='count-head'>Mins</p> ";
+      document.getElementById("secs").innerHTML =
+        seconds + "<p class='count-head'>Secs</p> ";
 
       // Display the message when countdown is over
       if (timeleft < 0) {
@@ -345,7 +356,8 @@ try {
       if (remainingSeconds < 10) {
         remainingSeconds = "0" + remainingSeconds;
       }
-      document.getElementById("maintenance").innerHTML = minutes + ":" + remainingSeconds;
+      document.getElementById("maintenance").innerHTML =
+        minutes + ":" + remainingSeconds;
       if (seconds == 0) {
         clearInterval(countdownTimer);
         document.getElementById("maintenance").innerHTML = "Buzz Buzz";
@@ -365,7 +377,7 @@ try {
   const counter = document.querySelectorAll(".counter-value");
   const speed = 2500; // The lower the slower
 
-  counter.forEach(counter_value => {
+  counter.forEach((counter_value) => {
     const updateCount = () => {
       const target = +counter_value.getAttribute("data-target");
       const count = +counter_value.innerText;
@@ -429,12 +441,8 @@ try {
      * for them like you normally would (with jQuery for example).
      */
     addShuffleEventListeners() {
-      this.shuffle.on(Shuffle.EventType.LAYOUT, data => {
-        console.log("layout. data:", data);
-      });
-      this.shuffle.on(Shuffle.EventType.REMOVED, data => {
-        console.log("removed. data:", data);
-      });
+      this.shuffle.on(Shuffle.EventType.LAYOUT, (data) => {});
+      this.shuffle.on(Shuffle.EventType.REMOVED, (data) => {});
     }
 
     addFilterButtons() {
@@ -445,7 +453,7 @@ try {
 
       const filterButtons = Array.from(options.children);
       const onClick = this._handleFilterClick.bind(this);
-      filterButtons.forEach(button => {
+      filterButtons.forEach((button) => {
         button.addEventListener("click", onClick, false);
       });
     }
@@ -495,7 +503,7 @@ try {
 //=========================================//
 
 try {
-  ClassicEditor.create(document.querySelector("#editor")).catch(error => {
+  ClassicEditor.create(document.querySelector("#editor")).catch((error) => {
     console.error(error);
   });
 } catch (err) {}
@@ -567,7 +575,8 @@ try {
     // INJECT CSS
     var css = document.createElement("style");
     css.type = "text/css";
-    css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid transparent}";
+    css.innerHTML =
+      ".typewrite > .wrap { border-right: 0.08em solid transparent}";
     document.body.appendChild(css);
   }
   window.onload(typewrite());
@@ -649,10 +658,12 @@ try {
     return document.querySelectorAll(selector);
   }
   function on(selector, event, action) {
-    els(selector).forEach(e => e.addEventListener(event, action));
+    els(selector).forEach((e) => e.addEventListener(event, action));
   }
   function cookie(name) {
-    let c = document.cookie.split("; ").find(cookie => cookie && cookie.startsWith(name + "="));
+    let c = document.cookie
+      .split("; ")
+      .find((cookie) => cookie && cookie.startsWith(name + "="));
     return c ? c.split("=")[1] : false;
   }
 

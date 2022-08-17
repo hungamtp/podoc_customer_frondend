@@ -145,7 +145,7 @@ export default function PreviewTable(props: IPreviewTableProps) {
               width={40}
               height={30}
               className="rounded-circle border"
-              src={"https://images.printify.com/5853fec7ce46f30f8328200a"}
+              src={"/asset/images/image_default/color-base.png"}
               style={{ backgroundColor: color.image, opacity: "0.8" }}
               alt={color.image}
             />

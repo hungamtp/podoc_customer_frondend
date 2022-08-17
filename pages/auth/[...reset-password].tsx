@@ -14,11 +14,13 @@ type Props = {};
 const schema = yup.object().shape({
   newPassword: yup
     .string()
+    .trim()
     .min(8, "Mật khẩu cần ít nhất 8 kí tự")
     .max(30, "Mật khẩu tối đa 50 kí tự")
     .required("Mật khẩu không được để trống"),
   passwordConfirmation: yup
     .string()
+    .trim()
     .oneOf([yup.ref("newPassword"), null], "Mật khẩu nhập lại không đúng"),
 });
 
