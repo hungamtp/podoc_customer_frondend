@@ -1,13 +1,13 @@
 import { getDesignById } from "@/services/design";
 import { useQuery } from "react-query";
 
-const useGetDesignById = (designId: string) => {
+const useGetDesignById = (designId?: string) => {
   return useQuery(
     ["designedProduct"],
     async () => {
-      return await getDesignById(designId);
+      return await getDesignById(designId || "");
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, enabled: !!designId }
   );
 };
 

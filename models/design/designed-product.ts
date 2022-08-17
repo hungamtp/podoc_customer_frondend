@@ -14,6 +14,7 @@ export interface DesignedProduct {
   factoryName: string;
   factoryId: string;
   productId: string;
+  material: string;
 }
 
 export interface ShownDesignedProduct {

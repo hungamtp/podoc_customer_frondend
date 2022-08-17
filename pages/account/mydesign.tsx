@@ -34,6 +34,12 @@ export default function MyDesign({}: Props) {
                     className="border-bottom text-start py-3"
                     style={{ minWidth: "100px" }}
                   >
+                    Nhà in
+                  </th>
+                  <th
+                    className="border-bottom text-start py-3"
+                    style={{ minWidth: "100px" }}
+                  >
                     Giá(VND)
                   </th>
                   <th

@@ -31,6 +31,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const { data: response, isLoading: isLoadingDesign } = useGetDesignById(
     detail as string
   );
+
   const schema = yup.object().shape({
     name: yup
       .string()
@@ -151,6 +152,8 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
       }
     }
   }, [renderedColor]);
+
+  if (!detail) return <></>;
 
   return (
     <div>
@@ -329,6 +332,35 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                 </div>
                               </div>
                             </div>
+                            <div className="col-md-6">
+                              <div className="mb-3">
+                                <label className="form-label">Tên nhà in</label>
+                                <div className="form-icon position-relative">
+                                  <input
+                                    id="subject"
+                                    className="form-control"
+                                    value={response.factoryName}
+                                    disabled={true}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="mb-3">
+                                <label className="form-label">
+                                  Chất liệu vải
+                                </label>
+                                <div className="form-icon position-relative">
+                                  <input
+                                    id="subject"
+                                    className="form-control"
+                                    value={response.material}
+                                    disabled={true}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
                             <div className="col-md-6">
                               <div className="mb-3">
                                 <label className="form-label">
