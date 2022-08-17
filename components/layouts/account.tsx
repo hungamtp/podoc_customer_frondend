@@ -5,7 +5,6 @@ import Link from "next/link";
 import * as React from "react";
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import UpdateImageSuccess from "@/components/account/update-image-success";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
 import { storage } from "@/firebase/firebase";
 import useGetAccountById from "@/hooks/api/account/use-account-by-id";
@@ -20,6 +19,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useQueryClient } from "react-query";
+import { useSnackbar } from "notistack";
 export interface IAccountProps {}
 
 export function Account({ children }: LayoutProps) {
@@ -31,6 +31,7 @@ export function Account({ children }: LayoutProps) {
   }
   const storaged = globalThis?.sessionStorage;
   const prevPath = storaged.getItem("prevPath");
+  const { enqueueSnackbar } = useSnackbar();
   const credentialId = useAppSelector((state) => state.auth.userId);
   const { data: responseAccount, isLoading: isLoadingAccount } =
     useGetAccountById(credentialId);
@@ -87,6 +88,10 @@ export function Account({ children }: LayoutProps) {
           updateAvatarImage(submitData, {
             onSuccess: () => {
               queryClient.invalidateQueries("GetAccountById");
+              enqueueSnackbar("Đổi mật khẩu thành công!", {
+                autoHideDuration: 3000,
+                variant: "success",
+              });
               setIsUpdatingImage(false);
               dispatch(updateImage(url));
             },
@@ -203,7 +208,6 @@ export function Account({ children }: LayoutProps) {
                       )}
                     </button>
                   )}
-                  {isSuccess && <UpdateImageSuccess content={dialogContent} />}
                 </div>
               </div>
             </div>

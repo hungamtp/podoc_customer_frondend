@@ -8,6 +8,7 @@ import { setCart } from "@/redux/slices/cart";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -38,6 +39,7 @@ const schema = yup.object().shape({
 export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const storage = globalThis?.sessionStorage;
   // Set the previous path as the value of the current path.
   const prevPath = storage.getItem("prevPath");
@@ -67,6 +69,10 @@ export default function Login({ data }: Props) {
         onSuccess: (data) => {
           dispatch(loginAction(data));
           responseCart("");
+          enqueueSnackbar("Đăng nhập thành công!", {
+            autoHideDuration: 3000,
+            variant: "success",
+          });
           if (
             prevPath === "/signup" ||
             prevPath === "/login" ||
