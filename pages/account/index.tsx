@@ -129,13 +129,16 @@ export default function Dashboard(props: IDashboardProps) {
 
               {/* end col */}
 
-              <div className="col-lg-12 mt-3">
-                <p className="fs-5 text-dark fw-bold mb-0 ">
-                  <span className="counter-value">
-                    Sản phấm đã bán trên thiết kế
-                  </span>
-                </p>
-              </div>
+              {responseDesigned.content && responseDesigned.content.length > 0 && (
+                <div className="col-lg-12 mt-3">
+                  <p className="fs-5 text-dark fw-bold mb-0 ">
+                    <span className="counter-value">
+                      Sản phấm đã bán trên thiết kế
+                    </span>
+                  </p>
+                </div>
+              )}
+
               {responseDesigned.content.map((data) => {
                 const image = data.imagePreviews.filter((imagePreviews) => {
                   return imagePreviews.position === "front";

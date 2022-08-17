@@ -46,7 +46,6 @@ export default function SignUp({}: Props) {
       .required("Họ không được để trống"),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
-  console.log(error, "error");
   const [accepted, setAccepted] = useState(false);
   const defaultValues: SignUpDTO = {
     firstName: "",

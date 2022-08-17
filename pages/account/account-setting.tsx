@@ -2,20 +2,15 @@
 /* eslint-disable @next/next/no-img-element */
 import ChangePassword from "@/components/account/change-password-form";
 import VerifieSuccess from "@/components/account/verifie-success-form";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import { useAppSelector } from "@/components/hooks/reduxHook";
 import { Account } from "@/components/layouts";
 import useGetAccountById from "@/hooks/api/account/use-account-by-id";
-import useUpdateImageAccount from "@/hooks/api/account/use-update-image";
 import useUpdateProfile from "@/hooks/api/account/use-update-profile";
 import useVerifyEmail from "@/hooks/api/account/use-verify-email";
-import { logout } from "@/redux/slices/auth";
-import { setCart } from "@/redux/slices/cart";
 import { AccountByIdDtos } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ImageListType } from "react-images-uploading";
 import * as yup from "yup";
 
 export interface IAccountSettingProps {}
@@ -36,7 +31,7 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .trim("Email không được để trống")
-    .email()
+    .email("Email đúng định dạng")
     .min(8, "Tài khoản cần ít nhất 8 kí tự")
     .max(50, "Tài khoản tối đa 50 kí tự")
     .required("Tài khoản không được để trống"),
@@ -50,6 +45,7 @@ const schema = yup.object().shape({
     .required("Số điện thoại không được để trống"),
   address: yup
     .string()
+    .typeError("Địa chỉ không đúng định dạng")
     .trim("Địa chỉ được để trống")
     .min(10, "Địa chỉ cần ít nhất 10 kí tự")
     .max(300, "Địa chỉ tối đa 300 kí tự")
@@ -69,11 +65,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
   } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
-  const { mutate: updateProfile } = useUpdateProfile();
-  const dispatch = useAppDispatch();
-  const [images, setImages] = React.useState<ImageListType>([
-    { data_url: responseAccount?.data.image },
-  ]);
+  const { mutate: updateProfile, isLoading } = useUpdateProfile();
 
   const defaultValues: AccountByIdDtos = {
     id: "",
@@ -236,16 +228,16 @@ export default function AccountSetting(props: IAccountSettingProps) {
                     )}
                   </div>
                   {responseAccount.data.mailVerified === false && (
-                    <p className="ms-1 text-warning">
+                    <p className="ms-1 text-warning ">
                       Email chưa được xác nhận
                     </p>
                   )}
                 </div>
                 {/*end col*/}
                 {responseAccount.data.mailVerified === false && (
-                  <div className="col-md-4">
-                    <div className="mb-3">
-                      <div className="form-icon position-relative d-flex justify-content-end">
+                  <div className="col-md-5">
+                    <div className="">
+                      <div className="form-icon position-relative d-flex justify-content-center">
                         <button
                           onClick={() => verifyEmail()}
                           className=" btn btn-primary "
@@ -298,9 +290,9 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 </div>
                 {/*end col*/}
 
-                <div className="col-md-4">
-                  <div className="mb-3">
-                    <div className="form-icon position-relative d-flex justify-content-end">
+                <div className="col-md-5">
+                  <div className="">
+                    <div className="form-icon position-relative d-flex justify-content-center">
                       <button
                         onClick={() => {
                           setIsChangePassword(true);
@@ -392,6 +384,13 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className="btn btn-primary me-2"
                       type="submit"
                     >
+                      {isLoading && (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                      )}
                       Lưu thay đổi
                     </button>
                     <button

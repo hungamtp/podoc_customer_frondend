@@ -87,8 +87,8 @@ export default function ForgotPassword({}: Props) {
                           </label>
                           <div className="form-icon position-relative">
                             <i
-                              data-feather="mail"
-                              className="fea icon-sm icons"
+                              data-feather="user"
+                              className="bi bi-envelope position-absolute mt-2 ms-3"
                             ></i>
                             <input
                               type="email"
