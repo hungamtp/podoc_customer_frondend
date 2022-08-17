@@ -27,6 +27,8 @@ export default function ImageCarousel({
                     {" "}
                     <div className="d-block">
                       <Image
+                        placeholder="blur"
+                        blurDataURL={image.image}
                         src={image.image}
                         width={3000}
                         height={3000}
