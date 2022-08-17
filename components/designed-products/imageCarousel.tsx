@@ -37,8 +37,6 @@ export default function ImageCarousel({
                         width={3000}
                         height={3000}
                         objectFit="cover"
-                        placeholder="blur"
-                        blurDataURL="/asset/images/image_default/BLANK+grey+placeholder+-+light.jpg"
                         alt="productImage"
                       />
                     </div>
