@@ -70,6 +70,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     resolver: yupResolver(schema),
   });
   const selectedColors = useAppSelector((state) => state.selectedColors);
+  console.log(selectedColors, "selectedColors");
 
   const [isLoading, setIsLoading] = React.useState(false);
   const designedInfo = useAppSelector((state) => state.designProductInfo);

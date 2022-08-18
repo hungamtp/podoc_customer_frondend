@@ -126,13 +126,8 @@ export default function PreviewTable(props: IPreviewTableProps) {
             }`}
             style={{ border: "none" }}
             onClick={() => {
-              if (renderColor !== color.image) {
+              if (renderColor !== color.image && !controlData.isLoadingImage) {
                 setRenderColor(color.image);
-                // const tmpControlData = {
-                //   ...controlData,
-                //   isLoadingImage: true,
-                // };
-                // dispatch(setControlData(tmpControlData));
               }
             }}
           >
