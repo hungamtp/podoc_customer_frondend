@@ -178,7 +178,7 @@ export default function CreateDesignedProductForm(
 
   return (
     <>
-      <div className="col-xxl">
+      <div className="col-xxl custom-modal">
         <div className="card mb-4">
           <div className="card-body">
             <p className="h2 text-center pb-4">Lưu lại thiết kế</p>

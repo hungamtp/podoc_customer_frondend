@@ -217,6 +217,32 @@ a {
   border:2px solid;
 }
 
+.loadingsScreen{
+  z-index: 1000;
+  top: 50%;
+  background-color: #ffffff;
+  /* left: 50%; */
+  position: absolute;
+  transform: translate(-1.4%, -50%);
+  width: 75%;
+  height: 70%;
+  justify-content: center;
+  align-items: center;
+  display: flex; /*just make sure it's the highest on the page*/
+}
+
+.custom-modal{
+  z-index: 1060;
+}
+
+.loadingPreviewImage{
+  height:18em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .my-button:hover {
   background-color: #2F55D4;
   color:white;}

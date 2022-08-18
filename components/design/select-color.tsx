@@ -127,7 +127,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
         {controlData.isLoadingImage && (
           <FormControl sx={{ mb: 1, width: 300 }}>
             <div className="d-flex border px-2 rounded">
-              <p className="my-auto text-secondary">Đang tải hình</p>
+              <p className="my-auto text-secondary">Đang tải màu áo</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
