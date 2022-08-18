@@ -40,10 +40,6 @@ export default function Login({ data }: Props) {
   const router = useRouter();
   const [rememberMe, setRememberMe] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const storage = globalThis?.sessionStorage;
-  // Set the previous path as the value of the current path.
-  const prevPath = storage.getItem("prevPath");
-  // const [error, setError] = React.useState(false);
   const [seePassword, setSeePassword] = React.useState("password");
   const handleSeePassword = () => {
     if (seePassword === "password") {
@@ -75,6 +71,9 @@ export default function Login({ data }: Props) {
       { email: data.email, password: data.password },
       {
         onSuccess: (data) => {
+          const storage = globalThis?.sessionStorage;
+          // Set the previous path as the value of the current path.
+          const prevPath = storage.getItem("prevPath");
           dispatch(loginAction(data));
           responseCart("");
           enqueueSnackbar("Đăng nhập thành công!", {
