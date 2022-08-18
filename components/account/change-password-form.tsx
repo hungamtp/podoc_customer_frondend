@@ -94,10 +94,10 @@ export default function ChangePassword(props: IChangePasswordProps) {
                     <i className={`bi bi-eye-slash`} />
                   )}
                 </span>
-                {errors.oldPassword && (
-                  <p className="text-danger">{errors.oldPassword.message}</p>
-                )}
               </div>
+              {errors.oldPassword && (
+                <p className="text-danger">{errors.oldPassword.message}</p>
+              )}
             </div>
           </div>
           {/*end col*/}
@@ -123,10 +123,10 @@ export default function ChangePassword(props: IChangePasswordProps) {
                     <i className={`bi bi-eye-slash`} />
                   )}
                 </span>
-                {errors.newPassword && (
-                  <p className="text-danger">{errors.newPassword.message}</p>
-                )}
               </div>
+              {errors.newPassword && (
+                <p className="text-danger">{errors.newPassword.message}</p>
+              )}
             </div>
           </div>
           {/*end col*/}
@@ -151,12 +151,12 @@ export default function ChangePassword(props: IChangePasswordProps) {
                     <i className={`bi bi-eye-slash`} />
                   )}
                 </span>
-                {errors.passwordConfirmation && (
-                  <p className="text-danger">
-                    {errors.passwordConfirmation.message}
-                  </p>
-                )}
               </div>
+              {errors.passwordConfirmation && (
+                <p className="text-danger">
+                  {errors.passwordConfirmation.message}
+                </p>
+              )}
               {error && (
                 <span id="error-pwd-message" className="text-danger">
                   Mật khẩu cũ không đúng

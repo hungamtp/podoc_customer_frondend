@@ -266,15 +266,15 @@ export default function SignUp({}: Props) {
                                 <i className={`bi bi-eye-slash`} />
                               )}
                             </span>
-                            {errors.password && (
-                              <span
-                                id="error-pwd-message"
-                                className="text-danger"
-                              >
-                                {errors.password.message}
-                              </span>
-                            )}
                           </div>
+                          {errors.password && (
+                            <span
+                              id="error-pwd-message"
+                              className="text-danger"
+                            >
+                              {errors.password.message}
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -315,7 +315,7 @@ export default function SignUp({}: Props) {
                           <small className="text-dark me-2">
                             Bạn đã có tài khoản
                           </small>{" "}
-                          <Link href="login">
+                          <Link href="/login">
                             <a className="text-dark fw-bold">Đăng nhập</a>
                           </Link>
                         </p>

@@ -1,6 +1,7 @@
 import useDeleteOrder from "@/hooks/api/order/use-delete-order";
 import { CancelOrderStatusDto } from "@/services/order/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
@@ -42,7 +43,6 @@ const names = [
   "Đợi lâu nhưng đơn hàng vẫn chưa được xử lý",
   "Tôi không muốn đặt sản phẩm này nữa",
   "Đơn hàng của tôi bị thiếu sản phẩm",
-  "Lý do khác",
 ];
 export interface ICancelOrderStatusProps {
   handleCloseDialog: () => void;
@@ -90,14 +90,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
 
   useEffect(() => {
     if (personName) {
-      let isContain = false;
-      personName.forEach((reason) => {
-        if (reason === "Lý do khác") isContain = true;
-      });
-      if (isContain) {
-        setIsAutoComplete(false);
-        reset({ cancelReason: "" });
-      } else reset({ cancelReason: personName.toString() });
+      reset({ cancelReason: personName.toString() });
     }
   }, [personName]);
 
@@ -110,7 +103,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
       typeof value === "string" ? value.split(",") : value
     );
   };
-  const [isAutoComplete, setIsAutoComplete] = useState(true);
+  const [isAutoComplete, setIsAutoComplete] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
@@ -122,6 +115,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
     };
     // setIsShowOrderDetail(false);
     setFinishLoading(false);
+    console.log(data.cancelReason, "data.cancelReason");
     deleteOrder(tmpData, {
       onSuccess: (data) => {
         //because data:any
@@ -166,15 +160,15 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
           </div>
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
+              <label
+                className="form-check-label"
+                htmlFor="basic-icon-default-fullname"
+              >
+                Lý do hủy đơn
+              </label>
               <div className="row mb-3">
-                <label
-                  className="col-sm-5 col-form-label"
-                  htmlFor="basic-icon-default-fullname"
-                >
-                  Lý do hủy đơn
-                </label>
-                {isAutoComplete && (
-                  <FormControl sx={{ m: 2, width: 500 }}>
+                {
+                  <FormControl sx={{ m: 1, width: 500 }}>
                     <Select
                       className="border px-2 rounded"
                       multiple
@@ -184,15 +178,34 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                       value={personName}
                       variant="standard"
                       onChange={handleChange}
-                      renderValue={(selected) => (
-                        <Box
-                          sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
-                        >
-                          {selected.map((value) => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </Box>
-                      )}
+                      renderValue={(selected) => {
+                        console.log(selected, "selected");
+                        if (selected.length === 0) {
+                          return (
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 0.5,
+                              }}
+                            >
+                              <Chip
+                                key="Lý do thường gặp"
+                                label="Lý do thường gặp"
+                              />
+                            </Box>
+                          );
+                        }
+                        return (
+                          <Box
+                            sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+                          >
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        );
+                      }}
                       inputProps={{ "aria-label": "Without label" }}
                       MenuProps={MenuProps}
                     >
@@ -207,11 +220,31 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                       ))}
                     </Select>
                   </FormControl>
-                )}
+                }
+                <div>
+                  <div className="form-check col-sm-5 ">
+                    <input
+                      className="form-check-input"
+                      onChange={(e: any) => {
+                        setIsAutoComplete(e.target.checked);
+                      }}
+                      checked={isAutoComplete}
+                      type="checkbox"
+                      id="flexCheckDefault"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckDefault"
+                    >
+                      Lý do khác
+                    </label>
+                  </div>
+                </div>
+
                 <div>
                   <div
                     className={`input-group input-group-merge ${
-                      isAutoComplete && "d-none"
+                      !isAutoComplete && "d-none"
                     }`}
                   >
                     <textarea

@@ -33,92 +33,90 @@ export default function ProductDetail() {
 
   return (
     <>
-      {isLoading && (
-        <section className="section pb-0">
+      <div>
+        <section className="bg-half-170 bg-light d-table w-100">
           <div className="container">
-            <div className="row">
-              <div className="col-md-5">
-                <Skeleton variant="rectangular" width={400} height={400} />
-              </div>
-              <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                <div className="section-title ms-md-4">
-                  <Box sx={{ pt: 0.5 }}>
-                    <Typography component="div" variant="h3" width="80%">
-                      <Skeleton />
-                    </Typography>
-
-                    <Skeleton width="60%" />
-                    <Skeleton width="70%" />
-                    <Skeleton width="60%" />
-                    <Skeleton width="80%" />
-                    <br />
-                    <Skeleton width="60%" />
-                    <Skeleton width="80%" />
-                    <hr />
-
-                    <Typography component="div" variant="h2">
-                      <Skeleton width="80%" />
-                    </Typography>
-                    <Typography component="div" variant="h3">
-                      <div className="d-flex justify-content-between w-50">
-                        <Skeleton width="40%" />
-                        <Skeleton width="40%" />
-                      </div>
-                    </Typography>
-                  </Box>
+            <div className="row mt-5 justify-content-center">
+              <div className="col-lg-12 text-center">
+                <div className="pages-heading">
+                  <h4 className="title mb-0"> {response?.name} </h4>
                 </div>
               </div>
+            </div>
+
+            <div className="position-breadcrumb">
+              <nav aria-label="breadcrumb" className="d-inline-block">
+                <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
+                  <li className="breadcrumb-item">
+                    <a href="/">PODOC</a>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <Link href="/raw-products">
+                      <a>Tự thiết kế</a>
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    Chi tiết sản phẩm
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </section>
-      )}
-      {response && (
-        <div>
-          <section className="bg-half-170 bg-light d-table w-100">
+
+        <div className="position-relative">
+          <div className="shape overflow-hidden text-white">
+            <svg
+              viewBox="0 0 2880 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {isLoading && (
+          <section className="section pb-0">
             <div className="container">
-              <div className="row mt-5 justify-content-center">
-                <div className="col-lg-12 text-center">
-                  <div className="pages-heading">
-                    <h4 className="title mb-0"> {response?.name} </h4>
+              <div className="row">
+                <div className="col-md-5">
+                  <Skeleton variant="rectangular" width={400} height={400} />
+                </div>
+                <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                  <div className="section-title ms-md-4">
+                    <Box sx={{ pt: 0.5 }}>
+                      <Typography component="div" variant="h3" width="80%">
+                        <Skeleton />
+                      </Typography>
+                      <Typography component="div" variant="h5">
+                        <Skeleton width="60%" />
+                      </Typography>
+
+                      <Skeleton width="70%" />
+                      <Skeleton width="60%" />
+                      <Skeleton width="80%" />
+                      <br />
+
+                      <Typography component="div" variant="h4">
+                        <Skeleton width="30%" />
+                      </Typography>
+
+                      <Typography component="div" variant="h1">
+                        <Skeleton width="80%" />
+                      </Typography>
+                    </Box>
                   </div>
                 </div>
               </div>
-
-              <div className="position-breadcrumb">
-                <nav aria-label="breadcrumb" className="d-inline-block">
-                  <ul className="breadcrumb bg-white rounded shadow mb-0 px-4 py-2">
-                    <li className="breadcrumb-item">
-                      <a href="/">PODOC</a>
-                    </li>
-                    <li className="breadcrumb-item">
-                      <Link href="/raw-products">
-                        <a>Tự thiết kế</a>
-                      </Link>
-                    </li>
-                    <li className="breadcrumb-item active" aria-current="page">
-                      Chi tiết sản phẩm
-                    </li>
-                  </ul>
-                </nav>
-              </div>
             </div>
           </section>
+        )}
 
-          <div className="position-relative">
-            <div className="shape overflow-hidden text-white">
-              <svg
-                viewBox="0 0 2880 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-          </div>
-
+        {response && (
           <section className="section pb-0">
             <div className="container mb-5">
               <div className="row align-items-center">
@@ -258,8 +256,8 @@ export default function ProductDetail() {
               </div>
             </div>
           </section>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }
