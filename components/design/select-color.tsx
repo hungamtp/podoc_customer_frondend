@@ -26,11 +26,12 @@ const MenuProps = {
 };
 export default function SelectColor({ colors }: ISelectColorProps) {
   const router = useRouter();
+  const selectedColorsRedux = useAppSelector((state) => state.selectedColors);
 
   React.useEffect(() => {
-    dispatch(setColors([colors[0].image]));
+    if (selectedColorsRedux.length === 0)
+      dispatch(setColors([colors[0].image]));
   }, [colors]);
-  const selectedColorsRedux = useAppSelector((state) => state.selectedColors);
 
   const [colorsList, setColorsList] = React.useState<string[]>(
     selectedColorsRedux.length > 0 ? selectedColorsRedux : [colors[0].image]

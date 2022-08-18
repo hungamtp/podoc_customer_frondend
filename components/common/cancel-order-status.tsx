@@ -115,7 +115,6 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
     };
     // setIsShowOrderDetail(false);
     setFinishLoading(false);
-    console.log(data.cancelReason, "data.cancelReason");
     deleteOrder(tmpData, {
       onSuccess: (data) => {
         //because data:any
@@ -179,7 +178,6 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                       variant="standard"
                       onChange={handleChange}
                       renderValue={(selected) => {
-                        console.log(selected, "selected");
                         if (selected.length === 0) {
                           return (
                             <Box
