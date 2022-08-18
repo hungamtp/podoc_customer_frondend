@@ -160,7 +160,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
 
   return (
     <>
-      <div className="col-xxl">
+      <div className="col-xxl custom-modal">
         <div className="card mb-4">
           <div className="card-body">
             <div className="row mb-3">

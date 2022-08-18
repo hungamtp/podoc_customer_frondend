@@ -11,8 +11,10 @@ import { useAppSelector } from "@/components/hooks/reduxHook";
 import { numberWithCommas } from "helper/number-util";
 import Link from "next/link";
 import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
-import { Rating } from "@mui/material";
+import { Rating, Typography } from "@mui/material";
 import ShowRating from "@/components/common/show-rating";
+import { Skeleton } from "@mui/material";
+import { Box } from "@material-ui/core";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -31,6 +33,45 @@ export default function ProductDetail() {
 
   return (
     <>
+      {isLoading && (
+        <section className="section pb-0">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-5">
+                <Skeleton variant="rectangular" width={400} height={400} />
+              </div>
+              <div className="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                <div className="section-title ms-md-4">
+                  <Box sx={{ pt: 0.5 }}>
+                    <Typography component="div" variant="h3" width="80%">
+                      <Skeleton />
+                    </Typography>
+
+                    <Skeleton width="60%" />
+                    <Skeleton width="70%" />
+                    <Skeleton width="60%" />
+                    <Skeleton width="80%" />
+                    <br />
+                    <Skeleton width="60%" />
+                    <Skeleton width="80%" />
+                    <hr />
+
+                    <Typography component="div" variant="h2">
+                      <Skeleton width="80%" />
+                    </Typography>
+                    <Typography component="div" variant="h3">
+                      <div className="d-flex justify-content-between w-50">
+                        <Skeleton width="40%" />
+                        <Skeleton width="40%" />
+                      </div>
+                    </Typography>
+                  </Box>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
       {response && (
         <div>
           <section className="bg-half-170 bg-light d-table w-100">

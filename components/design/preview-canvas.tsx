@@ -596,6 +596,28 @@ export default function PreviewCanvas({
           </div>
         </div>
       </div>
+
+      <div
+        className={` ${
+          controlData.controlData.isLoadingImage && "loadingsScreen"
+        }`}
+      >
+        <svg
+          className={` ${
+            !controlData.controlData.isLoadingImage && "d-none"
+          } spinner`}
+          viewBox="0 0 50 50"
+        >
+          <circle
+            className="path"
+            cx={25}
+            cy={25}
+            r={20}
+            fill="none"
+            strokeWidth={5}
+          />
+        </svg>
+      </div>
       {!colors && (
         <div id="preloader">
           <div id="status">
