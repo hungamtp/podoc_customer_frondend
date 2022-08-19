@@ -98,7 +98,11 @@ export default function Cart({ cart }: Props) {
         </div>
         <div className="text-danger mt-2" style={{ display: 'flex', justifyContent: 'space-around' }}>
           {productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId).length > 0 &&
-            `*Chỉ còn ${productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable} sản phẩm`}
+            `${
+              productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable == -1
+                ? `*Sản phẩm ngừng kinh doanh`
+                : `*Chỉ còn ${productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable} sản phẩm`
+            }`}
         </div>
       </td>
       {cart.publish ? (
