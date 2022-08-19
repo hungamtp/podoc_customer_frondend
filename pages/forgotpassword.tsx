@@ -4,8 +4,6 @@ import useForgotPassword from "@/hooks/api/account/use-forgot-password";
 import { ForgotPasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 

@@ -21,7 +21,7 @@ const useSignup = () => {
         dispatch(signupAction(data));
         //because data:any
         router.push("/login");
-        enqueueSnackbar("Chỉnh sửa thông tin tài khoản thành công!", {
+        enqueueSnackbar("Đăng kí tài khoản thành công!", {
           autoHideDuration: 3000,
           variant: "success",
         });
