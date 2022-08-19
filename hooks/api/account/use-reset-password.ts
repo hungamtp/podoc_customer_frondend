@@ -18,7 +18,7 @@ const useResetPassword = () => {
       },
       onError: () => {
         // router.push("/auth/reset-password-success-form");
-        enqueueSnackbar("Đổi mật khẩu thất bại do chờ quá lâu!", {
+        enqueueSnackbar("Phiên làm việc quá hạn, vui lòng thao tác lại!", {
           autoHideDuration: 6000,
           variant: "warning",
         });
