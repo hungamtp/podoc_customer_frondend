@@ -426,8 +426,8 @@ export default function MyOrdersTable({
                                   </div>
                                 )}
                                 {order.status === "CANCEL" && (
-                                  <div className="row ">
-                                    <div className="badge bg-secondary h-75 w-50 mt-1">
+                                  <div className="d-flex flex-wrap w-50">
+                                    <div className="badge bg-secondary h-75 mt-1">
                                       {convertStatus(order.status)}
                                     </div>
                                     <div
@@ -437,7 +437,7 @@ export default function MyOrdersTable({
                                         setIsShowCancelReason(true);
                                       }}
                                     >
-                                      xem thêm{" "}
+                                      xem lý do{" "}
                                     </div>
                                   </div>
                                 )}

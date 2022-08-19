@@ -3,6 +3,7 @@ import { EmptyLayout } from "@/components/layouts";
 import useResetPassword from "@/hooks/api/account/use-reset-password";
 import { ResetPasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -66,20 +67,21 @@ export default function ResetPassword({}: Props) {
       ) : (
         ""
       )}
+
       <section className="bg-home d-flex align-items-center">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-7 col-md-6">
               <div className="me-lg-5">
                 <img
-                  src="/asset/images/user/recovery.svg"
+                  src="/asset/images/user/login-picture.png"
                   className="img-fluid d-block mx-auto"
-                  alt="recovery"
+                  alt=""
                 />
               </div>
             </div>
             <div className="col-lg-5 col-md-6">
-              <div className="card shadow rounded border-0">
+              <div className="card login-page bg-white shadow rounded border-0">
                 <div className="card-body">
                   <h4 className="card-title text-center">Đặt lại mật khẩu</h4>
 
@@ -91,10 +93,7 @@ export default function ResetPassword({}: Props) {
                             Mật khẩu <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i
-                              data-feather="mail"
-                              className="fea icon-sm icons"
-                            ></i>
+                            <i className="bi bi-key position-absolute mt-2 ms-3"></i>
                             <input
                               type="password"
                               className="form-control ps-5"
@@ -114,10 +113,7 @@ export default function ResetPassword({}: Props) {
                             <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i
-                              data-feather="mail"
-                              className="fea icon-sm icons"
-                            ></i>
+                            <i className="bi bi-key-fill position-absolute mt-2 ms-3"></i>
                             <input
                               type="password"
                               className="form-control ps-5"
@@ -132,6 +128,19 @@ export default function ResetPassword({}: Props) {
                           </div>
                         </div>
                       </div>
+
+                      <div className="col-lg-12">
+                        <div className="d-flex justify-content-between">
+                          <p className="forgot-pass mt-2">
+                            <Link href="/forgotpassword">
+                              <a className="text-dark fw-bold">
+                                Thực hiện lại thao tác
+                              </a>
+                            </Link>
+                          </p>
+                        </div>
+                      </div>
+
                       <div className="col-lg-12">
                         <div className="d-grid">
                           <button
@@ -144,6 +153,16 @@ export default function ResetPassword({}: Props) {
                       </div>
                       <div className="mx-auto">
                         <p className="mb-0 mt-3"></p>
+                      </div>
+                      <div className="col-12 text-center">
+                        <p className="mb-0 mt-3">
+                          <small className="text-dark me-2">
+                            Bạn đã nhớ lại mật khẩu?
+                          </small>{" "}
+                          <Link href="/login">
+                            <a className="text-dark fw-bold">Đăng nhập</a>
+                          </Link>
+                        </p>
                       </div>
                     </div>
                   </form>
