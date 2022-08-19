@@ -1,29 +1,38 @@
 /* eslint-disable @next/next/no-img-element */
-import { useAppDispatch, useAppSelector } from '@/components/hooks/reduxHook';
-import useDeleteCartDetail from '@/hooks/api/cart/use-delete-cartdetail';
-import useUpdateCart from '@/hooks/api/cart/use-update-cart';
-import { deleteCartDetail, updateQuantityCartDetail } from '@/redux/slices/cart';
-import { CartDetailDTO } from '@/services/type.dto';
-import { numberWithCommas } from 'helper/number-util';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from "@/components/hooks/reduxHook";
+import useDeleteCartDetail from "@/hooks/api/cart/use-delete-cartdetail";
+import useUpdateCart from "@/hooks/api/cart/use-update-cart";
+import {
+  deleteCartDetail,
+  updateQuantityCartDetail,
+} from "@/redux/slices/cart";
+import { CartDetailDTO } from "@/services/type.dto";
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useState } from "react";
 type Props = {
   cart: CartDetailDTO;
 };
 export default function Cart({ cart }: Props) {
   const dispatch = useAppDispatch();
-  const { mutate: deleteCartDetailApi, isLoading, error } = useDeleteCartDetail();
+  const {
+    mutate: deleteCartDetailApi,
+    isLoading,
+    error,
+  } = useDeleteCartDetail();
   const { mutate: updateCart } = useUpdateCart();
-  const carts = useAppSelector(state => state.carts);
-  const productDontHaveEnoughQuatity = useAppSelector(state => state.checkCartSlice);
+  const carts = useAppSelector((state) => state.carts);
+  const productDontHaveEnoughQuatity = useAppSelector(
+    (state) => state.checkCartSlice
+  );
   const handleDeleteCartDetail = () => {
     dispatch(deleteCartDetail(cart.id));
     deleteCartDetailApi(cart.id);
   };
 
   const updateQuantityCart = (inputQuantity: number) => {
-    const quantityStr: string[] = inputQuantity.toString().split('');
-    if (quantityStr.includes('-') || quantityStr.includes('+')) {
+    const quantityStr: string[] = inputQuantity.toString().split("");
+    if (quantityStr.includes("-") || quantityStr.includes("+")) {
       return;
     }
     if (inputQuantity == 0) {
@@ -33,7 +42,7 @@ export default function Cart({ cart }: Props) {
     dispatch(updateQuantityCartDetail({ ...cart, quantity: newQuantity }));
     setQuantity(newQuantity);
     const newCart: CartDetailDTO[] = [];
-    carts.forEach(cartDetail => {
+    carts.forEach((cartDetail) => {
       if (cartDetail.id != cart.id) {
         newCart.push(cartDetail);
       }
@@ -46,17 +55,21 @@ export default function Cart({ cart }: Props) {
 
   return (
     <tr className="shop-list">
-      <td className="h6 text-center cursor-pointer" onClick={handleDeleteCartDetail}>
+      <td
+        className="h6 text-center cursor-pointer"
+        onClick={handleDeleteCartDetail}
+      >
         <i className="bi bi-trash"></i>
       </td>
       <td>
         <div className="d-flex align-items-center ">
           <div className="w-50">
             <Image
-              src={cart.designedImage != '' ? cart.designedImage : ''}
+              src={cart.designedImage != "" ? cart.designedImage : ""}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = '/asset/images/image_default/image_default.png';
+                currentTarget.src =
+                  "/asset/images/image_default/image_default.png";
               }}
               width={1000}
               height={1000}
@@ -65,7 +78,7 @@ export default function Cart({ cart }: Props) {
             />
           </div>
 
-          <h6 className="mb-0 ms-3 w-50 " style={{ wordWrap: 'break-word' }}>
+          <h6 className="mb-0 ms-3 w-50 " style={{ wordWrap: "break-word" }}>
             {cart.designedProductName}
           </h6>
         </div>
@@ -76,7 +89,9 @@ export default function Cart({ cart }: Props) {
       <td className="qty-icons">
         <div className="d-flex justify-content-center">
           <button
-            className={`btn btn-icon btn-soft-primary minus ${quantity == 1 && 'disabled'} ${!cart.publish && ' disabled'}`}
+            className={`btn btn-icon btn-soft-primary minus ${
+              quantity == 1 && "disabled"
+            } ${!cart.publish && " disabled"}`}
             onClick={() => updateQuantityCart(quantity - 1)}
           >
             -
@@ -90,25 +105,38 @@ export default function Cart({ cart }: Props) {
             onChange={(e: any) => updateQuantityCart(e.target.value)}
           />
           <button
-            className={`btn btn-icon btn-soft-primary plus ${!cart.publish && ' disabled'}`}
+            className={`btn btn-icon btn-soft-primary plus ${
+              !cart.publish && " disabled"
+            }`}
             onClick={() => updateQuantityCart(quantity + 1)}
           >
             +
           </button>
         </div>
-        <div className="text-danger mt-2" style={{ display: 'flex', justifyContent: 'space-around' }}>
-          {productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId).length > 0 &&
-            `${
-              productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable == -1
-                ? `*Sản phẩm ngừng kinh doanh`
-                : `*Chỉ còn ${productDontHaveEnoughQuatity.filter(product => product.id == cart.cartId)[0].quantityAvailable} sản phẩm`
-            }`}
-        </div>
+        {productDontHaveEnoughQuatity.length > 0 && (
+          <div
+            className="text-danger mt-2"
+            style={{ display: "flex", justifyContent: "space-around" }}
+          >
+            {productDontHaveEnoughQuatity.filter(
+              (product) => product.id == cart.cartId
+            )[0].quantityAvailable !== -1 &&
+              `*Chỉ còn ${
+                productDontHaveEnoughQuatity.filter(
+                  (product) => product.id == cart.cartId
+                )[0].quantityAvailable
+              } sản phẩm`}
+          </div>
+        )}
       </td>
       {cart.publish ? (
-        <td className="text-end fw-bold pe-4">{numberWithCommas(cart.price * cart.quantity)}</td>
+        <td className="text-end fw-bold pe-4">
+          {numberWithCommas(cart.price * cart.quantity)}
+        </td>
       ) : (
-        <td style={{ width: '100px', color: 'red' }}>Sản phẩm ngừng kinh doanh</td>
+        <td style={{ width: "100px", color: "red" }}>
+          Sản phẩm ngừng kinh doanh
+        </td>
       )}
     </tr>
   );
