@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { EmptyLayout } from "@/components/layouts";
-import useForgotPassword from "@/hooks/api/account/use-forgot-password";
 import useResetPassword from "@/hooks/api/account/use-reset-password";
-import { ForgotPasswordDto, ResetPasswordDto } from "@/services/account/dto";
+import { ResetPasswordDto } from "@/services/account/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 

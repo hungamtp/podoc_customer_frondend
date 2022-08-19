@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { EmptyLayout } from "@/components/layouts";
-import useCompleteOrder from "@/hooks/api/order/use-complete-momo-order";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 
 type Props = {};
 

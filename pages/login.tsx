@@ -4,7 +4,6 @@ import { EmptyLayout } from "@/components/layouts";
 import UseCart from "@/hooks/api/cart/use-cart";
 import useLogin from "@/hooks/api/use-login";
 import { login as loginAction } from "@/redux/slices/auth";
-import { setCart } from "@/redux/slices/cart";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/router";
