@@ -20,7 +20,7 @@ export default function Design({ product }: Props) {
   const router = useRouter();
 
   return (
-    <tr className="">
+    <tr className="border-bottom">
       <td>
         <div className="d-flex align-items-center">
           <div className="w-50">

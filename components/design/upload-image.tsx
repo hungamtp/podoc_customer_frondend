@@ -29,9 +29,7 @@ export function UploadImage(props: ITableProps) {
     if (imageList !== null) {
       const file = imageList[0].file;
       const tmpSrc = imageList[0].data_url;
-      const fileName = auth.userId
-        ? `${file?.name}-${auth.userId}`
-        : `${file?.name}-no_auth-${new Date().getTime()}`;
+      const fileName = `${file?.name}-${new Date().getTime()}`;
       const imageRef = ref(storage, `images/${fileName}`);
       uploadBytes(imageRef, file || new Blob()).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
