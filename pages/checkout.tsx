@@ -13,6 +13,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -87,6 +88,8 @@ export default function Checkout({}: Props) {
   });
 
   const { mutate: createOrder, isLoading: isUpdatingInfo } = useAddOrder();
+  const [isShowCancelReason, setIsShowCancelReason] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -123,6 +126,9 @@ export default function Checkout({}: Props) {
           dispatch(setCart([]));
           // set cart redux to null
           window.location.href = data.data.payUrl;
+        },
+        onError: () => {
+          setIsShowCancelReason(true);
         },
       }
     );
@@ -165,6 +171,52 @@ export default function Checkout({}: Props) {
 
   return (
     <>
+      <Dialog
+        open={isShowCancelReason}
+        onClose={() => setIsShowCancelReason(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogContent>
+          <div className="">
+            <div className=" d-flex justify-content-center">
+              <Image
+                src="/asset/images/logo_man.png"
+                className="avatar avatar rounded-circle "
+                width={150}
+                height={150}
+                objectFit="cover"
+                alt="productImage"
+              />
+            </div>
+            <div className="h5 d-flex justify-content-center">
+              Chúng tôi xin chân thành xin lỗi quý khách.
+            </div>
+            <div className=" d-flex justify-content-center">
+              Một vài sản phẩm trong đơn hàng của quý khách đã bị gỡ xuống.
+            </div>
+            <div className=" d-flex justify-content-center">
+              {`Để tiến hành thanh toán, vui lòng xóa sản phẩm ra khỏi giỏ hàng `}
+            </div>
+            <div className=" d-flex justify-content-center">
+              {`hoặc chờ cho tới khi sản phẩm được đăng tải lại.`}
+            </div>
+
+            <div className=" d-flex justify-content-center">
+              <button
+                className="btn btn-primary ps-4 pe-4"
+                onClick={() => {
+                  setIsShowCancelReason(false);
+                  router.replace("/carts");
+                }}
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       <div>
         <section
           className="bg-half-170 bg-light d-table w-100"
