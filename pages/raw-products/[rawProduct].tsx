@@ -1,35 +1,28 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import Factory from "@/components/common/factory";
-import Products from "@/components/common/designed-products";
-import { MainLayout } from "@/components/layouts";
-import useProductDetail from "@/hooks/api/use-product-detail";
-import { useGetHighestRateDesignById } from "@/hooks/api/use-get-highest-rate-design-by-id";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { useAppSelector } from "@/components/hooks/reduxHook";
-import { numberWithCommas } from "helper/number-util";
-import Link from "next/link";
-import { useGetBestSellerByProductId } from "@/hooks/api/use-get-best-seller-by-Id";
-import { Rating, Typography } from "@mui/material";
-import ShowRating from "@/components/common/show-rating";
-import { Skeleton } from "@mui/material";
-import { Box } from "@material-ui/core";
+import Factory from '@/components/common/factory';
+import Products from '@/components/common/designed-products';
+import { MainLayout } from '@/components/layouts';
+import useProductDetail from '@/hooks/api/use-product-detail';
+import { useGetHighestRateDesignById } from '@/hooks/api/use-get-highest-rate-design-by-id';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useAppSelector } from '@/components/hooks/reduxHook';
+import { numberWithCommas } from 'helper/number-util';
+import Link from 'next/link';
+import { useGetBestSellerByProductId } from '@/hooks/api/use-get-best-seller-by-Id';
+import { Rating, Typography } from '@mui/material';
+import ShowRating from '@/components/common/show-rating';
+import { Skeleton } from '@mui/material';
+import { Box } from '@material-ui/core';
 
 export default function ProductDetail() {
   const router = useRouter();
+  const { rawProduct }: any = router.query;
+  const { data: response, isLoading: isLoading } = useProductDetail(rawProduct);
+  const { data: responseGetHighestRateDesignById, isLoading: isLoadingGetHighestRateDesignById } = useGetHighestRateDesignById(rawProduct);
 
-  const productId = router.asPath.split("id=")[1];
-  const { data: response, isLoading: isLoading } = useProductDetail(productId);
-  const {
-    data: responseGetHighestRateDesignById,
-    isLoading: isLoadingGetHighestRateDesignById,
-  } = useGetHighestRateDesignById(productId);
-  const {
-    data: responseBestSellerByProductId,
-    isLoading: isLoadingBestSellerByProductId,
-  } = useGetBestSellerByProductId(productId);
-  const id = useAppSelector((state) => state.productDetail);
+  const { data: responseBestSellerByProductId, isLoading: isLoadingBestSellerByProductId } = useGetBestSellerByProductId(rawProduct);
 
   return (
     <>
@@ -66,15 +59,8 @@ export default function ProductDetail() {
 
         <div className="position-relative">
           <div className="shape overflow-hidden text-white">
-            <svg
-              viewBox="0 0 2880 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z"
-                fill="currentColor"
-              />
+            <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor" />
             </svg>
           </div>
         </div>
@@ -123,11 +109,7 @@ export default function ProductDetail() {
                 <div className="col-md-5">
                   <div className="tiny-single-item">
                     <div className="tiny-slide">
-                      <img
-                        src={response?.images[0]}
-                        className="img-fluid rounded"
-                        alt="productImage"
-                      />
+                      <img src={response?.images[0]} className="img-fluid rounded" alt="productImage" />
                     </div>
                   </div>
                 </div>
@@ -137,19 +119,12 @@ export default function ProductDetail() {
                     <h4 className="title"> {response?.name}</h4>
                     <h5 className="text-muted">
                       {response?.lowestPrice === 0
-                        ? `Từ ${numberWithCommas(
-                            Number(response?.highestPrice)
-                          )} VND`
-                        : `Từ ${numberWithCommas(
-                            Number(response?.lowestPrice)
-                          )} VND đến ${numberWithCommas(
+                        ? `Từ ${numberWithCommas(Number(response?.highestPrice))} VND`
+                        : `Từ ${numberWithCommas(Number(response?.lowestPrice))} VND đến ${numberWithCommas(
                             Number(response?.highestPrice)
                           )} VND`}
                     </h5>
-                    <ShowRating
-                      rate={response?.rate}
-                      rateCount={response?.rateCount}
-                    />
+                    <ShowRating rate={response?.rate} rateCount={response?.rateCount} />
 
                     {/* <div>
                       <span className="sold-number ">
@@ -176,43 +151,27 @@ export default function ProductDetail() {
             </div>
 
             {response.factories.length != 0 ? (
-              response.factories.map((factory) => {
-                return (
-                  <Factory
-                    key={factory.id}
-                    factory={factory}
-                    productName={response.name}
-                  />
-                );
+              response.factories.map(factory => {
+                return <Factory key={factory.id} factory={factory} productName={response.name} />;
               })
             ) : (
               <>
                 <section className="factory">
                   <div className="container">
                     <div className="card">
-                      <div className="card-header no-factory">
-                        Sản phẩm chưa được hỗ trợ bởi công ty nào
-                      </div>
+                      <div className="card-header no-factory">Sản phẩm chưa được hỗ trợ bởi công ty nào</div>
                     </div>
                   </div>
                 </section>
               </>
             )}
-            {responseGetHighestRateDesignById?.length != 0 &&
-              responseGetHighestRateDesignById && (
-                <Products
-                  title="Các sản phẩm được đánh giá cao"
-                  data={responseGetHighestRateDesignById}
-                />
-              )}
+            {responseGetHighestRateDesignById?.length != 0 && responseGetHighestRateDesignById && (
+              <Products title="Các sản phẩm được đánh giá cao" data={responseGetHighestRateDesignById} />
+            )}
 
-            {responseBestSellerByProductId?.length != 0 &&
-              responseBestSellerByProductId && (
-                <Products
-                  title="Các sản phẩm đang bán chạy"
-                  data={responseBestSellerByProductId}
-                />
-              )}
+            {responseBestSellerByProductId?.length != 0 && responseBestSellerByProductId && (
+              <Products title="Các sản phẩm đang bán chạy" data={responseBestSellerByProductId} />
+            )}
 
             <div className="container-fluid mt-100 mt-60 px-0">
               <div className="py-5 bg-light">
@@ -220,16 +179,10 @@ export default function ProductDetail() {
                   <div className="row align-items-center">
                     <div className="col-12">
                       <div className="d-flex align-items-center justify-content-between">
-                        <a
-                          href="shop-product-detail.html"
-                          className="text-dark align-items-center"
-                        >
+                        <a href="shop-product-detail.html" className="text-dark align-items-center">
                           <span className="pro-icons"></span>
                         </a>
-                        <a
-                          href="/"
-                          className="btn btn-lg btn-pills btn-icon btn-soft-primary"
-                        >
+                        <a href="/" className="btn btn-lg btn-pills btn-icon btn-soft-primary">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width={24}
