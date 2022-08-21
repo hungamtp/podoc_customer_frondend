@@ -115,13 +115,13 @@ export default function Checkout({}: Props) {
           window.location.href = data.data.payUrl;
         },
         onError: (data: any) => {
-          console.log(data);
           if (data.response.data.errorMessage == 'ZALO_SYSTEM_ERROR') {
             setErrorMessage(
               'Thanh toán bằng ZaloPay hiện đang bị lỗi vui lòng thử phương thức thanh toán khác , xin lỗi vì sự bất tiện này.'
             );
             setIsShowCancelReason(true);
           } else {
+            setIsShowCancelReason(true);
             setIsNotEnoughQuantity(true);
           }
         },
@@ -190,8 +190,10 @@ export default function Checkout({}: Props) {
               <button
                 className="btn btn-primary ps-4 pe-4"
                 onClick={() => {
+                  if (isNotEnoughQuantity) {
+                    router.replace('/carts');
+                  }
                   setIsShowCancelReason(false);
-                  router.replace('/carts');
                 }}
               >
                 Xác nhận
