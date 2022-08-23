@@ -15,7 +15,8 @@ type Props = {
 };
 export default function Factory({ factory, productName }: Props) {
   const router = useRouter();
-  const productId = router.asPath.split("id=")[1];
+  const productId = router.query["rawProduct"];
+  console.log(productId, "productId");
   const dispatch = useAppDispatch();
   const startDesign = () => {
     dispatch(setIsEdit(true)); //Không set true thì khi tạo xong mà muốn design tiếp sẽ lỗi
