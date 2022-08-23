@@ -198,8 +198,11 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                 onClick={() => {
                                   dispatch(
                                     setHeaderInfo({
-                                      productName: response.productName,
                                       factoryName: response.factoryName,
+                                      productName: response.productName,
+                                      rawProductPrice:
+                                        response.priceFromFactory,
+                                      rawProductMaterial: response.material,
                                     })
                                   );
 
@@ -373,6 +376,9 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     {...register("designedPrice")}
                                     disabled={!isEdit}
                                   />
+                                  <span className="position-absolute top-50 end-0 translate-middle-y px-2">
+                                    VND
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -382,8 +388,17 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                   Giá từ nhà sản xuất
                                 </label>
                                 <div className="form-icon position-relative">
-                                  {numberWithCommas(response.priceFromFactory)}{" "}
-                                  VND
+                                  <input
+                                    id="subject"
+                                    className="form-control"
+                                    value={numberWithCommas(
+                                      response.priceFromFactory
+                                    )}
+                                    disabled
+                                  />
+                                  <span className="position-absolute top-50 end-0 translate-middle-y px-2">
+                                    VND
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -391,11 +406,18 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                               <div className="mb-3">
                                 <label className="form-label">Tổng giá</label>
                                 <div className="form-icon position-relative">
-                                  {numberWithCommas(
-                                    Number(designedPrice) +
-                                      response.priceFromFactory
-                                  )}{" "}
-                                  VND
+                                  <input
+                                    id="subject"
+                                    className="form-control"
+                                    value={numberWithCommas(
+                                      Number(designedPrice) +
+                                        response.priceFromFactory
+                                    )}
+                                    disabled
+                                  />
+                                  <span className="position-absolute top-50 end-0 translate-middle-y px-2">
+                                    VND
+                                  </span>
                                 </div>
                               </div>
                             </div>

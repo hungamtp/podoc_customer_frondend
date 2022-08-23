@@ -15,7 +15,7 @@ import {
 } from "@/redux/slices/cart";
 import Typography, { TypographyProps } from "@mui/material/Typography";
 import { AddToCartDTO, CartDetailDTO } from "@/services/type.dto";
-import { Box, Rating, Skeleton } from "@mui/material";
+import { Box, Dialog, DialogContent, Rating, Skeleton } from "@mui/material";
 import { nanoid } from "@reduxjs/toolkit";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
@@ -90,6 +90,10 @@ export default function DesignedProductDetail() {
   const { design }: any = router.query;
   const auth = useAppSelector((state) => state.auth);
   const { enqueueSnackbar } = useSnackbar();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
 
   const { data: designedProduct, isLoading: isLoading } =
     useGetOthersDesignById(design);
@@ -238,23 +242,24 @@ export default function DesignedProductDetail() {
         },
       });
     else {
-      const reduxCartDetail = {
-        id: nanoid(),
-        cartId: nanoid(),
-        designedProductId: designedProduct?.id,
-        designedProductName: designedProduct?.name,
-        designedImage: renderedImagesList[0].image,
-        size: selectedSize,
-        color: selectedColor,
-        quantity: newQuantity,
-        price: designedProduct?.price,
-        publish: true,
-      };
-      dispatch(addNewCartDetail(reduxCartDetail));
-      enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
-        autoHideDuration: 3000,
-        variant: "success",
-      });
+      setIsOpen(true);
+      // const reduxCartDetail = {
+      //   id: nanoid(),
+      //   cartId: nanoid(),
+      //   designedProductId: designedProduct?.id,
+      //   designedProductName: designedProduct?.name,
+      //   designedImage: renderedImagesList[0].image,
+      //   size: selectedSize,
+      //   color: selectedColor,
+      //   quantity: newQuantity,
+      //   price: designedProduct?.price,
+      //   publish: true,
+      // };
+      // dispatch(addNewCartDetail(reduxCartDetail));
+      // enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
+      //   autoHideDuration: 3000,
+      //   variant: "success",
+      // });
     }
   };
 
@@ -329,6 +334,51 @@ export default function DesignedProductDetail() {
         <div>
           {designedProduct && (
             <div>
+              <Dialog
+                open={isOpen}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullWidth={true}
+              >
+                <DialogContent>
+                  <div className="col-xxl">
+                    <div className="card mb-4">
+                      <div className="card-body">
+                        <div className="row mb-3">
+                          <label
+                            htmlFor="basic-icon-default-fullname"
+                            className="h4"
+                          >
+                            Bạn cần phải đăng nhập để có thể mua sắm, bạn có
+                            đồng ý không?
+                          </label>
+                        </div>
+
+                        <div className="d-flex justify-content-center">
+                          <div className="col-sm-10 d-flex justify-content-around">
+                            <button
+                              className="btn btn-primary"
+                              color="primary"
+                              onClick={() => router.push("/login")}
+                            >
+                              Đồng ý
+                            </button>
+                            <button
+                              className="btn btn-secondary"
+                              onClick={handleCloseDialog}
+                              autoFocus
+                              type="button"
+                            >
+                              Không
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <section className="section pb-0">
                 <div className="container">
                   <div className="row align-items-center">

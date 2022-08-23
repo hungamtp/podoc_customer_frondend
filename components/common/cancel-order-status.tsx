@@ -1,3 +1,6 @@
+import useCancelOrderDetail, {
+  CancelOrderDetailDto,
+} from "@/hooks/api/order/use-cancel-order-detail";
 import useDeleteOrder from "@/hooks/api/order/use-delete-order";
 import { CancelOrderStatusDto } from "@/services/order/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -48,6 +51,8 @@ export interface ICancelOrderStatusProps {
   handleCloseDialog: () => void;
   orderId: string;
   setIsShowOrderDetail: (status: boolean) => void;
+  isDeleteOrderDetail: boolean;
+  orderDetailId: string;
 }
 
 type FormCancelOrderStatus = {
@@ -64,12 +69,24 @@ const schema = yup.object().shape({
 });
 
 export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
-  const { handleCloseDialog, orderId, setIsShowOrderDetail } = props;
+  const {
+    handleCloseDialog,
+    orderId,
+    setIsShowOrderDetail,
+    isDeleteOrderDetail,
+    orderDetailId,
+  } = props;
   const {
     mutate: deleteOrder,
     isSuccess: isDeleteSuccess,
     isLoading: isProcessDelete,
   } = useDeleteOrder(handleCloseDialog);
+
+  const {
+    mutate: deleteOrderDetail,
+    isSuccess: isDeleteOrderdetail,
+    isLoading: isProcessDeleteorderDetail,
+  } = useCancelOrderDetail(handleCloseDialog);
   const defaultValues: FormCancelOrderStatus = {
     cancelReason: "",
   };
@@ -113,31 +130,42 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
       orderId: orderId,
       cancelReason: data.cancelReason,
     };
+    const tmpOrderDetail: CancelOrderDetailDto = {
+      orderDetailIds: [orderDetailId],
+      cancelReason: data.cancelReason,
+    };
     // setIsShowOrderDetail(false);
     setFinishLoading(false);
-    deleteOrder(tmpData, {
-      onSuccess: (data) => {
-        //because data:any
-        queryClient.invalidateQueries("MyOrders");
-        queryClient.invalidateQueries("OrderDetail");
-        // setIsShowOrderDetail(true);
-        handleCloseDialog();
-        enqueueSnackbar("Hủy đơn hàng thành công!", {
-          autoHideDuration: 3000,
-          variant: "success",
-        });
-        setFinishLoading(true);
-      },
-      onError: (error: any) => {
-        setIsShowOrderDetail(true);
-        if (error) {
-          enqueueSnackbar("Có một hoặc nhiều nhà in đang tiến hành xử lý đơn", {
-            autoHideDuration: 9000,
-            variant: "warning",
+    if (isDeleteOrderDetail) {
+      deleteOrderDetail(tmpOrderDetail);
+    } else {
+      deleteOrder(tmpData, {
+        onSuccess: (data) => {
+          //because data:any
+          queryClient.invalidateQueries("MyOrders");
+          queryClient.invalidateQueries("OrderDetail");
+          // setIsShowOrderDetail(true);
+          handleCloseDialog();
+          enqueueSnackbar("Hủy đơn hàng thành công!", {
+            autoHideDuration: 3000,
+            variant: "success",
           });
-        }
-      },
-    });
+          setFinishLoading(true);
+        },
+        onError: (error: any) => {
+          setIsShowOrderDetail(true);
+          if (error) {
+            enqueueSnackbar(
+              "Có một hoặc nhiều nhà in đang tiến hành xử lý đơn",
+              {
+                autoHideDuration: 9000,
+                variant: "warning",
+              }
+            );
+          }
+        },
+      });
+    }
   };
 
   return (
