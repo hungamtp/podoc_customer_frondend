@@ -7,6 +7,7 @@ import { CreateDesignedProduct } from "@/services/design/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { numberWithCommas } from "helper/number-util";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import * as React from "react";
@@ -80,11 +81,14 @@ export default function CreateDesignedProductForm(
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isDirty },
   } = useForm<FormAddDesignInfo>({
     defaultValues,
     resolver: yupResolver(schema),
   });
+  const designedPrice = watch("designedPrice", 10000);
+  const headerInfo = useAppSelector((state) => state.headerInfo);
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
@@ -190,11 +194,10 @@ export default function CreateDesignedProductForm(
               }}
             >
               <div className="row mb-3">
-                <label htmlFor="basic-icon-default-fullname">
-                  Tên thiết kế
-                </label>
-
-                <div className="col-sm-10">
+                <div className="col-sm-12">
+                  <label htmlFor="basic-icon-default-fullname">
+                    Tên thiết kế
+                  </label>
                   <div className="input-group input-group-merge">
                     <input
                       type="text"
@@ -214,28 +217,72 @@ export default function CreateDesignedProductForm(
               </div>
 
               <div className="row mb-3">
-                <label htmlFor="basic-icon-default-company">Giá thiết kế</label>
-                <div className="col-sm-10">
-                  <div className="input-group input-group-merge">
+                <div className="col-sm-6">
+                  <label htmlFor="basic-icon-default-fullname">
+                    Giá thiết kế
+                  </label>
+                  <div className="input-group input-group-merge position-relative">
                     <input
                       type="number"
-                      id="basic-icon-default-company"
                       className="form-control"
-                      aria-label="ACME Inc."
-                      aria-describedby="basic-icon-default-company2"
+                      id="basic-icon-default-fullname"
+                      aria-label="DesignedPrice"
+                      aria-describedby="basic-icon-default-price"
                       {...register("designedPrice")}
                     />
+                    <span className="position-absolute top-50 end-0 translate-middle-y px-2">
+                      VND
+                    </span>
                   </div>
-                  {errors.designedPrice && (
+
+                  {errors.name && (
                     <span id="error-pwd-message" className="text-danger">
-                      {errors.designedPrice.message}
+                      {errors.name.message}
                     </span>
                   )}
                 </div>
+
+                <div className="col-sm-6">
+                  <label htmlFor="basic-icon-default-fullname">
+                    Giá từ nhà in
+                  </label>
+                  <div className="input-group input-group-merge position-relative">
+                    <input
+                      type="text"
+                      contentEditable={false}
+                      className="form-control"
+                      id="basic-icon-default-fullname"
+                      aria-label="DesignedPrice"
+                      aria-describedby="basic-icon-default-price"
+                      value={numberWithCommas(headerInfo.rawProductPrice)}
+                    />
+                    <span className="position-absolute top-50 end-0 translate-middle-y px-2">
+                      VND
+                    </span>
+                  </div>
+                </div>
               </div>
+
               <div className="row mb-3">
-                <label htmlFor="basic-icon-default-company">Mô tả</label>
-                <div className="col-sm-10">
+                <div className="col-sm-12">
+                  <label htmlFor="basic-icon-default-company">Chất liệu</label>
+                  <div className="input-group input-group-merge">
+                    <input
+                      type="text"
+                      contentEditable={false}
+                      className="form-control"
+                      id="basic-icon-default-fullname"
+                      aria-label="DesignedPrice"
+                      aria-describedby="basic-icon-default-price"
+                      value={headerInfo.rawProductMaterial}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="row mb-3">
+                <div className="col-sm-12">
+                  <label htmlFor="basic-icon-default-company">Mô tả</label>
                   <div className="input-group input-group-merge">
                     <textarea
                       id="basic-icon-default-company"
@@ -252,13 +299,14 @@ export default function CreateDesignedProductForm(
                   )}
                 </div>
               </div>
+
               <SelectColor colors={loadedColors} />
               {isEmptyColor && (
                 <p className="text-danger">Vui lòng chọn màu áo để in</p>
               )}
 
               <div className="d-flex justify-content-center pt-4">
-                <div className="col-sm-10 d-flex justify-content-around">
+                <div className="col-sm-12 d-flex justify-content-around">
                   <button
                     className="btn btn-primary w-30p"
                     color="primary"

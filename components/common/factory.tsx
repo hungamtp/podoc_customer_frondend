@@ -21,7 +21,12 @@ export default function Factory({ factory, productName }: Props) {
     dispatch(setIsEdit(true)); //Không set true thì khi tạo xong mà muốn design tiếp sẽ lỗi
 
     dispatch(
-      setHeaderInfo({ factoryName: factory.name, productName: productName })
+      setHeaderInfo({
+        factoryName: factory.name,
+        productName: productName,
+        rawProductPrice: factory.price,
+        rawProductMaterial: factory.material,
+      })
     );
 
     router.push(`/design?productId=${productId}&factoryId=${factory.id}`);

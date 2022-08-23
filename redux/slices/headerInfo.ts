@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface HeaderInfoData {
   productName: string;
   factoryName: string;
+  rawProductPrice: number;
+  rawProductMaterial: string;
 }
 
 // isEmpty: render ra trang trống
@@ -13,6 +15,8 @@ export interface HeaderInfoData {
 const initialState: HeaderInfoData = {
   productName: "Áo thun châu Á",
   factoryName: "DONY",
+  rawProductPrice: 100000,
+  rawProductMaterial: "Cotton",
 };
 
 export const headerInfo = createSlice({
@@ -23,6 +27,8 @@ export const headerInfo = createSlice({
       return {
         productName: action.payload.productName,
         factoryName: action.payload.factoryName,
+        rawProductPrice: action.payload.rawProductPrice,
+        rawProductMaterial: action.payload.rawProductMaterial,
       };
     },
     resetHeaderInfo: (state) => {
