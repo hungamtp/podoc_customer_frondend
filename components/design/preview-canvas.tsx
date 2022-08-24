@@ -656,15 +656,37 @@ export default function PreviewCanvas({
         >
           <DialogContent>
             {isEditPage ? (
-              <EditDesignForm
-                handleCloseDialog={handleCloseDialog}
-                loadedColors={colors}
-              />
+              <>
+                {!!previews.filter((preview) => {
+                  return preview.position === "front";
+                })[0] && (
+                  <EditDesignForm
+                    handleCloseDialog={handleCloseDialog}
+                    loadedColors={colors}
+                    imagePreviewForm={
+                      previews.filter((preview) => {
+                        return preview.position === "front";
+                      })[0].imageSrc
+                    }
+                  />
+                )}
+              </>
             ) : (
-              <CreateDesignedProductForm
-                handleCloseDialog={handleCloseDialog}
-                loadedColors={colors}
-              />
+              <>
+                {!!previews.filter((preview) => {
+                  return preview.position === "front";
+                })[0] && (
+                  <CreateDesignedProductForm
+                    handleCloseDialog={handleCloseDialog}
+                    loadedColors={colors}
+                    imagePreviewForm={
+                      previews.filter((preview) => {
+                        return preview.position === "front";
+                      })[0].imageSrc
+                    }
+                  />
+                )}
+              </>
             )}
           </DialogContent>
         </Dialog>
