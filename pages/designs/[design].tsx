@@ -191,7 +191,10 @@ export default function DesignedProductDetail() {
   );
 
   const checkout = () => {
-    router.push("/carts");
+    if (auth.isAuth) router.push("/carts");
+    else {
+      setIsOpen(true);
+    }
   };
 
   const handleChangeQuantity = (newQuantity: number) => {
@@ -345,13 +348,22 @@ export default function DesignedProductDetail() {
                   <div className="col-xxl">
                     <div className="card mb-4">
                       <div className="card-body">
+                        <div className=" d-flex justify-content-center">
+                          <Image
+                            src="/asset/images/logo_man.png"
+                            className="avatar avatar rounded-circle "
+                            width={150}
+                            height={150}
+                            objectFit="cover"
+                            alt="productImage"
+                          />
+                        </div>
                         <div className="row mb-3">
                           <label
                             htmlFor="basic-icon-default-fullname"
                             className="h4"
                           >
-                            Bạn cần phải đăng nhập để có thể mua sắm, bạn có
-                            đồng ý không?
+                            Bạn cần phải đăng nhập để có thể mua sắm.
                           </label>
                         </div>
 
@@ -362,7 +374,7 @@ export default function DesignedProductDetail() {
                               color="primary"
                               onClick={() => router.push("/login")}
                             >
-                              Đồng ý
+                              Xác nhận
                             </button>
                             <button
                               className="btn btn-secondary"
