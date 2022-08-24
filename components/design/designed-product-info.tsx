@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import * as React from "react";
@@ -50,6 +51,20 @@ const schema = yup.object().shape({
     .required("Thông tin mô tả không được để trống"),
 });
 
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
 function b64toBlob(dataURI: string) {
   var byteString = atob(dataURI.split(",")[1]);
   var ab = new ArrayBuffer(byteString.length);
@@ -60,6 +75,11 @@ function b64toBlob(dataURI: string) {
   }
   return new Blob([ab], { type: "image/jpeg" });
 }
+
+const toBase64 = (str: string) =>
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
+    : window.btoa(str);
 
 export default function CreateDesignedProductForm(
   props: ICreateDesignedProductFormProps
@@ -91,6 +111,19 @@ export default function CreateDesignedProductForm(
   const headerInfo = useAppSelector((state) => state.headerInfo);
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [renderImageInForm, setRenderImageInForm] = React.useState(
+    previews.filter((preview) => {
+      return preview.position === "front";
+    })[0].imageSrc
+  );
+  React.useEffect(() => {
+    if (previews)
+      setRenderImageInForm(
+        previews.filter((preview) => {
+          return preview.position === "front";
+        })[0].imageSrc
+      );
+  }, [previews]);
   const onUploadImage = (data: {
     name: string;
     designedPrice: number;
@@ -187,6 +220,47 @@ export default function CreateDesignedProductForm(
           <div className="card-body">
             <p className="h2 text-center pb-4">Lưu lại thiết kế</p>
 
+            <div className="row mb-3">
+              <div className="col-sm-3">
+                <div className="input-group input-group-merge position-relative ">
+                  <Image
+                    src={renderImageInForm}
+                    className="border rounded border-secondary"
+                    width={3000}
+                    height={3000}
+                    objectFit="cover"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      shimmer(3000, 3000)
+                    )}`}
+                    alt="productImage"
+                  />
+                </div>
+
+                {errors.name && (
+                  <span id="error-pwd-message" className="text-danger">
+                    {errors.name.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="col-sm-9">
+                <div>
+                  <label className="h6 fw-bold me-2">Tên sản phẩm:</label>
+                  {headerInfo.productName}
+                </div>
+                <div>
+                  <label className="h6 fw-bold me-2">Chất liệu:</label>
+                  {headerInfo.rawProductMaterial}
+                </div>
+                <div>
+                  <label className="h6 fw-bold me-2">
+                    Giá từ nhà sản xuất:
+                  </label>
+                  {numberWithCommas(headerInfo.rawProductPrice)} VND
+                </div>
+              </div>
+            </div>
+
             <form
               onSubmit={handleSubmit(onSubmit)}
               onChange={() => {
@@ -216,15 +290,15 @@ export default function CreateDesignedProductForm(
                 </div>
               </div>
 
-              <div className="row mb-3">
+              <div className="row my-3">
                 <div className="col-sm-6">
                   <label htmlFor="basic-icon-default-fullname">
                     Giá thiết kế
                   </label>
-                  <div className="input-group input-group-merge position-relative">
+                  <div className="input-group input-group-merge position-relative ">
                     <input
                       type="number"
-                      className="form-control"
+                      className="form-control py-2 rounded"
                       id="basic-icon-default-fullname"
                       aria-label="DesignedPrice"
                       aria-describedby="basic-icon-default-price"
@@ -241,45 +315,13 @@ export default function CreateDesignedProductForm(
                     </span>
                   )}
                 </div>
-
                 <div className="col-sm-6">
-                  <label htmlFor="basic-icon-default-fullname">
-                    Giá từ nhà in
-                  </label>
-                  <div className="input-group input-group-merge position-relative">
-                    <input
-                      type="text"
-                      contentEditable={false}
-                      className="form-control"
-                      id="basic-icon-default-fullname"
-                      aria-label="DesignedPrice"
-                      aria-describedby="basic-icon-default-price"
-                      value={numberWithCommas(headerInfo.rawProductPrice)}
-                    />
-                    <span className="position-absolute top-50 end-0 translate-middle-y px-2">
-                      VND
-                    </span>
-                  </div>
+                  <SelectColor colors={loadedColors} />
+                  {isEmptyColor && (
+                    <p className="text-danger">Vui lòng chọn màu áo để in</p>
+                  )}
                 </div>
               </div>
-
-              <div className="row mb-3">
-                <div className="col-sm-12">
-                  <label htmlFor="basic-icon-default-company">Chất liệu</label>
-                  <div className="input-group input-group-merge">
-                    <input
-                      type="text"
-                      contentEditable={false}
-                      className="form-control"
-                      id="basic-icon-default-fullname"
-                      aria-label="DesignedPrice"
-                      aria-describedby="basic-icon-default-price"
-                      value={headerInfo.rawProductMaterial}
-                    />
-                  </div>
-                </div>
-              </div>
-
               <div className="row mb-3">
                 <div className="col-sm-12">
                   <label htmlFor="basic-icon-default-company">Mô tả</label>
@@ -299,11 +341,6 @@ export default function CreateDesignedProductForm(
                   )}
                 </div>
               </div>
-
-              <SelectColor colors={loadedColors} />
-              {isEmptyColor && (
-                <p className="text-danger">Vui lòng chọn màu áo để in</p>
-              )}
 
               <div className="d-flex justify-content-center pt-4">
                 <div className="col-sm-12 d-flex justify-content-around">

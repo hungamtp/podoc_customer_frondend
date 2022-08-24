@@ -57,7 +57,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
       <div className="d-flex flex-column">
         <label>Màu áo</label>
         {colors && !controlData.isLoadingImage && (
-          <FormControl sx={{ width: 300 }}>
+          <FormControl>
             <Select
               className="border px-1 rounded"
               multiple

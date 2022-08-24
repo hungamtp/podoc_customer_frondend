@@ -63,9 +63,9 @@ const schema = yup.object().shape({
   cancelReason: yup
     .string()
     .trim()
+    .required("Lý do không được để trống")
     .min(10, "Lý do cần ít nhất 10 kí tự")
-    .max(300, "Lý do tối đa 300 kí tự")
-    .required("không được để trống lý do"),
+    .max(300, "Lý do tối đa 300 kí tự"),
 });
 
 export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
@@ -216,8 +216,8 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                               }}
                             >
                               <Chip
-                                key="Lý do thường gặp"
-                                label="Lý do thường gặp"
+                                key="Hãy chọn một lý do"
+                                label="Hãy chọn một lý do"
                               />
                             </Box>
                           );
