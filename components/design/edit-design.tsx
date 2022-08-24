@@ -19,6 +19,9 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import SelectColor from "./select-color";
 
+import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+
 export interface EditDesignFormProps {
   handleCloseDialog: () => void;
   loadedColors: {
@@ -27,6 +30,11 @@ export interface EditDesignFormProps {
     image: string;
   }[];
 }
+
+const toBase64 = (str: string) =>
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
+    : window.btoa(str);
 
 type FormAddDesignInfo = {
   name: string;
@@ -45,6 +53,20 @@ const schema = yup.object().shape({
     .required("Giá của mẫu thiết kế không được để trống"),
   description: yup.string().max(100, "Description tối đa 100 kí tự"),
 });
+
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
 
 export default function EditDesignForm(props: EditDesignFormProps) {
   const { handleCloseDialog, loadedColors } = props;
@@ -71,6 +93,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
   });
   const selectedColors = useAppSelector((state) => state.selectedColors);
   console.log(selectedColors, "selectedColors");
+  const headerInfo = useAppSelector((state) => state.headerInfo);
 
   const [isLoading, setIsLoading] = React.useState(false);
   const designedInfo = useAppSelector((state) => state.designProductInfo);
@@ -148,6 +171,21 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     });
   };
 
+  const [renderImageInForm, setRenderImageInForm] = React.useState(
+    previews.filter((preview) => {
+      return preview.position === "front";
+    })[0].imageSrc
+  );
+
+  React.useEffect(() => {
+    if (previews)
+      setRenderImageInForm(
+        previews.filter((preview) => {
+          return preview.position === "front";
+        })[0].imageSrc
+      );
+  }, [previews]);
+
   const {
     mutate: editDesignProduct,
     error,
@@ -169,9 +207,50 @@ export default function EditDesignForm(props: EditDesignFormProps) {
                 Bạn muốn lưu lại thiết kế này?
               </label>
             </div>
-            <SelectColor colors={loadedColors} />
+            <div className="row mb-3">
+              <div className="col-sm-3">
+                <div className="input-group input-group-merge position-relative ">
+                  <Image
+                    src={renderImageInForm}
+                    className="border rounded border-secondary"
+                    width={3000}
+                    height={3000}
+                    objectFit="cover"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      shimmer(3000, 3000)
+                    )}`}
+                    alt="productImage"
+                  />
+                </div>
 
-            <div className="d-flex justify-content-center">
+                {errors.name && (
+                  <span id="error-pwd-message" className="text-danger">
+                    {errors.name.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="col-sm-9">
+                <div>
+                  <label className="h6 fw-bold me-2">Tên thiết kế:</label>
+                  {designName}
+                </div>
+                <div>
+                  <label className="h6 fw-bold me-2">Chất liệu:</label>
+                  {headerInfo.rawProductMaterial}
+                </div>
+                <div>
+                  <label className="h6 fw-bold me-2">
+                    Giá từ nhà sản xuất:
+                  </label>
+                  {numberWithCommas(headerInfo.rawProductPrice)} VND
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-8">
+              <SelectColor colors={loadedColors} />
+            </div>
+            <div className="d-flex justify-content-center mt-5">
               <div className="col-sm-10 d-flex justify-content-around">
                 <button
                   className="btn btn-primary"

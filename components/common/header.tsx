@@ -312,8 +312,7 @@ export default function Header({}: Props) {
                 <Link href="/raw-products" className="sub-menu-item">
                   <a
                     className={`sub-menu-item ${
-                      router.asPath.includes("/raw-products") ||
-                      (router.asPath.includes("/detail?id") && "nav-active")
+                      router.asPath.includes("raw-products") && "nav-active"
                     }`}
                   >
                     Tự thiết kế
