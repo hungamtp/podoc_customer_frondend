@@ -24,6 +24,7 @@ export interface ICreateDesignedProductFormProps {
     name: string;
     image: string;
   }[];
+  imagePreviewForm: string;
 }
 
 type FormAddDesignInfo = {
@@ -84,7 +85,7 @@ const toBase64 = (str: string) =>
 export default function CreateDesignedProductForm(
   props: ICreateDesignedProductFormProps
 ) {
-  const { handleCloseDialog, loadedColors } = props;
+  const { handleCloseDialog, loadedColors, imagePreviewForm } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
   const selectedColors = useAppSelector((state) => state.selectedColors);
@@ -111,19 +112,6 @@ export default function CreateDesignedProductForm(
   const headerInfo = useAppSelector((state) => state.headerInfo);
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [renderImageInForm, setRenderImageInForm] = React.useState(
-    previews.filter((preview) => {
-      return preview.position === "front";
-    })[0].imageSrc
-  );
-  React.useEffect(() => {
-    if (previews)
-      setRenderImageInForm(
-        previews.filter((preview) => {
-          return preview.position === "front";
-        })[0].imageSrc
-      );
-  }, [previews]);
   const onUploadImage = (data: {
     name: string;
     designedPrice: number;
@@ -224,7 +212,7 @@ export default function CreateDesignedProductForm(
               <div className="col-sm-3">
                 <div className="input-group input-group-merge position-relative ">
                   <Image
-                    src={renderImageInForm}
+                    src={imagePreviewForm}
                     className="border rounded border-secondary"
                     width={3000}
                     height={3000}
@@ -235,12 +223,6 @@ export default function CreateDesignedProductForm(
                     alt="productImage"
                   />
                 </div>
-
-                {errors.name && (
-                  <span id="error-pwd-message" className="text-danger">
-                    {errors.name.message}
-                  </span>
-                )}
               </div>
 
               <div className="col-sm-9">

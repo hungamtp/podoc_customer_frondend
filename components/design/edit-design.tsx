@@ -29,6 +29,7 @@ export interface EditDesignFormProps {
     name: string;
     image: string;
   }[];
+  imagePreviewForm: string;
 }
 
 const toBase64 = (str: string) =>
@@ -69,7 +70,7 @@ const shimmer = (w: number, h: number) => `
 </svg>`;
 
 export default function EditDesignForm(props: EditDesignFormProps) {
-  const { handleCloseDialog, loadedColors } = props;
+  const { handleCloseDialog, loadedColors, imagePreviewForm } = props;
   const previews = useAppSelector((state) => state.previews);
   const blueprints = useAppSelector((state) => state.blueprintsData.blueprints);
   const dispatch = useAppDispatch();
@@ -92,7 +93,6 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     resolver: yupResolver(schema),
   });
   const selectedColors = useAppSelector((state) => state.selectedColors);
-  console.log(selectedColors, "selectedColors");
   const headerInfo = useAppSelector((state) => state.headerInfo);
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -171,21 +171,6 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     });
   };
 
-  const [renderImageInForm, setRenderImageInForm] = React.useState(
-    previews.filter((preview) => {
-      return preview.position === "front";
-    })[0].imageSrc
-  );
-
-  React.useEffect(() => {
-    if (previews)
-      setRenderImageInForm(
-        previews.filter((preview) => {
-          return preview.position === "front";
-        })[0].imageSrc
-      );
-  }, [previews]);
-
   const {
     mutate: editDesignProduct,
     error,
@@ -211,7 +196,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
               <div className="col-sm-3">
                 <div className="input-group input-group-merge position-relative ">
                   <Image
-                    src={renderImageInForm}
+                    src={imagePreviewForm}
                     className="border rounded border-secondary"
                     width={3000}
                     height={3000}
