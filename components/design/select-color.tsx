@@ -133,8 +133,8 @@ export default function SelectColor({ colors }: ISelectColorProps) {
           </FormControl>
         )}
         {controlData.isLoadingImage && (
-          <FormControl sx={{ mb: 1, width: 300 }}>
-            <div className="d-flex border px-2 rounded">
+          <FormControl>
+            <div className="d-flex border px-1 rounded">
               <p className="my-auto text-secondary">Đang tải màu áo</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                 viewBox="0 0 100 100"
                 preserveAspectRatio="xMidYMid"
               >
-                <rect x="17.5" y="42.5" width={15} height={15} fill="#bcbcbc">
+                <rect x="17.5" y="42.5" width={12} height={12} fill="#bcbcbc">
                   <animate
                     attributeName="y"
                     repeatCount="indefinite"
@@ -171,7 +171,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                     begin="-0.24390243902439024s"
                   />
                 </rect>
-                <rect x="42.5" y="42.5" width={15} height={15} fill="#bcbcbc">
+                <rect x="42.5" y="42.5" width={12} height={12} fill="#bcbcbc">
                   <animate
                     attributeName="y"
                     repeatCount="indefinite"
@@ -193,7 +193,7 @@ export default function SelectColor({ colors }: ISelectColorProps) {
                     begin="-0.12195121951219512s"
                   />
                 </rect>
-                <rect x="67.5" y="42.5" width={15} height={15} fill="#bcbcbc">
+                <rect x="67.5" y="42.5" width={12} height={12} fill="#bcbcbc">
                   <animate
                     attributeName="y"
                     repeatCount="indefinite"
