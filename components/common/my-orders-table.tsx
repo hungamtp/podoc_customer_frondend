@@ -299,7 +299,17 @@ export default function MyOrdersTable({ myOrdersResponse, isLoading, filter, set
                             <tr key={order.id}>
                               <td>
                                 <div className=" border-secondary">
-                                  <Image src={order.designImage} width={1000} height={1000} objectFit="cover" alt="productImage" />
+                                  <Image
+                                    src={order.designImage != '' ? order.designImage : ''}
+                                    onError={({ currentTarget }) => {
+                                      currentTarget.onerror = null; // prevents looping
+                                      currentTarget.src = '/asset/images/image_default/image_default.png';
+                                    }}
+                                    width={1000}
+                                    height={1000}
+                                    objectFit="cover"
+                                    alt="productImage"
+                                  />
                                 </div>
                               </td>
                               <td className=" align-middle">
