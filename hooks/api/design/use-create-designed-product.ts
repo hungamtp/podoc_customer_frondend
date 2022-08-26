@@ -9,11 +9,13 @@ import { createDesignedProduct } from "@/services/design";
 import { CreateDesignedProduct } from "@/services/design/dto";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import { useMutation } from "react-query";
 
 const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   return useMutation(
     async (data: CreateDesignedProduct) => {
       return await createDesignedProduct(data, data.factoryId, data.productId);
@@ -21,6 +23,10 @@ const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
     {
       onSuccess: (data) => {
         //because data:any
+        enqueueSnackbar("Tạo sản phẩm thiết kế thành công!", {
+          autoHideDuration: 4000,
+          variant: "success",
+        });
         router.push("/account/mydesign");
 
         dispatch(setChoosenKey(""));

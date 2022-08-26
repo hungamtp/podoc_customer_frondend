@@ -49,10 +49,7 @@ const names = [
 ];
 export interface ICancelOrderStatusProps {
   handleCloseDialog: () => void;
-  orderId: string;
-  setIsShowOrderDetail: (status: boolean) => void;
-  isDeleteOrderDetail: boolean;
-  orderDetailId: string;
+  orderDetailIdsList: string[];
 }
 
 type FormCancelOrderStatus = {
@@ -69,18 +66,7 @@ const schema = yup.object().shape({
 });
 
 export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
-  const {
-    handleCloseDialog,
-    orderId,
-    setIsShowOrderDetail,
-    isDeleteOrderDetail,
-    orderDetailId,
-  } = props;
-  const {
-    mutate: deleteOrder,
-    isSuccess: isDeleteSuccess,
-    isLoading: isProcessDelete,
-  } = useDeleteOrder(handleCloseDialog);
+  const { handleCloseDialog, orderDetailIdsList } = props;
 
   const {
     mutate: deleteOrderDetail,
@@ -126,46 +112,13 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
   const queryClient = useQueryClient();
 
   const onSubmit: SubmitHandler<FormCancelOrderStatus> = (data) => {
-    const tmpData: CancelOrderStatusDto = {
-      orderId: orderId,
-      cancelReason: data.cancelReason,
-    };
     const tmpOrderDetail: CancelOrderDetailDto = {
-      orderDetailIds: [orderDetailId],
+      orderDetailIds: orderDetailIdsList,
       cancelReason: data.cancelReason,
     };
     // setIsShowOrderDetail(false);
     setFinishLoading(false);
-    if (isDeleteOrderDetail) {
-      deleteOrderDetail(tmpOrderDetail);
-    } else {
-      deleteOrder(tmpData, {
-        onSuccess: (data) => {
-          //because data:any
-          queryClient.invalidateQueries("MyOrders");
-          queryClient.invalidateQueries("OrderDetail");
-          // setIsShowOrderDetail(true);
-          handleCloseDialog();
-          enqueueSnackbar("Hủy đơn hàng thành công!", {
-            autoHideDuration: 3000,
-            variant: "success",
-          });
-          setFinishLoading(true);
-        },
-        onError: (error: any) => {
-          setIsShowOrderDetail(true);
-          if (error) {
-            enqueueSnackbar(
-              "Có một hoặc nhiều nhà in đang tiến hành xử lý đơn",
-              {
-                autoHideDuration: 9000,
-                variant: "warning",
-              }
-            );
-          }
-        },
-      });
-    }
+    deleteOrderDetail(tmpOrderDetail);
   };
 
   return (
@@ -253,6 +206,9 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                       className="form-check-input"
                       onChange={(e: any) => {
                         setIsAutoComplete(e.target.checked);
+                        if (e.target.checked) {
+                          setPersonName([""]);
+                        }
                       }}
                       checked={isAutoComplete}
                       type="checkbox"
@@ -292,7 +248,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                   className="btn btn-primary ps-4 pe-4 me-3"
                   type="submit"
                 >
-                  {!finishLoading && !isDeleteSuccess && (
+                  {!finishLoading && !isDeleteOrderdetail && (
                     <span
                       className="spinner-border spinner-border-sm me-2"
                       role="status"

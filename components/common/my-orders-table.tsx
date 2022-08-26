@@ -104,14 +104,6 @@ export default function MyOrdersTable({
     setOpenCancelOrderDialog(false);
   };
 
-  const [isDeleteOrderDetail, setIsDeleteOrderDetail] = useState(true);
-
-  const {
-    mutate: deleteOrder,
-    isSuccess: isDeleteSuccess,
-    isLoading: isProcessDelete,
-  } = useDeleteOrder(handleCloseOrderDialog);
-
   const {
     mutate: deleteOrderDetail,
     isSuccess: isDeleteOrderdetail,
@@ -154,6 +146,9 @@ export default function MyOrdersTable({
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
   };
+  const [cancelOrderDetailsList, setCancelOrderDetailsList] = useState<
+    string[]
+  >([]);
 
   const handleSubmit = (paymentMethod: number, orderId: string) => {
     const tmpData = {
@@ -307,10 +302,7 @@ export default function MyOrdersTable({
         <DialogContent>
           <CancelOrderStatus
             handleCloseDialog={handleCloseOrderDialog}
-            orderId={selectedOrder.orderId}
-            orderDetailId={selectedOrderDetailId}
-            setIsShowOrderDetail={setIsShowOrderDetail}
-            isDeleteOrderDetail={isDeleteOrderDetail}
+            orderDetailIdsList={cancelOrderDetailsList}
           />
         </DialogContent>
       </Dialog>
@@ -548,12 +540,15 @@ export default function MyOrdersTable({
                                       Mua lại
                                     </div>
                                     {order.status !== "CANCEL" &&
-                                      order.status !== "IS_CANCEL" && (
+                                      order.status !== "IS_CANCEL" &&
+                                      order.status !== "DONE" && (
                                         <div
                                           className="hoverButtonCancel text-start p-2 d-flex align-items-center "
                                           onClick={() => {
-                                            setIsDeleteOrderDetail(true);
                                             setSelectedOrderDetailId(order.id);
+                                            setCancelOrderDetailsList([
+                                              order.id,
+                                            ]);
 
                                             if (!selectedOrder.isPaid) {
                                               const tmpData: CancelOrderDetailDto =
@@ -563,39 +558,7 @@ export default function MyOrdersTable({
                                                     "Hủy đơn hàng chưa được thanh toán",
                                                 };
                                               // setIsShowOrderDetail(false);
-                                              deleteOrderDetail(tmpData, {
-                                                onSuccess: (data) => {
-                                                  //because data:any
-                                                  queryClient.invalidateQueries(
-                                                    "MyOrders"
-                                                  );
-                                                  queryClient.invalidateQueries(
-                                                    "OrderDetail"
-                                                  );
-                                                  // setIsShowOrderDetail(true);
-
-                                                  enqueueSnackbar(
-                                                    "Hủy đơn hàng thành công!",
-                                                    {
-                                                      autoHideDuration: 3000,
-                                                      variant: "success",
-                                                    }
-                                                  );
-                                                },
-                                                onError: (error: any) => {
-                                                  if (error) {
-                                                    setIsShowOrderDetail(true);
-                                                    enqueueSnackbar(
-                                                      // 'error.response?.data.errorMessage',
-                                                      "Có một hoặc nhiều nhà máy đang xử lý đơn hàng",
-                                                      {
-                                                        autoHideDuration: 9000,
-                                                        variant: "error",
-                                                      }
-                                                    );
-                                                  }
-                                                },
-                                              });
+                                              deleteOrderDetail(tmpData);
                                             } else handleClickOpenCancelOrder();
                                           }}
                                         >
@@ -617,40 +580,28 @@ export default function MyOrdersTable({
                       <button
                         className="btn btn-danger d-flex align-items-center me-4"
                         onClick={() => {
-                          setIsDeleteOrderDetail(false);
                           if (!selectedOrder.isPaid) {
-                            const tmpData: CancelOrderStatusDto = {
-                              orderId: selectedOrder.orderId,
+                            const tmpData: CancelOrderDetailDto = {
+                              orderDetailIds: orderDetailData.map((data) => {
+                                return data.id;
+                              }),
                               cancelReason: "Hủy đơn hàng chưa được thanh toán",
                             };
                             // setIsShowOrderDetail(false);
-                            deleteOrder(tmpData, {
-                              onSuccess: (data) => {
-                                //because data:any
-                                queryClient.invalidateQueries("MyOrders");
-                                queryClient.invalidateQueries("OrderDetail");
-                                // setIsShowOrderDetail(true);
-
-                                enqueueSnackbar("Hủy đơn hàng thành công!", {
-                                  autoHideDuration: 3000,
-                                  variant: "success",
-                                });
-                              },
-                              onError: (error: any) => {
-                                if (error) {
-                                  setIsShowOrderDetail(true);
-                                  enqueueSnackbar(
-                                    // 'error.response?.data.errorMessage',
-                                    "Có một hoặc nhiều nhà máy đang xử lý đơn hàng",
-                                    {
-                                      autoHideDuration: 9000,
-                                      variant: "error",
-                                    }
+                            deleteOrderDetail(tmpData);
+                          } else {
+                            setCancelOrderDetailsList(
+                              orderDetailData
+                                .filter((data) => {
+                                  return (
+                                    data.status !== "CANCEL" &&
+                                    data.status !== "IS_CANCEL"
                                   );
-                                }
-                              },
-                            });
-                          } else handleClickOpenCancelOrder();
+                                })
+                                .map((data) => data.id)
+                            );
+                            handleClickOpenCancelOrder();
+                          }
                         }}
                       >
                         <i className="bi bi-x-square  me-2"></i>
