@@ -207,7 +207,7 @@ export default function CancelOrderStatus(props: ICancelOrderStatusProps) {
                       onChange={(e: any) => {
                         setIsAutoComplete(e.target.checked);
                         if (e.target.checked) {
-                          setPersonName([""]);
+                          setPersonName([]);
                         }
                       }}
                       checked={isAutoComplete}

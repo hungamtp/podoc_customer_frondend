@@ -255,46 +255,39 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                             </div>
                             <div className="">
                               <p className="h4">Chọn màu áo</p>
-                              <div className="mt-4">
-                                <div className=" mb-0 d-flex justify-content-start ms-4 p-4 w-50">
-                                  {response.imagePreviews.map(
-                                    (imagePreview) => {
-                                      if (
-                                        imagePreview.position ===
-                                        renderedPosition
-                                      )
-                                        return (
-                                          <>
-                                            <div
-                                              key={imagePreview.color}
-                                              className={`cursor-pointer rounded-circle me-2 `}
-                                              onClick={() => {
-                                                setRenderColor(
-                                                  imagePreview.color
-                                                );
-                                              }}
-                                            >
-                                              <Image
-                                                className={`rounded-circle`}
-                                                width={50}
-                                                height={50}
-                                                key={imagePreview.color}
-                                                src={
-                                                  "/asset/images/image_default/color-base.png"
-                                                }
-                                                style={{
-                                                  backgroundColor:
-                                                    imagePreview.color,
-                                                  opacity: "0.8",
-                                                }}
-                                                alt={imagePreview.color}
-                                              />
-                                            </div>
-                                          </>
-                                        );
-                                    }
-                                  )}
-                                </div>
+                              <div className=" mb-0 ms-5 d-flex flex-start">
+                                {response.imagePreviews.map((imagePreview) => {
+                                  if (
+                                    imagePreview.position === renderedPosition
+                                  )
+                                    return (
+                                      <>
+                                        <div
+                                          key={imagePreview.color}
+                                          className={`cursor-pointer rounded-circle me-2 p-0`}
+                                          onClick={() => {
+                                            setRenderColor(imagePreview.color);
+                                          }}
+                                        >
+                                          <Image
+                                            className={`rounded-circle`}
+                                            width={30}
+                                            height={30}
+                                            key={imagePreview.color}
+                                            src={
+                                              "/asset/images/image_default/color-base.png"
+                                            }
+                                            style={{
+                                              backgroundColor:
+                                                imagePreview.color,
+                                              opacity: "0.8",
+                                            }}
+                                            alt={imagePreview.color}
+                                          />
+                                        </div>
+                                      </>
+                                    );
+                                })}
                               </div>
                             </div>
                           </div>

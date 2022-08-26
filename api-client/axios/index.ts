@@ -5,6 +5,7 @@ import axios from "axios";
 // import { store } from "../../app/store";
 const API = axios.create({
   baseURL: "http://podoc.store:8080",
+  // baseURL: "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
   },
