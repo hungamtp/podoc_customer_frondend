@@ -135,6 +135,9 @@ export default function MyOrdersTable({
 
   const [isOpenSuccessRating, setIsOpenSuccessRating] = React.useState(false);
   const [isShowCancelReason, setIsShowCancelReason] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isNotEnoughQuantity, setIsNotEnoughQuantity] = useState(false);
+  const [isReorderFail, setIsReorderFail] = useState(false);
 
   const router = useRouter();
 
@@ -155,7 +158,24 @@ export default function MyOrdersTable({
       paymentMethod: paymentMethod,
       orderId: orderId,
     };
-    payOrder(tmpData);
+    payOrder(tmpData, {
+      onError: (data: any) => {
+        if (data.response.data.errorMessage == "ZALO_SYSTEM_ERROR") {
+          setErrorMessage(
+            "Thanh toán bằng ZaloPay hiện đang bị lỗi vui lòng thử phương thức thanh toán khác , xin lỗi vì sự bất tiện này."
+          );
+          setIsReorderFail(true);
+        } else if (data.response.data.errorMessage == "MOMO_API_ERROR") {
+          setErrorMessage(
+            "Thanh toán bằng MOMO hiện đang bị lỗi vui lòng thử phương thức thanh toán khác , xin lỗi vì sự bất tiện này."
+          );
+          setIsReorderFail(true);
+        } else {
+          setIsReorderFail(true);
+          setIsNotEnoughQuantity(true);
+        }
+      },
+    });
   };
   return (
     <>
@@ -304,6 +324,62 @@ export default function MyOrdersTable({
             handleCloseDialog={handleCloseOrderDialog}
             orderDetailIdsList={cancelOrderDetailsList}
           />
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={isReorderFail}
+        onClose={() => setIsReorderFail(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogContent>
+          <div className="">
+            <div className=" d-flex justify-content-center">
+              <Image
+                src="/asset/images/logo_man.png"
+                className="avatar avatar rounded-circle "
+                width={150}
+                height={150}
+                objectFit="cover"
+                alt="productImage"
+              />
+            </div>
+            <div className="h5 d-flex justify-content-center">
+              Chúng tôi xin chân thành xin lỗi quý khách.
+            </div>
+            <div className=" d-flex justify-content-center mb-3 p-2">
+              {errorMessage}
+            </div>
+            {isNotEnoughQuantity && (
+              <div className="mb-3">
+                <div className=" d-flex justify-content-center">
+                  Một vài sản phẩm trong đơn hàng của quý khách đã bị gỡ xuống.
+                </div>
+                <div className=" d-flex justify-content-center">
+                  Để tiến hành thanh toán, vui lòng xóa sản phẩm ra khỏi giỏ
+                  hàng{" "}
+                </div>
+                <div className=" d-flex justify-content-center">
+                  hoặc chờ cho tới khi sản phẩm được đăng tải lại.
+                </div>
+              </div>
+            )}
+
+            <div className=" d-flex justify-content-center">
+              <button
+                className="btn btn-primary ps-4 pe-4"
+                onClick={() => {
+                  if (isNotEnoughQuantity) {
+                    router.replace("/carts");
+                  }
+                  setIsShowCancelReason(false);
+                }}
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
       {!isShowOrderDetail && (
@@ -539,33 +615,29 @@ export default function MyOrdersTable({
                                       <i className="bi bi-cart me-2"></i>
                                       Mua lại
                                     </div>
-                                    {order.status !== "CANCEL" &&
-                                      order.status !== "IS_CANCEL" &&
-                                      order.status !== "DONE" && (
-                                        <div
-                                          className="hoverButtonCancel text-start p-2 d-flex align-items-center "
-                                          onClick={() => {
-                                            setSelectedOrderDetailId(order.id);
-                                            setCancelOrderDetailsList([
-                                              order.id,
-                                            ]);
+                                    {order.status === "PENDING" && (
+                                      <div
+                                        className="hoverButtonCancel text-start p-2 d-flex align-items-center "
+                                        onClick={() => {
+                                          setSelectedOrderDetailId(order.id);
+                                          setCancelOrderDetailsList([order.id]);
 
-                                            if (!selectedOrder.isPaid) {
-                                              const tmpData: CancelOrderDetailDto =
-                                                {
-                                                  orderDetailIds: [order.id],
-                                                  cancelReason:
-                                                    "Hủy đơn hàng chưa được thanh toán",
-                                                };
-                                              // setIsShowOrderDetail(false);
-                                              deleteOrderDetail(tmpData);
-                                            } else handleClickOpenCancelOrder();
-                                          }}
-                                        >
-                                          <i className="bi bi-x-square  me-2"></i>
-                                          <p className="m-0">Hủy đơn</p>
-                                        </div>
-                                      )}
+                                          if (!selectedOrder.isPaid) {
+                                            const tmpData: CancelOrderDetailDto =
+                                              {
+                                                orderDetailIds: [order.id],
+                                                cancelReason:
+                                                  "Hủy đơn hàng chưa được thanh toán",
+                                              };
+                                            // setIsShowOrderDetail(false);
+                                            deleteOrderDetail(tmpData);
+                                          } else handleClickOpenCancelOrder();
+                                        }}
+                                      >
+                                        <i className="bi bi-x-square  me-2"></i>
+                                        <p className="m-0">Hủy đơn</p>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </td>
