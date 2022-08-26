@@ -9,6 +9,7 @@ import { MouseEventHandler } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import ShowRating from "./show-rating";
+import { numberWithCommas } from "helper/number-util";
 type Props = {
   product: ProductHomePage;
 };
@@ -59,7 +60,9 @@ export default function DesignedProduct({ product }: Props) {
           <div className="d-flex justify-content-between mt-1">
             <h6 className="text-dark small fst-italic ">
               Giá :{" "}
-              <span className="text-danger ">{product.designedPrice} VND</span>
+              <span className="text-danger ">
+                {numberWithCommas(product.designedPrice)} VND
+              </span>
             </h6>
           </div>
           <div className="design-detail">
