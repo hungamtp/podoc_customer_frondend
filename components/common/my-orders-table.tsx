@@ -24,6 +24,7 @@ import { useSnackbar } from "notistack";
 import useCancelOrderDetail, {
   CancelOrderDetailDto,
 } from "@/hooks/api/order/use-cancel-order-detail";
+import { dateFormat } from "helper/date-utils";
 
 type Props = {
   myOrdersResponse: GetAllMyOrdersDto;
@@ -520,13 +521,9 @@ export default function MyOrdersTable({
                                 <div>Màu : {order.color}</div>
                                 <div>Số lượng : {order.quantity}</div>
                               </td>
-                              <td className=" align-middle">{`${new Date(
-                                order.date
-                              ).getDate()}-${new Date(
-                                order.date
-                              ).getMonth()}-${new Date(
-                                order.date
-                              ).getFullYear()}`}</td>
+                              <td className=" align-middle">{`${dateFormat(
+                                new Date(order.date)
+                              )}`}</td>
                               <td className=" align-middle">
                                 {numberWithCommas(order.price)}
                               </td>
@@ -742,7 +739,11 @@ export default function MyOrdersTable({
                       >
                         Thông tin
                       </th>
-                      <th scope="col" className="border-bottom align-middle">
+                      <th
+                        scope="col"
+                        className="border-bottom align-middle"
+                        style={{ minWidth: "170px" }}
+                      >
                         Ngày tạo
                       </th>
                       <th scope="col" className="border-bottom align-middle">
@@ -823,11 +824,9 @@ export default function MyOrdersTable({
                                 })}
                             </div>
                           </td>
-                          <td className="align-middle">{`${new Date(
-                            orders.createdDate
-                          ).getDate()}-${
-                            new Date(orders.createdDate).getMonth() + 1
-                          }-${new Date(orders.createdDate).getFullYear()}`}</td>
+                          <td className=" align-middle">{`${dateFormat(
+                            new Date(orders.createdDate)
+                          )}`}</td>
                           <td className="align-middle">
                             {numberWithCommas(orders.totalBill)}{" "}
                           </td>

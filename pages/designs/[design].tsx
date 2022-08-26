@@ -415,18 +415,19 @@ export default function DesignedProductDetail() {
                           rateCount={designedProduct.rateCount}
                         />
 
-                        <div>
-                          <span className="sold-number ">
-                            Đã bán: {designedProduct.sold}
-                          </span>
+                        <div className="designer ">
+                          Đã bán <b>{designedProduct.sold}</b>
                         </div>
-                        <div className="designer cursor-pointer">
+                        <div className="designer ">
                           Chất liệu{" "}
                           <span
                             onClick={() => goToProfile(designedProduct.user.id)}
                           >
                             <b>{designedProduct.material}</b>
                           </span>
+                        </div>
+                        <div className="designer ">
+                          Nhà in <b>{designedProduct.factoryName}</b>
                         </div>
                         <div className="designer cursor-pointer">
                           Thiết kế bởi{" "}
