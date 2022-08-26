@@ -108,9 +108,16 @@ export default function CreateDesignedProductForm(
     defaultValues,
     resolver: yupResolver(schema),
   });
+
+  const {
+    mutate: addDesignedProduct,
+    error,
+    isLoading: isLoadingSubmit,
+  } = useCreateDesignedProduct(handleCloseDialog);
+
   const designedPrice = watch("designedPrice", 10000);
   const headerInfo = useAppSelector((state) => state.headerInfo);
-  const { enqueueSnackbar } = useSnackbar();
+
   const [isLoading, setIsLoading] = React.useState(false);
   const onUploadImage = (data: {
     name: string;
@@ -172,25 +179,12 @@ export default function CreateDesignedProductForm(
               productId: productId,
             } as CreateDesignedProduct;
 
-            addDesignedProduct(submitData, {
-              onSuccess: () => {
-                enqueueSnackbar("Tạo sản phẩm thiết kế thành công!", {
-                  autoHideDuration: 4000,
-                  variant: "success",
-                });
-              },
-            });
+            addDesignedProduct(submitData);
           }
         });
       });
     });
   };
-
-  const {
-    mutate: addDesignedProduct,
-    error,
-    isLoading: isLoadingSubmit,
-  } = useCreateDesignedProduct(handleCloseDialog);
 
   const onSubmit: SubmitHandler<FormAddDesignInfo> = (data) => {
     if (selectedColors.length === 0) {
@@ -291,9 +285,9 @@ export default function CreateDesignedProductForm(
                     </span>
                   </div>
 
-                  {errors.name && (
+                  {errors.designedPrice && (
                     <span id="error-pwd-message" className="text-danger">
-                      {errors.name.message}
+                      {errors.designedPrice.message}
                     </span>
                   )}
                 </div>
@@ -330,6 +324,7 @@ export default function CreateDesignedProductForm(
                     className="btn btn-primary w-30p"
                     color="primary"
                     type="submit"
+                    disabled={isLoading || isLoadingSubmit}
                   >
                     {(isLoading || isLoadingSubmit) && (
                       <span

@@ -89,8 +89,14 @@ export default function Login({ data }: Props) {
         },
         onError: (error: any) => {
           // if (error.response) setErrorLogin(error.response?.data.errorMessage);
-          if (error.response)
+          const errorMessage = error.response.data.errorMessage;
+          if (errorMessage.includes("password is incorrect"))
             setErrorLogin("Thông tin đăng nhập không chính xác");
+          else if (
+            errorMessage.includes("user is not available at this time")
+          ) {
+            setErrorLogin("Tài khoản không thể truy cập vào lúc này");
+          }
         },
       }
     );
