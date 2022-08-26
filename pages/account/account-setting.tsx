@@ -1,83 +1,75 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-import ChangePassword from "@/components/account/change-password-form";
-import VerifieSuccess from "@/components/account/verifie-success-form";
-import { useAppSelector } from "@/components/hooks/reduxHook";
-import { Account } from "@/components/layouts";
-import useGetAccountById from "@/hooks/api/account/use-account-by-id";
-import useUpdateProfile from "@/hooks/api/account/use-update-profile";
-import useVerifyEmail from "@/hooks/api/account/use-verify-email";
-import { AccountByIdDtos } from "@/services/account/dto";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
+import ChangePassword from '@/components/account/change-password-form';
+import VerifieSuccess from '@/components/account/verifie-success-form';
+import { useAppSelector } from '@/components/hooks/reduxHook';
+import { Account } from '@/components/layouts';
+import useGetAccountById from '@/hooks/api/account/use-account-by-id';
+import useUpdateProfile from '@/hooks/api/account/use-update-profile';
+import useVerifyEmail from '@/hooks/api/account/use-verify-email';
+import { AccountByIdDtos } from '@/services/account/dto';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 export interface IAccountSettingProps {}
 
 const schema = yup.object().shape({
   userFirstName: yup
     .string()
-    .trim("Tên không được để trống")
-    .min(1, "Tên cần ít nhất 1 kí tự")
-    .max(26, "Tên tối đa 50 kí tự")
-    .required("Tên không được để trống"),
+    .trim('Tên không được để trống')
+    .min(1, 'Tên cần ít nhất 1 kí tự')
+    .max(26, 'Tên tối đa 50 kí tự')
+    .required('Tên không được để trống'),
   userLastName: yup
     .string()
-    .trim("Họ không được để trống")
-    .min(1, "Họ cần ít nhất 1 kí tự")
-    .max(26, "Họ tối đa 50 kí tự")
-    .required("Họ không được để trống"),
+    .trim('Họ không được để trống')
+    .min(1, 'Họ cần ít nhất 1 kí tự')
+    .max(26, 'Họ tối đa 50 kí tự')
+    .required('Họ không được để trống'),
   email: yup
     .string()
-    .trim("Email không được để trống")
-    .email("Email đúng định dạng")
-    .min(8, "Tài khoản cần ít nhất 8 kí tự")
-    .max(50, "Tài khoản tối đa 50 kí tự")
-    .required("Tài khoản không được để trống"),
+    .trim('Email không được để trống')
+    .email('Email đúng định dạng')
+    .min(8, 'Tài khoản cần ít nhất 8 kí tự')
+    .max(50, 'Tài khoản tối đa 50 kí tự')
+    .required('Tài khoản không được để trống'),
   phone: yup
     .string()
-    .trim("Số điện thoại không được để trống")
-    .matches(
-      /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
-      "Số điện thoại gồm 10 số và bắt đầu từ 0"
-    )
-    .required("Số điện thoại không được để trống"),
+    .trim('Số điện thoại không được để trống')
+    .matches(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/, 'Số điện thoại gồm 10 số và bắt đầu từ 0')
+    .required('Số điện thoại không được để trống'),
   address: yup
     .string()
-    .typeError("Địa chỉ không đúng định dạng")
-    .trim("Địa chỉ được để trống")
-    .min(10, "Địa chỉ cần ít nhất 10 kí tự")
-    .max(300, "Địa chỉ tối đa 300 kí tự")
-    .required("Địa chỉ không được để trống"),
+    .typeError('Địa chỉ không đúng định dạng')
+    .trim('Địa chỉ được để trống')
+    .min(10, 'Địa chỉ cần ít nhất 10 kí tự')
+    .max(300, 'Địa chỉ tối đa 300 kí tự')
+    .required('Địa chỉ không được để trống'),
 });
 
 export default function AccountSetting(props: IAccountSettingProps) {
   const storaged = globalThis?.sessionStorage;
-  const prevPath = storaged.getItem("prevPath");
-  const credentialId = useAppSelector((state) => state.auth.userId);
-  const { data: responseAccount, isLoading: isLoadingAccount } =
-    useGetAccountById(credentialId);
-  const {
-    mutate: verifyEmail,
-    isLoading: isLoadingVerifieEmail,
-    isSuccess: isSuccessVerifieEmail,
-  } = useVerifyEmail();
+  const prevPath = storaged.getItem('prevPath');
+  const credentialId = useAppSelector(state => state.auth.userId);
+  const { data: responseAccount, isLoading: isLoadingAccount } = useGetAccountById(credentialId);
+  const { mutate: verifyEmail, isLoading: isLoadingVerifieEmail, isSuccess: isSuccessVerifieEmail } = useVerifyEmail();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isChangePassword, setIsChangePassword] = React.useState(false);
   const { mutate: updateProfile, isLoading } = useUpdateProfile();
 
   const defaultValues: AccountByIdDtos = {
-    id: "",
-    userFirstName: "",
-    userLastName: "",
-    name: "",
-    email: "",
-    roleName: "",
+    id: '',
+    userFirstName: '',
+    userLastName: '',
+    name: '',
+    email: '',
+    roleName: '',
     phone: 0,
-    address: "",
-    image: "",
-    userStatus: "",
+    address: '',
+    image: '',
+    userStatus: '',
     mailVerified: false,
   };
   const {
@@ -94,7 +86,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
     reset(responseAccount?.data);
   }, [responseAccount]);
 
-  const onSubmit: SubmitHandler<AccountByIdDtos> = (data) => {
+  const onSubmit: SubmitHandler<AccountByIdDtos> = data => {
     const tmpData = {
       id: credentialId,
       firstName: data.userFirstName,
@@ -119,7 +111,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
         {!isLoadingAccount && responseAccount && (
           <form>
             <div className="row d-flex justify-content-center">
-              <div className="col-md-8">
+              <div className="col-md-4">
                 <div className="mb-3">
                   <label className="form-label">Họ</label>
                   <div className="form-icon position-relative">
@@ -145,7 +137,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className="form-control ps-5"
                       disabled={!isEdit}
                       defaultValue={responseAccount.data.userLastName}
-                      {...register("userLastName")}
+                      {...register('userLastName')}
                     />
                   </div>
                   {errors.userLastName && (
@@ -156,7 +148,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 </div>
               </div>
               {/*end col*/}
-              <div className="col-md-8">
+              <div className="col-md-4">
                 <div className="mb-3">
                   <label className="form-label">Tên</label>
                   <div className="form-icon position-relative">
@@ -182,7 +174,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       className="form-control ps-5"
                       disabled={!isEdit}
                       defaultValue={responseAccount.data.userFirstName}
-                      {...register("userFirstName")}
+                      {...register('userFirstName')}
                     />
                   </div>
                   {errors.userFirstName && (
@@ -193,6 +185,40 @@ export default function AccountSetting(props: IAccountSettingProps) {
                 </div>
               </div>
               {/*end col*/}
+              <div className="col-md-8">
+                <div className="mb-3">
+                  <label className="form-label">Số điện thoại</label>
+                  <div className="form-icon position-relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-phone fea icon-sm mt-2 ms-3 position-absolute"
+                    >
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <input
+                      id="display-phone"
+                      type="text"
+                      disabled={!isEdit}
+                      className="form-control ps-5"
+                      defaultValue={responseAccount.data.phone}
+                      {...register('phone')}
+                    />
+                  </div>
+                  {errors.phone && (
+                    <span id="error-pwd-message" className="text-danger">
+                      {errors.phone.message}
+                    </span>
+                  )}
+                </div>
+              </div>
               <div className="col-md-8 row">
                 <label className="form-label p-0">Email</label>
                 <div className="col-md-5 p-0">
@@ -218,7 +244,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       disabled
                       className="form-control ps-5"
                       defaultValue={responseAccount.data.email}
-                      {...register("email")}
+                      {...register('email')}
                     />
                     {responseAccount.data.mailVerified === false && (
                       <i className="bi bi-x-circle-fill text-warning ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
@@ -227,30 +253,18 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       <i className="bi bi-check-circle-fill icon-success ms-3 me-2 pe-2 position-absolute top-50 start-100 translate-middle"></i>
                     )}
                   </div>
-                  {responseAccount.data.mailVerified === false && (
-                    <p className="ms-1 text-warning ">
-                      Email chưa được xác nhận
-                    </p>
-                  )}
+                  {responseAccount.data.mailVerified === false && <p className="ms-1 text-warning ">Email chưa được xác nhận</p>}
                 </div>
                 {/*end col*/}
                 {responseAccount.data.mailVerified === false && (
                   <div className="col-md-5">
                     <div className="">
                       <div className="form-icon position-relative d-flex justify-content-center">
-                        <button
-                          onClick={() => verifyEmail()}
-                          className=" btn btn-primary "
-                          type="button"
-                        >
+                        <button onClick={() => verifyEmail()} className=" btn btn-primary " type="button">
                           {isLoadingVerifieEmail ? (
-                            <span
-                              className="spinner-border spinner-border-sm"
-                              role="status"
-                              aria-hidden="true"
-                            />
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
                           ) : (
-                            "Xác nhận email"
+                            'Xác nhận email'
                           )}
                         </button>
                       </div>
@@ -278,13 +292,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       >
                         <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
                       </svg>
-                      <input
-                        id="password"
-                        type="password"
-                        disabled
-                        className="form-control ps-5"
-                        defaultValue="matkhaucuahientai"
-                      />
+                      <input id="password" type="password" disabled className="form-control ps-5" defaultValue="matkhaucuahientai" />
                     </div>
                   </div>
                 </div>
@@ -306,40 +314,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                   </div>
                 </div>
               </div>
-              <div className="col-md-8">
-                <div className="mb-3">
-                  <label className="form-label">Số điện thoại</label>
-                  <div className="form-icon position-relative">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-phone fea icon-sm mt-2 ms-3 position-absolute"
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
-                    <input
-                      id="display-phone"
-                      type="text"
-                      disabled={!isEdit}
-                      className="form-control ps-5"
-                      defaultValue={responseAccount.data.phone}
-                      {...register("phone")}
-                    />
-                  </div>
-                  {errors.phone && (
-                    <span id="error-pwd-message" className="text-danger">
-                      {errors.phone.message}
-                    </span>
-                  )}
-                </div>
-              </div>
+
               <div className="col-md-8">
                 <div className="mb-3">
                   <label className="form-label">Địa chỉ</label>
@@ -365,7 +340,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                       disabled={!isEdit}
                       className="form-control ps-5"
                       defaultValue={responseAccount.data.address}
-                      {...register("address")}
+                      {...register('address')}
                     />
                   </div>
                   {errors.address && (
@@ -379,18 +354,8 @@ export default function AccountSetting(props: IAccountSettingProps) {
               <div className="col-lg-8 mt-2 mb-0">
                 {isEdit && (
                   <>
-                    <button
-                      onClick={handleSubmit(onSubmit)}
-                      className="btn btn-primary me-2"
-                      type="submit"
-                    >
-                      {isLoading && (
-                        <span
-                          className="spinner-border spinner-border-sm"
-                          role="status"
-                          aria-hidden="true"
-                        />
-                      )}
+                    <button onClick={handleSubmit(onSubmit)} className="btn btn-primary me-2" type="submit">
+                      {isLoading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
                       Lưu thay đổi
                     </button>
                     <button
@@ -398,7 +363,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
                         setIsEdit(false);
                         reset(responseAccount?.data);
                       }}
-                      style={{ width: "140px" }}
+                      style={{ width: '140px' }}
                       className="btn btn-primary me-2"
                     >
                       Hủy
@@ -427,10 +392,7 @@ export default function AccountSetting(props: IAccountSettingProps) {
             {isChangePassword && (
               <>
                 <hr />
-                <ChangePassword
-                  id={credentialId}
-                  closeChangePassword={closeChangePassword}
-                />
+                <ChangePassword id={credentialId} closeChangePassword={closeChangePassword} />
               </>
             )}
           </div>
