@@ -35,17 +35,20 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(5, "Tên thiết kế cần ít nhất 5 kí tự")
+      .trim("Không đúng định dạng")
+      .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
       .max(50, "Tên thiết kế tối đa 50 kí tự")
       .required("Tên thiết kế không được để trống"),
     designedPrice: yup
       .number()
+      .typeError("Giá của mẫu thiết kế không được để trống")
       .min(0, "Giá thiết kế tối thiểu 0 đồng")
       .required("Giá của mẫu thiết kế không được để trống"),
     description: yup
       .string()
-      .min(5, "Tên thiết kế cần ít nhất  kí tự")
-      .max(255, "Description tối đa 255 kí tự")
+      .trim("Không đúng định dạng")
+      .min(10, "Mô tả thiết kế cần ít nhất 10 kí tự")
+      .max(300, "Mô tả thiết kế tối đa 300 kí tự")
       .required("Thông tin mô tả không được để trống"),
   });
   const { enqueueSnackbar } = useSnackbar();
@@ -76,13 +79,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   } = form;
   const [isEdit, setIsEdit] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const handleCloseDialog = () => {
-    setIsOpen(false);
-  };
-  const handleOpenDialog = () => {
-    setIsOpen(true);
-  };
   React.useEffect(() => {
     if (response) {
       reset({
@@ -94,15 +90,12 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
   }, [response]);
   const [isLoading, setIsLoading] = React.useState(false);
   const dispatch = useAppDispatch();
-  const handleConfirm = () => {
-    setIsLoading(true);
-  };
   const {
     mutate: editDesignProduct,
     isSuccess,
     error,
     isLoading: isLoadingSubmit,
-  } = useEditDesignedProduct(handleCloseDialog);
+  } = useEditDesignedProduct();
   const designedPrice = watch("designedPrice", 10000);
   const submit: SubmitHandler<DesignProductInfo> = (data) => {
     if (response) {
@@ -126,7 +119,6 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
           });
           setIsLoading(false);
           setIsEdit(false);
-          handleCloseDialog();
         },
         onError: (error: any) => {},
       });
@@ -326,6 +318,14 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     disabled={!isEdit}
                                   />
                                 </div>
+                                {errors.name && (
+                                  <span
+                                    id="error-pwd-message"
+                                    className="text-danger"
+                                  >
+                                    {errors.name.message}
+                                  </span>
+                                )}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -373,6 +373,14 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     VND
                                   </span>
                                 </div>
+                                {errors.designedPrice && (
+                                  <span
+                                    id="error-pwd-message"
+                                    className="text-danger"
+                                  >
+                                    {errors.designedPrice.message}
+                                  </span>
+                                )}
                               </div>
                             </div>
                             <div className="col-md-3">
@@ -427,93 +435,68 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                                     disabled={!isEdit}
                                   />
                                 </div>
+                                {errors.description && (
+                                  <span
+                                    id="error-pwd-message"
+                                    className="text-danger"
+                                  >
+                                    {errors.description.message}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
                           {/*end row*/}
 
-                          <Dialog
-                            open={isOpen}
-                            onClose={handleCloseDialog}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                            fullWidth={true}
-                            disableEnforceFocus
-                          >
-                            <DialogContent>
-                              <div className="col-xxl">
-                                <div className="card mb-4">
-                                  <div className="card-body">
-                                    <div className="row mb-3">
-                                      <label
-                                        htmlFor="basic-icon-default-fullname"
-                                        className="h4"
-                                      >
-                                        Bạn muốn lại thông tin thay đổi?
-                                      </label>
-                                    </div>
-
-                                    <div className="d-flex justify-content-center">
-                                      <div className="col-sm-10 d-flex justify-content-around">
-                                        <button
-                                          className="btn btn-primary"
-                                          color="primary"
-                                          onClick={handleSubmit(submit)}
-                                        >
-                                          {(isLoading || isLoadingSubmit) && (
-                                            <span
-                                              className="spinner-border spinner-border-sm"
-                                              role="status"
-                                              aria-hidden="true"
-                                            />
-                                          )}
-                                          Xác nhận
-                                        </button>
-                                        <button
-                                          className="btn btn-secondary"
-                                          onClick={handleCloseDialog}
-                                          autoFocus
-                                          type="button"
-                                        >
-                                          Hủy
-                                        </button>
-                                      </div>
-                                    </div>
+                          {/*end row*/}
+                          <div className="row">
+                            <div className="col-sm-12">
+                              {isEdit ? (
+                                <div className="d-flex justify-content-between w-25">
+                                  <button
+                                    className="btn btn-success w-50 me-4"
+                                    onClick={handleSubmit(submit)}
+                                  >
+                                    {(isLoading || isLoadingSubmit) && (
+                                      <span
+                                        className="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                      />
+                                    )}
+                                    Lưu
+                                  </button>
+                                  <button
+                                    className="btn btn-secondary w-50"
+                                    onClick={() => {
+                                      setIsEdit(false);
+                                      if (response) {
+                                        reset({
+                                          designedPrice: response.designedPrice,
+                                          description: response.description,
+                                          name: response.name,
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    Hủy
+                                  </button>
+                                </div>
+                              ) : (
+                                <div className=" w-50">
+                                  <div
+                                    className="btn btn-primary w-25"
+                                    onClick={() => setIsEdit(true)}
+                                  >
+                                    Chỉnh sửa
                                   </div>
                                 </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-                          {/*end row*/}
-                        </form>
-                        <div className="row">
-                          <div className="col-sm-12">
-                            {isEdit ? (
-                              <div className="d-flex justify-content-between w-25">
-                                <button
-                                  className="btn btn-success w-50 me-4"
-                                  onClick={() => handleOpenDialog()}
-                                >
-                                  Lưu
-                                </button>
-                                <button
-                                  className="btn btn-secondary w-50"
-                                  onClick={() => setIsEdit(false)}
-                                >
-                                  Hủy
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                className="btn btn-primary"
-                                onClick={() => setIsEdit(true)}
-                              >
-                                Chỉnh sửa
-                              </button>
-                            )}
+                              )}
+                            </div>
+                            {/*end col*/}
                           </div>
-                          {/*end col*/}
-                        </div>
+                        </form>
+
                         {/*end form*/}
                       </div>
                     </div>

@@ -16,15 +16,16 @@ export default function SignUp({}: Props) {
   const schema = yup.object().shape({
     email: yup
       .string()
-      .trim()
-      .email("Email không đúng định dạng")
-      .max(50, "Email tối đa 50 ký tự")
+      .trim("Email không được để trống")
+      .email("Email đúng định dạng")
+      .min(8, "Email cần ít nhất 8 kí tự")
+      .max(50, "Email tối đa 50 kí tự")
       .required("Email không được để trống"),
     password: yup
       .string()
       .trim()
       .min(8, "Mật khẩu cần ít nhất 8 ký tự")
-      .max(50, "Mật khẩu tối đa 50 ký tự")
+      .max(20, "Mật khẩu tối đa 20 ký tự")
       .required("Mật khẩu không được để trống"),
     phone: yup
       .string()
@@ -36,13 +37,15 @@ export default function SignUp({}: Props) {
       .required("Số điện thoại không được để trống"),
     firstName: yup
       .string()
-      .trim()
-      .max(20, "Tên tối đa 20 ký tự")
+      .trim("Tên không được để trống")
+      .min(1, "Tên cần ít nhất 1 kí tự")
+      .max(26, "Tên tối đa 26 kí tự")
       .required("Tên không được để trống"),
     lastName: yup
       .string()
-      .trim()
-      .max(50, "Họ tối đa 20 ký tự")
+      .trim("Họ không được để trống")
+      .min(1, "Họ cần ít nhất 1 kí tự")
+      .max(26, "Họ tối đa 26 kí tự")
       .required("Họ không được để trống"),
   });
   const { mutate: signUp, isLoading, error } = useSignup();
