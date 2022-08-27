@@ -9,7 +9,6 @@ export interface IDesignFooterLeftProps {}
 export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
   const blueprintData = useAppSelector((state) => state.blueprintsData);
   const infoManageData = useAppSelector((state) => state.infoManageData);
-  const designInValid = useAppSelector((state) => state.designInValid);
   const controlData = useAppSelector((state) => state.designControl);
 
   const changePos = (position: string) => {
@@ -79,9 +78,7 @@ export default function DesignFooterLeft(props: IDesignFooterLeftProps) {
       className={`btn  w-half ${
         posData.value === blueprintData.position && "btn-success"
       }`}
-      disabled={
-        controlData.controlData.isLoadingImage || designInValid.length > 0
-      }
+      disabled={controlData.controlData.isLoadingImage}
       key={posData.value}
       onClick={() => changePos(posData.value)}
     >

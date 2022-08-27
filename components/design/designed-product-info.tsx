@@ -143,11 +143,11 @@ export default function CreateDesignedProductForm(
         storage,
         `images/${
           data.name +
-          "-" +
+          "(@!#!$)" +
           image.position +
-          "-" +
+          "(@!#!$)" +
           image.color +
-          "-" +
+          "(@!#!$)" +
           new Date().getTime()
         }`
       );
@@ -156,10 +156,10 @@ export default function CreateDesignedProductForm(
         getDownloadURL(snapshot.ref).then((url) => {
           const position = snapshot.metadata.fullPath
             .split("images/")[1]
-            .split("-")[1];
+            .split("(@!#!$)")[1];
           const color = snapshot.metadata.fullPath
             .split("images/")[1]
-            .split("-")[2];
+            .split("(@!#!$)")[2];
           imageList.push({ image: url, position: position, color: color });
           const submitBlueprint = blueprints.map((blueprint) => {
             if (

@@ -123,6 +123,7 @@ export default function Checkout({}: Props) {
   }, [responseAccount]);
 
   const submit: SubmitHandler<ShippingInfo> = (data) => {
+    console.log(data, "data");
     createOrder(
       { shippingInfo: data, paymentMethod: paymentMethod },
       {

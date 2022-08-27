@@ -178,6 +178,10 @@ a {
   cursor: pointer;
 }
 
+.cursor-deny {
+  cursor: not-allowed !important ;
+}
+
 .custom-input{
   width: 100%;
   outline: none;

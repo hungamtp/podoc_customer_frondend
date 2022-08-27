@@ -133,8 +133,8 @@ export default function ResetPassword({}: Props) {
                         <div className="d-flex justify-content-between">
                           <p className="forgot-pass mt-2">
                             <Link href="/forgotpassword">
-                              <a className="text-dark fw-bold">
-                                Thực hiện lại thao tác
+                              <a className="text-primary fw-bold">
+                                <u>Quay lại trang lấy lại mật khẩu</u>
                               </a>
                             </Link>
                           </p>
