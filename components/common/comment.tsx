@@ -1,9 +1,7 @@
 import useCreateRating from "@/hooks/api/rating/use-create-rating";
 import { CreateRatingDto } from "@/services/rating/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Dialog, DialogContent } from "@material-ui/core";
 import Rating from "@mui/material/Rating";
-import Image from "next/image";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -17,8 +15,10 @@ export interface ICommentProductProps {
 const schema = yup.object().shape({
   comment: yup
     .string()
-    .max(150, "bình luận tối đa 50 kí tự")
-    .required("bình luận không được để trống"),
+    .trim()
+    .min(5, "Bình luận cần ít nhất 5 kí tự")
+    .max(150, "Bình luận tối đa 50 kí tự")
+    .required("Bình luận không được để trống"),
 });
 
 export default function CommentProduct(props: ICommentProductProps) {

@@ -1,15 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
-import {
-  Best4DesignedProduct,
-  ProductHomePage,
-  TAG,
-} from "@/services/type.dto";
-import { MouseEventHandler } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import ShowRating from "./show-rating";
+import { ProductHomePage, TAG } from "@/services/type.dto";
 import { numberWithCommas } from "helper/number-util";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import ShowRating from "./show-rating";
 type Props = {
   product: ProductHomePage;
 };

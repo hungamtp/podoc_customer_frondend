@@ -1,11 +1,6 @@
-import { setControlData } from "@/redux/slices/designControl";
 import { Preview } from "@/redux/slices/previews";
-import { Card, CircularProgress } from "@mui/material";
-import Backdrop from "@mui/material/Backdrop";
 import { nanoid } from "@reduxjs/toolkit";
 import Image from "next/image";
-import { useEffect } from "react";
-import LoadingPrompt from "../common/loadingPrompt";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 export interface info {

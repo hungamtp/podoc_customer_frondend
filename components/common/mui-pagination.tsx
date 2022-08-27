@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
+import { Filter } from "@/services/design";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@mui/material/Pagination";
-import { Filter } from "@/services/design";
-import { RawProductFilter } from "@/hooks/api/use-get-all-product-raw";
-import { useEffect } from "react";
-import { nanoid } from "@reduxjs/toolkit";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,7 +1,3 @@
-import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import Image from "next/image";
 export interface ILoadingPromptProps {}
 
 export default function LoadingPrompt(props: ILoadingPromptProps) {

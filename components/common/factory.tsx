@@ -1,13 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
-import { useRouter } from "next/router";
-import { FactoryDTO } from "@/services/type.dto";
-import { useAppDispatch } from "../hooks/reduxHook";
-import { setIsEdit } from "@/redux/slices/isEdit";
-import { numberWithCommas } from "helper/number-util";
 import { setHeaderInfo } from "@/redux/slices/headerInfo";
-import ShowRating from "./show-rating";
+import { setIsEdit } from "@/redux/slices/isEdit";
+import { FactoryDTO } from "@/services/type.dto";
 import { Rating } from "@mui/material";
+import { numberWithCommas } from "helper/number-util";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "../hooks/reduxHook";
 
 type Props = {
   factory: FactoryDTO;

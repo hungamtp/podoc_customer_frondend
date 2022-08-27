@@ -1,10 +1,7 @@
-import * as React from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Image from "next/image";
+import * as React from "react";
 export interface IVerifieSuccessProps {}
 
 export default function VerifieSuccess(props: IVerifieSuccessProps) {
