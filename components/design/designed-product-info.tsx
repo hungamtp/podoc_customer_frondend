@@ -36,7 +36,7 @@ const schema = yup.object().shape({
   name: yup
     .string()
     .trim("Không đúng định dạng")
-    .min(5, "Tên thiết kế cần ít nhất 5 kí tự")
+    .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
     .max(50, "Tên thiết kế tối đa 50 kí tự")
     .required("Tên thiết kế không được để trống"),
   designedPrice: yup
@@ -47,8 +47,8 @@ const schema = yup.object().shape({
   description: yup
     .string()
     .trim("Không đúng định dạng")
-    .min(5, "Mô tả thiết kế cần ít nhất 5 kí tự")
-    .max(255, "Description tối đa 255 kí tự")
+    .min(10, "Mô tả thiết kế cần ít nhất 10 kí tự")
+    .max(300, "Mô tả thiết kế tối đa 300 kí tự")
     .required("Thông tin mô tả không được để trống"),
 });
 
@@ -114,6 +114,9 @@ export default function CreateDesignedProductForm(
     error,
     isLoading: isLoadingSubmit,
   } = useCreateDesignedProduct(handleCloseDialog);
+
+  const designControl = useAppSelector((state) => state.designControl);
+  const controlData = designControl.controlData;
 
   const designedPrice = watch("designedPrice", 10000);
   const headerInfo = useAppSelector((state) => state.headerInfo);
@@ -324,7 +327,9 @@ export default function CreateDesignedProductForm(
                     className="btn btn-primary w-30p"
                     color="primary"
                     type="submit"
-                    disabled={isLoading || isLoadingSubmit}
+                    disabled={
+                      isLoading || isLoadingSubmit || controlData.isLoadingImage
+                    }
                   >
                     {(isLoading || isLoadingSubmit) && (
                       <span

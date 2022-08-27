@@ -67,24 +67,6 @@ export default function SelectColor({ colors }: ISelectColorProps) {
               onChange={handleChange}
               variant="standard"
               renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return (
-                    <Image
-                      className="rounded-circle "
-                      width={30}
-                      height={30}
-                      objectFit="cover"
-                      key={colors[0].image}
-                      src={"/asset/images/image_default/color-base.png"}
-                      style={{
-                        backgroundColor: colors[0].image,
-                        opacity: "0.8",
-                      }}
-                      alt={colors[0].name}
-                    />
-                  );
-                }
-
                 return (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {selected.map((color) => (

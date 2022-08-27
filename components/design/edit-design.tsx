@@ -45,14 +45,21 @@ type FormAddDesignInfo = {
 const schema = yup.object().shape({
   name: yup
     .string()
+    .trim("Không đúng định dạng")
     .min(1, "Tên thiết kế cần ít nhất 1 kí tự")
-    .max(26, "Tên thiết kế tối đa 50 kí tự")
+    .max(50, "Tên thiết kế tối đa 50 kí tự")
     .required("Tên thiết kế không được để trống"),
   designedPrice: yup
     .number()
+    .typeError("Giá của mẫu thiết kế không được để trống")
     .min(0, "Giá thiết kế tối thiểu 0 đồng")
     .required("Giá của mẫu thiết kế không được để trống"),
-  description: yup.string().max(100, "Description tối đa 100 kí tự"),
+  description: yup
+    .string()
+    .trim("Không đúng định dạng")
+    .min(10, "Mô tả thiết kế cần ít nhất 10 kí tự")
+    .max(300, "Mô tả thiết kế tối đa 300 kí tự")
+    .required("Thông tin mô tả không được để trống"),
 });
 
 const shimmer = (w: number, h: number) => `
@@ -93,7 +100,16 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     resolver: yupResolver(schema),
   });
   const selectedColors = useAppSelector((state) => state.selectedColors);
+  React.useEffect(() => {
+    if (selectedColors.length > 0) {
+      setIsErr(false);
+    }
+  }, [selectedColors]);
+
+  const designControl = useAppSelector((state) => state.designControl);
+  const controlData = designControl.controlData;
   const headerInfo = useAppSelector((state) => state.headerInfo);
+  const [isErr, setIsErr] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
   const designedInfo = useAppSelector((state) => state.designProductInfo);
@@ -175,11 +191,14 @@ export default function EditDesignForm(props: EditDesignFormProps) {
     mutate: editDesignProduct,
     error,
     isLoading: isLoadingSubmit,
-  } = useEditDesignedProduct(handleCloseDialog);
+  } = useEditDesignedProduct();
 
   const handleConfirm = () => {
-    setIsLoading(true);
-    onUploadImage();
+    if (selectedColors.length === 0) setIsErr(true);
+    else {
+      setIsLoading(true);
+      onUploadImage();
+    }
   };
 
   return (
@@ -235,12 +254,20 @@ export default function EditDesignForm(props: EditDesignFormProps) {
             <div className="col-sm-8">
               <SelectColor colors={loadedColors} />
             </div>
+            {isErr && (
+              <span id="error-pwd-message" className="text-danger">
+                {"Màu không được để trống"}
+              </span>
+            )}
             <div className="d-flex justify-content-center mt-5">
               <div className="col-sm-10 d-flex justify-content-around">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary w-30p"
                   color="primary"
                   onClick={() => handleConfirm()}
+                  disabled={
+                    isLoading || isLoadingSubmit || controlData.isLoadingImage
+                  }
                 >
                   {(isLoading || isLoadingSubmit) && (
                     <span
@@ -252,7 +279,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
                   Xác nhận
                 </button>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary w-30p"
                   onClick={handleCloseDialog}
                   autoFocus
                   disabled={isLoading || isLoadingSubmit}
