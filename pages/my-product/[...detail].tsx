@@ -255,7 +255,7 @@ export default function MyDesignDetail(props: MyDesignDetailProps) {
                             </div>
                             <div className="">
                               <p className="h4">Chọn màu áo</p>
-                              <div className=" mb-0 ms-5 d-flex flex-start">
+                              <div className=" mb-0 mt-3 d-flex flex-start">
                                 {response.imagePreviews.map((imagePreview) => {
                                   if (
                                     imagePreview.position === renderedPosition
