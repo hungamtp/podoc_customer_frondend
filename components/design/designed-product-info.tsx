@@ -10,7 +10,6 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSnackbar } from "notistack";
 import * as React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";

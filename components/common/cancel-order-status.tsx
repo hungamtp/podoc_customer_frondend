@@ -1,10 +1,7 @@
 import useCancelOrderDetail, {
   CancelOrderDetailDto,
 } from "@/hooks/api/order/use-cancel-order-detail";
-import useDeleteOrder from "@/hooks/api/order/use-delete-order";
-import { CancelOrderStatusDto } from "@/services/order/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
@@ -39,13 +36,13 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 }
 
 const names = [
+  "Đơn hàng của tôi bị thiếu sản phẩm",
   "Giao hàng chậm",
   "Tôi đặt nhầm sản phẩm muốn mua",
   "Đơn hàng tôi đặt bị trùng",
   "Tôi không liên lạc được với bên hỗ trợ sau khi đã đặt hàng",
   "Đợi lâu nhưng đơn hàng vẫn chưa được xử lý",
   "Tôi không muốn đặt sản phẩm này nữa",
-  "Đơn hàng của tôi bị thiếu sản phẩm",
 ];
 export interface ICancelOrderStatusProps {
   handleCloseDialog: () => void;

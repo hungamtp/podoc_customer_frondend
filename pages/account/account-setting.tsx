@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import ChangePassword from "@/components/account/change-password-form";
-import VerifieSuccess from "@/components/account/verifie-success-form";
 import { useAppSelector } from "@/components/hooks/reduxHook";
 import { Account } from "@/components/layouts";
 import useGetAccountById from "@/hooks/api/account/use-account-by-id";
