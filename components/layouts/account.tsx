@@ -187,28 +187,30 @@ export function Account({ children }: LayoutProps) {
                   </ImageUploading>
                 )}
 
-                <div className="ms-3">
-                  <h6 className="text-muted mb-0">Chào bạn,</h6>
-                  <h5 className="mb-0">
-                    {responseAccount?.data.userLastName}{" "}
-                    {responseAccount?.data.userFirstName}
-                  </h5>
-                  {isImageChange && (
-                    <button
-                      onClick={onUploadImage}
-                      className="btn btn-primary mt-2 pt-1 pb-1"
-                    >
-                      Lưu
-                      {isUpdatingImage && (
-                        <span
-                          className="spinner-border spinner-border-sm ms-2"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                      )}
-                    </button>
-                  )}
-                </div>
+                {responseAccount && (
+                  <div className="ms-3">
+                    <h6 className="text-muted mb-0">Chào bạn,</h6>
+                    <h5 className="mb-0">
+                      {responseAccount.data.userLastName}{" "}
+                      {responseAccount.data.userFirstName}
+                    </h5>
+                    {isImageChange && (
+                      <button
+                        onClick={onUploadImage}
+                        className="btn btn-primary mt-2 pt-1 pb-1"
+                      >
+                        Lưu
+                        {isUpdatingImage && (
+                          <span
+                            className="spinner-border spinner-border-sm ms-2"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             {/*end col*/}
