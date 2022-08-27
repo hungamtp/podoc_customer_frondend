@@ -12,10 +12,14 @@ export const designInValid = createSlice({
     setIsDesignInvalid: (state, action) => {
       return action.payload;
     },
+    resetIsDesignInvalid: () => {
+      return [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsDesignInvalid } = designInValid.actions;
+export const { setIsDesignInvalid, resetIsDesignInvalid } =
+  designInValid.actions;
 
 export default designInValid.reducer;

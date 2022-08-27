@@ -1,4 +1,5 @@
 import { setControlData } from "@/redux/slices/designControl";
+import { Tooltip } from "@mui/material";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { UploadImage } from "./upload-image";
@@ -171,21 +172,21 @@ export default function EmptyTable(props: IEmptyTableProps) {
         <div className="mt-5 bg-gray p-3">
           <span className="h6">Thông tin in ấn</span>
           <ul>
-            <li>Hỗ trợ JPG và PNG</li>
+            <li>Hỗ trợ file có định dạng ảnh (JPEG, JPG, PNG, ...)</li>
             <li>Kích cỡ file tối đa 50MB</li>
-            <li
-              data-toggle="tooltip"
-              data-placement="bottom"
-              title="Hình ảnh nên đạt độ phân giải này"
-            >
-              Vùng in{" "}
-              <u>
-                {((placeHolder.width * 300) / 2.54).toFixed(0)}×
-                {((placeHolder.height * 300) / 2.54).toFixed(0)} px
-              </u>{" "}
-              (300 DPI)
-            </li>
-            <li>Độ phân giải tối đa 12000x12000 px</li>
+            <Tooltip title="Hình ảnh thiết kế nên đạt độ phân giải này">
+              <li>
+                Vùng in{" "}
+                <u>
+                  {((placeHolder.width * 300) / 2.54).toFixed(0)}×
+                  {((placeHolder.height * 300) / 2.54).toFixed(0)} px
+                </u>{" "}
+                (300 DPI)
+              </li>
+            </Tooltip>
+
+            <li>Mật độ in tối thiểu 100 DPI</li>
+            <li>Độ phân giải tối đa 15000 x 15000 px</li>
           </ul>
         </div>
       )}

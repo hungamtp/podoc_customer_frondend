@@ -22,6 +22,8 @@ import { nanoid } from "nanoid";
 import { useRouter } from "next/router";
 import * as React from "react";
 import DesignFooterLeft from "./design-footer-left";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 export interface IDesignCanvasProps {
   // isPreview: boolean;\
   setIsEdit: (isEdit: boolean) => void;
@@ -802,6 +804,9 @@ export default function DesignCanvas({
         fabric.Image.fromURL(
           imgUrl,
           (image: fabric.Image) => {
+            if (image.height && image.height >= 15000) {
+              dispatch(setIsDesignInvalid([...designInValid, newName]));
+            }
             const imageLeft = (canvas.getWidth() - 150) / 2;
             const imageTop = (canvas.getHeight() - 100) / 2;
 
@@ -1042,20 +1047,23 @@ export default function DesignCanvas({
         <DesignFooterLeft />
         <div className="col-lg-3 d-md-none d-lg-block border-start px-0">
           <div className="d-flex justify-content-center border-top   py-4">
-            <div className="d-flex  w-full align-items-center px-4">
-              <button
-                className="btn btn-secondary w-full"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Hình ảnh thiết kế cần phải đạt tối thiểu 100 DPI trở lên"
-                disabled={
-                  controlData.isLoadingImage || designInValid.length > 0
-                }
-                onClick={() => openPreview()}
+            <Tooltip title="Thiết kế cần phải có mật độ điểm in (DPI) trên 100 và có độ phân giải nhỏ hơn 15000 x 15000 px">
+              <div
+                className={`d-flex  w-full align-items-center px-4  ${
+                  designInValid.length > 0 && "cursor-deny"
+                }`}
               >
-                Lưu lại
-              </button>
-            </div>
+                <button
+                  className={`btn btn-secondary w-full`}
+                  disabled={
+                    controlData.isLoadingImage || designInValid.length > 0
+                  }
+                  onClick={() => openPreview()}
+                >
+                  Lưu lại
+                </button>
+              </div>
+            </Tooltip>
           </div>
         </div>
       </div>

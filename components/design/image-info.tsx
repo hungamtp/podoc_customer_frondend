@@ -83,20 +83,32 @@ const ImageInfo = (props: IImageInfoProps) => {
               >
                 {designInfo.name}
               </p>
-              {(designInfo.DPI || 300) > 300 && (
-                <small className="text-success m-0 te ps-3">
-                  Độ phân giải cao ({get2Decimal(designInfo.DPI || 0)})
-                </small>
-              )}
+              {(designInfo.DPI || 300) > 300 &&
+                ((designInfo?.DPI || 300) * designInfo.height) / 2.54 <
+                  15000 && (
+                  <small className="text-success m-0 te ps-3">
+                    Mật độ điểm in cao ({get2Decimal(designInfo?.DPI || 100)})
+                  </small>
+                )}
               {(designInfo.DPI || 200) < 300 &&
                 (designInfo.DPI || 200) > 200 && (
                   <small className="text-warning m-0 te ps-3 ">
-                    Độ phân giải vừa ({get2Decimal(designInfo.DPI || 0)})
+                    Mật độ điểm in vừa ({get2Decimal(designInfo.DPI || 0)})
                   </small>
                 )}
               {(designInfo.DPI || 100) < 200 && (
                 <small className="text-danger m-0 te ps-3">
-                  Độ phân giải thấp ({get2Decimal(designInfo.DPI || 0)})
+                  Mật độ điểm in thấp ({get2Decimal(designInfo.DPI || 0)})
+                </small>
+              )}
+              {((designInfo?.DPI || 300) * designInfo.height) / 2.54 >=
+                15000 && (
+                <small className="text-danger m-0 te ps-3">
+                  Độ phân giải quá cao (
+                  {get2Decimal(
+                    ((designInfo?.DPI || 300) * designInfo.height) / 2.54
+                  )}
+                  )
                 </small>
               )}
             </div>
@@ -316,18 +328,18 @@ const ImageInfo = (props: IImageInfoProps) => {
               </p>
               {(designInfo.DPI || 300) >= 300 && (
                 <small className="text-success m-0 te ps-3">
-                  Độ phân giải cao ({get2Decimal(designInfo.DPI || 0)})
+                  Mật độ điểm in cao ({get2Decimal(designInfo.DPI || 0)})
                 </small>
               )}
               {(designInfo.DPI || 101) < 300 &&
                 (designInfo.DPI || 101) > 100 && (
                   <small className="text-warning m-0 te ps-3 ">
-                    Độ phân giải vừa ({get2Decimal(designInfo.DPI || 0)})
+                    Mật độ điểm in vừa ({get2Decimal(designInfo.DPI || 0)})
                   </small>
                 )}
               {(designInfo.DPI || 100) <= 100 && (
                 <small className="text-danger m-0 te ps-3">
-                  Độ phân giải thấp ({get2Decimal(designInfo.DPI || 0)})
+                  Mật độ điểm in thấp ({get2Decimal(designInfo.DPI || 0)})
                 </small>
               )}
             </div>

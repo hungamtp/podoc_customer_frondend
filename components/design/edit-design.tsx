@@ -132,11 +132,11 @@ export default function EditDesignForm(props: EditDesignFormProps) {
         storage,
         `images/${
           designedInfo.name +
-          "-" +
+          "(@!#!$)" +
           image.position +
-          "-" +
+          "(@!#!$)" +
           image.color +
-          "-" +
+          "(@!#!$)" +
           new Date().getTime()
         }`
       );
@@ -145,10 +145,10 @@ export default function EditDesignForm(props: EditDesignFormProps) {
         getDownloadURL(snapshot.ref).then((url) => {
           const position = snapshot.metadata.fullPath
             .split("images/")[1]
-            .split("-")[1];
+            .split("(@!#!$)")[1];
           const color = snapshot.metadata.fullPath
             .split("images/")[1]
-            .split("-")[2];
+            .split("(@!#!$)")[2];
           imageList.push({ image: url, position: position, color: color });
 
           if (imageList.length === submitPreviewList.length) {

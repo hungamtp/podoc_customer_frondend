@@ -2,6 +2,7 @@ import { DesignState } from "@/models/design";
 import { updateBlueprint } from "@/redux/slices/blueprints";
 import { setControlData } from "@/redux/slices/designControl";
 import { resetHeaderInfo } from "@/redux/slices/headerInfo";
+import { Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
@@ -134,47 +135,57 @@ export default function DesignHeaderLeft(props: IDesignHeaderLeftProps) {
             )}
           </div>
           <div className="d-flex justify-content-center w-quater align-items-center px-4 btn-group">
-            <div
-              className="btn-group"
-              role="group"
-              aria-label="Basic radio toggle button group"
+            <Tooltip
+              title={`${
+                designInValid.length > 0
+                  ? "Thiết kế cần phải có mật độ điểm in (DPI) trên 100 và có độ phân giải nhỏ hơn 15000 x 15000 px"
+                  : ""
+              }`}
             >
-              <input
-                type="radio"
-                className="btn-check"
-                name="btnradio"
-                id="btnradio1"
-                autoComplete="off"
-                defaultChecked
-                disabled={
-                  controlData.isLoadingImage || designInValid.length > 0
-                }
-                onClick={() => {
-                  handleClosePreview();
-                }}
-                checked={!isPreview}
-              />
-              <label className="btn btn-outline-success" htmlFor="btnradio1">
-                Thiết kế
-              </label>
-              <input
-                type="radio"
-                className="btn-check"
-                name="btnradio"
-                id="btnradio2"
-                autoComplete="off"
-                disabled={
-                  controlData.isLoadingImage || designInValid.length > 0
-                }
-                onClick={() => {
-                  handleOpenPreview();
-                }}
-                checked={isPreview}
-              />
-              <label className="btn btn-outline-success" htmlFor="btnradio2">
-                Bản thử
-              </label>
-            </div>
+              <div
+                className={`btn-group ${
+                  designInValid.length > 0 && "cursor-deny"
+                }`}
+                role="group"
+                aria-label="Basic radio toggle button group"
+              >
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autoComplete="off"
+                  defaultChecked
+                  disabled={
+                    controlData.isLoadingImage || designInValid.length > 0
+                  }
+                  onClick={() => {
+                    handleClosePreview();
+                  }}
+                  checked={!isPreview}
+                />
+                <label className="btn btn-outline-success" htmlFor="btnradio1">
+                  Thiết kế
+                </label>
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autoComplete="off"
+                  disabled={
+                    controlData.isLoadingImage || designInValid.length > 0
+                  }
+                  onClick={() => {
+                    handleOpenPreview();
+                  }}
+                  checked={isPreview}
+                />
+                <label className="btn btn-outline-success" htmlFor="btnradio2">
+                  Bản thử
+                </label>
+              </div>
+            </Tooltip>
           </div>
         </div>
       </div>
