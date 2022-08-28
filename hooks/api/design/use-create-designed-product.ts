@@ -3,6 +3,7 @@ import { ErrorHttpResponse } from "@/models/error_http_response.interface";
 import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { resetDesigns } from "@/redux/slices/design";
 import { resetControl } from "@/redux/slices/designControl";
+import { resetIsDesignInvalid } from "@/redux/slices/designInValid";
 import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors } from "@/redux/slices/selectedColors";
 import { createDesignedProduct } from "@/services/design";
@@ -34,6 +35,7 @@ const useCreateDesignedProduct = (handleCloseDialog: () => void) => {
         dispatch(resetColors());
         dispatch(resetControl());
         dispatch(resetDesigns());
+        dispatch(resetIsDesignInvalid());
 
         handleCloseDialog();
         // router.back();

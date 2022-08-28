@@ -10,6 +10,7 @@ import { updateBlueprint } from "@/redux/slices/blueprints";
 import { setChoosenKey } from "@/redux/slices/choosenKey";
 import { resetDesigns, updateDesignInfos } from "@/redux/slices/design";
 import { resetControl, setControlData } from "@/redux/slices/designControl";
+import { resetIsDesignInvalid } from "@/redux/slices/designInValid";
 import { setDesignedProductInfo } from "@/redux/slices/designProductInfo";
 import { clearAllPreview } from "@/redux/slices/previews";
 import { resetColors, setColors } from "@/redux/slices/selectedColors";
@@ -136,6 +137,7 @@ export default function EditDesign(props: EditDesignProps) {
       dispatch(resetColors());
       dispatch(resetControl());
       dispatch(resetDesigns());
+      dispatch(resetIsDesignInvalid());
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
