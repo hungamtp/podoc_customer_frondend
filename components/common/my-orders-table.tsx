@@ -527,51 +527,61 @@ export default function MyOrdersTable({
                               <td className=" align-middle">
                                 {numberWithCommas(order.price)}
                               </td>
+
                               <td className=" align-middle">
-                                {order.status === "DONE" && (
-                                  <div className="badge bg-success p-1 ">
-                                    {convertStatus(order.status)}
+                                {!selectedOrder.isPaid ? (
+                                  <div className="badge bg-warning p-1 ">
+                                    {"Chưa thanh toán"}
                                   </div>
+                                ) : (
+                                  <>
+                                    {order.status === "DONE" && (
+                                      <div className="badge bg-success p-1 ">
+                                        {convertStatus(order.status)}
+                                      </div>
+                                    )}
+
+                                    {order.status === "IS_CANCEL" && (
+                                      <div className="d-flex flex-wrap w-50">
+                                        <div className="badge bg-secondary h-75 mt-1">
+                                          {convertStatus(order.status)}
+                                        </div>
+                                        <div
+                                          className="text-secondary btn btn-link p-0 text-start"
+                                          onClick={() => {
+                                            setSelectedOrderDetailId(order.id);
+                                            setIsShowCancelReason(true);
+                                          }}
+                                        >
+                                          xem lý do{" "}
+                                        </div>
+                                      </div>
+                                    )}
+                                    {order.status === "CANCEL" && (
+                                      <div className="d-flex flex-wrap w-50">
+                                        <div className="badge bg-secondary h-75 mt-1">
+                                          {convertStatus(order.status)}
+                                        </div>
+                                        <div
+                                          className="text-secondary btn btn-link p-0 text-start"
+                                          onClick={() => {
+                                            setSelectedOrderDetailId(order.id);
+                                            setIsShowCancelReason(true);
+                                          }}
+                                        >
+                                          xem lý do{" "}
+                                        </div>
+                                      </div>
+                                    )}
+                                    {order.status !== "DONE" &&
+                                      order.status !== "IS_CANCEL" &&
+                                      order.status !== "CANCEL" && (
+                                        <div className="badge bg-warning p-1 ">
+                                          {convertStatus(order.status)}
+                                        </div>
+                                      )}
+                                  </>
                                 )}
-                                {order.status === "IS_CANCEL" && (
-                                  <div className="d-flex flex-wrap w-50">
-                                    <div className="badge bg-secondary h-75 mt-1">
-                                      {convertStatus(order.status)}
-                                    </div>
-                                    <div
-                                      className="text-secondary btn btn-link p-0 text-start"
-                                      onClick={() => {
-                                        setSelectedOrderDetailId(order.id);
-                                        setIsShowCancelReason(true);
-                                      }}
-                                    >
-                                      xem lý do{" "}
-                                    </div>
-                                  </div>
-                                )}
-                                {order.status === "CANCEL" && (
-                                  <div className="d-flex flex-wrap w-50">
-                                    <div className="badge bg-secondary h-75 mt-1">
-                                      {convertStatus(order.status)}
-                                    </div>
-                                    <div
-                                      className="text-secondary btn btn-link p-0 text-start"
-                                      onClick={() => {
-                                        setSelectedOrderDetailId(order.id);
-                                        setIsShowCancelReason(true);
-                                      }}
-                                    >
-                                      xem lý do{" "}
-                                    </div>
-                                  </div>
-                                )}
-                                {order.status !== "DONE" &&
-                                  order.status !== "IS_CANCEL" &&
-                                  order.status !== "CANCEL" && (
-                                    <div className="badge bg-warning p-1 ">
-                                      {convertStatus(order.status)}
-                                    </div>
-                                  )}
                               </td>
                               <td className="align-middle">
                                 <div className="dropdown">
