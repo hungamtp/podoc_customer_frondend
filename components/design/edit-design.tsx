@@ -21,6 +21,7 @@ import SelectColor from "./select-color";
 
 import { numberWithCommas } from "helper/number-util";
 import Image from "next/image";
+import { resetIsDesignInvalid } from "@/redux/slices/designInValid";
 
 export interface EditDesignFormProps {
   handleCloseDialog: () => void;
@@ -175,6 +176,7 @@ export default function EditDesignForm(props: EditDesignFormProps) {
                 dispatch(resetColors());
                 dispatch(resetControl());
                 dispatch(resetDesigns());
+                dispatch(resetIsDesignInvalid());
 
                 handleCloseDialog();
                 router.back();
