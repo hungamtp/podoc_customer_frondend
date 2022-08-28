@@ -40,4 +40,5 @@ export interface ShownDesignedProduct {
   factoryName: string;
   ratingCount: number;
   rateCount: number;
+  sizeProductDto: { size: string; width: number; height: number }[];
 }

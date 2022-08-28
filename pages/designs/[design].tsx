@@ -91,6 +91,7 @@ export default function DesignedProductDetail() {
   const auth = useAppSelector((state) => state.auth);
   const { enqueueSnackbar } = useSnackbar();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpenSize, setIsOpenSize] = React.useState(false);
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -119,6 +120,7 @@ export default function DesignedProductDetail() {
   const [sizeList, setSizeList] = React.useState<
     { color: string; size: string }[]
   >([]);
+
   const [colorList, setColorList] = React.useState<string[]>([]);
   const [isError, setIsError] = React.useState<boolean>(false);
 
@@ -223,6 +225,10 @@ export default function DesignedProductDetail() {
         addNewDetail(newQuantity);
       }
     }
+  };
+
+  const showSize = () => {
+    setIsOpenSize(true);
   };
 
   const addNewDetail = (newQuantity: number) => {
@@ -391,6 +397,87 @@ export default function DesignedProductDetail() {
                   </div>
                 </DialogContent>
               </Dialog>
+              <Dialog
+                open={isOpenSize}
+                onClose={() => setIsOpenSize(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullWidth={true}
+                maxWidth="md"
+              >
+                <DialogContent>
+                  <div className="text-dark m-2 mb-4">
+                    <p className="h4 ms-5">Bảng size</p>
+
+                    <div className="h4 ms-5">
+                      <Image
+                        src="/asset/images/image_default/size-guide.png"
+                        width={250}
+                        height={250}
+                        objectFit="cover"
+                        alt="productImage"
+                      />
+                    </div>
+                    {designedProduct && (
+                      <div className="d-flex justify-content-center">
+                        <div className="d-flex flex-column border-start border-top">
+                          <div className="border-bottom px-4 py-2 card-header bg-light">
+                            Size
+                          </div>
+                          <div className="border-bottom px-4 py-2 ">
+                            Chiều rộng (cm)
+                          </div>
+                          <div className="border-bottom px-4 py-2 ">
+                            Chiều dài (cm)
+                          </div>
+                        </div>
+                        <>
+                          {designedProduct.sizeProductDto.map(
+                            (sizeData, index) => {
+                              if (
+                                index ===
+                                designedProduct.sizeProductDto.length - 1
+                              ) {
+                                return (
+                                  <>
+                                    <div className="d-flex flex-column border-start border-top border-end">
+                                      <div className="border-bottom px-4 py-2 card-header bg-light">
+                                        {sizeData.size}
+                                      </div>
+                                      <div className="border-bottom px-4 py-2">
+                                        {sizeData.width}
+                                      </div>
+                                      <div className="border-bottom px-4 py-2">
+                                        {sizeData.height}
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              } else {
+                                return (
+                                  <>
+                                    <div className="d-flex flex-column border-start border-top">
+                                      <div className="border-bottom px-4 py-2 card-header bg-light">
+                                        {sizeData.size}
+                                      </div>
+                                      <div className="border-bottom px-4 py-2 ">
+                                        {sizeData.width}
+                                      </div>
+                                      <div className="border-bottom px-4 py-2 ">
+                                        {sizeData.height}
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              }
+                            }
+                          )}
+                        </>
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
               <section className="section pb-0">
                 <div className="container">
                   <div className="row align-items-center">
@@ -446,6 +533,7 @@ export default function DesignedProductDetail() {
                         <p className="text-muted">
                           {designedProduct.description}
                         </p>
+
                         <hr className="my-0" />
                         <div>
                           <div className="row mt-4 pt-2">
@@ -478,7 +566,7 @@ export default function DesignedProductDetail() {
                                           height={30}
                                           className="rounded-circle border"
                                           src={
-                                            "https://images.printify.com/5853fec7ce46f30f8328200a"
+                                            "/asset/images/image_default/color-base.png"
                                           }
                                           style={{
                                             backgroundColor:
@@ -538,30 +626,40 @@ export default function DesignedProductDetail() {
                           </div>
                           {/*end row*/}
                           {sizeList.length > 0 && (
-                            <div className="d-flex align-items-center pt-4">
-                              <h6 className="mb-0">Size:</h6>
-                              <ul className="list-unstyled mb-0 ms-3">
-                                {sizeList.map(({ size }) => (
-                                  <li
-                                    key={size}
-                                    className="list-inline-item ms-1"
-                                  >
-                                    <button
-                                      className={`${
-                                        size === selectedSize
-                                          ? `is-select`
-                                          : "my-button"
-                                      }`}
-                                      onClick={() => {
-                                        setSelectedSize(size);
-                                        setIsError(false);
-                                      }}
+                            <div className="row">
+                              <div className="col-lg-8 col-12  d-flex align-items-center pt-4 w-75">
+                                <h6 className="mb-0">Size:</h6>
+                                <ul className="list-unstyled mb-0 ms-3">
+                                  {sizeList.map(({ size }) => (
+                                    <li
+                                      key={size}
+                                      className="list-inline-item ms-1"
                                     >
-                                      {size}
-                                    </button>
-                                  </li>
-                                ))}
-                              </ul>
+                                      <button
+                                        className={`${
+                                          size === selectedSize
+                                            ? `is-select`
+                                            : "my-button"
+                                        }`}
+                                        onClick={() => {
+                                          setSelectedSize(size);
+                                          setIsError(false);
+                                        }}
+                                      >
+                                        {size}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div className="col-lg-4 col-12 d-flex align-items-center justify-content-start p-0 mt-4">
+                                <button
+                                  className="btn btn-link text-dark"
+                                  onClick={() => showSize()}
+                                >
+                                  <u>Bảng size</u>
+                                </button>
+                              </div>
                             </div>
                           )}
                           {isError && !selectedSize && selectedColor && (
@@ -570,19 +668,21 @@ export default function DesignedProductDetail() {
                             </p>
                           )}
 
-                          <div className="mt-4 pt-2">
-                            <button
-                              className="btn btn-soft-primary"
-                              onClick={checkout}
-                            >
-                              Xem giỏ hàng
-                            </button>
-                            <button
-                              className="btn btn-soft-primary ms-2"
-                              onClick={() => updateQuantity(quantity)}
-                            >
-                              Thêm vào giỏ hàng
-                            </button>
+                          <div className="mt-4 pt-2 d-flex justify-content-between">
+                            <div className="">
+                              <button
+                                className="btn btn-soft-primary"
+                                onClick={checkout}
+                              >
+                                Xem giỏ hàng
+                              </button>
+                              <button
+                                className="btn btn-soft-primary ms-2"
+                                onClick={() => updateQuantity(quantity)}
+                              >
+                                Thêm vào giỏ hàng
+                              </button>
+                            </div>
                           </div>
                         </div>
 
